@@ -50,7 +50,6 @@ jobs:
           done > candidates.txt
           echo "Всего кандидатов: $(wc -l < candidates.txt)"
 
-          # --- парсер (без изменений) ---
           parse_endpoint() {
             line="$1"
             if echo "$line" | grep -qE '^(vmess|vless|trojan|ss|ssr|tuic|hysteria|hysteria2|hy2)://'; then
@@ -93,7 +92,6 @@ jobs:
           done < candidates.txt
           wait
 
-          # Подсчёт успешных
           ok_count=0
           fail_count=0
           for r in results/*; do
@@ -106,6 +104,9 @@ jobs:
           echo "TCP OK: $ok_count, FAIL: $fail_count"
 
           echo "=== 4. Формирование итогового файла ==="
+          # ★★★ Вот эта строка критически важна ★★★
+          rm -f merged_vpn_subscription
+
           i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -120,6 +121,7 @@ jobs:
           echo "Итоговый файл: $(wc -l < merged_vpn_subscription) уникальных серверов"
 
           rm -rf results f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw candidates.txt
+          
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
