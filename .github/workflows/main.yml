@@ -19,15 +19,17 @@ jobs:
 
       - name: Скачать, проверить доступность (параллельно), объединить
         run: |
-          echo "=== 1. Загрузка файлов ==="
+          echo "=== 1. Загрузка и очистка от \\r ==="
           curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
           curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
           curl -Lo file3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
           curl -Lo file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
           curl -Lo file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
 
+          # Удаляем \r и сохраняем обратно (Gib bash variant)
           for f in file1.raw file2.raw file3.raw file4.raw file5.raw; do
             if [ -f "$f" ]; then
+              tr -d '\r' < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
               echo "$f: $(wc -c < "$f") байт"
             else
               echo "$f: не скачался"
@@ -43,54 +45,77 @@ jobs:
           decode file4.raw f4
           decode file5.raw f5
 
-          echo "=== 2. Очистка и подготовка кандидатов ==="
+          echo "=== 2. Очистка и кандидаты ==="
           for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
           echo "Всего кандидатов: $(wc -l < candidates.txt)"
 
-          parse_endpoint() {
+          # НОВЫЙ ПАРСЕР (чистый awk, не трогает название)
+                    parse_endpoint() {
             line="$1"
-            # Отрезаем имя после # (если есть), оно не влияет на адрес
-            bare="${line%%#*}"
+            # Отделяем имя после #, если есть
+            address="${line%%#*}"
+            proto=$(echo "$address" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
             host=""
             port=""
 
-            # Если есть протокол вида xxx://
-            if echo "$bare" | grep -qE '^[a-z][a-z0-9]*://'; then
-              # Универсальное извлечение: пропускаем протокол://[user:pass@]хост[:порт][/...]
-              # sed выражение: s#протокол://([^@]*@)?([^:/]+)(:([0-9]+))?.*#\2 \4#
-              tmp=$(echo "$bare" | sed -E 's#^[a-z]+://([^@]*@)?([^:/\?]+)(:([0-9]+))?.*#\2 \4#')
-              host=$(echo "$tmp" | awk '{print $1}')
-              port=$(echo "$tmp" | awk '{print $2}')
-            else
-              # Формат без протокола, например, host:port:method:password (Shadowsocks без ss://)
-              # Берём первые два поля через awk с разделителем ':'
-              host=$(echo "$bare" | awk -F: '{print $1}')
-              port=$(echo "$bare" | awk -F: '{print $2}')
-              # Если второе поле не число – значит, порта нет, и это, скорее всего, просто хост без порта
+            if [ -z "$proto" ]; then
+              # Нет протокола — пытаемся распарсить как host:port:...
+              hostport=$(echo "$address" | awk -F'[/?]' '{print $1}')
+              host=$(echo "$hostport" | awk -F: '{print $1}')
+              port=$(echo "$hostport" | awk -F: '{print $2}')
+              # Если второй кусок не число — сбрасываем порт, оставляем без проверки
               if ! echo "$port" | grep -qE '^[0-9]+$'; then
                 port=""
               fi
+            else
+              # Есть протокол: берём всё после ://
+              encoded="${address#*://}"
+              if echo "$encoded" | grep -q '@'; then
+                # Уже декодирован (method:pass@host:port или просто user@host:port)
+                after_at="${encoded#*@}"
+                hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
+                host=$(echo "$hostport" | awk -F: '{print $1}')
+                port=$(echo "$hostport" | awk -F: '{print $2}')
+              else
+                # Возможно, закодировано в base64
+                decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
+                if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
+                  after_at="${decoded#*@}"
+                  hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
+                  host=$(echo "$hostport" | awk -F: '{print $1}')
+                  port=$(echo "$hostport" | awk -F: '{print $2}')
+                else
+                  # Не удалось декодировать или нет @ — пытаемся как обычный host:port
+                  hostport=$(echo "$encoded" | awk -F'[/?]' '{print $1}')
+                  host=$(echo "$hostport" | awk -F: '{print $1}')
+                  port=$(echo "$hostport" | awk -F: '{print $2}')
+                fi
+              fi
+            fi
+
+            # Если порт не числовой, лучше не проверять (или установить 443?)
+            if [ -n "$port" ] && ! echo "$port" | grep -qE '^[0-9]+$'; then
+              port=""
             fi
 
             if [ -z "$host" ] || [ -z "$port" ]; then
-              # Не удалось извлечь хост и порт – возвращаем пустоту, чтобы строка осталась без проверки
               echo ""
             else
               echo "$host $port"
             fi
           }
 
-          # В самом начале после объявления функции можно добавить тестовый вывод для первых трёх нетативных строк:
-          echo "=== Отладка: первые 3 извлечённых хост:порт ==="
+          # Отладка: первые 3 пары хост:порт
+          echo "=== Отладка: первые 3 хост:порт ==="
           head -n 3 candidates.txt | while read -r testline; do
             ep=$(parse_endpoint "$testline")
             echo "  $ep"
           done
 
-          echo "=== 3. Параллельная проверка TCP (таймаут 4с) ==="
+          echo "=== 3. Параллельная TCP-проверка ==="
           mkdir -p results
           i=0
           while IFS= read -r line; do
@@ -120,10 +145,8 @@ jobs:
           done
           echo "TCP OK: $ok_count, FAIL: $fail_count"
 
-          echo "=== 4. Формирование итогового файла ==="
-          # ★★★ Вот эта строка критически важна ★★★
+          echo "=== 4. Итоговый файл ==="
           rm -f merged_vpn_subscription
-
           i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
