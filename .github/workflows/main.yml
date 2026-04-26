@@ -17,8 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Скачать, проверить доступность, объединить
+      - name: Скачать, проверить доступность (параллельно), объединить
         run: |
+          # 1. Загрузка всех подписок
           curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
           curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
           curl -Lo file3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
@@ -34,26 +35,28 @@ jobs:
           decode file4.raw f4
           decode file5.raw f5
 
-          # Собираем всех кандидатов (без комментариев и пустых строк)
+          # 2. Объединяем и чистим (без дубликатов пока)
           for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
 
+          # 3. Функция извлечения хоста:порта с поддержкой TUIC, Hysteria, Hysteria2
           parse_endpoint() {
             line="$1"
-            if echo "$line" | grep -qE '^(vmess|vless|trojan|ss|ssr)://'; then
-              hostport=$(echo "$line" | sed -E 's#^[a-z]+://([^@]*@)?([^:/?]+)(:([0-9]+))?.*#\2:\4#')
+            # Обновлённый список протоколов
+            if echo "$line" | grep -qE '^(vmess|vless|trojan|ss|ssr|tuic|hysteria|hysteria2|hy2)://'; then
+              hostport=$(echo "$line" | sed -E 's#^[a-z0-9]+://([^@]*@)?([^:/?]+)(:([0-9]+))?.*#\2:\4#')
               host=$(echo "$hostport" | cut -d: -f1)
               port=$(echo "$hostport" | cut -d: -f2)
               [ -z "$port" ] && {
                 case "$line" in
-                  vmess*) port=443 ;;
-                  vless*) port=443 ;;
-                  trojan*) port=443 ;;
-                  ss*) port=8388 ;;
-                  ssr*) port=8388 ;;
-                  *) port=443 ;;
+                  vmess*|vless*|trojan*|tuic*|hysteria*|hy2*|hysteria2*)
+                    port=443 ;;
+                  ss*|ssr*)
+                    port=8388 ;;
+                  *)
+                    port=443 ;;
                 esac
               }
             else
@@ -63,29 +66,42 @@ jobs:
             echo "$host $port"
           }
 
-          check_tcp() {
-            timeout 2 bash -c "echo >/dev/tcp/$1/$2" 2>/dev/null
-          }
-
-          rm -f merged_vpn_subscription
+          # 4. Параллельная проверка всех кандидатов (таймаут 4с)
+          mkdir -p results
+          i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            endpoint=$(parse_endpoint "$line")
-            host=$(echo "$endpoint" | awk '{print $1}')
-            port=$(echo "$endpoint" | awk '{print $2}')
-            if [ -z "$host" ] || [ -z "$port" ]; then
-              echo "$line" >> merged_vpn_subscription
-            elif check_tcp "$host" "$port"; then
+            i=$((i+1))
+            (
+              endpoint=$(parse_endpoint "$line")
+              host=$(echo "$endpoint" | awk '{print $1}')
+              port=$(echo "$endpoint" | awk '{print $2}')
+              if [ -n "$host" ] && [ -n "$port" ] && timeout 4 bash -c "echo >/dev/tcp/$host/$port" 2>/dev/null; then
+                echo "ok" > "results/$i"
+              else
+                echo "fail" > "results/$i"
+              fi
+            ) &
+          done < candidates.txt
+          wait
+
+          # 5. Собираем успешные строки
+          i=0
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            i=$((i+1))
+            if [ "$(cat results/$i 2>/dev/null)" = "ok" ]; then
               echo "$line" >> merged_vpn_subscription
             fi
           done < candidates.txt
 
-          # Удаляем дубликаты
+          # 6. Удаляем дубликаты
           sort -u -o merged_vpn_subscription merged_vpn_subscription
 
           [ -s merged_vpn_subscription ] || echo "# Все серверы недоступны" > merged_vpn_subscription
 
-          rm -f f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw candidates.txt
+          # Очистка временных файлов
+          rm -rf results f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw candidates.txt
 
       - name: Commit and push if changed
         run: |
@@ -95,5 +111,5 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "Автообновление с проверкой доступности" && git push
+            git commit -m "Автообновление с проверкой доступности (TUIC/Hysteria)" && git push
           fi
