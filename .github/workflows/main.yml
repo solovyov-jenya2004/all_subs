@@ -19,12 +19,20 @@ jobs:
 
       - name: Скачать, проверить доступность (параллельно), объединить
         run: |
-          # 1. Загрузка всех подписок
+          echo "=== 1. Загрузка файлов ==="
           curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
           curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
           curl -Lo file3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
           curl -Lo file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
           curl -Lo file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
+
+          for f in file1.raw file2.raw file3.raw file4.raw file5.raw; do
+            if [ -f "$f" ]; then
+              echo "$f: $(wc -c < "$f") байт"
+            else
+              echo "$f: не скачался"
+            fi
+          done
 
           decode() {
             base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"
@@ -35,16 +43,16 @@ jobs:
           decode file4.raw f4
           decode file5.raw f5
 
-          # 2. Объединяем и чистим (без дубликатов пока)
+          echo "=== 2. Очистка и подготовка кандидатов ==="
           for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
+          echo "Всего кандидатов: $(wc -l < candidates.txt)"
 
-          # 3. Функция извлечения хоста:порта с поддержкой TUIC, Hysteria, Hysteria2
+          # --- парсер (без изменений) ---
           parse_endpoint() {
             line="$1"
-            # Обновлённый список протоколов
             if echo "$line" | grep -qE '^(vmess|vless|trojan|ss|ssr|tuic|hysteria|hysteria2|hy2)://'; then
               hostport=$(echo "$line" | sed -E 's#^[a-z0-9]+://([^@]*@)?([^:/?]+)(:([0-9]+))?.*#\2:\4#')
               host=$(echo "$hostport" | cut -d: -f1)
@@ -66,7 +74,7 @@ jobs:
             echo "$host $port"
           }
 
-          # 4. Параллельная проверка всех кандидатов (таймаут 4с)
+          echo "=== 3. Параллельная проверка TCP (таймаут 4с) ==="
           mkdir -p results
           i=0
           while IFS= read -r line; do
@@ -85,7 +93,19 @@ jobs:
           done < candidates.txt
           wait
 
-          # 5. Собираем успешные строки
+          # Подсчёт успешных
+          ok_count=0
+          fail_count=0
+          for r in results/*; do
+            if [ "$(cat "$r")" = "ok" ]; then
+              ok_count=$((ok_count+1))
+            else
+              fail_count=$((fail_count+1))
+            fi
+          done
+          echo "TCP OK: $ok_count, FAIL: $fail_count"
+
+          echo "=== 4. Формирование итогового файла ==="
           i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -95,14 +115,11 @@ jobs:
             fi
           done < candidates.txt
 
-          # 6. Удаляем дубликаты
           sort -u -o merged_vpn_subscription merged_vpn_subscription
-
           [ -s merged_vpn_subscription ] || echo "# Все серверы недоступны" > merged_vpn_subscription
+          echo "Итоговый файл: $(wc -l < merged_vpn_subscription) уникальных серверов"
 
-          # Очистка временных файлов
           rm -rf results f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw candidates.txt
-
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
