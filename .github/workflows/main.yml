@@ -1,3 +1,34 @@
+name: Обновление VPN подписок с URL-Test (stable)
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      TEST_URL: "https://www.google.com"
+      MAX_PARALLEL: 8      # чуть снизил, чтобы не перегружать раннер
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Установка sing-box и jq
+        run: |
+          if ! command -v sing-box &>/dev/null; then
+            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
+            tar xzf sing-box.tar.gz
+            sudo mv sing-box-*/sing-box /usr/local/bin/
+            rm -rf sing-box*
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq jq
+
       - name: Скачать, очистить, TCP+URL‑Test, объединить
         run: |
           # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
@@ -235,3 +266,13 @@
 
           # Очистка
           rm -rf tcp_res url_res tcp_* url_* queue_raw.txt queue_proto.txt url_candidates.txt merged_raw.txt merged_url.txt f1 f2 f3 f4 f5 f1.raw f2.raw f3.raw f4.raw f5.raw candidates.txt
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add merged_vpn_subscription
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Автообновление (TCP+URL-Test, fallback)" && git push
+          fi
