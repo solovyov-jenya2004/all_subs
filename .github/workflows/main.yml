@@ -51,7 +51,6 @@ jobs:
             | grep -v '^\s*#' \
             | grep -v '^\s*//' \
             | sed '/^\s*$/d' \
-            | sort -u \
             > merged_vpn_subscription
 
           rm -f file1 file2 file3 file4 file5 file1.raw file2.raw file3.raw file4.raw file5.raw
