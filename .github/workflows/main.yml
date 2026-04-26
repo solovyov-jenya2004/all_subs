@@ -52,26 +52,43 @@ jobs:
 
           parse_endpoint() {
             line="$1"
-            if echo "$line" | grep -qE '^(vmess|vless|trojan|ss|ssr|tuic|hysteria|hysteria2|hy2)://'; then
-              hostport=$(echo "$line" | sed -E 's#^[a-z0-9]+://([^@]*@)?([^:/?]+)(:([0-9]+))?.*#\2:\4#')
-              host=$(echo "$hostport" | cut -d: -f1)
-              port=$(echo "$hostport" | cut -d: -f2)
-              [ -z "$port" ] && {
-                case "$line" in
-                  vmess*|vless*|trojan*|tuic*|hysteria*|hy2*|hysteria2*)
-                    port=443 ;;
-                  ss*|ssr*)
-                    port=8388 ;;
-                  *)
-                    port=443 ;;
-                esac
-              }
+            # Отрезаем имя после # (если есть), оно не влияет на адрес
+            bare="${line%%#*}"
+            host=""
+            port=""
+
+            # Если есть протокол вида xxx://
+            if echo "$bare" | grep -qE '^[a-z][a-z0-9]*://'; then
+              # Универсальное извлечение: пропускаем протокол://[user:pass@]хост[:порт][/...]
+              # sed выражение: s#протокол://([^@]*@)?([^:/]+)(:([0-9]+))?.*#\2 \4#
+              tmp=$(echo "$bare" | sed -E 's#^[a-z]+://([^@]*@)?([^:/\?]+)(:([0-9]+))?.*#\2 \4#')
+              host=$(echo "$tmp" | awk '{print $1}')
+              port=$(echo "$tmp" | awk '{print $2}')
             else
-              host=$(echo "$line" | cut -d: -f1)
-              port=$(echo "$line" | cut -d: -f2)
+              # Формат без протокола, например, host:port:method:password (Shadowsocks без ss://)
+              # Берём первые два поля через awk с разделителем ':'
+              host=$(echo "$bare" | awk -F: '{print $1}')
+              port=$(echo "$bare" | awk -F: '{print $2}')
+              # Если второе поле не число – значит, порта нет, и это, скорее всего, просто хост без порта
+              if ! echo "$port" | grep -qE '^[0-9]+$'; then
+                port=""
+              fi
             fi
-            echo "$host $port"
+
+            if [ -z "$host" ] || [ -z "$port" ]; then
+              # Не удалось извлечь хост и порт – возвращаем пустоту, чтобы строка осталась без проверки
+              echo ""
+            else
+              echo "$host $port"
+            fi
           }
+
+          # В самом начале после объявления функции можно добавить тестовый вывод для первых трёх нетативных строк:
+          echo "=== Отладка: первые 3 извлечённых хост:порт ==="
+          head -n 3 candidates.txt | while read -r testline; do
+            ep=$(parse_endpoint "$testline")
+            echo "  $ep"
+          done
 
           echo "=== 3. Параллельная проверка TCP (таймаут 4с) ==="
           mkdir -p results
