@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-            - name: Download, decode, clean, merge (with debug)
+      - name: Download, decode, clean, merge (with debug)
         run: |
           curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
           curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
