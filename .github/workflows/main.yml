@@ -143,16 +143,14 @@ jobs:
               return 0
             fi
 
-            # Конфиг и запуск sing-box
             jq -n \
               --argjson outbound "$outbound_json" \
               --argjson socks_port $socks_port \
-              '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port, version: "5"}], outbounds: [$outbound]}' \
+              '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port}], outbounds: [$outbound]}' \
               > "/tmp/sb_$id.json" 2>/dev/null || {
                 echo "fail_config" > "url_$id"
                 return 0
               }
-
             sing-box run -c "/tmp/sb_$id.json" &
             sb_pid=$!
             started=0
