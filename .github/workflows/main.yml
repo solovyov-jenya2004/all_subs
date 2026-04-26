@@ -35,7 +35,6 @@ jobs:
 
       - name: Скачать, очистить, TCP+URL‑Test, объединить (LTE‑фильтр для f6)
         run: |
-          # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
           echo "===== 1. СКАЧИВАНИЕ ПОДПИСОК ====="
           urls=(
             "http://sub.obbhod.online/premium"
@@ -77,7 +76,7 @@ jobs:
           CANDIDATES=$(wc -l < candidates.txt)
           echo "===== 2. ВСЕГО КАНДИДАТОВ: $CANDIDATES ====="
 
-          # ----------------- ПАРСЕР -----------------
+          # ----------------- Парсер (без изменений) -----------------
           parse_endpoint() {
             line="$1"
             addr="${line%%#*}"
@@ -105,6 +104,7 @@ jobs:
             echo "$host $port"
           }
 
+
           echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
           rm -f tcp_ok.txt
           i=0
@@ -126,7 +126,7 @@ jobs:
           TCP_FAIL=$((CANDIDATES - TCP_OK))
           echo "  TCP-пинг завершён. Прошло: $TCP_OK, не прошло: $TCP_FAIL"
 
-          # ----------------- URL-ТЕСТ -----------------
+          echo "===== 4. URL-ТЕСТ (sing-box) ====="
           url_test() {
             set +e
             link="$1"; id="$2"
@@ -205,8 +205,7 @@ jobs:
             fi
             return 0
           }
-
-          echo "===== 4. URL-ТЕСТ (sing-box) ====="
+          
           rm -f url_*
           i=0
           while IFS= read -r line; do
