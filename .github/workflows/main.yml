@@ -19,7 +19,7 @@ jobs:
         run: |
           # 1. Скачиваем все 5 файлов
           curl -L -o file1.raw "http://sub.obbhod.online/premium"
-          curl -L -o file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
+          curl -L -o file2.raw "http://sub.obbhod.online/premium"
           curl -L -o file3.raw "https://key.zarazaex.xyz/sub"
           curl -L -o file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
           curl -L -o file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
