@@ -1,0 +1,61 @@
+name: Merge Subscriptions Hourly
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download, decode, clean and merge subscriptions
+        run: |
+          # 1. Скачиваем все три файла
+          curl -L -o file1.raw "http://sub.obbhod.online/premium"
+          curl -L -o file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
+          curl -L -o file3.raw "https://key.zarazaex.xyz/sub"
+
+          # 2. Функция для безопасного декодирования base64
+          decode_if_needed() {
+            input=$1
+            output=$2
+            # Пытаемся декодировать; если ошибка или пустой результат — оставляем исходник
+            if base64 -d "$input" > "$output" 2>/dev/null && [ -s "$output" ]; then
+              echo "Файл $input был в base64 — раскодирован"
+            else
+              echo "Файл $input не в base64 — используется как есть"
+              mv "$input" "$output"
+            fi
+          }
+
+          decode_if_needed file1.raw file1
+          decode_if_needed file2.raw file2
+          decode_if_needed file3.raw file3
+
+          # 3. Объединяем и чистим:
+          #    - убираем строки-комментарии (# и //)
+          #    - удаляем пустые строки
+          #    - удаляем дубликаты
+          cat file1 file2 file3 \
+            | grep -v '^\s*#' \
+            | grep -v '^\s*//' \
+            | sed '/^\s*$/d' \
+            | sort -u \
+            > merged_vpn_subscription
+
+          rm -f file1 file2 file3 file1.raw file2.raw file3.raw
+          echo "Файл merged_vpn_subscription готов (чистый текст, без дубликатов)"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add merged_vpn_subscription
+          git diff --staged --quiet || (git commit -m "Автоочистка и обновление подписок" && git push)
