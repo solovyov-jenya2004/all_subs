@@ -1,4 +1,4 @@
-name: Merge VPN and push to main repo
+name: Обновление VPN подписок на белые списки каждый час
 
 on:
   schedule:
@@ -6,49 +6,60 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  merge-and-commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Download, decode, clean, merge
+      - name: Download, decode, clean and merge subscriptions
         run: |
-          curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
-          curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
-          curl -Lo file3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
-          curl -Lo file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
-          curl -Lo file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
+          # 1. Скачиваем все 5 файлов
+          curl -L -o file1.raw "http://sub.obbhod.online/premium"
+          curl -L -o file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
+          curl -L -o file3.raw "https://key.zarazaex.xyz/sub"
+          curl -L -o file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
+          curl -L -o file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
 
-          decode() {
-            base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] && echo "decoded" || cp "$1" "$2"
+          # 2. Функция для безопасного декодирования base64
+          decode_if_needed() {
+            input=$1
+            output=$2
+            # Пытаемся декодировать; если ошибка или пустой результат — оставляем исходник
+            if base64 -d "$input" > "$output" 2>/dev/null && [ -s "$output" ]; then
+              echo "Файл $input был в base64 — раскодирован"
+            else
+              echo "Файл $input не в base64 — используется как есть"
+              mv "$input" "$output"
+            fi
           }
-          decode file1.raw f1
-          decode file2.raw f2
-          decode file3.raw f3
-          decode file4.raw f4
-          decode file5.raw f5
 
-          # Объединяем, удаляем комментарии и пустые строки, сортируем, убираем дубли
-          cat f1 f2 f3 f4 f5 \
+          decode_if_needed file1.raw file1
+          decode_if_needed file2.raw file2
+          decode_if_needed file3.raw file3
+          decode_if_needed file4.raw file4
+          decode_if_needed file5.raw file5
+
+          # 3. Объединяем и чистим:
+          #    - убираем строки-комментарии (# и //)
+          #    - удаляем пустые строки
+          #    - удаляем дубликаты
+          cat file1 file2 file3 \
             | grep -v '^\s*#' \
             | grep -v '^\s*//' \
             | sed '/^\s*$/d' \
-            | sort -u > merged_vpn_subscription
+            | sort -u \
+            > merged_vpn_subscription
 
-          [ -s merged_vpn_subscription ] || echo "# Все серверы недоступны" > merged_vpn_subscription
-          rm -f f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw
+          rm -f file1 file2 file3 file4 file5 file1.raw file2.raw file3.raw file4.raw file5.raw
+          echo "Файл merged_vpn_subscription готов (чистый текст, без дубликатов)"
 
-      - name: Push to your main repository
+      - name: Commit and push if changed
         run: |
-          git clone https://x-access-token:${{ secrets.BOT_TOKEN }}@github.com/ваш-логин/ваш-репозиторий.git target
-          cp merged_vpn_subscription target/
-          cd target
-          git config user.name "vpn-bot"
-          git config user.email "bot@example.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add merged_vpn_subscription
-          if git diff --staged --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Автообновление подписок (без проверки доступности)"
-            git push
-          fi
+          git diff --staged --quiet || (git commit -m "Автоочистка и обновление подписок" && git push)
