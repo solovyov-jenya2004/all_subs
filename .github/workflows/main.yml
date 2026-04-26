@@ -1,4 +1,4 @@
-name: Обновление VPN подписок на белые списки каждый час
+name: Обновление VPN подписок с URL-Test (sing-box + jq)
 
 on:
   schedule:
@@ -12,156 +12,197 @@ jobs:
       contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      TEST_URL: "https://www.google.com"
+      MAX_PARALLEL: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Скачать, проверить доступность (параллельно), объединить
+      - name: Установка sing-box и jq
         run: |
-          echo "=== 1. Загрузка и очистка от \\r ==="
-          curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
-          curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
-          curl -Lo file3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
-          curl -Lo file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
-          curl -Lo file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
+          if ! command -v sing-box &>/dev/null; then
+            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
+            tar xzf sing-box.tar.gz
+            sudo mv sing-box-*/sing-box /usr/local/bin/
+            rm -rf sing-box*
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq jq
 
-          # Удаляем \r и сохраняем обратно (Gib bash variant)
-          for f in file1.raw file2.raw file3.raw file4.raw file5.raw; do
-            if [ -f "$f" ]; then
-              tr -d '\r' < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
-              echo "$f: $(wc -c < "$f") байт"
-            else
-              echo "$f: не скачался"
-            fi
+      - name: Скачать, TCP-отсев, URL-Test, собрать
+        run: |
+          # ----- 1. Загрузка и очистка -----
+          curl -Lo f1.raw "http://sub.obbhod.online/premium" || echo "fail1"
+          curl -Lo f2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
+          curl -Lo f3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
+          curl -Lo f4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
+          curl -Lo f5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
+
+          for f in f1.raw f2.raw f3.raw f4.raw f5.raw; do
+            [ -f "$f" ] && tr -d '\r' < "$f" > "$f.t" && mv "$f.t" "$f"
           done
 
-          decode() {
-            base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"
-          }
-          decode file1.raw f1
-          decode file2.raw f2
-          decode file3.raw f3
-          decode file4.raw f4
-          decode file5.raw f5
+          decode() { base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"; }
+          decode f1.raw f1; decode f2.raw f2; decode f3.raw f3; decode f4.raw f4; decode f5.raw f5
 
-          echo "=== 2. Очистка и кандидаты ==="
           for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
-          echo "Всего кандидатов: $(wc -l < candidates.txt)"
+          CANDIDATES=$(wc -l < candidates.txt)
+          echo "Кандидатов: $CANDIDATES"
 
-          # НОВЫЙ ПАРСЕР (чистый awk, не трогает название)
-                    parse_endpoint() {
+          # ----- 2. Параллельный TCP-пинг (4s) -----
+          parse_endpoint_tcp() {
             line="$1"
-            # Отделяем имя после #, если есть
-            address="${line%%#*}"
-            proto=$(echo "$address" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
-            host=""
-            port=""
-
+            addr="${line%%#*}"
+            proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
             if [ -z "$proto" ]; then
-              # Нет протокола — пытаемся распарсить как host:port:...
-              hostport=$(echo "$address" | awk -F'[/?]' '{print $1}')
+              host=$(echo "$addr" | awk -F: '{print $1}')
+              port=$(echo "$addr" | awk -F: '{print $2}')
+              echo "$host $port"
+              return
+            fi
+            encoded="${addr#*://}"
+            if echo "$encoded" | grep -q '@'; then
+              after_at="${encoded#*@}"
+              hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
               host=$(echo "$hostport" | awk -F: '{print $1}')
               port=$(echo "$hostport" | awk -F: '{print $2}')
-              # Если второй кусок не число — сбрасываем порт, оставляем без проверки
-              if ! echo "$port" | grep -qE '^[0-9]+$'; then
-                port=""
-              fi
             else
-              # Есть протокол: берём всё после ://
-              encoded="${address#*://}"
-              if echo "$encoded" | grep -q '@'; then
-                # Уже декодирован (method:pass@host:port или просто user@host:port)
-                after_at="${encoded#*@}"
+              decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
+              if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
+                after_at="${decoded#*@}"
                 hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
                 host=$(echo "$hostport" | awk -F: '{print $1}')
                 port=$(echo "$hostport" | awk -F: '{print $2}')
               else
-                # Возможно, закодировано в base64
-                decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
-                if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
-                  after_at="${decoded#*@}"
-                  hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
-                  host=$(echo "$hostport" | awk -F: '{print $1}')
-                  port=$(echo "$hostport" | awk -F: '{print $2}')
-                else
-                  # Не удалось декодировать или нет @ — пытаемся как обычный host:port
-                  hostport=$(echo "$encoded" | awk -F'[/?]' '{print $1}')
-                  host=$(echo "$hostport" | awk -F: '{print $1}')
-                  port=$(echo "$hostport" | awk -F: '{print $2}')
-                fi
+                hostport=$(echo "$encoded" | awk -F'[/?]' '{print $1}')
+                host=$(echo "$hostport" | awk -F: '{print $1}')
+                port=$(echo "$hostport" | awk -F: '{print $2}')
               fi
             fi
-
-            # Если порт не числовой, лучше не проверять (или установить 443?)
-            if [ -n "$port" ] && ! echo "$port" | grep -qE '^[0-9]+$'; then
-              port=""
-            fi
-
-            if [ -z "$host" ] || [ -z "$port" ]; then
-              echo ""
-            else
-              echo "$host $port"
-            fi
+            [ -z "$port" ] && port=443
+            echo "$host $port"
           }
 
-          # Отладка: первые 3 пары хост:порт
-          echo "=== Отладка: первые 3 хост:порт ==="
-          head -n 3 candidates.txt | while read -r testline; do
-            ep=$(parse_endpoint "$testline")
-            echo "  $ep"
-          done
-
-          echo "=== 3. Параллельная TCP-проверка ==="
-          mkdir -p results
+          mkdir -p tcp_results
           i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
             i=$((i+1))
             (
-              endpoint=$(parse_endpoint "$line")
-              host=$(echo "$endpoint" | awk '{print $1}')
-              port=$(echo "$endpoint" | awk '{print $2}')
-              if [ -n "$host" ] && [ -n "$port" ] && timeout 4 bash -c "echo >/dev/tcp/$host/$port" 2>/dev/null; then
-                echo "ok" > "results/$i"
+              ep=$(parse_endpoint_tcp "$line")
+              h=$(echo "$ep" | awk '{print $1}')
+              p=$(echo "$ep" | awk '{print $2}')
+              if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
+                echo "ok" > "tcp_results/$i"
               else
-                echo "fail" > "results/$i"
+                echo "fail" > "tcp_results/$i"
               fi
             ) &
           done < candidates.txt
           wait
 
-          ok_count=0
-          fail_count=0
-          for r in results/*; do
-            if [ "$(cat "$r")" = "ok" ]; then
-              ok_count=$((ok_count+1))
-            else
-              fail_count=$((fail_count+1))
+          ok_tcp=0
+          rm -f tcp_ok.txt
+          i=0
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            i=$((i+1))
+            if [ "$(cat tcp_results/$i 2>/dev/null)" = "ok" ]; then
+              echo "$line" >> tcp_ok.txt
+              ok_tcp=$((ok_tcp+1))
             fi
-          done
-          echo "TCP OK: $ok_count, FAIL: $fail_count"
+          done < candidates.txt
+          echo "TCP прошли: $ok_tcp"
 
-          echo "=== 4. Итоговый файл ==="
+          # ----- 3. URL-Test (sing-box + jq, без heredoc) -----
+          url_test() {
+            link="$1"
+            id="$2"
+            socks_port=$((20000 + id))
+            # Получаем outbound JSON от sing-box parse
+            outbound_json=$(sing-box parse "$link" --format json 2>/dev/null)
+            if [ -z "$outbound_json" ]; then
+              echo "fail" > "url_results/$id"
+              return 1
+            fi
+            # Готовим конфиг с помощью jq: добавляем inbound и подставляем outbound
+            jq -n \
+              --argjson outbound "$outbound_json" \
+              --argjson socks_port $socks_port \
+              '{
+                "log": {"level": "error"},
+                "inbounds": [{
+                  "type": "socks",
+                  "tag": "socks-in",
+                  "listen": "127.0.0.1",
+                  "listen_port": $socks_port,
+                  "version": "5"
+                }],
+                "outbounds": [$outbound]
+              }' > "/tmp/sb_$id.json"
+            # Запускаем sing-box
+            sing-box run -c "/tmp/sb_$id.json" &
+            sb_pid=$!
+            # Ждём, пока порт откроется
+            for try in $(seq 1 20); do
+              if ss -tln | grep -q ":$socks_port"; then break; fi
+              sleep 0.1
+            done
+            # HTTP-запрос через SOCKS5
+            result=$(curl --socks5-hostname 127.0.0.1:$socks_port --max-time 8 -o /dev/null -s -w '%{http_code} %{time_total}' "$TEST_URL" 2>/dev/null)
+            kill $sb_pid 2>/dev/null
+            wait $sb_pid 2>/dev/null
+            http_code=$(echo "$result" | awk '{print $1}')
+            time_total=$(echo "$result" | awk '{print $2}')
+            if [ "$http_code" = "200" ]; then
+              echo "ok $time_total" > "url_results/$id"
+              return 0
+            else
+              echo "fail" > "url_results/$id"
+              return 1
+            fi
+          }
+
+          mkdir -p url_results
+          i=0
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            i=$((i+1))
+            # Ограничение параллельности
+            while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL" ]; do
+              sleep 0.2
+            done
+            (
+              url_test "$line" "$i"
+            ) &
+          done < tcp_ok.txt
+          wait
+
+          # ----- 4. Формируем итоговый файл -----
           rm -f merged_vpn_subscription
           i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
             i=$((i+1))
-            if [ "$(cat results/$i 2>/dev/null)" = "ok" ]; then
+            if [ -f "url_results/$i" ] && grep -q '^ok' "url_results/$i" 2>/dev/null; then
               echo "$line" >> merged_vpn_subscription
             fi
-          done < candidates.txt
+          done < tcp_ok.txt
+
+          if [ ! -s merged_vpn_subscription ]; then
+            cp tcp_ok.txt merged_vpn_subscription
+            echo "⚠️ URL-тест не прошёл ни один сервер, оставлены TCP" >&2
+          fi
 
           sort -u -o merged_vpn_subscription merged_vpn_subscription
-          [ -s merged_vpn_subscription ] || echo "# Все серверы недоступны" > merged_vpn_subscription
-          echo "Итоговый файл: $(wc -l < merged_vpn_subscription) уникальных серверов"
+          echo "Итогово URL-Test прошли: $(wc -l < merged_vpn_subscription) серверов"
 
-          rm -rf results f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw candidates.txt
-          
+          # Очистка временных файлов
+          rm -rf tcp_results url_results tcp_ok.txt f1 f2 f3 f4 f5 f1.raw f2.raw f3.raw f4.raw f5.raw candidates.txt
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
@@ -170,5 +211,5 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "Автообновление с проверкой доступности (TUIC/Hysteria)" && git push
+            git commit -m "Автообновление (TCP+URL-Test)" && git push
           fi
