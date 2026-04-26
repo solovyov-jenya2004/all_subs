@@ -22,19 +22,23 @@ jobs:
 
       - name: Установка sing-box и jq
         run: |
-          if ! command -v sing-box &>/dev/null; then
+          if command -v sing-box &>/dev/null; then
+            echo "sing-box уже установлен"
+          else
             echo "Устанавливаю sing-box..."
             curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
             tar xzf sing-box.tar.gz
             sudo mv sing-box-*/sing-box /usr/local/bin/
             rm -rf sing-box*
+            echo "sing-box установлен"
           fi
           echo "Устанавливаю jq..."
           sudo apt-get update -qq && sudo apt-get install -y -qq jq
-          echo "Готово."
+          echo "jq установлен"
 
       - name: Скачать, очистить, TCP+URL‑Test, объединить (LTE‑фильтр для f6)
         run: |
+          # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
           echo "===== 1. СКАЧИВАНИЕ ПОДПИСОК ====="
           urls=(
             "http://sub.obbhod.online/premium"
@@ -76,7 +80,7 @@ jobs:
           CANDIDATES=$(wc -l < candidates.txt)
           echo "===== 2. ВСЕГО КАНДИДАТОВ: $CANDIDATES ====="
 
-          # ----------------- Парсер (без изменений) -----------------
+          # ----------------- ПАРСЕР -----------------
           parse_endpoint() {
             line="$1"
             addr="${line%%#*}"
@@ -104,7 +108,6 @@ jobs:
             echo "$host $port"
           }
 
-
           echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
           rm -f tcp_ok.txt
           i=0
@@ -126,7 +129,7 @@ jobs:
           TCP_FAIL=$((CANDIDATES - TCP_OK))
           echo "  TCP-пинг завершён. Прошло: $TCP_OK, не прошло: $TCP_FAIL"
 
-          echo "===== 4. URL-ТЕСТ (sing-box) ====="
+          # ----------------- URL-ТЕСТ -----------------
           url_test() {
             set +e
             link="$1"; id="$2"
@@ -137,6 +140,7 @@ jobs:
             p=$(echo "$ep" | awk '{print $2}')
             socks_port=$((30000 + id))
 
+            reason=""
             outbound_json=$(sing-box parse "$link" --format json 2>/dev/null) || true
             if [ -z "$outbound_json" ]; then
               case "$proto" in
@@ -167,45 +171,54 @@ jobs:
                   ;;
               esac
             fi
+
             if [ -z "$outbound_json" ]; then
-              echo "fail_parse" > "url_$id"
-              return 0
-            fi
-
-            jq -n \
-              --argjson outbound "$outbound_json" \
-              --argjson socks_port $socks_port \
-              '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port}], outbounds: [$outbound]}' \
-              > "/tmp/sb_$id.json" 2>/dev/null || {
-                echo "fail_config" > "url_$id"
-                return 0
-              }
-
-            sing-box run -c "/tmp/sb_$id.json" &
-            sb_pid=$!
-            started=0
-            for try in $(seq 1 15); do
-              if ss -tln | grep -q ":$socks_port"; then started=1; break; fi
-              sleep 0.1
-            done
-            if [ $started -eq 0 ]; then
-              kill $sb_pid 2>/dev/null
-              echo "fail_singbox_start" > "url_$id"
-              return 0
-            fi
-
-            result=$(curl --socks5-hostname 127.0.0.1:$socks_port --max-time 8 -o /dev/null -s -w '%{http_code} %{time_total}' "$TEST_URL" 2>/dev/null)
-            kill $sb_pid 2>/dev/null; wait $sb_pid 2>/dev/null
-            http_code=$(echo "$result" | awk '{print $1}')
-            time_total=$(echo "$result" | awk '{print $2}')
-            if [ "$http_code" = "200" ]; then
-              echo "ok $time_total" > "url_$id"
+              reason="parse_error"
             else
-              echo "fail_curl $http_code $time_total" > "url_$id"
+              jq -n \
+                --argjson outbound "$outbound_json" \
+                --argjson socks_port $socks_port \
+                '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port}], outbounds: [$outbound]}' \
+                > "/tmp/sb_$id.json" 2>/dev/null
+              if [ $? -ne 0 ]; then
+                reason="config_error"
+              else
+                sing-box run -c "/tmp/sb_$id.json" &
+                sb_pid=$!
+                started=0
+                for try in $(seq 1 15); do
+                  if ss -tln | grep -q ":$socks_port"; then started=1; break; fi
+                  sleep 0.1
+                done
+                if [ $started -eq 0 ]; then
+                  kill $sb_pid 2>/dev/null
+                  reason="singbox_start_fail"
+                else
+                  result=$(curl --socks5-hostname 127.0.0.1:$socks_port --max-time 8 -o /dev/null -s -w '%{http_code} %{time_total}' "$TEST_URL" 2>/dev/null)
+                  kill $sb_pid 2>/dev/null; wait $sb_pid 2>/dev/null
+                  http_code=$(echo "$result" | awk '{print $1}')
+                  time_total=$(echo "$result" | awk '{print $2}')
+                  if [ "$http_code" = "200" ]; then
+                    reason="OK ${time_total}s"
+                  else
+                    reason="HTTP_${http_code}"
+                  fi
+                fi
+              fi
+            fi
+
+            # Вывод результата в реальном времени (stderr не буферизуется)
+            echo "Ссылка $id: $reason" >&2
+            # Запись в файл для итогового сбора
+            if [ "$reason" = "OK"* ]; then
+              echo "ok" > "url_$id"
+            else
+              echo "fail" > "url_$id"
             fi
             return 0
           }
-          
+
+          echo "===== 4. URL-ТЕСТ (sing-box) ====="
           rm -f url_*
           i=0
           while IFS= read -r line; do
@@ -223,7 +236,7 @@ jobs:
           while IFS= read -r line; do
             i=$((i+1))
             res=$(cat "url_$i" 2>/dev/null || echo "fail")
-            if echo "$res" | grep -q '^ok'; then
+            if [ "$res" = "ok" ]; then
               echo "$line" >> merged_vpn_subscription
             fi
           done < tcp_ok.txt
