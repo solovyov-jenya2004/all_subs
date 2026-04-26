@@ -13,8 +13,8 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       TEST_URL: "http://cp.cloudflare.com:80"
-      MAX_PARALLEL_TCP: 20   # одновременных TCP-проверок
-      MAX_PARALLEL_URL: 8    # одновременных URL-тестов
+      MAX_PARALLEL_TCP: 20
+      MAX_PARALLEL_URL: 8
 
     steps:
       - name: Checkout repository
@@ -30,7 +30,7 @@ jobs:
           fi
           sudo apt-get update -qq && sudo apt-get install -y -qq jq
 
-      - name: Скачать, очистить, TCP+URL‑Test, объединить
+      - name: Скачать, очистить, TCP+URL‑Test, объединить (LTE‑фильтр для f6)
         run: |
           # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
           curl -Lo f1.raw "http://sub.obbhod.online/premium" || echo "fail1"
@@ -52,10 +52,16 @@ jobs:
           decode f5.raw f5
           decode f6.raw f6
 
-          for f in f1 f2 f3 f4 f5 f6; do
+          # Очистка всех файлов, для f6 – дополнительно только строки с LTE
+          for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
+
+          # f6 с фильтром LTE
+          grep -a -i 'LTE' f6 | grep -a -v '^\s*#' | grep -a -v '^\s*//' | sed '/^\s*$/d' >> candidates.txt
+          echo >> candidates.txt   # пустая строка-разделитель
+
           echo "Всего кандидатов: $(wc -l < candidates.txt)"
 
           # ----------------- 2. ПАРСЕР -----------------
@@ -86,33 +92,28 @@ jobs:
             echo "$host $port"
           }
 
-          # ----------------- 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ (xargs -P) -----------------
-          n=0
+          # ----------------- 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ (фоновые задачи) -----------------
+          rm -f tcp_ok.txt
+          i=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            n=$((n+1))
-            ep=$(parse_endpoint "$line")
-            h=$(echo "$ep" | awk '{print $1}')
-            p=$(echo "$ep" | awk '{print $2}')
-            echo "$n $h $p $line"
-          done < candidates.txt > tcp_input.txt
-
-          cat tcp_input.txt | xargs -P "$MAX_PARALLEL_TCP" -I{} bash -c '
-            set -e
-            args=({})
-            id=${args[0]}
-            host=${args[1]}
-            port=${args[2]}
-            link="${args[@]:3}"
-            if timeout 4 bash -c "echo >/dev/tcp/$host/$port" 2>/dev/null; then
-              echo "$link" >> tcp_ok.txt
-            fi
-          '
-          rm -f tcp_input.txt
+            i=$((i+1))
+            while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL_TCP" ]; do sleep 0.1; done
+            (
+              ep=$(parse_endpoint "$line")
+              h=$(echo "$ep" | awk '{print $1}')
+              p=$(echo "$ep" | awk '{print $2}')
+              if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
+                # атомарная дозапись в файл (без &)
+                echo "$line" >> tcp_ok.txt
+              fi
+            ) &
+          done < candidates.txt
+          wait
           TCP_OK_COUNT=$( [ -f tcp_ok.txt ] && wc -l < tcp_ok.txt || echo 0 )
           echo "TCP прошли: $TCP_OK_COUNT"
 
-          # ----------------- 4. URL‑ТЕСТ (параллельный с MAX_PARALLEL_URL) -----------------
+          # ----------------- 4. URL‑ТЕСТ (параллельный, как раньше) -----------------
           url_test() {
             set +e
             link="$1"; id="$2"
@@ -229,5 +230,5 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "Автообновление (TCP+URL-Test, 6 источников)" && git push
+            git commit -m "Автообновление (TCP+URL-Test, LTE-фильтр)" && git push
           fi
