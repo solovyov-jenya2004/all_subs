@@ -108,7 +108,7 @@ jobs:
             echo "$host $port"
           }
 
-          echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
+                    echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
           rm -f tcp_ok.txt
           i=0
           while IFS= read -r line; do
@@ -116,11 +116,15 @@ jobs:
             i=$((i+1))
             while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL_TCP" ]; do sleep 0.1; done
             (
+              exec 1>&2   # вывод сразу в stderr, без буфера
               ep=$(parse_endpoint "$line")
               h=$(echo "$ep" | awk '{print $1}')
               p=$(echo "$ep" | awk '{print $2}')
               if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
+                echo "TCP Ссылка $i: OK"
                 echo "$line" >> tcp_ok.txt
+              else
+                echo "TCP Ссылка $i: FAIL"
               fi
             ) &
           done < candidates.txt
@@ -129,9 +133,10 @@ jobs:
           TCP_FAIL=$((CANDIDATES - TCP_OK))
           echo "  TCP-пинг завершён. Прошло: $TCP_OK, не прошло: $TCP_FAIL"
 
-          # ----------------- URL-ТЕСТ -----------------
+          # ----------------- URL-ТЕСТ (вывод в реальном времени) -----------------
           url_test() {
             set +e
+            exec 1>&2   # весь дальнейший stdout пойдёт в stderr (не буферизуется)
             link="$1"; id="$2"
             addr="${link%%#*}"
             proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
@@ -207,10 +212,10 @@ jobs:
               fi
             fi
 
-            # Вывод результата в реальном времени (stderr не буферизуется)
-            echo "Ссылка $id: $reason" >&2
-            # Запись в файл для итогового сбора
-            if [ "$reason" = "OK"* ]; then
+            # Мгновенный вывод в реальном времени (stderr не буферизуется)
+            echo "Ссылка $id: $reason"
+            # Запись результата для итогового сбора
+            if [[ $reason == OK* ]]; then
               echo "ok" > "url_$id"
             else
               echo "fail" > "url_$id"
@@ -230,13 +235,13 @@ jobs:
           done < tcp_ok.txt
           wait
 
-          # Сбор результатов URL-теста
+          # Сбор итогового файла
           rm -f merged_vpn_subscription
           i=0
           while IFS= read -r line; do
             i=$((i+1))
-            res=$(cat "url_$i" 2>/dev/null || echo "fail")
-            if [ "$res" = "ok" ]; then
+            res=$(cat "url_$i" 2>/dev/null)
+            if [[ $res == ok ]]; then
               echo "$line" >> merged_vpn_subscription
             fi
           done < tcp_ok.txt
