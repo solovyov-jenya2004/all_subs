@@ -1,4 +1,4 @@
-name: Обновление VPN подписок с URL-Test (stable)
+name: Обновление VPN подписок с URL-Test
 
 on:
   schedule:
@@ -12,8 +12,8 @@ jobs:
       contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      TEST_URL: "https://www.google.com"
-      MAX_PARALLEL: 8      # чуть снизил, чтобы не перегружать раннер
+      TEST_URL: "http://cp.cloudflare.com:80"
+      MAX_PARALLEL: 8
 
     steps:
       - name: Checkout repository
@@ -85,7 +85,6 @@ jobs:
             fi
           }
 
-          # Гарантируем существование файлов очередей
           touch queue_proto.txt queue_raw.txt
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -116,7 +115,6 @@ jobs:
 
           mkdir -p tcp_res
           total=0
-          # TCP для raw
           if [ "$RAW_COUNT" -gt 0 ]; then
             while read -r line h p; do
               total=$((total+1))
@@ -124,7 +122,6 @@ jobs:
             done < queue_raw.txt
           fi
           RAW_END=$total
-          # TCP для proto
           if [ "$PROTO_COUNT" -gt 0 ]; then
             while read -r line proto h p; do
               total=$((total+1))
@@ -133,7 +130,6 @@ jobs:
           fi
           wait
 
-          # Собираем TCP‑хорошие сырые строки (сразу в итог)
           rm -f merged_raw.txt
           i=0
           if [ "$RAW_COUNT" -gt 0 ]; then
@@ -146,7 +142,6 @@ jobs:
           fi
           RAW_OK=$( [ -f merged_raw.txt ] && wc -l < merged_raw.txt || echo 0 )
 
-          # Собираем TCP‑хорошие строки с протоколом для URL‑теста
           rm -f url_candidates.txt
           i=$RAW_END
           if [ "$PROTO_COUNT" -gt 0 ]; then
@@ -161,12 +156,15 @@ jobs:
           echo "TCP ok raw: $RAW_OK"
           echo "TCP ok proto: $URL_CANDIDATES"
 
-          # ----------------- 4. URL‑ТЕСТ ТОЛЬКО ДЛЯ ПРОТОКОЛЬНЫХ -----------------
+          # ----------------- 4. URL‑ТЕСТ (с защитой от падений) -----------------
           url_test() {
-            link="$1" proto="$2" h="$3" p="$4" id="$5"
+            set +e    # ← теперь любые ошибки внутри не прерывают workflow
+            link="$1"; proto="$2"; h="$3"; p="$4"; id="$5"
             socks_port=$((30000 + id))
             outbound_json=""
-            outbound_json=$(sing-box parse "$link" --format json 2>/dev/null)
+            # Попытка 1: sing-box parse
+            outbound_json=$(sing-box parse "$link" --format json 2>/dev/null) || true
+            # Попытка 2: ручная сборка для известных протоколов
             if [ -z "$outbound_json" ]; then
               case "$proto" in
                 ss|ssr)
@@ -175,7 +173,7 @@ jobs:
                   if echo "$encoded" | grep -q '@'; then
                     decoded="$encoded"
                   else
-                    decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
+                    decoded=$(echo "$encoded" | base64 -d 2>/dev/null) || true
                   fi
                   method=$(echo "$decoded" | cut -d: -f1)
                   password=$(echo "$decoded" | cut -d: -f2)
@@ -199,13 +197,20 @@ jobs:
             fi
             if [ -z "$outbound_json" ]; then
               echo "fail_parse" > "url_$id"
-              return 1
+              return 0   # не возвращаем 1, чтобы не ломать общий скрипт
             fi
+
+            # Генерация конфига sing-box
             jq -n \
               --argjson outbound "$outbound_json" \
               --argjson socks_port $socks_port \
               '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port, version: "5"}], outbounds: [$outbound]}' \
-              > "/tmp/sb_$id.json"
+              > "/tmp/sb_$id.json" 2>/dev/null || {
+                echo "fail_config" > "url_$id"
+                return 0
+              }
+
+            # Запуск sing-box
             sing-box run -c "/tmp/sb_$id.json" &
             sb_pid=$!
             started=0
@@ -216,19 +221,20 @@ jobs:
             if [ $started -eq 0 ]; then
               kill $sb_pid 2>/dev/null
               echo "fail_singbox_start" > "url_$id"
-              return 1
+              return 0
             fi
+
+            # HTTP-тест через SOCKS5
             result=$(curl --socks5-hostname 127.0.0.1:$socks_port --max-time 8 -o /dev/null -s -w '%{http_code} %{time_total}' "$TEST_URL" 2>/dev/null)
             kill $sb_pid 2>/dev/null; wait $sb_pid 2>/dev/null
             http_code=$(echo "$result" | awk '{print $1}')
             time_total=$(echo "$result" | awk '{print $2}')
             if [ "$http_code" = "200" ]; then
               echo "ok $time_total" > "url_$id"
-              return 0
             else
               echo "fail_curl $http_code $time_total" > "url_$id"
-              return 1
             fi
+            return 0
           }
 
           mkdir -p url_res
@@ -237,17 +243,20 @@ jobs:
             while read -r line proto h p; do
               i=$((i+1))
               while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL" ]; do sleep 0.2; done
-              ( url_test "$line" "$proto" "$h" "$p" "$i" ) &
+              (
+                url_test "$line" "$proto" "$h" "$p" "$i"
+              ) &
             done < url_candidates.txt
           fi
           wait
 
+          # Сбор результатов URL-теста
           rm -f merged_url.txt
           i=0
           if [ "$URL_CANDIDATES" -gt 0 ]; then
             while read -r line proto h p; do
               i=$((i+1))
-              res=$(cat "url_$i" 2>/dev/null)
+              res=$(cat "url_$i" 2>/dev/null || echo "fail")
               if echo "$res" | grep -q '^ok'; then
                 echo "$line" >> merged_url.txt
               fi
@@ -261,11 +270,12 @@ jobs:
           [ -f merged_raw.txt ] && cat merged_raw.txt >> merged_vpn_subscription
           [ -f merged_url.txt ] && cat merged_url.txt >> merged_vpn_subscription
           sort -u -o merged_vpn_subscription merged_vpn_subscription
-          [ -s merged_vpn_subscription ] || echo "# Все серверы недоступны" > merged_vpn_subscription
+          [ -s merged_vpn_subscription ] || printf "# Все серверы недоступны\n" > merged_vpn_subscription
           echo "Итоговый размер: $(wc -l < merged_vpn_subscription) строк"
 
           # Очистка
           rm -rf tcp_res url_res tcp_* url_* queue_raw.txt queue_proto.txt url_candidates.txt merged_raw.txt merged_url.txt f1 f2 f3 f4 f5 f1.raw f2.raw f3.raw f4.raw f5.raw candidates.txt
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
@@ -274,5 +284,5 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "Автообновление (TCP+URL-Test, fallback)" && git push
+            git commit -m "Автообновление (TCP+URL-Test)" && git push
           fi
