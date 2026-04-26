@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # убирает предупреждение о Node.js 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download, decode, clean, merge (with debug)
+      - name: Download, decode, clean, merge
         run: |
           curl -Lo file1.raw "http://sub.obbhod.online/premium" || echo "fail1"
           curl -Lo file2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
@@ -23,23 +25,8 @@ jobs:
           curl -Lo file4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
           curl -Lo file5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
 
-          echo "=== Размеры скачанных raw-файлов ==="
-          for f in file1.raw file2.raw file3.raw file4.raw file5.raw; do
-            if [ -f "$f" ]; then
-              echo "$f: $(wc -c < "$f") байт"
-            else
-              echo "$f: не существует"
-            fi
-          done
-
           decode() {
-            echo "--- Декодирую $1 ---"
-            if base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ]; then
-              echo "Успешно раскодирован (размер $(wc -c < "$2") байт)"
-            else
-              echo "Не base64, копирую как есть"
-              cp "$1" "$2"
-            fi
+            base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] && echo "decoded $1" || cp "$1" "$2"
           }
           decode file1.raw f1
           decode file2.raw f2
@@ -47,13 +34,17 @@ jobs:
           decode file4.raw f4
           decode file5.raw f5
 
-          # Объединяем, сохраняя отступы
-          for f in f1 f2 f3 f4 f5; do
-            grep -v '^\s*#' "$f" | grep -v '^\s*//' | sed '/^\s*$/d' | sort -u
-            echo
-          done > merged_vpn_subscription
+          # Очистка: убираем комментарии/пустые строки, добавляем отступы между файлами,
+          # потом удаляем дубликаты по всей подборке (sort -u)
+          {
+            for f in f1 f2 f3 f4 f5; do
+              grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
+              echo
+            done
+          } | sort -u > merged_vpn_subscription
 
-
+          echo "Строк после слияния и удаления дубликатов: $(wc -l < merged_vpn_subscription)"
+          [ -s merged_vpn_subscription ] || echo "# Нет данных" > merged_vpn_subscription
 
           rm -f f1 f2 f3 f4 f5 file1.raw file2.raw file3.raw file4.raw file5.raw
 
