@@ -23,48 +23,61 @@ jobs:
       - name: Установка sing-box и jq
         run: |
           if ! command -v sing-box &>/dev/null; then
+            echo "Устанавливаю sing-box..."
             curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
             tar xzf sing-box.tar.gz
             sudo mv sing-box-*/sing-box /usr/local/bin/
             rm -rf sing-box*
           fi
+          echo "Устанавливаю jq..."
           sudo apt-get update -qq && sudo apt-get install -y -qq jq
+          echo "Готово."
 
       - name: Скачать, очистить, TCP+URL‑Test, объединить (LTE‑фильтр для f6)
         run: |
           # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
-          curl -Lo f1.raw "http://sub.obbhod.online/premium" || echo "fail1"
-          curl -Lo f2.raw "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" || echo "fail2"
-          curl -Lo f3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
-          curl -Lo f4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
-          curl -Lo f5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
-          curl -Lo f6.raw "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" || echo "fail6"
+          echo "===== 1. СКАЧИВАНИЕ ПОДПИСОК ====="
+          urls=(
+            "http://sub.obbhod.online/premium"
+            "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
+            "https://key.zarazaex.xyz/sub"
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
+            "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt"
+          )
+          for i in "${!urls[@]}"; do
+            num=$((i+1))
+            echo "  Скачиваю подписку $num: ${urls[$i]}"
+            if curl -Lo "f${num}.raw" "${urls[$i]}" 2>/dev/null; then
+              echo "    Подписка $num скачана успешно ($(wc -c < "f${num}.raw") байт)"
+            else
+              echo "    ОШИБКА скачивания подписки $num"
+            fi
+          done
 
+          echo "  Очистка от \\r..."
           for f in f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw; do
             [ -f "$f" ] && tr -d '\r' < "$f" > "$f.t" && mv "$f.t" "$f"
           done
 
           decode() { base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"; }
-          decode f1.raw f1
-          decode f2.raw f2
-          decode f3.raw f3
-          decode f4.raw f4
-          decode f5.raw f5
-          decode f6.raw f6
+          for i in 1 2 3 4 5 6; do
+            decode "f${i}.raw" "f${i}"
+          done
 
-          # Очистка всех файлов, для f6 – дополнительно только строки с LTE
+          echo "  Удаляю комментарии и пустые строки (для f6 – только строки с 'LTE')..."
           for f in f1 f2 f3 f4 f5; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
 
-          # f6 с фильтром LTE
           grep -a -i 'LTE' f6 | grep -a -v '^\s*#' | grep -a -v '^\s*//' | sed '/^\s*$/d' >> candidates.txt
-          echo >> candidates.txt   # пустая строка-разделитель
+          echo >> candidates.txt
 
-          echo "Всего кандидатов: $(wc -l < candidates.txt)"
+          CANDIDATES=$(wc -l < candidates.txt)
+          echo "===== 2. ВСЕГО КАНДИДАТОВ: $CANDIDATES ====="
 
-          # ----------------- 2. ПАРСЕР -----------------
+          # ----------------- ПАРСЕР -----------------
           parse_endpoint() {
             line="$1"
             addr="${line%%#*}"
@@ -92,7 +105,7 @@ jobs:
             echo "$host $port"
           }
 
-          # ----------------- 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ (фоновые задачи) -----------------
+          echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
           rm -f tcp_ok.txt
           i=0
           while IFS= read -r line; do
@@ -104,16 +117,16 @@ jobs:
               h=$(echo "$ep" | awk '{print $1}')
               p=$(echo "$ep" | awk '{print $2}')
               if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
-                # атомарная дозапись в файл (без &)
                 echo "$line" >> tcp_ok.txt
               fi
             ) &
           done < candidates.txt
           wait
-          TCP_OK_COUNT=$( [ -f tcp_ok.txt ] && wc -l < tcp_ok.txt || echo 0 )
-          echo "TCP прошли: $TCP_OK_COUNT"
+          TCP_OK=$( [ -f tcp_ok.txt ] && wc -l < tcp_ok.txt || echo 0 )
+          TCP_FAIL=$((CANDIDATES - TCP_OK))
+          echo "  TCP-пинг завершён. Прошло: $TCP_OK, не прошло: $TCP_FAIL"
 
-          # ----------------- 4. URL‑ТЕСТ (параллельный, как раньше) -----------------
+          # ----------------- URL-ТЕСТ -----------------
           url_test() {
             set +e
             link="$1"; id="$2"
@@ -193,6 +206,7 @@ jobs:
             return 0
           }
 
+          echo "===== 4. URL-ТЕСТ (sing-box) ====="
           rm -f url_*
           i=0
           while IFS= read -r line; do
@@ -215,9 +229,13 @@ jobs:
             fi
           done < tcp_ok.txt
 
+          URL_OK=$( [ -f merged_vpn_subscription ] && wc -l < merged_vpn_subscription || echo 0 )
+          URL_FAIL=$((TCP_OK - URL_OK))
+          echo "  URL-тест завершён. Прошло: $URL_OK, не прошло: $URL_FAIL"
+
           sort -u -o merged_vpn_subscription merged_vpn_subscription
           [ -s merged_vpn_subscription ] || printf "# Все серверы недоступны\n" > merged_vpn_subscription
-          echo "URL ok: $(wc -l < merged_vpn_subscription)"
+          echo "===== 5. ИТОГОВЫЙ ФАЙЛ: $(wc -l < merged_vpn_subscription) уникальных серверов ====="
 
           # Очистка
           rm -f f1 f2 f3 f4 f5 f6 f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw candidates.txt tcp_ok.txt url_*
