@@ -13,7 +13,8 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       TEST_URL: "http://cp.cloudflare.com:80"
-      MAX_PARALLEL: 8
+      MAX_PARALLEL_TCP: 20   # одновременных TCP-проверок
+      MAX_PARALLEL_URL: 8    # одновременных URL-тестов
 
     steps:
       - name: Checkout repository
@@ -37,21 +38,27 @@ jobs:
           curl -Lo f3.raw "https://key.zarazaex.xyz/sub" || echo "fail3"
           curl -Lo f4.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" || echo "fail4"
           curl -Lo f5.raw "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" || echo "fail5"
+          curl -Lo f6.raw "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" || echo "fail6"
 
-          for f in f1.raw f2.raw f3.raw f4.raw f5.raw; do
+          for f in f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw; do
             [ -f "$f" ] && tr -d '\r' < "$f" > "$f.t" && mv "$f.t" "$f"
           done
 
           decode() { base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"; }
-          decode f1.raw f1; decode f2.raw f2; decode f3.raw f3; decode f4.raw f4; decode f5.raw f5
+          decode f1.raw f1
+          decode f2.raw f2
+          decode f3.raw f3
+          decode f4.raw f4
+          decode f5.raw f5
+          decode f6.raw f6
 
-          for f in f1 f2 f3 f4 f5; do
+          for f in f1 f2 f3 f4 f5 f6; do
             grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
             echo
           done > candidates.txt
           echo "Всего кандидатов: $(wc -l < candidates.txt)"
 
-          # ----------------- 2. ПАРСЕР И TCP‑ПИНГ -----------------
+          # ----------------- 2. ПАРСЕР -----------------
           parse_endpoint() {
             line="$1"
             addr="${line%%#*}"
@@ -79,27 +86,36 @@ jobs:
             echo "$host $port"
           }
 
-          tcp_ok_count=0
-          rm -f tcp_ok.txt
-          i=0
+          # ----------------- 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ (xargs -P) -----------------
+          n=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            i=$((i+1))
+            n=$((n+1))
             ep=$(parse_endpoint "$line")
             h=$(echo "$ep" | awk '{print $1}')
             p=$(echo "$ep" | awk '{print $2}')
-            if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
-              echo "$line" >> tcp_ok.txt
-              tcp_ok_count=$((tcp_ok_count+1))
-            fi
-          done < candidates.txt
-          echo "TCP прошли: $tcp_ok_count"
+            echo "$n $h $p $line"
+          done < candidates.txt > tcp_input.txt
 
-          # ----------------- 3. URL‑ТЕСТ (только для прошедших TCP) -----------------
+          cat tcp_input.txt | xargs -P "$MAX_PARALLEL_TCP" -I{} bash -c '
+            set -e
+            args=({})
+            id=${args[0]}
+            host=${args[1]}
+            port=${args[2]}
+            link="${args[@]:3}"
+            if timeout 4 bash -c "echo >/dev/tcp/$host/$port" 2>/dev/null; then
+              echo "$link" >> tcp_ok.txt
+            fi
+          '
+          rm -f tcp_input.txt
+          TCP_OK_COUNT=$( [ -f tcp_ok.txt ] && wc -l < tcp_ok.txt || echo 0 )
+          echo "TCP прошли: $TCP_OK_COUNT"
+
+          # ----------------- 4. URL‑ТЕСТ (параллельный с MAX_PARALLEL_URL) -----------------
           url_test() {
             set +e
             link="$1"; id="$2"
-            # Извлекаем протокол, хост, порт тем же парсером
             addr="${link%%#*}"
             proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
             ep=$(parse_endpoint "$link")
@@ -107,7 +123,6 @@ jobs:
             p=$(echo "$ep" | awk '{print $2}')
             socks_port=$((30000 + id))
 
-            # Генерация outbound: пробуем sing-box parse, если нет – fallback
             outbound_json=$(sing-box parse "$link" --format json 2>/dev/null) || true
             if [ -z "$outbound_json" ]; then
               case "$proto" in
@@ -151,6 +166,7 @@ jobs:
                 echo "fail_config" > "url_$id"
                 return 0
               }
+
             sing-box run -c "/tmp/sb_$id.json" &
             sb_pid=$!
             started=0
@@ -176,38 +192,35 @@ jobs:
             return 0
           }
 
-          mkdir -p url_res
+          rm -f url_*
           i=0
-          if [ "$tcp_ok_count" -gt 0 ]; then
-            while IFS= read -r line; do
-              i=$((i+1))
-              while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL" ]; do sleep 0.2; done
-              (
-                url_test "$line" "$i"
-              ) &
-            done < tcp_ok.txt
-          fi
+          while IFS= read -r line; do
+            i=$((i+1))
+            while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL_URL" ]; do sleep 0.2; done
+            (
+              url_test "$line" "$i"
+            ) &
+          done < tcp_ok.txt
           wait
 
           # Сбор результатов URL-теста
           rm -f merged_vpn_subscription
           i=0
-          if [ "$tcp_ok_count" -gt 0 ]; then
-            while read -r line; do
-              i=$((i+1))
-              res=$(cat "url_$i" 2>/dev/null || echo "fail")
-              if echo "$res" | grep -q '^ok'; then
-                echo "$line" >> merged_vpn_subscription
-              fi
-            done < tcp_ok.txt
-          fi
+          while IFS= read -r line; do
+            i=$((i+1))
+            res=$(cat "url_$i" 2>/dev/null || echo "fail")
+            if echo "$res" | grep -q '^ok'; then
+              echo "$line" >> merged_vpn_subscription
+            fi
+          done < tcp_ok.txt
+
           sort -u -o merged_vpn_subscription merged_vpn_subscription
           [ -s merged_vpn_subscription ] || printf "# Все серверы недоступны\n" > merged_vpn_subscription
           echo "URL ok: $(wc -l < merged_vpn_subscription)"
 
           # Очистка
-          rm -f f1 f2 f3 f4 f5 f1.raw f2.raw f3.raw f4.raw f5.raw candidates.txt tcp_ok.txt url_*
-          
+          rm -f f1 f2 f3 f4 f5 f6 f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw candidates.txt tcp_ok.txt url_*
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
@@ -216,5 +229,5 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes"
           else
-            git commit -m "Автообновление (TCP+URL-Test)" && git push
+            git commit -m "Автообновление (TCP+URL-Test, 6 источников)" && git push
           fi
