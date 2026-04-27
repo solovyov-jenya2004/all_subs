@@ -1,8 +1,8 @@
-name: Обновление прокси (xray-knife, финальная версия)
+name: Обновление прокси (финальный)
 
 on:
   schedule:
-    - cron: '0 * * * *'   # каждый час
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,9 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать, декодировать и объединить подписки
+      # ------------------------------------------------------
+      # 1. Загрузка, декодирование, фильтр LTE, сбор в raw.txt
+      # ------------------------------------------------------
+      - name: Скачать и объединить подписки
         run: |
-          > raw.txt
           process() {
             local url="$1"
             local tmp=$(mktemp)
@@ -29,7 +31,7 @@ jobs:
             rm -f "$tmp"
           }
 
-          echo "Скачиваю основные подписки..."
+          > raw.txt
           for url in \
             "http://sub.obbhod.online/premium" \
             "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" \
@@ -37,16 +39,113 @@ jobs:
             "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" \
             "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
           do
+            echo "Загружаю: $url"
             process "$url" >> raw.txt
             echo "" >> raw.txt
           done
 
-          echo "Скачиваю шестую подписку с фильтром LTE..."
+          echo "Загружаю 6-ю подписку с фильтром LTE..."
           process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" | grep -i "LTE" >> raw.txt
           echo "" >> raw.txt
 
           echo "Строк в raw.txt: $(wc -l < raw.txt)"
 
+      # ------------------------------------------------------
+      # 2. Очистка и умная дедупликация (игнорируем name/remarks/ps/…)
+      # ------------------------------------------------------
+      - name: Очистить и дедуплицировать
+        run: |
+          # Удаляем комментарии, пустые строки, \r
+          grep -a -v '^\s*#' raw.txt | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' > clean.txt
+
+          # Дедупликация: сравниваем URI с удалёнными незначащими query-параметрами
+          awk -F'#' '{
+            uri = $1;
+            # Удаляем параметры name, remarks, ps, tag, note, remark
+            gsub(/[?&](name|remarks|ps|tag|note|remark)=[^&]*/, "", uri);
+            gsub(/&$/, "", uri);
+            gsub(/\?$/, "", uri);
+            if (!seen[uri]++) print $0
+          }' clean.txt > deduped.txt
+
+          echo "После дедупликации: $(wc -l < deduped.txt) уникальных конфигов"
+
+      # ------------------------------------------------------
+      # 3. Параллельный TCP-пинг (универсальный base64-парсер)
+      # ------------------------------------------------------
+      - name: Установить jq (для vmess)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq jq
+
+      - name: TCP-пинг (отсев недоступных)
+        run: |
+          parse_ep() {
+            line="$1"
+            addr="${line%%#*}"
+            proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
+            encoded="${addr#*://}"
+
+            # vmess: всегда base64-json
+            if [ "$proto" = "vmess" ]; then
+              decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
+              if [ -n "$decoded" ]; then
+                host=$(echo "$decoded" | jq -r '.add // empty')
+                port=$(echo "$decoded" | jq -r '.port // empty')
+                echo "$host $port"
+                return
+              fi
+            fi
+
+            # Для всех остальных протоколов:
+            # Шаг 1: если нет '@' – пробуем decode base64
+            if ! echo "$encoded" | grep -q '@'; then
+              decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
+              if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
+                encoded="$decoded"
+              elif [ -n "$decoded" ]; then
+                # Декодировали, но '@' не появился – считаем decoded чистым хостом:порт?…
+                encoded="$decoded"
+              fi
+            fi
+
+            # Теперь из encoded извлекаем хост:порт
+            if echo "$encoded" | grep -q '@'; then
+              after_at="${encoded#*@}"
+            else
+              after_at="$encoded"
+            fi
+
+            hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
+            host=$(echo "$hostport" | awk -F: '{print $1}')
+            port=$(echo "$hostport" | awk -F: '{print $2}')
+            [ -z "$port" ] && port=443
+            echo "$host $port"
+          }
+
+          rm -f tcp_ok.txt
+          i=0
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            i=$((i+1))
+            while [ "$(jobs -r | wc -l)" -ge 20 ]; do sleep 0.1; done
+            (
+              ep=$(parse_ep "$line")
+              h=$(echo "$ep" | awk '{print $1}')
+              p=$(echo "$ep" | awk '{print $2}')
+              if [ -z "$p" ]; then p=443; fi
+              if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
+                echo "TCP Ссылка $i: OK" >&2
+                echo "$line" >> tcp_ok.txt
+              else
+                echo "TCP Ссылка $i: FAIL" >&2
+              fi
+            ) &
+          done < deduped.txt
+          wait
+          echo "После TCP-пинга: $(wc -l < tcp_ok.txt) живых"
+
+      # ------------------------------------------------------
+      # 4. Установка xray-knife
+      # ------------------------------------------------------
       - name: Установить xray-knife
         run: |
           wget -q https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
@@ -54,26 +153,32 @@ jobs:
           chmod +x xray-knife-dir/xray-knife
           echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
-      - name: Тестирование (TCP + URL) и сортировка
+      # ------------------------------------------------------
+      # 5. URL-тест и сортировка по задержке
+      # ------------------------------------------------------
+      - name: URL-тест и сортировка
         run: |
           xray-knife http \
-            -f raw.txt \
-            -t 20 \
+            -f tcp_ok.txt \
+            -t 10 \
             -d 3000 \
             -u https://www.google.com/generate_204 \
             -s \
             -o final_sorted.txt
 
           if [ -s final_sorted.txt ]; then
-            echo "Работающих прокси: $(wc -l < final_sorted.txt)"
+            echo "Прошли URL-тест: $(wc -l < final_sorted.txt)"
           else
-            echo "Ни один прокси не прошёл тест. Сохраняю исходный список."
-            cp raw.txt final_sorted.txt
+            echo "Ни один не прошёл URL-тест, оставляю TCP-живых"
+            cp tcp_ok.txt final_sorted.txt
           fi
 
-      - name: Commit и push результата
+      # ------------------------------------------------------
+      # 6. Публикация результата
+      # ------------------------------------------------------
+      - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted.txt
-          git diff --staged --quiet || (git commit -m "Автообновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
+          git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
