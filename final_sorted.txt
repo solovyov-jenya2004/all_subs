@@ -1,4 +1,4 @@
-# profile-title: VPN
+vless://00000000-0000-0000-0000-000000000000@0.0.0.0:1?security=none&type=tcp&packetEncoding=xudp&encryption=none#https://t.me/ogiHelpBot
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@92.53.190.201:8880?host=www.udemy.com.joss.jak.biz.id&path=%2FFree-VPN-CF-Geo-Project%2FHK%3Fed%3D2560%26https%3A%2F%2Ft.me%2FWangCai2%F0%9F%87%A8%F0%9F%87%B3&type=ws#%5BOpenRay%5D%20%F0%9F%87%A8%F0%9F%87%A6%20CA-17320%20t.me%2Frjsxrd
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@92.53.191.201:8880?host=www.udemy.com.joss.jak.biz.id&path=%2FFree-VPN-CF-Geo-Project%2FHK%3Fed%3D2560%26https%3A%2F%2Ft.me%2FWangCai2%F0%9F%87%A8%F0%9F%87%B3&type=ws#%5BOpenRay%5D%20%F0%9F%87%A8%F0%9F%87%A6%20CA-17319%20t.me%2Frjsxrd
 vless://f6b71e78-e065-4cf8-9fbb-b9e25ff67eff@5.188.224.137:2083?type=grpc&security=reality&encryption=none&fp=chrome&pbk=J6NuOlIq3ypdTFc1TMhDDKmF8BWPnNWZq1EkxD7K-lQ&sid=6da16b1335651b38&sni=ir.ozone.ru&mode=gun&serviceName=UpdateService&authority=#🇷🇺 RU VLESS 3336%20t.me%2Frjsxrd
