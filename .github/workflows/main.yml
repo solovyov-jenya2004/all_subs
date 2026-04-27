@@ -2,7 +2,7 @@ name: VPN pipeline
 
 on:
   schedule:
-    - cron: "00 * * * *"   # каждый час
+    - cron: "0 * * * *"   # каждый час
   workflow_dispatch:
 
 jobs:
@@ -14,19 +14,9 @@ jobs:
       - uses: actions/checkout@v4
 
       # ----------------- Install tools -----------------
-      - name: Install tools
-        run: |
-          sudo apt update
-          sudo apt install -y curl jq python3 python3-pip moreutils
-
-      # ----------------- Download subconverter -----------------
-      - name: Download subconverter
-        run: |
-          git clone https://github.com/tindy2013/subconverter.git
-
-      # ----------------- Download sing-box -----------------
       - name: Установка sing-box и jq
         run: |
+          # Проверяем, установлен ли sing-box
           if command -v sing-box &>/dev/null; then
             echo "sing-box уже установлен"
           else
@@ -38,6 +28,13 @@ jobs:
             echo "sing-box установлен"
           fi
 
+          # Установка jq
+          echo "Устанавливаю jq..."
+          sudo apt-get update -qq && sudo apt-get install -y -qq jq
+          echo "jq установлен"
+
+          # Установка Python, если его нет
+          sudo apt-get install -y python3 python3-pip
 
       # ----------------- Fetch subscriptions -----------------
       - name: Fetch subscriptions
@@ -59,12 +56,7 @@ jobs:
       - name: Normalize + dedup
         run: |
           cd subconverter
-          python3 main.py \
-            -g \
-            --artifact merged \
-            --source ../merged_raw.txt \
-            --target mixed \
-            --deduplicate true
+          python3 main.py -g --artifact merged --source ../merged_raw.txt --target mixed --deduplicate true
           cp output/merged.txt ../normalized.txt
 
       # ----------------- TCP test (parallel) -----------------
