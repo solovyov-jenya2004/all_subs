@@ -65,6 +65,8 @@ jobs:
       - name: Подготовить и закодировать итоговый файл
         run: |
           cp deduped final_sorted
+          # Добавляем сверху специальную vless-ссылку и отступ
+          sed -i '1i vless://00000000-0000-0000-0000-000000000000@0.0.0.0:1?security=none&type=tcp&packetEncoding=xudp&encryption=none#https://t.me/ogiHelpBot\n' final_sorted
           echo "Строк перед кодированием: $(wc -l < final_sorted)"
           # Кодируем весь файл в одну base64-строку без переносов
           base64 -w 0 final_sorted > final_sorted.b64
