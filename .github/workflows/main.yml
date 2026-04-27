@@ -69,19 +69,18 @@ jobs:
       # -------------------------------------------------
       # 3. Тестирование (TCP + URL) одной командой
       # -------------------------------------------------
-      - name: Тестирование прокси (TCP пинг + URL тест)
+      - name: Тестирование прокси (TCP + URL) одной командой
         run: |
           xray-knife http \
             -f all_raw.txt \
-            --tcp-ping \
-            --timeout 3000 \
             --threads 20 \
+            --timeout 3000 \
             --url https://www.google.com/generate_204 \
-            --sort latency \
+            --sort \
             -o final_sorted.txt
           echo "Работающих прокси: $(wc -l < final_sorted.txt)"
 
-          # Если ни один не прошёл — сохраняем исходный список как fallback
+          # fallback если ни один не прошёл
           if [ ! -s final_sorted.txt ]; then
             cp all_raw.txt final_sorted.txt
             echo "Ни один прокси не прошёл тест, сохранён исходный список"
