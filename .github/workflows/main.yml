@@ -1,126 +1,109 @@
-name: Proxy Pipeline (Fixed)
+name: Обновление прокси (пинг + URL-тест + дедупликация)
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 * * * *'   # каждый час (по UTC)
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
-      # ==============================================
+      # -------------------------------------------------
       # 1. Скачивание, декодирование, фильтр LTE, объединение
-      # ==============================================
-      - name: Fetch, decode, filter (LTE) and merge
+      # -------------------------------------------------
+      - name: Скачать, декодировать и объединить подписки
         run: |
-          # Функция обработки: возвращает текст, пробует base64
-          process() {
-            local url=$1
-            local data
-            data=$(curl -sL --compressed --max-time 10 "$url") || return 1
-            # Пытаемся декодировать Base64; если не вышло — используем как есть
-            echo "$data" | base64 -d 2>/dev/null || echo "$data"
-          }
           > all_raw.txt
-          # Замените ссылки на свои
-          process "https://your-first-sub.com" >> all_raw.txt || echo "Failed sub1"
-          process "https://your-second-sub.com" >> all_raw.txt || echo "Failed sub2"
-          process "https://your-third-sub.com" >> all_raw.txt || echo "Failed sub3"
-          process "https://your-fourth-sub.com" >> all_raw.txt || echo "Failed sub4"
-          process "https://your-fifth-sub.com" >> all_raw.txt || echo "Failed sub5"
-          # 6-я подписка с фильтром LTE
-          process "https://your-sixth-sub.com" | grep -i "LTE" >> all_raw.txt || echo "No LTE lines"
-          
-          echo "Total lines after merge: $(wc -l < all_raw.txt)"
-          if [ ! -s all_raw.txt ]; then
-            echo "ERROR: merged file is empty"
-            exit 1
-          fi
 
-      # ==============================================
-      # 2. Установка subs-check
-      # ==============================================
-      - name: Install subs-check
+          process() {
+            local url="$1"
+            local tmp_raw=$(mktemp)
+            local tmp_dec=$(mktemp)
+
+            curl -sL --compressed "$url" > "$tmp_raw"
+
+            if base64 -d "$tmp_raw" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
+              cat "$tmp_dec"
+            else
+              cat "$tmp_raw"
+            fi
+
+            rm -f "$tmp_raw" "$tmp_dec"
+          }
+
+          echo "=== 5 основных подписок ==="
+          for url in \
+            "http://sub.obbhod.online/premium" \
+            "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" \
+            "https://key.zarazaex.xyz/sub" \
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" \
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
+          do
+            echo "  Скачиваю: $url"
+            process "$url" >> all_raw.txt
+            echo "" >> all_raw.txt
+          done
+
+          echo "=== 6-я подписка (фильтр LTE) ==="
+          process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" | grep -i "LTE" >> all_raw.txt
+          echo "" >> all_raw.txt
+
+          echo "Строк в all_raw.txt: $(wc -l < all_raw.txt)"
+
+      # -------------------------------------------------
+      # 2. Дедупликация (subs-check)
+      # -------------------------------------------------
+      - name: Установить subs-check
         run: |
           curl -L https://github.com/gadi20/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
           chmod +x subs-check
           sudo mv subs-check /usr/local/bin/
-          subs-check --version
 
-      # ==============================================
-      # 3. ДЕДУПЛИКАЦИЯ через subs-check (без тестирования)
-      # ==============================================
-      - name: Remove duplicates
+      - name: Удалить дубликаты
         run: |
-          # subs-check требует либо -u URL, либо -i файл.
-          # Используем -i для локального файла.
-          # Отключаем встроенный тест через --test-count 0 (если поддерживается) или просто не указываем URL.
-          # Если subs-check ругается, используем обходной путь: перенаправляем вывод.
-          subs-check -i all_raw.txt -o deduped.txt --test-count 0 2>&1 || {
-            echo "subs-check failed, trying alternative approach..."
-            # fallback: простая дедупликация строк (не идеально, но хоть что-то)
-            awk '!seen[$0]++' all_raw.txt > deduped.txt
-          }
-          echo "Unique proxies after dedup: $(wc -l < deduped.txt)"
-          if [ ! -s deduped.txt ]; then
-            echo "WARNING: deduped file is empty, using original"
-            cp all_raw.txt deduped.txt
-          fi
+          subs-check -i all_raw.txt -o deduped.txt --dedupe --test-url "none" || true
+          echo "Уникальных прокси после дедупликации: $(wc -l < deduped.txt)"
 
-      # ==============================================
-      # 4. Установка xray-knife
-      # ==============================================
-      - name: Install xray-knife
+      # -------------------------------------------------
+      # 3. Установка xray-knife (тестирование)
+      # -------------------------------------------------
+      - name: Установить xray-knife
         run: |
-          wget https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
+          wget -q https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
           unzip -o Xray-knife-linux-64.zip -d xray-knife-dir
           chmod +x xray-knife-dir/xray-knife
           echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
-          xray-knife --help || true
 
-      # ==============================================
-      # 5. TCP Ping test
-      # ==============================================
-      - name: TCP Ping test
+      # -------------------------------------------------
+      # 4. Двухэтапный тест (TCP пинг → URL)
+      # -------------------------------------------------
+      - name: TCP-пинг (быстрый отсев)
         run: |
-          # xray-knife net требует входной файл и выходной
-          # Если файл пуст, пропускаем
-          if [ ! -s deduped.txt ]; then
-            echo "No proxies to test, aborting"
-            exit 1
-          fi
-          xray-knife net -f deduped.txt --tcp-ping --timeout 3000 --threads 20 -o after_ping.txt || {
-            echo "xray-knife net failed, maybe no valid proxies"
-            touch after_ping.txt
-          }
-          echo "Alive after TCP ping: $(wc -l < after_ping.txt)"
+          xray-knife net -f deduped.txt --tcp-ping --timeout 3000 --threads 20 -o after_ping.txt
+          echo "Осталось после TCP-пинга: $(wc -l < after_ping.txt)"
 
-      # ==============================================
-      # 6. URL test & sort
-      # ==============================================
-      - name: URL test & sort
+      - name: URL-тест и сортировка по задержке
         run: |
-          if [ ! -s after_ping.txt ]; then
-            echo "No proxies after TCP ping, skipping URL test"
-            touch final_sorted.txt
-          else
-            xray-knife http -f after_ping.txt --threads 10 --timeout 5000 --sort latency -o final_sorted.txt || {
-              echo "xray-knife http failed"
-              cp after_ping.txt final_sorted.txt
-            }
-          fi
-          echo "Final proxies count: $(wc -l < final_sorted.txt)"
+          xray-knife http -f after_ping.txt \
+            --threads 10 \
+            --timeout 5000 \
+            --url https://www.google.com/generate_204 \
+            --sort latency \
+            -o final_sorted.txt
+          echo "Работающих прокси: $(wc -l < final_sorted.txt)"
 
-      # ==============================================
-      # 7. Сохранение результата
-      # ==============================================
-      - name: Commit and push
+      # -------------------------------------------------
+      # 5. Публикация результата
+      # -------------------------------------------------
+      - name: Commit и push итогового файла
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted.txt
-          git commit -m "Auto-update proxies: $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
-          git push
+          git diff --staged --quiet || (git commit -m "Автообновление прокси $(date -u +'%Y-%m-%d %H:%M')" && git push)
