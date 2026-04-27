@@ -64,7 +64,7 @@ jobs:
 
       - name: Подготовить итоговый файл
         run: |
-          cp deduped final_sorted
+          { echo "# profile-title: VPN"; cat deduped; echo ""; } > final_sorted
           echo "Итоговый файл final_sorted готов: $(wc -l < final_sorted) строк"
 
       - name: Commit и push
