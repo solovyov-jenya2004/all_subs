@@ -17,7 +17,7 @@ jobs:
       # ------------------------------------------------------
       # 1. Загрузка, декодирование, фильтр LTE, сбор в raw.txt
       # ------------------------------------------------------
-      - name: Скачать и объединить подписки
+      - name: Скачать и объединить подписки из sources.txt
         run: |
           process() {
             local url="$1"
@@ -32,24 +32,26 @@ jobs:
           }
 
           > raw.txt
-          for url in \
-            "http://sub.obbhod.online/premium" \
-            "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" \
-            "https://key.zarazaex.xyz/sub" \
-            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" \
-            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
-          do
-            echo "Загружаю: $url"
-            process "$url" >> raw.txt
-            echo "" >> raw.txt   # разделитель между подписками
-          done
+          while IFS= read -r line; do
+            # Удаляем пробелы в начале/конце, пропускаем пустые и комментарии
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
 
-          echo "Загружаю 6-ю подписку с фильтром LTE..."
-          process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" | grep -i "LTE" >> raw.txt
-          echo "" >> raw.txt
+            # Разбиваем на URL и фильтр (необязательный второй столбец)
+            url=$(echo "$line" | awk '{print $1}')
+            filter=$(echo "$line" | awk '{print $2}')
+
+            echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
+            if [ -n "$filter" ]; then
+              process "$url" | grep -i "$filter" >> raw.txt
+            else
+              process "$url" >> raw.txt
+            fi
+            echo "" >> raw.txt   # разделитель между подписками
+          done < sources.txt
 
           echo "Строк в raw.txt: $(wc -l < raw.txt)"
-
       # ------------------------------------------------------
       # 2. Очистка и умная дедупликация (игнорируем name/remarks/ps/…)
       # ------------------------------------------------------
@@ -191,4 +193,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted.txt
-          git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
+          if git diff --staged --quiet; then
+            echo "Нет изменений"
+          else
+            git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')"
+            # Подтягиваем изменения из удалённой ветки, при конфликте берём нашу версию
+            git pull --rebase -X theirs origin main
+            git push
+          fi
