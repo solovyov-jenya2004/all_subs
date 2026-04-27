@@ -64,7 +64,9 @@ jobs:
 
       - name: Подготовить итоговый файл
         run: |
-          { echo "# profile-title: VPN"; cat deduped; echo ""; } > final_sorted
+          cp deduped final_sorted
+          # Удаляем все BOM (EF BB BF) из итогового файла
+          sed -i 's/\xEF\xBB\xBF//g' final_sorted
           echo "Итоговый файл final_sorted готов: $(wc -l < final_sorted) строк"
 
       - name: Commit и push
