@@ -2,7 +2,7 @@ name: VPN pipeline
 
 on:
   schedule:
-    - cron: "0 * * * *"   # каждый час
+    - cron: "00 * * * *"   # каждый час
   workflow_dispatch:
 
 jobs:
@@ -58,13 +58,14 @@ jobs:
       # ----------------- Normalize + deduplicate -----------------
       - name: Normalize + dedup
         run: |
-          python3 subconverter/subconverter.py \
+          cd subconverter
+          python3 main.py \
             -g \
             --artifact merged \
-            --source merged_raw.txt \
+            --source ../merged_raw.txt \
             --target mixed \
             --deduplicate true
-          cp subconverter/output/merged.txt normalized.txt
+          cp output/merged.txt ../normalized.txt
 
       # ----------------- TCP test (parallel) -----------------
       - name: TCP test
