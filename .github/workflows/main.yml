@@ -64,8 +64,14 @@ jobs:
 
       - name: Подготовить итоговый файл
         run: |
-          cp deduped final_sorted
-          echo "Итоговый файл final_sorted готов: $(wc -l < final_sorted) строк"
+          if [ -s deduped.txt ]; then
+            cp deduped.txt final_sorted.txt
+          else
+            cp raw.txt final_sorted.txt
+          fi
+          # Очистка от BOM, пробелов по краям и пустых строк
+          sed -i -e '1s/^\xEF\xBB\xBF//' -e 's/^[[:space:]]*//; s/[[:space:]]*$//; /^$/d' final_sorted.txt
+          echo "Итоговый файл final_sorted.txt готов: $(wc -l < final_sorted.txt) строк"
 
       - name: Commit и push
         run: |
