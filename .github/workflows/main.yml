@@ -62,12 +62,14 @@ jobs:
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
 
-      - name: Подготовить итоговый файл
+      - name: Подготовить и закодировать итоговый файл
         run: |
           cp deduped final_sorted
-          # Удаляем все BOM (EF BB BF) из итогового файла
-          sed -i 's/\xEF\xBB\xBF//g' final_sorted
-          echo "Итоговый файл final_sorted готов: $(wc -l < final_sorted) строк"
+          echo "Строк перед кодированием: $(wc -l < final_sorted)"
+          # Кодируем весь файл в одну base64-строку без переносов
+          base64 -w 0 final_sorted > final_sorted.b64
+          mv final_sorted.b64 final_sorted
+          echo "Файл закодирован в base64, размер: $(wc -c < final_sorted) байт"
 
       - name: Commit и push
         run: |
