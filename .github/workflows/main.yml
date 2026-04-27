@@ -1,4 +1,4 @@
-name: Обновление VPN подписок с URL-Test
+name: Proxy Pipeline (Ready-made tools, no custom dedup)
 
 on:
   schedule:
@@ -6,264 +6,80 @@ on:
   workflow_dispatch:
 
 jobs:
-  merge-and-commit:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      TEST_URL: "http://cp.cloudflare.com:80"
-      MAX_PARALLEL_TCP: 20
-      MAX_PARALLEL_URL: 8
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Установка sing-box и jq
+      # ==============================================
+      # 1. Скачивание, декодирование, фильтр LTE, объединение
+      # ==============================================
+      - name: Fetch, decode, filter (LTE) and merge
         run: |
-          if command -v sing-box &>/dev/null; then
-            echo "sing-box уже установлен"
-          else
-            echo "Устанавливаю sing-box..."
-            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
-            tar xzf sing-box.tar.gz
-            sudo mv sing-box-*/sing-box /usr/local/bin/
-            rm -rf sing-box*
-            echo "sing-box установлен"
-          fi
-          echo "Устанавливаю jq..."
-          sudo apt-get update -qq && sudo apt-get install -y -qq jq
-          echo "jq установлен"
+          # Функция обработки подписки
+          process() {
+            local url=$1
+            local filter=$2
+            # Скачиваем, пробуем декодировать Base64, чистим кривые символы
+            curl -sL --compressed "$url" | base64 -d 2>/dev/null | iconv -f UTF-8 -t UTF-8//IGNORE || \
+            curl -sL --compressed "$url" | iconv -f UTF-8 -t UTF-8//IGNORE
+          }
+          > all_raw.txt
+          # Первые 5 подписок – без фильтра
+          process "https://ВАША_ПОДПИСКА_1" "" >> all_raw.txt
+          process "https://ВАША_ПОДПИСКА_2" "" >> all_raw.txt
+          process "https://ВАША_ПОДПИСКА_3" "" >> all_raw.txt
+          process "https://ВАША_ПОДПИСКА_4" "" >> all_raw.txt
+          process "https://ВАША_ПОДПИСКА_5" "" >> all_raw.txt
+          # 6-я подписка – фильтр по слову LTE (без учёта регистра)
+          process "https://ВАША_ПОДПИСКА_6" "" | grep -i "LTE" >> all_raw.txt
+          echo "Total lines after merge: $(wc -l < all_raw.txt)"
 
-      - name: Скачать, очистить, TCP+URL‑Test, объединить (LTE‑фильтр для f6)
+      # ==============================================
+      # 2. ДЕДУПЛИКАЦИЯ через готовый subs-check
+      # ==============================================
+      - name: Install subs-check (dedup tool)
         run: |
-          # ----------------- 1. ЗАГРУЗКА И ОЧИСТКА -----------------
-          echo "===== 1. СКАЧИВАНИЕ ПОДПИСОК ====="
-          urls=(
-            "http://sub.obbhod.online/premium"
-            "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
-            "https://key.zarazaex.xyz/sub"
-            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
-            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
-            "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt"
-          )
-          for i in "${!urls[@]}"; do
-            num=$((i+1))
-            echo "  Скачиваю подписку $num: ${urls[$i]}"
-            if curl -Lo "f${num}.raw" "${urls[$i]}" 2>/dev/null; then
-              echo "    Подписка $num скачана успешно ($(wc -c < "f${num}.raw") байт)"
-            else
-              echo "    ОШИБКА скачивания подписки $num"
-            fi
-          done
+          curl -L https://github.com/gadi20/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
+          chmod +x subs-check
+          sudo mv subs-check /usr/local/bin/
 
-          echo "  Очистка от \\r..."
-          for f in f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw; do
-            [ -f "$f" ] && tr -d '\r' < "$f" > "$f.t" && mv "$f.t" "$f"
-          done
+      - name: Remove duplicates (smart dedup)
+        run: |
+          # subs-check умеет удалять дубликаты, учитывая реальные параметры прокси
+          subs-check -i all_raw.txt -o deduped.txt --dedupe --test-url "none" || true
+          echo "Unique proxies after dedup: $(wc -l < deduped.txt)"
 
-          decode() { base64 -d "$1" > "$2" 2>/dev/null && [ -s "$2" ] || cp "$1" "$2"; }
-          for i in 1 2 3 4 5 6; do
-            decode "f${i}.raw" "f${i}"
-          done
+      # ==============================================
+      # 3. Установка xray-knife (тестирование)
+      # ==============================================
+      - name: Install xray-knife
+        run: |
+          wget https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
+          unzip -o Xray-knife-linux-64.zip -d xray-knife-dir
+          chmod +x xray-knife-dir/xray-knife
+          echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
-          echo "  Удаляю комментарии и пустые строки (для f6 – только строки с 'LTE')..."
-          for f in f1 f2 f3 f4 f5; do
-            grep -a -v '^\s*#' "$f" | grep -a -v '^\s*//' | sed '/^\s*$/d'
-            echo
-          done > candidates.txt
+      # ==============================================
+      # 4. Двухэтапное тестирование (Ping → URL)
+      # ==============================================
+      - name: TCP Ping test
+        run: |
+          xray-knife net -f deduped.txt --tcp-ping --timeout 3000 --threads 20 -o after_ping.txt
+          echo "Alive after TCP ping: $(wc -l < after_ping.txt)"
 
-          grep -a -i 'LTE' f6 | grep -a -v '^\s*#' | grep -a -v '^\s*//' | sed '/^\s*$/d' >> candidates.txt
-          echo >> candidates.txt
+      - name: URL test & sort by latency
+        run: |
+          xray-knife http -f after_ping.txt --threads 10 --timeout 5000 --sort latency -o final_sorted.txt
+          echo "Fully working proxies: $(wc -l < final_sorted.txt)"
 
-          CANDIDATES=$(wc -l < candidates.txt)
-          echo "===== 2. ВСЕГО КАНДИДАТОВ: $CANDIDATES ====="
-
-          # ----------------- ПАРСЕР -----------------
-          parse_endpoint() {
-            line="$1"
-            addr="${line%%#*}"
-            proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
-            encoded="${addr#*://}"
-            if echo "$encoded" | grep -q '@'; then
-              after_at="${encoded#*@}"
-              hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
-              host=$(echo "$hostport" | awk -F: '{print $1}')
-              port=$(echo "$hostport" | awk -F: '{print $2}')
-            else
-              decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
-              if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
-                after_at="${decoded#*@}"
-                hostport=$(echo "$after_at" | awk -F'[/?]' '{print $1}')
-                host=$(echo "$hostport" | awk -F: '{print $1}')
-                port=$(echo "$hostport" | awk -F: '{print $2}')
-              else
-                hostport=$(echo "$encoded" | awk -F'[/?]' '{print $1}')
-                host=$(echo "$hostport" | awk -F: '{print $1}')
-                port=$(echo "$hostport" | awk -F: '{print $2}')
-              fi
-            fi
-            [ -z "$port" ] && port=443
-            echo "$host $port"
-          }
-
-                    echo "===== 3. ПАРАЛЛЕЛЬНЫЙ TCP-ПИНГ ====="
-          rm -f tcp_ok.txt
-          i=0
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            i=$((i+1))
-            while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL_TCP" ]; do sleep 0.1; done
-            (
-              exec 1>&2   # вывод сразу в stderr, без буфера
-              ep=$(parse_endpoint "$line")
-              h=$(echo "$ep" | awk '{print $1}')
-              p=$(echo "$ep" | awk '{print $2}')
-              if timeout 4 bash -c "echo >/dev/tcp/$h/$p" 2>/dev/null; then
-                echo "TCP Ссылка $i: OK"
-                echo "$line" >> tcp_ok.txt
-              else
-                echo "TCP Ссылка $i: FAIL"
-              fi
-            ) &
-          done < candidates.txt
-          wait
-          TCP_OK=$( [ -f tcp_ok.txt ] && wc -l < tcp_ok.txt || echo 0 )
-          TCP_FAIL=$((CANDIDATES - TCP_OK))
-          echo "  TCP-пинг завершён. Прошло: $TCP_OK, не прошло: $TCP_FAIL"
-
-          # ----------------- URL-ТЕСТ (вывод в реальном времени) -----------------
-          url_test() {
-            set +e
-            exec 1>&2   # весь дальнейший stdout пойдёт в stderr (не буферизуется)
-            link="$1"; id="$2"
-            addr="${link%%#*}"
-            proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
-            ep=$(parse_endpoint "$link")
-            h=$(echo "$ep" | awk '{print $1}')
-            p=$(echo "$ep" | awk '{print $2}')
-            socks_port=$((30000 + id))
-
-            reason=""
-            outbound_json=$(sing-box parse "$link" --format json 2>/dev/null) || true
-            if [ -z "$outbound_json" ]; then
-              case "$proto" in
-                ss|ssr)
-                  encoded="${addr#*://}"
-                  if echo "$encoded" | grep -q '@'; then
-                    decoded="$encoded"
-                  else
-                    decoded=$(echo "$encoded" | base64 -d 2>/dev/null) || true
-                  fi
-                  method=$(echo "$decoded" | cut -d: -f1)
-                  password=$(echo "$decoded" | cut -d: -f2)
-                  if [ -n "$method" ] && [ -n "$password" ]; then
-                    outbound_json=$(jq -n \
-                      --arg method "$method" \
-                      --arg password "$password" \
-                      --arg server "$h" \
-                      --argjson port $p \
-                      '{type: "shadowsocks", tag: "proxy", method: $method, password: $password, server: $server, server_port: $port}')
-                  fi
-                  ;;
-                trojan|vless|vmess|hysteria|hysteria2|hy2|tuic)
-                  outbound_json=$(jq -n \
-                    --arg type "$proto" \
-                    --arg server "$h" \
-                    --argjson port $p \
-                    '{type: $type, tag: "proxy", server: $server, server_port: $port}')
-                  ;;
-              esac
-            fi
-
-            if [ -z "$outbound_json" ]; then
-              reason="parse_error"
-            else
-              jq -n \
-                --argjson outbound "$outbound_json" \
-                --argjson socks_port $socks_port \
-                '{log: {level: "error"}, inbounds: [{type: "socks", tag: "socks-in", listen: "127.0.0.1", listen_port: $socks_port}], outbounds: [$outbound]}' \
-                > "/tmp/sb_$id.json" 2>/dev/null
-              if [ $? -ne 0 ]; then
-                reason="config_error"
-              else
-                sing-box run -c "/tmp/sb_$id.json" &
-                sb_pid=$!
-                started=0
-                for try in $(seq 1 15); do
-                  if ss -tln | grep -q ":$socks_port"; then started=1; break; fi
-                  sleep 0.1
-                done
-                if [ $started -eq 0 ]; then
-                  kill $sb_pid 2>/dev/null
-                  reason="singbox_start_fail"
-                else
-                  result=$(curl --socks5-hostname 127.0.0.1:$socks_port --max-time 8 -o /dev/null -s -w '%{http_code} %{time_total}' "$TEST_URL" 2>/dev/null)
-                  kill $sb_pid 2>/dev/null; wait $sb_pid 2>/dev/null
-                  http_code=$(echo "$result" | awk '{print $1}')
-                  time_total=$(echo "$result" | awk '{print $2}')
-                  if [ "$http_code" = "200" ]; then
-                    reason="OK ${time_total}s"
-                  else
-                    reason="HTTP_${http_code}"
-                  fi
-                fi
-              fi
-            fi
-
-            # Мгновенный вывод в реальном времени (stderr не буферизуется)
-            echo "Ссылка $id: $reason"
-            # Запись результата для итогового сбора
-            if [[ $reason == OK* ]]; then
-              echo "ok" > "url_$id"
-            else
-              echo "fail" > "url_$id"
-            fi
-            return 0
-          }
-
-          echo "===== 4. URL-ТЕСТ (sing-box) ====="
-          rm -f url_*
-          i=0
-          while IFS= read -r line; do
-            i=$((i+1))
-            while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL_URL" ]; do sleep 0.2; done
-            (
-              url_test "$line" "$i"
-            ) &
-          done < tcp_ok.txt
-          wait
-
-          # Сбор итогового файла
-          rm -f merged_vpn_subscription
-          i=0
-          while IFS= read -r line; do
-            i=$((i+1))
-            res=$(cat "url_$i" 2>/dev/null)
-            if [[ $res == ok ]]; then
-              echo "$line" >> merged_vpn_subscription
-            fi
-          done < tcp_ok.txt
-
-          URL_OK=$( [ -f merged_vpn_subscription ] && wc -l < merged_vpn_subscription || echo 0 )
-          URL_FAIL=$((TCP_OK - URL_OK))
-          echo "  URL-тест завершён. Прошло: $URL_OK, не прошло: $URL_FAIL"
-
-          sort -u -o merged_vpn_subscription merged_vpn_subscription
-          [ -s merged_vpn_subscription ] || printf "# Все серверы недоступны\n" > merged_vpn_subscription
-          echo "===== 5. ИТОГОВЫЙ ФАЙЛ: $(wc -l < merged_vpn_subscription) уникальных серверов ====="
-
-          # Очистка
-          rm -f f1 f2 f3 f4 f5 f6 f1.raw f2.raw f3.raw f4.raw f5.raw f6.raw candidates.txt tcp_ok.txt url_*
-
-      - name: Commit and push if changed
+      # ==============================================
+      # 5. Сохранение результата в репозиторий
+      # ==============================================
+      - name: Commit and push final subscription
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add merged_vpn_subscription
-          if git diff --staged --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Автообновление (TCP+URL-Test, LTE-фильтр)" && git push
-          fi
+          git add final_sorted.txt
+          git commit -m "Auto-update proxies: $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
+          git push
