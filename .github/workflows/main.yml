@@ -44,7 +44,14 @@ jobs:
             data=$(curl -s --max-time 4 "$url")
             decoded=$(echo "$data" | base64 -d 2>/dev/null || echo "$data")
             if [ "$i" -eq 6 ]; then
-              echo -e "$(echo "$decoded" | grep -i lte)\n\n" >> merged_raw.txt
+              # Исправляем Broken pipe: сначала сохраняем результат grep
+              filtered=$(echo "$decoded" | grep -i lte || true)
+              if [ -n "$filtered" ]; then
+                echo -e "$filtered\n\n" >> merged_raw.txt
+              else
+                # Если ничего не найдено, пишем пустую строку (или можно пропустить)
+                echo -e "\n\n" >> merged_raw.txt
+              fi
             else
               echo -e "$decoded\n\n" >> merged_raw.txt
             fi
@@ -55,11 +62,20 @@ jobs:
       - name: Normalize + dedup
         run: |
           VER="v0.9.0"  # замените на актуальную версию при необходимости
-          wget -q "https://github.com/tindy2013/subconverter/releases/download/${VER}/subconverter_linux64.tar.gz" -O subconverter.tar.gz
+          wget -q "https://github.com/tindy2013/subconverter/releases/download/${VER}/subconverter_${VER}_linux64.tar.gz" -O subconverter.tar.gz
           tar xzf subconverter.tar.gz
           chmod +x subconverter/subconverter
-          ./subconverter/subconverter -g --artifact merged --source merged_raw.txt --target mixed --deduplicate true
-          cp subconverter/output/merged.txt ./normalized.txt
+
+          # Создаём временный pref.toml с артефактом "merged" (если хочется использовать --artifact)
+          # Но проще запустить без --artifact, напрямую с нужными флагами:
+          ./subconverter/subconverter -g \
+            --source merged_raw.txt \
+            --target mixed \
+            --deduplicate \
+            --output output/merged.txt
+
+          # Результат будет в output/merged.txt (если output не указан, он по умолчанию ./output/)
+          cp output/merged.txt ./normalized.txt
 
       # ----------------- TCP test (parallel) -----------------
       - name: TCP test
