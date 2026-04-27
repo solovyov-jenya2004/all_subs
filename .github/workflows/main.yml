@@ -1,132 +1,79 @@
-name: VPN pipeline
+name: Обновление прокси (xray-knife, финальная версия)
 
 on:
   schedule:
-    - cron: "0 * * * *"   # каждый час
+    - cron: '0 * * * *'   # каждый час
   workflow_dispatch:
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      # ----------------- Checkout main repo -----------------
       - uses: actions/checkout@v4
 
-      # ----------------- Checkout Subconverter -----------------
-      - name: Checkout Subconverter
-        uses: actions/checkout@v4
-        with:
-          repository: tindy2013/subconverter
-          path: subconverter
-
-      # ----------------- Install tools -----------------
-      - name: Установка sing-box и jq
+      - name: Скачать, декодировать и объединить подписки
         run: |
-          if command -v sing-box &>/dev/null; then
-            echo "sing-box уже установлен"
-          else
-            echo "Устанавливаю sing-box..."
-            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
-            tar xzf sing-box.tar.gz
-            sudo mv sing-box-*/sing-box /usr/local/bin/
-            rm -rf sing-box*
-            echo "sing-box установлен"
-          fi
-          sudo apt-get update -qq && sudo apt-get install -y -qq jq python3 python3-pip
-
-      # ----------------- Fetch subscriptions -----------------
-      - name: Fetch subscriptions
-        run: |
-          rm -f merged_raw.txt
-          i=1
-          while read url; do
-            data=$(curl -s --max-time 4 "$url")
-            decoded=$(echo "$data" | base64 -d 2>/dev/null || echo "$data")
-            if [ "$i" -eq 6 ]; then
-              # Исправляем Broken pipe: сначала сохраняем результат grep
-              filtered=$(echo "$decoded" | grep -i lte || true)
-              if [ -n "$filtered" ]; then
-                echo -e "$filtered\n\n" >> merged_raw.txt
-              else
-                # Если ничего не найдено, пишем пустую строку (или можно пропустить)
-                echo -e "\n\n" >> merged_raw.txt
-              fi
+          > raw.txt
+          process() {
+            local url="$1"
+            local tmp=$(mktemp)
+            curl -sL --compressed "$url" > "$tmp"
+            if base64 -d "$tmp" >/dev/null 2>&1; then
+              base64 -d "$tmp"
             else
-              echo -e "$decoded\n\n" >> merged_raw.txt
+              cat "$tmp"
             fi
-            i=$((i+1))
-          done < sources.txt
+            rm -f "$tmp"
+          }
 
-      # ----------------- Normalize + deduplicate -----------------
-      - name: Normalize + dedup
+          echo "Скачиваю основные подписки..."
+          for url in \
+            "http://sub.obbhod.online/premium" \
+            "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" \
+            "https://key.zarazaex.xyz/sub" \
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" \
+            "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
+          do
+            process "$url" >> raw.txt
+            echo "" >> raw.txt
+          done
+
+          echo "Скачиваю шестую подписку с фильтром LTE..."
+          process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" | grep -i "LTE" >> raw.txt
+          echo "" >> raw.txt
+
+          echo "Строк в raw.txt: $(wc -l < raw.txt)"
+
+      - name: Установить xray-knife
         run: |
-          VER="v0.9.0"  # замените на актуальную версию при необходимости
-          wget -q "https://github.com/tindy2013/subconverter/releases/download/${VER}/subconverter_linux64.tar.gz" -O subconverter.tar.gz
-          tar xzf subconverter.tar.gz
-          chmod +x subconverter/subconverter
+          wget -q https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
+          unzip -o Xray-knife-linux-64.zip -d xray-knife-dir
+          chmod +x xray-knife-dir/xray-knife
+          echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
-          # Создаём временный pref.toml с артефактом "merged" (если хочется использовать --artifact)
-          # Но проще запустить без --artifact, напрямую с нужными флагами:
-          ./subconverter/subconverter -g \
-            --source merged_raw.txt \
-            --target mixed \
-            --deduplicate \
-            --output output/merged.txt
-
-          # Результат будет в output/merged.txt (если output не указан, он по умолчанию ./output/)
-          cp output/merged.txt ./normalized.txt
-
-      # ----------------- TCP test (parallel) -----------------
-      - name: TCP test
+      - name: Тестирование (TCP + URL) и сортировка
         run: |
-          rm -f tcp_alive.txt
-          cat normalized.txt | xargs -I {} -P 50 bash -c '
-            line="{}"
-            host=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\1/p")
-            port=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\2/p")
-            if [ -n "$host" ]; then
-              timeout 4 bash -c "</dev/tcp/$host/$port" 2>/dev/null && echo "$line"
-            fi
-          ' >> tcp_alive.txt
+          xray-knife http \
+            -f raw.txt \
+            -t 20 \
+            -d 3000 \
+            -u https://www.google.com/generate_204 \
+            -s \
+            -o final_sorted.txt
 
-      # ----------------- Build sing-box config -----------------
-      - name: Build sing-box config
-        run: |
-          jq -R -s '
-            split("\n") | map(select(length>0)) |
-            {
-              log: { level: "error" },
-              inbounds: [{
-                type: "mixed",
-                listen: "127.0.0.1",
-                listen_port: 1080
-              }],
-              outbounds: map({
-                type: "urltest",
-                tag: .,
-                url: "http://www.gstatic.com/generate_204",
-                interval: "10s",
-                tolerance: 50
-              })
-            }
-          ' tcp_alive.txt > sb.json
+          if [ -s final_sorted.txt ]; then
+            echo "Работающих прокси: $(wc -l < final_sorted.txt)"
+          else
+            echo "Ни один прокси не прошёл тест. Сохраняю исходный список."
+            cp raw.txt final_sorted.txt
+          fi
 
-      # ----------------- HTTP test -----------------
-      - name: HTTP test
+      - name: Commit и push результата
         run: |
-          timeout 60 sing-box run -c sb.json || true
-
-      # ----------------- Save result -----------------
-      - name: Save result
-        run: |
-          cp tcp_alive.txt result.txt
-
-      # ----------------- Commit -----------------
-      - name: Commit
-        run: |
-          git config user.name "bot"
-          git config user.email "bot@users.noreply.github.com"
-          git add result.txt
-          git commit -m "update" || echo "no changes"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add final_sorted.txt
+          git diff --staged --quiet || (git commit -m "Автообновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
