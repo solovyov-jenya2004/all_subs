@@ -1,51 +1,76 @@
-name: Automated Proxy Pipeline
+name: Объединение и тестирование подписок (subconverter + xray-knife)
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # Запуск каждые 6 часов
+    - cron: '00 * * * *'
   workflow_dispatch:
 
 jobs:
-  build:
+  merge_and_test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      # 1. Объединение 6 подписок, фильтрация LTE и декодирование
-      - name: Merge Subscriptions
-        run: |
-          process() {
-            local url=$1
-            local data
-            data=$(curl -sL --compressed "$url") || return 1
-            echo "$data" | base64 -d 2>/dev/null || echo "$data"
-          }
-          > all_raw.txt
-          process "http://sub.obbhod.online/premium" "" >> all_raw.txt
-          process "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" "" >> all_raw.txt
-          process "https://key.zarazaex.xyz/sub" "" >> all_raw.txt
-          process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" "" >> all_raw.txt
-          process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" "" >> all_raw.txt
-          process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" "" | grep -i "LTE" >> all_raw.txt
+    # 1. Объединение подписок через subconverter
+    - name: Запуск subconverter через Docker
+      run: |
+        docker run -d -p 25500:25500 --name subconverter tindy2013/subconverter:latest
+        sleep 5
 
-      # 2. Install subs-check
-      - name: Install subs-check
-        run: |
-          curl -L https://github.com/rebecaachambers/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
-          chmod +x subs-check
-          sudo mv subs-check /usr/local/bin/
+    - name: Объединение 6 подписок с фильтром LTE
+      env:
+        SUB1: "http://sub.obbhod.online/premium"
+        SUB2: "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt"
+        SUB3: "https://key.zarazaex.xyz/sub"
+        SUB4: "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
+        SUB5: "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt"
+        SUB6: "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt"
+      run: |
+        # Кодируем URL-адреса
+        ENC_SUB1=$(echo -n "$SUB1" | jq -sRr @uri)
+        ENC_SUB2=$(echo -n "$SUB2" | jq -sRr @uri)
+        ENC_SUB3=$(echo -n "$SUB3" | jq -sRr @uri)
+        ENC_SUB4=$(echo -n "$SUB4" | jq -sRr @uri)
+        ENC_SUB5=$(echo -n "$SUB5" | jq -sRr @uri)
+        ENC_SUB6=$(echo -n "$SUB6" | jq -sRr @uri)
+        # Склеиваем через "|"
+        ALL_URLS="$ENC_SUB1|$ENC_SUB2|$ENC_SUB3|$ENC_SUB4|$ENC_SUB5|$ENC_SUB6"
+        # Формируем запрос к subconverter (преобразуем в Clash, чтобы xray-knife точно понял)
+        curl -s "http://localhost:25500/sub?target=clash&url=$ALL_URLS" -o merged.txt
+        echo "Объединённый файл (merged.txt) создан. Размер: $(wc -c < merged.txt) байт"
 
-      # 3. Умная дедупликация, тест и сортировка в одной команде
-      - name: Process, Test and Sort
-        run: |          
-          subs-check -i all_raw.txt -o final_sorted.txt --dedupe --sort latency
-          echo "Working proxies count: $(wc -l < final_sorted.txt)"
+    # 2. Фильтрация узлов с пометкой LTE
+    - name: Фильтрация узлов LTE
+      run: |
+        # Извлекаем строки с LTE, сохраняем остальные как есть (файл в формате Clash, поэтому парсим)
+        grep -i "LTE" merged.txt > lte_nodes.txt || echo "Узлы LTE не найдены"
+        mv lte_nodes.txt merged.txt 2>/dev/null || true
+        echo "После фильтрации: $(wc -l < merged.txt) строк"
 
-      # 4. Сохранение результата
-      - name: Commit and push result
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final_sorted.txt
-          git commit -m "Auto-update: $(date -u +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
-          git push
+    # 3. Тестирование и сортировка через xray-knife
+    - name: Установка xray-knife
+      run: |
+        wget -q https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
+        unzip -o Xray-knife-linux-64.zip -d xray-knife
+        chmod +x xray-knife/xray-knife
+        sudo mv xray-knife/xray-knife /usr/local/bin/
+
+    - name: TCP Ping тест (быстрый отсев)
+      run: |
+        xray-knife net tcp -f merged.txt --timeout 3000 -t 20 -o after_ping.txt
+        echo "Узлов после TCP ping: $(wc -l < after_ping.txt)"
+
+    - name: URL тест и сортировка по задержке
+      run: |
+        xray-knife http -f after_ping.txt -t 10 --timeout 5000 --sort -o final_sorted.txt
+        echo "Рабочих узлов: $(wc -l < final_sorted.txt)"
+
+    - name: Публикация результата
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add final_sorted.txt
+        git commit -m "Автообновление прокси: $(date -u +'%Y-%m-%d %H:%M')" || echo "Нет изменений"
+        git push
