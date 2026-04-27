@@ -64,13 +64,7 @@ jobs:
 
       - name: Подготовить итоговый файл
         run: |
-          if [ -s deduped.txt ]; then
-            cp deduped final_sorted
-          else
-            cp raw final_sorted
-          fi
-          # Очистка от BOM, пробелов по краям и пустых строк
-          sed -i -e '1s/^\xEF\xBB\xBF//' -e 's/^[[:space:]]*//; s/[[:space:]]*$//; /^$/d' final_sorted
+          cp deduped final_sorted
           echo "Итоговый файл final_sorted готов: $(wc -l < final_sorted) строк"
 
       - name: Commit и push
