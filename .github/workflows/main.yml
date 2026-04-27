@@ -1,4 +1,4 @@
-name: Proxy Pipeline (Ready-made tools, no custom dedup)
+name: Proxy Pipeline (TCP Ping + URL Test)
 
 on:
   schedule:
@@ -51,20 +51,34 @@ jobs:
           echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
       # ==============================================
-      # 4. URL test + сортировка по задержке
+      # 4. ЭТАП 1: TCP Ping Test (быстрый отсев)
+      # ==============================================
+      - name: TCP Ping test
+        run: |
+          if [ ! -s deduped.txt ]; then
+            echo "No proxies to ping, skipping"
+            touch after_ping.txt
+          else
+            # Правильные флаги: -f входной файл, -o выходной, --tcp-ping, --timeout мс, -t потоки
+            xray-knife net -f deduped.txt --tcp-ping --timeout 3000 -t 20 -o after_ping.txt
+          fi
+          echo "Alive after TCP ping: $(wc -l < after_ping.txt)"
+
+      # ==============================================
+      # 5. ЭТАП 2: URL Test & сортировка по задержке
       # ==============================================
       - name: URL test & sort by latency
         run: |
-          if [ ! -s deduped.txt ]; then
-            echo "No proxies to test, creating empty result"
+          if [ ! -s after_ping.txt ]; then
+            echo "No proxies after TCP ping, creating empty result"
             touch final_sorted.txt
           else
-            xray-knife http -f deduped.txt -t 10 --timeout 5000 --sort -o final_sorted.txt
+            xray-knife http -f after_ping.txt -t 10 --timeout 5000 --sort -o final_sorted.txt
           fi
-          echo "Working proxies count: $(wc -l < final_sorted.txt)"
+          echo "Fully working proxies: $(wc -l < final_sorted.txt)"
 
       # ==============================================
-      # 5. Сохранение результата
+      # 6. Сохранение результата
       # ==============================================
       - name: Commit and push final subscription
         run: |
