@@ -10,13 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ----------------- Checkout -----------------
+      # ----------------- Checkout main repo -----------------
       - uses: actions/checkout@v4
+
+      # ----------------- Checkout Subconverter -----------------
+      - name: Download subconverter
+        uses: actions/checkout@v4
+        with:
+          repository: tindy2013/subconverter
+          path: subconverter
 
       # ----------------- Install tools -----------------
       - name: Установка sing-box и jq
         run: |
-          # Проверяем, установлен ли sing-box
           if command -v sing-box &>/dev/null; then
             echo "sing-box уже установлен"
           else
@@ -27,13 +33,9 @@ jobs:
             rm -rf sing-box*
             echo "sing-box установлен"
           fi
-
-          # Установка jq
           echo "Устанавливаю jq..."
           sudo apt-get update -qq && sudo apt-get install -y -qq jq
           echo "jq установлен"
-
-          # Установка Python, если его нет
           sudo apt-get install -y python3 python3-pip
 
       # ----------------- Fetch subscriptions -----------------
@@ -55,6 +57,10 @@ jobs:
       # ----------------- Normalize + deduplicate -----------------
       - name: Normalize + dedup
         run: |
+          if [ ! -d subconverter ]; then
+            echo "ERROR: subconverter directory missing!"
+            exit 1
+          fi
           cd subconverter
           python3 main.py -g --artifact merged --source ../merged_raw.txt --target mixed --deduplicate true
           cp output/merged.txt ../normalized.txt
