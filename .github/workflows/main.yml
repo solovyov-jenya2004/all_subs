@@ -55,7 +55,7 @@ jobs:
       - name: Normalize + dedup
         run: |
           VER="v0.9.0"  # замените на актуальную версию при необходимости
-          wget -q "https://github.com/tindy2013/subconverter/releases/download/${VER}/subconverter_${VER}_linux64.tar.gz" -O subconverter.tar.gz
+          wget -q "https://github.com/tindy2013/subconverter/releases/download/${VER}/subconverter_linux64.tar.gz" -O subconverter.tar.gz
           tar xzf subconverter.tar.gz
           chmod +x subconverter/subconverter
           ./subconverter/subconverter -g --artifact merged --source merged_raw.txt --target mixed --deduplicate true
