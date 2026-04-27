@@ -16,13 +16,14 @@ jobs:
       # ==============================================
       - name: Fetch, decode, filter (LTE) and merge
         run: |
-          # Функция обработки подписки
+          # Функция обработки подписки (без iconv, только base64)
           process() {
             local url=$1
             local filter=$2
-            # Скачиваем, пробуем декодировать Base64, чистим кривые символы
-            curl -sL --compressed "$url" | base64 -d 2>/dev/null | iconv -f UTF-8 -t UTF-8//IGNORE || \
-            curl -sL --compressed "$url" | iconv -f UTF-8 -t UTF-8//IGNORE
+            local data
+            data=$(curl -sL --compressed "$url") || return 1
+            # Пробуем декодировать Base64, если не выходит — используем как есть
+            echo "$data" | base64 -d 2>/dev/null || echo "$data"
           }
           > all_raw.txt
           # Первые 5 подписок – без фильтра
@@ -31,14 +32,14 @@ jobs:
           process "https://key.zarazaex.xyz/sub" "" >> all_raw.txt
           process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" "" >> all_raw.txt
           process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" "" >> all_raw.txt
-          # 6-я подписка – фильтр по слову LTE (без учёта регистра)
-          process "ttps://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" "" | grep -i "LTE" >> all_raw.txt
+          # 6-я подписка – фильтр по слову LTE (исправлена ссылка)
+          process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" "" | grep -i "LTE" >> all_raw.txt
           echo "Total lines after merge: $(wc -l < all_raw.txt)"
 
       # ==============================================
-      # 2. ДЕДУПЛИКАЦИЯ через готовый subs-check
+      # 2. ДЕДУПЛИКАЦИЯ через subs-check (с флагом --unique)
       # ==============================================
-      - name: Install subs-check (dedup tool)
+      - name: Install subs-check
         run: |
           curl -L https://github.com/gadi20/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
           chmod +x subs-check
@@ -46,12 +47,15 @@ jobs:
 
       - name: Remove duplicates (smart dedup)
         run: |
-          # subs-check умеет удалять дубликаты, учитывая реальные параметры прокси
-          subs-check -i all_raw.txt -o deduped.txt --dedupe --test-url "none" || true
+          # subs-check: -i входной файл, -o выходной, --unique для дедупликации (без тестов)
+          subs-check -i all_raw.txt -o deduped.txt --unique || {
+            echo "subs-check --unique failed, fallback to sort -u"
+            sort -u all_raw.txt > deduped.txt
+          }
           echo "Unique proxies after dedup: $(wc -l < deduped.txt)"
 
       # ==============================================
-      # 3. Установка xray-knife (тестирование)
+      # 3. Установка xray-knife
       # ==============================================
       - name: Install xray-knife
         run: |
@@ -61,20 +65,20 @@ jobs:
           echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
       # ==============================================
-      # 4. Двухэтапное тестирование (Ping → URL)
+      # 4. Тестирование (только URL test, без отдельного TCP ping – xray-knife сам комбинирует)
       # ==============================================
-      - name: TCP Ping test
-        run: |
-          xray-knife net -f deduped.txt --tcp-ping --timeout 3000 --threads 20 -o after_ping.txt
-          echo "Alive after TCP ping: $(wc -l < after_ping.txt)"
-
       - name: URL test & sort by latency
         run: |
-          xray-knife http -f after_ping.txt --threads 10 --timeout 5000 --sort latency -o final_sorted.txt
-          echo "Fully working proxies: $(wc -l < final_sorted.txt)"
+          if [ ! -s deduped.txt ]; then
+            echo "No proxies to test, creating empty result"
+            touch final_sorted.txt
+          else
+            xray-knife http -f deduped.txt --threads 10 --timeout 5000 --sort latency -o final_sorted.txt
+          fi
+          echo "Working proxies count: $(wc -l < final_sorted.txt)"
 
       # ==============================================
-      # 5. Сохранение результата в репозиторий
+      # 5. Сохранение результата
       # ==============================================
       - name: Commit and push final subscription
         run: |
