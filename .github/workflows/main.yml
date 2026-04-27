@@ -25,17 +25,19 @@ jobs:
           git clone https://github.com/tindy2013/subconverter.git
 
       # ----------------- Download sing-box -----------------
-      - name: Download sing-box
+      - name: Установка sing-box и jq
         run: |
-          # Скачиваем через wget с follow redirects
-          wget -qO sb.tar.gz https://github.com/SagerNet/sing-box/releases/latest/download/sing-box-linux-amd64.tar.gz
-          # Проверяем размер файла
-          if [ ! -s sb.tar.gz ]; then
-            echo "Download failed or empty file"
-            exit 1
+          if command -v sing-box &>/dev/null; then
+            echo "sing-box уже установлен"
+          else
+            echo "Устанавливаю sing-box..."
+            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
+            tar xzf sing-box.tar.gz
+            sudo mv sing-box-*/sing-box /usr/local/bin/
+            rm -rf sing-box*
+            echo "sing-box установлен"
           fi
-          tar -xzf sb.tar.gz
-          mv sing-box*/sing-box /usr/local/bin/
+
 
       # ----------------- Fetch subscriptions -----------------
       - name: Fetch subscriptions
