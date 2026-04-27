@@ -2,7 +2,7 @@ name: VPN pipeline
 
 on:
   schedule:
-    - cron: "00 * * * *"
+    - cron: "0 * * * *"   # каждый час
   workflow_dispatch:
 
 jobs:
@@ -10,75 +10,68 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ----------------- Checkout -----------------
       - uses: actions/checkout@v4
 
+      # ----------------- Install tools -----------------
       - name: Install tools
         run: |
           sudo apt update
-          sudo apt install -y curl jq moreutils
+          sudo apt install -y curl jq python3 python3-pip moreutils
 
+      # ----------------- Download subconverter -----------------
       - name: Download subconverter
         run: |
           git clone https://github.com/tindy2013/subconverter.git
-          cd subconverter
-          chmod +x subconverter
 
+      # ----------------- Download sing-box -----------------
       - name: Download sing-box
         run: |
           curl -Lo sb.tar.gz https://github.com/SagerNet/sing-box/releases/latest/download/sing-box-linux-amd64.tar.gz
           tar -xzf sb.tar.gz
           mv sing-box*/sing-box /usr/local/bin/
 
-      # ---------- FETCH ----------
+      # ----------------- Fetch subscriptions -----------------
       - name: Fetch subscriptions
         run: |
           rm -f merged_raw.txt
           i=1
-
           while read url; do
             data=$(curl -s --max-time 4 "$url")
-
             decoded=$(echo "$data" | base64 -d 2>/dev/null || echo "$data")
-
             if [ "$i" -eq 6 ]; then
               echo -e "$(echo "$decoded" | grep -i lte)\n\n" >> merged_raw.txt
             else
               echo -e "$decoded\n\n" >> merged_raw.txt
             fi
-
             i=$((i+1))
           done < sources.txt
 
-      # ---------- NORMALIZE ----------
+      # ----------------- Normalize + deduplicate -----------------
       - name: Normalize + dedup
         run: |
-          cd subconverter
-
-          ./subconverter \
+          python3 subconverter/subconverter.py \
             -g \
             --artifact merged \
-            --source ../merged_raw.txt \
+            --source merged_raw.txt \
             --target mixed \
             --deduplicate true
+          cp subconverter/output/merged.txt normalized.txt
 
-          cp output/merged.txt ../normalized.txt
-
-      # ---------- TCP TEST (PARALLEL) ----------
+      # ----------------- TCP test (parallel) -----------------
       - name: TCP test
         run: |
           rm -f tcp_alive.txt
-
           cat normalized.txt | xargs -I {} -P 50 bash -c '
             line="{}"
             host=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\1/p")
             port=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\2/p")
-
             if [ -n "$host" ]; then
               timeout 4 bash -c "</dev/tcp/$host/$port" 2>/dev/null && echo "$line"
             fi
           ' >> tcp_alive.txt
 
-      # ---------- BUILD SING-BOX ----------
+      # ----------------- Build sing-box config -----------------
       - name: Build sing-box config
         run: |
           jq -R -s '
@@ -100,21 +93,21 @@ jobs:
             }
           ' tcp_alive.txt > sb.json
 
-      # ---------- HTTP TEST ----------
+      # ----------------- HTTP test -----------------
       - name: HTTP test
         run: |
           timeout 60 sing-box run -c sb.json || true
 
-      # ---------- SAVE ----------
+      # ----------------- Save result -----------------
       - name: Save result
         run: |
           cp tcp_alive.txt result.txt
 
+      # ----------------- Commit -----------------
       - name: Commit
         run: |
           git config user.name "bot"
           git config user.email "bot@users.noreply.github.com"
-
           git add result.txt
           git commit -m "update" || echo "no changes"
           git push
