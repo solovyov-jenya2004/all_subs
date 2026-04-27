@@ -1,8 +1,8 @@
-name: Обновление прокси (финальный)
+name: Обновление подписок с белыми списками
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '00 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
           do
             echo "Загружаю: $url"
             process "$url" >> raw.txt
-            echo "" >> raw.txt
+            echo "" >> raw.txt   # разделитель между подписками
           done
 
           echo "Загружаю 6-ю подписку с фильтром LTE..."
@@ -61,7 +61,6 @@ jobs:
           # Дедупликация: сравниваем URI с удалёнными незначащими query-параметрами
           awk -F'#' '{
             uri = $1;
-            # Удаляем параметры name, remarks, ps, tag, note, remark
             gsub(/[?&](name|remarks|ps|tag|note|remark)=[^&]*/, "", uri);
             gsub(/&$/, "", uri);
             gsub(/\?$/, "", uri);
@@ -84,7 +83,6 @@ jobs:
             proto=$(echo "$addr" | sed -n 's#^\([a-z][a-z0-9]*\)://.*#\1#p')
             encoded="${addr#*://}"
 
-            # vmess: всегда base64-json
             if [ "$proto" = "vmess" ]; then
               decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
               if [ -n "$decoded" ]; then
@@ -95,19 +93,15 @@ jobs:
               fi
             fi
 
-            # Для всех остальных протоколов:
-            # Шаг 1: если нет '@' – пробуем decode base64
             if ! echo "$encoded" | grep -q '@'; then
               decoded=$(echo "$encoded" | base64 -d 2>/dev/null)
               if [ -n "$decoded" ] && echo "$decoded" | grep -q '@'; then
                 encoded="$decoded"
               elif [ -n "$decoded" ]; then
-                # Декодировали, но '@' не появился – считаем decoded чистым хостом:порт?…
                 encoded="$decoded"
               fi
             fi
 
-            # Теперь из encoded извлекаем хост:порт
             if echo "$encoded" | grep -q '@'; then
               after_at="${encoded#*@}"
             else
@@ -174,7 +168,23 @@ jobs:
           fi
 
       # ------------------------------------------------------
-      # 6. Публикация результата
+      # 6. Сохранение артефактов (все промежуточные файлы)
+      # ------------------------------------------------------
+      - name: Upload all intermediate files as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()   # сохраняем артефакты даже при ошибке
+        with:
+          name: vpn-workflow-files
+          path: |
+            raw.txt
+            clean.txt
+            deduped.txt
+            tcp_ok.txt
+            final_sorted.txt
+          retention-days: 3   # хранить 3 дня, можно изменить
+
+      # ------------------------------------------------------
+      # 7. Commit и push итогового файла в репозиторий
       # ------------------------------------------------------
       - name: Commit и push
         run: |
