@@ -67,40 +67,28 @@ jobs:
           echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
 
       # -------------------------------------------------
-      # 3. Дедупликация (встроена в xray-knife)
+      # 3. Тестирование (TCP + URL) одной командой
       # -------------------------------------------------
-      - name: Дедупликация
+      - name: Тестирование прокси (TCP пинг + URL тест)
         run: |
-          # xray-knife http умеет удалять дубликаты (--dedup)
-          # Для этого сначала сгенерируем дедуплицированный список без тестирования
-          xray-knife http -f all_raw.txt --dedup --test-url "none" -o deduped.txt 2>/dev/null || true
-          # Если не получилось (например, все строки невалидны), скопируем исходный
-          if [ ! -s deduped.txt ]; then
-            cp all_raw.txt deduped.txt
-            echo "Не удалось дедуплицировать, используем исходный файл"
-          fi
-          echo "Уникальных прокси после дедупликации: $(wc -l < deduped.txt)"
-
-      # -------------------------------------------------
-      # 4. Двухэтапный тест (TCP пинг → URL)
-      # -------------------------------------------------
-      - name: TCP-пинг (быстрый отсев)
-        run: |
-          xray-knife net tcp -f deduped.txt --timeout 3000 --threads 20 -o after_ping.txt
-          echo "Осталось после TCP-пинга: $(wc -l < after_ping.txt)"
-
-      - name: URL-тест и сортировка по задержке
-        run: |
-          xray-knife http -f after_ping.txt \
-            --threads 10 \
-            --timeout 5000 \
+          xray-knife http \
+            -f all_raw.txt \
+            --tcp-ping \
+            --timeout 3000 \
+            --threads 20 \
             --url https://www.google.com/generate_204 \
             --sort latency \
             -o final_sorted.txt
           echo "Работающих прокси: $(wc -l < final_sorted.txt)"
 
+          # Если ни один не прошёл — сохраняем исходный список как fallback
+          if [ ! -s final_sorted.txt ]; then
+            cp all_raw.txt final_sorted.txt
+            echo "Ни один прокси не прошёл тест, сохранён исходный список"
+          fi
+
       # -------------------------------------------------
-      # 5. Публикация результата
+      # 4. Публикация результата
       # -------------------------------------------------
       - name: Commit и push итогового файла
         run: |
