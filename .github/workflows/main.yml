@@ -1,8 +1,8 @@
-name: Proxy Pipeline (TCP Ping + URL Test)
+name: Automated Proxy Pipeline
 
 on:
   schedule:
-    - cron: '00 * * * *'
+    - cron: '0 */6 * * *'   # Запуск каждые 6 часов
   workflow_dispatch:
 
 jobs:
@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Объединение и фильтрация
-      - name: Fetch, decode, filter (LTE) and merge
+      # 1. Объединение 6 подписок, фильтрация LTE и декодирование
+      - name: Merge Subscriptions
         run: |
           process() {
             local url=$1
@@ -27,39 +27,25 @@ jobs:
           process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" "" >> all_raw.txt
           process "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" "" >> all_raw.txt
           process "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt" "" | grep -i "LTE" >> all_raw.txt
-          echo "Total lines after merge: $(wc -l < all_raw.txt)"
 
-      # 2. Дедупликация строк (простая)
-      - name: Deduplicate
+      # 2. Install subs-check
+      - name: Install subs-check
         run: |
-          sort -u all_raw.txt > deduped.txt
-          echo "Unique proxies after dedup: $(wc -l < deduped.txt)"
+          curl -L https://github.com/rebecaachambers/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
+          chmod +x subs-check
+          sudo mv subs-check /usr/local/bin/
 
-      # 3. Установка xray-knife
-      - name: Install xray-knife
-        run: |
-          wget https://github.com/lilendian0x00/xray-knife/releases/latest/download/Xray-knife-linux-64.zip
-          unzip -o Xray-knife-linux-64.zip -d xray-knife-dir
-          chmod +x xray-knife-dir/xray-knife
-          echo "$(pwd)/xray-knife-dir" >> $GITHUB_PATH
+      # 3. Умная дедупликация, тест и сортировка в одной команде
+      - name: Process, Test and Sort
+        run: |          
+          subs-check -i all_raw.txt -o final_sorted.txt --dedupe --sort latency
+          echo "Working proxies count: $(wc -l < final_sorted.txt)"
 
-      # 4. TCP Ping Test (через подкоманду tcp)
-      - name: TCP Ping test
-        run: |
-          xray-knife net tcp -f deduped.txt --timeout 3000 -t 20 -o after_ping.txt
-          echo "Alive after TCP ping: $(wc -l < after_ping.txt)"
-
-      # 5. URL Test & сортировка
-      - name: URL test & sort by latency
-        run: |
-          xray-knife http -f after_ping.txt -t 10 --timeout 5000 --sort -o final_sorted.txt
-          echo "Working proxies: $(wc -l < final_sorted.txt)"
-
-      # 6. Сохранение результата
-      - name: Commit and push final subscription
+      # 4. Сохранение результата
+      - name: Commit and push result
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted.txt
-          git commit -m "Auto-update proxies: $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
+          git commit -m "Auto-update: $(date -u +'%Y-%m-%d %H:%M:%S')" || echo "No changes"
           git push
