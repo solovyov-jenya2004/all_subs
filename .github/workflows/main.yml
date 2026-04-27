@@ -1,42 +1,120 @@
-name: Subs-Check Pipeline (Merge, Filter LTE, Dedup, Test, Sort)
+name: VPN pipeline
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: "00 * * * *"
   workflow_dispatch:
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install subs-check
+      - name: Install tools
         run: |
-          curl -L https://github.com/gadi20/subs-check/releases/latest/download/subs-check-linux-amd64 -o subs-check
-          chmod +x subs-check
-          sudo mv subs-check /usr/local/bin/
+          sudo apt update
+          sudo apt install -y curl jq moreutils
 
-      - name: Run subs-check (merge, filter LTE, dedupe, test, sort)
+      - name: Download subconverter
         run: |
-          subs-check merge \
-            --urls "http://sub.obbhod.online/premium" \
-            --urls "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt" \
-            --urls "https://key.zarazaex.xyz/sub" \
-            --urls "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt" \
-            --urls "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt" \
-            --urls "https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt?filter=LTE" \
-            --include "LTE" --include-url 5 \
-            --dedupe \
-            --test \
-            --sort latency \
-            --timeout 5000 \
-            --output final_sorted.txt
+          git clone https://github.com/tindy2013/subconverter.git
+          cd subconverter
+          chmod +x subconverter
 
-      - name: Commit and push result
+      - name: Download sing-box
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final_sorted.txt
-          git commit -m "Auto-update proxies: $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
+          curl -Lo sb.tar.gz https://github.com/SagerNet/sing-box/releases/latest/download/sing-box-linux-amd64.tar.gz
+          tar -xzf sb.tar.gz
+          mv sing-box*/sing-box /usr/local/bin/
+
+      # ---------- FETCH ----------
+      - name: Fetch subscriptions
+        run: |
+          rm -f merged_raw.txt
+          i=1
+
+          while read url; do
+            data=$(curl -s --max-time 4 "$url")
+
+            decoded=$(echo "$data" | base64 -d 2>/dev/null || echo "$data")
+
+            if [ "$i" -eq 6 ]; then
+              echo -e "$(echo "$decoded" | grep -i lte)\n\n" >> merged_raw.txt
+            else
+              echo -e "$decoded\n\n" >> merged_raw.txt
+            fi
+
+            i=$((i+1))
+          done < sources.txt
+
+      # ---------- NORMALIZE ----------
+      - name: Normalize + dedup
+        run: |
+          cd subconverter
+
+          ./subconverter \
+            -g \
+            --artifact merged \
+            --source ../merged_raw.txt \
+            --target mixed \
+            --deduplicate true
+
+          cp output/merged.txt ../normalized.txt
+
+      # ---------- TCP TEST (PARALLEL) ----------
+      - name: TCP test
+        run: |
+          rm -f tcp_alive.txt
+
+          cat normalized.txt | xargs -I {} -P 50 bash -c '
+            line="{}"
+            host=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\1/p")
+            port=$(echo "$line" | sed -n "s/.*@\([^:]*\):\([0-9]*\).*/\2/p")
+
+            if [ -n "$host" ]; then
+              timeout 4 bash -c "</dev/tcp/$host/$port" 2>/dev/null && echo "$line"
+            fi
+          ' >> tcp_alive.txt
+
+      # ---------- BUILD SING-BOX ----------
+      - name: Build sing-box config
+        run: |
+          jq -R -s '
+            split("\n") | map(select(length>0)) |
+            {
+              log: { level: "error" },
+              inbounds: [{
+                type: "mixed",
+                listen: "127.0.0.1",
+                listen_port: 1080
+              }],
+              outbounds: map({
+                type: "urltest",
+                tag: .,
+                url: "http://www.gstatic.com/generate_204",
+                interval: "10s",
+                tolerance: 50
+              })
+            }
+          ' tcp_alive.txt > sb.json
+
+      # ---------- HTTP TEST ----------
+      - name: HTTP test
+        run: |
+          timeout 60 sing-box run -c sb.json || true
+
+      # ---------- SAVE ----------
+      - name: Save result
+        run: |
+          cp tcp_alive.txt result.txt
+
+      - name: Commit
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@users.noreply.github.com"
+
+          git add result.txt
+          git commit -m "update" || echo "no changes"
           git push
