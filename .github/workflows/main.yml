@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # ----------------- Checkout Subconverter -----------------
-      - name: Download subconverter
+      - name: Checkout Subconverter
         uses: actions/checkout@v4
         with:
           repository: tindy2013/subconverter
@@ -33,10 +33,7 @@ jobs:
             rm -rf sing-box*
             echo "sing-box установлен"
           fi
-          echo "Устанавливаю jq..."
-          sudo apt-get update -qq && sudo apt-get install -y -qq jq
-          echo "jq установлен"
-          sudo apt-get install -y python3 python3-pip
+          sudo apt-get update -qq && sudo apt-get install -y -qq jq python3 python3-pip
 
       # ----------------- Fetch subscriptions -----------------
       - name: Fetch subscriptions
@@ -57,13 +54,13 @@ jobs:
       # ----------------- Normalize + deduplicate -----------------
       - name: Normalize + dedup
         run: |
-          if [ ! -d subconverter ]; then
-            echo "ERROR: subconverter directory missing!"
+          if [ ! -f subconverter/main.py ]; then
+            echo "ERROR: main.py не найден! Проверьте шаг checkout."
+            ls -la subconverter
             exit 1
           fi
-          cd subconverter
-          python3 main.py -g --artifact merged --source ../merged_raw.txt --target mixed --deduplicate true
-          cp output/merged.txt ../normalized.txt
+          python3 subconverter/main.py -g --artifact merged --source merged_raw.txt --target mixed --deduplicate true
+          cp subconverter/output/merged.txt ./normalized.txt
 
       # ----------------- TCP test (parallel) -----------------
       - name: TCP test
