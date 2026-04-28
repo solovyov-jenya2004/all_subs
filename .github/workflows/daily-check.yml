@@ -1,0 +1,72 @@
+name: Ежедневная проверка источников подписок
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:       # ручной запуск для теста
+
+jobs:
+  check-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Проверка всех источников из sources.txt
+        run: |
+          echo "===== ПРОВЕРКА ИСТОЧНИКОВ ПОДПИСОК ====="
+          while IFS= read -r line; do
+            # очистка пробелов и комментариев
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
+
+            url=$(echo "$line" | awk '{print $1}')
+            
+            echo ""
+            echo "➡️  Источник: $url"
+
+            # 1. Проверка доступности
+            http_code=$(curl -sS -L --max-time 30 -o /dev/null -w '%{http_code}' "$url" 2>&1)
+            curl_exit=$?
+            if [ $curl_exit -eq 0 ] && [[ "$http_code" =~ ^(2..|3..)$ ]]; then
+              echo "   ✅ ДОСТУПЕН (HTTP $http_code)"
+              accessible=true
+            else
+              echo "   ❌ НЕДОСТУПЕН (ошибка curl $curl_exit, HTTP $http_code)"
+              accessible=false
+            fi
+
+            # 2. Последнее обновление (только для GitHub)
+            if $accessible && echo "$url" | grep -qE 'github\.com|githubusercontent\.com'; then
+              # Извлекаем owner/repo/branch/path из raw URL
+              if echo "$url" | grep -q raw.githubusercontent.com; then
+                # Пример: https://raw.githubusercontent.com/owner/repo/branch/path
+                owner=$(echo "$url" | awk -F/ '{print $4}')
+                repo=$(echo "$url" | awk -F/ '{print $5}')
+                branch=$(echo "$url" | awk -F/ '{print $6}')
+                path=$(echo "$url" | awk -F/ '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+              else
+                # Обычный github.com URL (например, https://github.com/owner/repo/blob/branch/path)
+                owner=$(echo "$url" | awk -F/ '{print $4}')
+                repo=$(echo "$url" | awk -F/ '{print $5}')
+                branch=$(echo "$url" | awk -F/ '{print $7}')
+                path=$(echo "$url" | awk -F/ '{for(i=8;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+              fi
+
+              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ]; then
+                api_url="https://api.github.com/repos/$owner/$repo/commits?sha=$branch&path=$path&per_page=1"
+                echo "   🔍 Запрос к API: $api_url"
+                last_date=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url" | jq -r '.[0].commit.committer.date // "неизвестно"')
+                echo "   🕒 Последнее обновление: $last_date"
+              else
+                echo "   ⚠️  Не удалось разобрать URL GitHub"
+              fi
+            else
+              if $accessible; then
+                echo "   ℹ️  Не GitHub-ресурс, проверка обновления не производится"
+              fi
+            fi
+          done < sources.txt
+
+          echo ""
+          echo "===== ПРОВЕРКА ЗАВЕРШЕНА ====="
