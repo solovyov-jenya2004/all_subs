@@ -62,20 +62,18 @@ jobs:
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
 
-      - name: Подготовить и закодировать итоговый файл
+      - name: Подготовить итоговые файлы (plain + base64)
         run: |
           cp deduped final_sorted
-          # Добавляем сверху специальную vless-ссылку и отступ
-          sed -i '1i vless://00000000-0000-0000-0000-000000000000@0.0.0.0:1?security=none&type=tcp&packetEncoding=xudp&encryption=none#https://t.me/ogiHelpBot\n' final_sorted
-          echo "Строк перед кодированием: $(wc -l < final_sorted)"
-          # Кодируем весь файл в одну base64-строку без переносов
-          base64 -w 0 final_sorted > final_sorted.b64
-          mv final_sorted.b64 final_sorted
-          echo "Файл закодирован в base64, размер: $(wc -c < final_sorted) байт"
+          echo "final_sorted создан, строк: $(wc -l < final_sorted)"
+
+          # Кодируем в base64 в отдельный файл
+          base64 -w 0 final_sorted > final_sorted_base64
+          echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
       - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final_sorted
+          git add final_sorted final_sorted_base64
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
