@@ -1,8 +1,8 @@
-name: Сборка и дедупликация подписок
+name: Простое объединение подписок (как в начале)
 
 on:
   schedule:
-    - cron: '*/15 * * * *'   # каждые 15 минут
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,12 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать и объединить подписки
+      - name: Скачать, декодировать и объединить подписки
         run: |
           process() {
             local url="$1"
             local tmp=$(mktemp)
             curl -sL --compressed "$url" > "$tmp"
+            # Пытаемся декодировать как base64; если не получается – оставляем как есть
             if base64 -d "$tmp" >/dev/null 2>&1; then
               base64 -d "$tmp"
             else
@@ -28,8 +29,9 @@ jobs:
             rm -f "$tmp"
           }
 
-          > raw
+          > final_sorted.txt
           while IFS= read -r line; do
+            # Удаляем пробелы в начале/конце строки конфига, пропускаем пустые и комментарии
             line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
             [ -z "$line" ] && continue
             [[ "$line" =~ ^# ]] && continue
@@ -39,43 +41,18 @@ jobs:
 
             echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
             if [ -n "$filter" ]; then
-              process "$url" | grep -i "$filter" >> raw
+              process "$url" | grep -i "$filter" >> final_sorted.txt
             else
-              process "$url" >> raw
+              process "$url" >> final_sorted.txt
             fi
-            echo "" >> raw
+            echo "" >> final_sorted.txt
           done < sources.txt
 
-          echo "Строк в raw: $(wc -l < raw)"
-
-      - name: Очистить и дедуплицировать
-        run: |
-          grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' > clean
-
-          awk -F'#' '{
-            uri = $1;
-            gsub(/[?&](name|remarks|ps|tag|note|remark)=[^&]*/, "", uri);
-            gsub(/&$/, "", uri);
-            gsub(/\?$/, "", uri);
-            if (!seen[uri]++) print $0
-          }' clean > deduped
-
-          echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
-
-      - name: Подготовить и закодировать итоговый файл
-        run: |
-          cp deduped final_sorted
-          # Добавляем сверху специальную vless-ссылку и отступ
-          sed -i '1i vless://00000000-0000-0000-0000-000000000000@0.0.0.0:1?security=none&type=tcp&packetEncoding=xudp&encryption=none#https://t.me/ogiHelpBot\n' final_sorted
-          echo "Строк перед кодированием: $(wc -l < final_sorted)"
-          # Кодируем весь файл в одну base64-строку без переносов
-          base64 -w 0 final_sorted > final_sorted.b64
-          mv final_sorted.b64 final_sorted
-          echo "Файл закодирован в base64, размер: $(wc -c < final_sorted) байт"
+          echo "Итоговый файл final_sorted.txt готов, строк: $(wc -l < final_sorted.txt)"
 
       - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final_sorted
+          git add final_sorted.txt
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
