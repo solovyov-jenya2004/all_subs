@@ -1,3 +1,19 @@
+name: Простое объединение подписок (как в начале)
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Скачать, проверить и объединить подписки
         run: |
           process() {
@@ -44,3 +60,31 @@
           # Показываем первые 3 строки итогового файла для проверки
           echo ">>> Первые 3 строки:"
           head -n 3 final_sorted.txt
+
+          > final_sorted.txt
+          while IFS= read -r line; do
+            # Удаляем пробелы в начале/конце строки конфига, пропускаем пустые и комментарии
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
+
+            url=$(echo "$line" | awk '{print $1}')
+            filter=$(echo "$line" | awk '{print $2}')
+
+            echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
+            if [ -n "$filter" ]; then
+              process "$url" | grep -i "$filter" >> final_sorted.txt
+            else
+              process "$url" >> final_sorted.txt
+            fi
+            echo "" >> final_sorted.txt
+          done < sources.txt
+
+          echo "Итоговый файл final_sorted.txt готов, строк: $(wc -l < final_sorted.txt)"
+
+      - name: Commit и push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add final_sorted.txt
+          git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
