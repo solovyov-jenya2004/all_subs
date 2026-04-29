@@ -81,8 +81,7 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      # --- Новый шаг: генерация JSON для NekoBox ---
-      - name: Установить sing-box (для конвертации в JSON)
+      - name: Установить sing-box
         if: success()
         run: |
           if ! command -v sing-box &>/dev/null; then
@@ -93,8 +92,9 @@ jobs:
             rm -rf sing-box*
           fi
 
-      - name: Создать JSON-подписку для NekoBox
+      - name: Создать JSON-подписку
         run: |
+          set +e   # временно отключаем остановку при ошибках
           if [ ! -s final_sorted ]; then
             echo "final_sorted пуст, JSON не будет создан"
             echo "[]" > final_sorted_json
@@ -106,10 +106,9 @@ jobs:
           count=0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            # Берём только техническую часть (до первого #)
             uri="${line%%#*}"
-            # Пытаемся получить JSON
-            outbound=$(sing-box parse "$uri" --format json 2>/dev/null)
+            # Подавляем ошибки, чтобы цикл не прерывался
+            outbound=$(sing-box parse "$uri" --format json 2>/dev/null) || true
             if [ -n "$outbound" ]; then
               if $first; then
                 printf '%s\n' "$outbound" >> final_sorted_json
