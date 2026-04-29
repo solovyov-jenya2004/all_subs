@@ -81,9 +81,14 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Создать JSON-подписку через subconverter (из Base64)
+      - name: Создать JSON-подписку через subconverter (HTTP-сервер)
         run: |
           set -e
+          # Запускаем простой HTTP-сервер, отдающий файл final_sorted
+          python3 -m http.server 8000 --directory "${GITHUB_WORKSPACE}" &
+          HTTP_PID=$!
+          sleep 2
+
           mkdir subconv && cd subconv
           wget -q https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_linux64.tar.gz
           tar -xzf subconverter_linux64.tar.gz
@@ -103,12 +108,13 @@ jobs:
             sleep 1
           done
 
-          # ВАЖНО: передаём файл в формате Base64, который уже сгенерирован
-          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://${GITHUB_WORKSPACE}/final_sorted_base64&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
+          # Передаём ссылку на HTTP-сервер с файлом final_sorted
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=http://127.0.0.1:8000/final_sorted&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
 
+          # Останавливаем всё
           kill $SUB_PID
+          kill $HTTP_PID
           echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
-
       - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
