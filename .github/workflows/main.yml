@@ -81,14 +81,24 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Создать JSON-подписку через subconverter-rs
+      - name: Создать JSON-подписку через subconverter
         run: |
-          wget https://github.com/lonelam/subconverter-rs/releases/download/v0.2.34/subconverter-rs-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf subconverter-rs-x86_64-unknown-linux-gnu.tar.gz
-          ./subconverter-rs &
-          sleep 2
-          curl -s "http://localhost:25500/sub?target=singbox&url=file://$(pwd)/final_sorted" -o final_sorted_json
+          # Скачиваем и распаковываем subconverter
+          wget -q https://github.com/tindy2013/subconverter/releases/download/v0.2.33/subconverter-linux-amd64-0.2.33.tar.gz
+          tar -xzf subconverter-linux-amd64-0.2.33.tar.gz
+          mv subconverter-linux-amd64-0.2.33 subconv
+          chmod +x subconv/subconverter
+
+          # Запускаем subconverter в фоновом режиме
+          ./subconv/subconverter &
+          sleep 2   # ждём старта
+
+          # Конвертируем final_sorted -> JSON для Sing-box
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://$(pwd)/final_sorted&filename=final_sorted_json" -o final_sorted_json
+
+          # Останавливаем subconverter
           kill %1
+          echo "JSON-подписка создана, размер: $(wc -c < final_sorted_json) байт"
 
       - name: Commit и push
         run: |
