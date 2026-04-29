@@ -81,18 +81,14 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Создать JSON-подписку для NekoBox
+      - name: Создать JSON-подписку через subconverter-rs
         run: |
-          npm install singbox-converter
-          node -e "
-            const { convertToOutbounds } = require('singbox-converter');
-            const fs = require('fs');
-            const input = fs.readFileSync('final_sorted', 'utf8');
-            convertToOutbounds(input).then(outbounds => {
-              fs.writeFileSync('final_sorted_json', JSON.stringify(outbounds, null, 2));
-              console.log('final_sorted_json создан, объектов: ' + outbounds.length);
-            });
-          "
+          wget https://github.com/lonelam/subconverter-rs/releases/download/v0.2.34/subconverter-rs-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf subconverter-rs-x86_64-unknown-linux-gnu.tar.gz
+          ./subconverter-rs &
+          sleep 2
+          curl -s "http://localhost:25500/sub?target=singbox&url=file://$(pwd)/final_sorted" -o final_sorted_json
+          kill %1
 
       - name: Commit и push
         run: |
