@@ -95,13 +95,21 @@ jobs:
 
       - name: Создать JSON-подписку для NekoBox
         run: |
+          if [ ! -s final_sorted ]; then
+            echo "final_sorted пуст, JSON не будет создан"
+            echo "[]" > final_sorted_json
+            exit 0
+          fi
+
           echo "[" > final_sorted_json
           first=true
+          count=0
           while IFS= read -r line; do
-            # Пропускаем пустые строки
             [ -z "$line" ] && continue
-            # Получаем JSON outbound через sing-box parse
-            outbound=$(sing-box parse "$line" --format json 2>/dev/null || echo "")
+            # Берём только техническую часть (до первого #)
+            uri="${line%%#*}"
+            # Пытаемся получить JSON
+            outbound=$(sing-box parse "$uri" --format json 2>/dev/null)
             if [ -n "$outbound" ]; then
               if $first; then
                 printf '%s\n' "$outbound" >> final_sorted_json
@@ -109,10 +117,13 @@ jobs:
               else
                 printf ',\n%s\n' "$outbound" >> final_sorted_json
               fi
+              count=$((count+1))
+            else
+              echo "⚠️  sing-box не смог разобрать: ${uri:0:80}..."
             fi
           done < final_sorted
           echo "]" >> final_sorted_json
-          echo "final_sorted_json создан, объектов: $(jq '. | length' final_sorted_json 2>/dev/null || echo 'неизвестно')"
+          echo "Успешно сконвертировано в JSON: $count объект(ов)"
 
       - name: Commit и push
         run: |
