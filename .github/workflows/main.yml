@@ -83,22 +83,33 @@ jobs:
 
       - name: Создать JSON-подписку через subconverter
         run: |
-          # Скачиваем и распаковываем subconverter
-          wget -q https://github.com/tindy2013/subconverter/releases/download/v0.2.33/subconverter-linux-amd64-0.2.33.tar.gz
-          tar -xzf subconverter-linux-amd64-0.2.33.tar.gz
-          mv subconverter-linux-amd64-0.2.33 subconv
-          chmod +x subconv/subconverter
+          set -e
+          # Скачиваем и распаковываем (укажите правильный URL релиза)
+          wget -q https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_linux64.tar.gz
+          tar -xzf subconverter_linux64.tar.gz
+          cd subconverter_linux64
+          chmod +x subconverter
 
-          # Запускаем subconverter в фоновом режиме
-          ./subconv/subconverter &
-          sleep 2   # ждём старта
+          # Запускаем subconverter в фоне
+          ./subconverter &
+          SUB_PID=$!
+
+          # Ожидаем готовности порта (до 15 секунд)
+          echo "Ожидание запуска subconverter..."
+          for i in $(seq 1 15); do
+            if timeout 1 bash -c 'echo > /dev/null > /dev/tcp/127.0.0.1/25500' 2>/dev/null; then
+              echo "subconverter запущен"
+              break
+            fi
+            sleep 1
+          done
 
           # Конвертируем final_sorted -> JSON для Sing-box
-          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://$(pwd)/final_sorted&filename=final_sorted_json" -o final_sorted_json
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://${GITHUB_WORKSPACE}/final_sorted&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
 
           # Останавливаем subconverter
-          kill %1
-          echo "JSON-подписка создана, размер: $(wc -c < final_sorted_json) байт"
+          kill $SUB_PID
+          echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
 
       - name: Commit и push
         run: |
