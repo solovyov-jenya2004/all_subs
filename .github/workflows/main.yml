@@ -81,48 +81,18 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Установить sing-box
-        if: success()
+      - name: Создать JSON-подписку для NekoBox
         run: |
-          if ! command -v sing-box &>/dev/null; then
-            echo "Устанавливаю sing-box..."
-            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
-            tar xzf sing-box.tar.gz
-            sudo mv sing-box-*/sing-box /usr/local/bin/
-            rm -rf sing-box*
-          fi
-
-      - name: Создать JSON-подписку
-        run: |
-          set +e   # временно отключаем остановку при ошибках
-          if [ ! -s final_sorted ]; then
-            echo "final_sorted пуст, JSON не будет создан"
-            echo "[]" > final_sorted_json
-            exit 0
-          fi
-
-          echo "[" > final_sorted_json
-          first=true
-          count=0
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            uri="${line%%#*}"
-            # Подавляем ошибки, чтобы цикл не прерывался
-            outbound=$(sing-box parse "$uri" --format json 2>/dev/null) || true
-            if [ -n "$outbound" ]; then
-              if $first; then
-                printf '%s\n' "$outbound" >> final_sorted_json
-                first=false
-              else
-                printf ',\n%s\n' "$outbound" >> final_sorted_json
-              fi
-              count=$((count+1))
-            else
-              echo "⚠️  sing-box не смог разобрать: ${uri:0:80}..."
-            fi
-          done < final_sorted
-          echo "]" >> final_sorted_json
-          echo "Успешно сконвертировано в JSON: $count объект(ов)"
+          npm install singbox-converter
+          node -e "
+            const { convertToOutbounds } = require('singbox-converter');
+            const fs = require('fs');
+            const input = fs.readFileSync('final_sorted', 'utf8');
+            convertToOutbounds(input).then(outbounds => {
+              fs.writeFileSync('final_sorted_json', JSON.stringify(outbounds, null, 2));
+              console.log('final_sorted_json создан, объектов: ' + outbounds.length);
+            });
+          "
 
       - name: Commit и push
         run: |
