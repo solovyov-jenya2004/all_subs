@@ -1461,6 +1461,7 @@ vless://75807638-6f19-01f4-ae08-38492ee85c88@178.72.181.132:52006?security=tls&t
 vless://f899dc32-9238-41e3-a94d-3bcf96622ae7@store.ubi.com:443?encryption=none&flow=&fp=firefox&host=dedns1.6807251.xyz&packetEncoding=xudp&path=/&security=tls&sni=dedns1.6807251.xyz&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.26:2083?encryption=none&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d80e6151-1f3b-49dd-b24c-332621246506@104.20.6.134:2053?type=ws&security=tls&encryption=none&fp=chrome&sni=h1.multiroxynet.com&host=h1.multiroxynet.com&alpn=h2,http/1.1#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://75807638-6f19-01f4-ae08-38492ee85c88@178.72.181.132:52006?type=tcp&security=tls&sni=cluster-de-1.firstvideocdn.ru&fp=chrome&flow=xtls-rprx-vision#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://75807638-6f19-01f4-ae08-38492ee85c88@178.72.181.132:52006?encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=cluster-de-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&headerType=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://45bbf56b-2d92-4618-a14d-66bef7287c4d@154.37.216.151:45482?encryption=none&security=none&type=tcp#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
