@@ -14,20 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать и объединить подписки
+      - name: Скачать, проверить доступность и объединить подписки
         run: |
-          process() {
-            local url="$1"
-            local tmp=$(mktemp)
-            curl -sL --compressed "$url" > "$tmp"
-            if base64 -d "$tmp" >/dev/null 2>&1; then
-              base64 -d "$tmp"
-            else
-              cat "$tmp"
-            fi
-            rm -f "$tmp"
-          }
-
           > raw
           while IFS= read -r line; do
             line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
@@ -38,15 +26,43 @@ jobs:
             filter=$(echo "$line" | awk '{print $2}')
 
             echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
-            if [ -n "$filter" ]; then
-              process "$url" | grep -i "$filter" >> raw
-            else
-              process "$url" >> raw
+
+            # Проверяем доступность и скачиваем во временный файл
+            tmp_src=$(mktemp)
+            http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
+            curl_exit=$?
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
+              echo "   ❌ Источник недоступен (ошибка curl $curl_exit, HTTP $http_code)"
+              rm -f "$tmp_src"
+              continue
             fi
+
+            # Декодируем base64, если получится; иначе оставляем как есть
+            tmp_dec=$(mktemp)
+            if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
+              mv "$tmp_dec" "$tmp_src"
+            else
+              rm -f "$tmp_dec"
+            fi
+
+            # Применяем фильтр, если задан
+            if [ -n "$filter" ]; then
+              grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+              mv "${tmp_src}_filtered" "$tmp_src"
+            fi
+
+            # Считаем строки, содержащие :// (прокси-URL)
+            count=$(grep -c '://' "$tmp_src" || true)
+            echo "   Получено конфигов: $count"
+
+            # Добавляем в общий raw-файл
+            cat "$tmp_src" >> raw
             echo "" >> raw
+            rm -f "$tmp_src"
           done < sources.txt
 
-          echo "Строк в raw: $(wc -l < raw)"
+          echo "Всего строк в raw: $(wc -l < raw)"
 
       - name: Очистить и дедуплицировать
         run: |
