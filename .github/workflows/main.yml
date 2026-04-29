@@ -81,23 +81,19 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Создать JSON-подписку через subconverter
+      - name: Создать JSON-подписку через subconverter (из Base64)
         run: |
           set -e
           mkdir subconv && cd subconv
           wget -q https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_linux64.tar.gz
           tar -xzf subconverter_linux64.tar.gz
-          # Находим исполняемый файл (может быть в подпапке)
           SUB_BIN=$(find . -type f -name subconverter | head -1)
-          if [ -z "$SUB_BIN" ]; then
-            echo "Ошибка: не найден исполняемый файл subconverter"
-            ls -laR
-            exit 1
-          fi
           chmod +x "$SUB_BIN"
-          # Запускаем
+
+          # Запускаем subconverter
           "$SUB_BIN" &
           SUB_PID=$!
+
           echo "Ожидание запуска subconverter..."
           for i in $(seq 1 15); do
             if timeout 1 bash -c 'echo > /dev/null > /dev/tcp/127.0.0.1/25500' 2>/dev/null; then
@@ -106,8 +102,10 @@ jobs:
             fi
             sleep 1
           done
-          # Конвертируем final_sorted -> JSON для Sing-box
-          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://${GITHUB_WORKSPACE}/final_sorted&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
+
+          # ВАЖНО: передаём файл в формате Base64, который уже сгенерирован
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://${GITHUB_WORKSPACE}/final_sorted_base64&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
+
           kill $SUB_PID
           echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
 
