@@ -27,7 +27,6 @@ jobs:
 
             echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
 
-            # Проверяем доступность и скачиваем во временный файл
             tmp_src=$(mktemp)
             http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
             curl_exit=$?
@@ -38,7 +37,6 @@ jobs:
               continue
             fi
 
-            # Декодируем base64, если получится; иначе оставляем как есть
             tmp_dec=$(mktemp)
             if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
               mv "$tmp_dec" "$tmp_src"
@@ -46,17 +44,14 @@ jobs:
               rm -f "$tmp_dec"
             fi
 
-            # Применяем фильтр, если задан
             if [ -n "$filter" ]; then
               grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
-            # Считаем строки, содержащие :// (прокси-URL)
             count=$(grep -c '://' "$tmp_src" || true)
             echo "   Получено конфигов: $count"
 
-            # Добавляем в общий raw-файл
             cat "$tmp_src" >> raw
             echo "" >> raw
             rm -f "$tmp_src"
@@ -83,13 +78,45 @@ jobs:
           cp deduped final_sorted
           echo "final_sorted создан, строк: $(wc -l < final_sorted)"
 
-          # Кодируем в base64 в отдельный файл
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
+
+      # --- Новый шаг: генерация JSON для NekoBox ---
+      - name: Установить sing-box (для конвертации в JSON)
+        if: success()
+        run: |
+          if ! command -v sing-box &>/dev/null; then
+            echo "Устанавливаю sing-box..."
+            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
+            tar xzf sing-box.tar.gz
+            sudo mv sing-box-*/sing-box /usr/local/bin/
+            rm -rf sing-box*
+          fi
+
+      - name: Создать JSON-подписку для NekoBox
+        run: |
+          echo "[" > final_sorted_json
+          first=true
+          while IFS= read -r line; do
+            # Пропускаем пустые строки
+            [ -z "$line" ] && continue
+            # Получаем JSON outbound через sing-box parse
+            outbound=$(sing-box parse "$line" --format json 2>/dev/null || echo "")
+            if [ -n "$outbound" ]; then
+              if $first; then
+                printf '%s\n' "$outbound" >> final_sorted_json
+                first=false
+              else
+                printf ',\n%s\n' "$outbound" >> final_sorted_json
+              fi
+            fi
+          done < final_sorted
+          echo "]" >> final_sorted_json
+          echo "final_sorted_json создан, объектов: $(jq '. | length' final_sorted_json 2>/dev/null || echo 'неизвестно')"
 
       - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add final_sorted final_sorted_base64
+          git add final_sorted final_sorted_base64 final_sorted_json
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
