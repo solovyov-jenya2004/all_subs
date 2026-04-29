@@ -8,7 +8,7 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://subrostunnel.vercel.app/gen.txt
 https://etoneya.su/whitelist
-https://github.com/TseYaProject/TseYaProject.github.io/raw/refs/heads/main/2
+https://raw.githubusercontent.com/TseYaProject/TseYaProject.github.io/refs/heads/main/2
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
-https://github.com/AvenCores/goida-vpn-configs/raw/refs/heads/main/githubmirror/26.txt
+https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/refs/heads/main/githubmirror/26.txt
