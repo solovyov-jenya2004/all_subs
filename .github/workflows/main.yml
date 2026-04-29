@@ -1,3 +1,86 @@
+name: Сборка и дедупликация подписок
+
+on:
+  schedule:
+    - cron: '0,15,30,45 * * * *'   # каждые 15 минут
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Скачать, проверить доступность и объединить подписки
+        run: |
+          > raw
+          while IFS= read -r line; do
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
+
+            url=$(echo "$line" | awk '{print $1}')
+            filter=$(echo "$line" | awk '{print $2}')
+
+            echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
+
+            tmp_src=$(mktemp)
+            http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
+            curl_exit=$?
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
+              echo "   ❌ Источник недоступен (ошибка curl $curl_exit, HTTP $http_code)"
+              rm -f "$tmp_src"
+              continue
+            fi
+
+            tmp_dec=$(mktemp)
+            if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
+              mv "$tmp_dec" "$tmp_src"
+            else
+              rm -f "$tmp_dec"
+            fi
+
+            if [ -n "$filter" ]; then
+              grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+              mv "${tmp_src}_filtered" "$tmp_src"
+            fi
+
+            count=$(grep -c '://' "$tmp_src" || true)
+            echo "   Получено конфигов: $count"
+
+            cat "$tmp_src" >> raw
+            echo "" >> raw
+            rm -f "$tmp_src"
+          done < sources.txt
+
+          echo "Всего строк в raw: $(wc -l < raw)"
+
+      - name: Очистить и дедуплицировать
+        run: |
+          grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' > clean
+
+          awk -F'#' '{
+            uri = $1;
+            gsub(/[?&](name|remarks|ps|tag|note|remark)=[^&]*/, "", uri);
+            gsub(/&$/, "", uri);
+            gsub(/\?$/, "", uri);
+            if (!seen[uri]++) print $0
+          }' clean > deduped
+
+          echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
+
+      - name: Подготовить итоговые файлы (plain + base64)
+        run: |
+          cp deduped final_sorted
+          echo "final_sorted создан, строк: $(wc -l < final_sorted)"
+
+          base64 -w 0 final_sorted > final_sorted_base64
+          echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
+
       - name: Создать JSON-подписку через subconverter
         run: |
           set -e
@@ -27,3 +110,10 @@
           curl -s "http://127.0.0.1:25500/sub?target=singbox&url=file://${GITHUB_WORKSPACE}/final_sorted&filename=final_sorted_json" -o "${GITHUB_WORKSPACE}/final_sorted_json"
           kill $SUB_PID
           echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
+
+      - name: Commit и push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add final_sorted final_sorted_base64 final_sorted_json
+          git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M')" && git push)
