@@ -79,35 +79,44 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Установить sing-box
+      - name: Создать JSON-подписку (через subconverter)
         run: |
-          if ! command -v sing-box &>/dev/null; then
-            curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.11.0/sing-box-1.11.0-linux-amd64.tar.gz
-            tar xzf sing-box.tar.gz
-            sudo mv sing-box-*/sing-box /usr/local/bin/
-            rm -rf sing-box*
-          fi
+          # Создаём символическую ссылку с расширением .txt, чтобы HTTP-сервер отдал text/plain
+          ln -sf final_sorted final_sorted.txt
 
-      - name: Создать JSON-подписку (sing-box parse + jq)
-        run: |
-          # sing-box уже должен быть установлен (шаг ранее)
-          # Создаём пустой массив
-          echo '[]' > final_sorted_json
+          # Запускаем простой HTTP-сервер на порту 8000
+          python3 -m http.server 8000 --directory "${GITHUB_WORKSPACE}" &
+          HTTP_PID=$!
+          sleep 2
 
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            # sing-box parse преобразует ссылку в JSON outbound
-            outbound=$(sing-box parse "$line" --format json 2>/dev/null) || true
-            if [ -n "$outbound" ]; then
-              # Добавляем объект в массив
-              jq ". += [${outbound}]" final_sorted_json > tmp.json && mv tmp.json final_sorted_json
-            else
-              echo "⚠️  Пропущена ссылка: ${line:0:80}..."
+          # Скачиваем и запускаем subconverter
+          mkdir -p tools && cd tools
+          wget -q https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_linux64.tar.gz
+          tar -xzf subconverter_linux64.tar.gz
+          SUB_BIN=$(find . -type f -name subconverter | head -1)
+          chmod +x "$SUB_BIN"
+
+          "$SUB_BIN" &
+          SUB_PID=$!
+
+          echo "Ожидание запуска subconverter..."
+          for i in $(seq 1 15); do
+            if timeout 1 bash -c 'echo > /dev/null > /dev/tcp/127.0.0.1/25500' 2>/dev/null; then
+              echo "subconverter запущен"
+              break
             fi
-          done < final_sorted
+            sleep 1
+          done
 
-          count=$(jq '. | length' final_sorted_json)
-          echo "final_sorted_json создан, объектов: $count"
+          # Конвертируем с явным указанием типа (singbox)
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=http://127.0.0.1:8000/final_sorted.txt&filename=final_sorted_json" \
+               -o "${GITHUB_WORKSPACE}/final_sorted_json"
+
+          # Останавливаем серверы
+          kill $SUB_PID
+          kill $HTTP_PID
+          echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
+          
       - name: Commit и push
         run: |
           git config user.name "github-actions[bot]"
