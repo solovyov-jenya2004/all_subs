@@ -18,22 +18,22 @@ proxies:
   - {name: "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg", server: 45.129.3.220, port: 10668, type: trojan, password: oUFBC3Vs2rYmN8_bR-P7quoL, sni: "www.vk.com#🇷🇺 [AS51659] LLC Baxet "}
-  - {name: "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg", server: 45.15.127.49, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: yXoiEDFMVorGUeKla77k7sEXCeSE5r2A}
-  - {name: "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg", server: 83.166.255.72, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: kLAoPSnygmYrZ-B5jo3Atkz-AceVht-d}
-  - {name: "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg", server: 45.15.126.19, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: 6Ts2ZDTQAf3hkFoB8AFufDwsGrlF4e2t}
-  - {name: "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg", server: 45.15.140.107, port: 19106, type: trojan, password: tSk5LQoJr7F.WnRsUM4hT, sni: "binaryboots.algorithmblanket.click#🌐 [AS209847] WorkTitans B.V. "}
-  - {name: "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg", server: 51.250.79.203, port: 80, type: ss, cipher: chacha20-ietf-poly1305, password: NQRCh-qm11GH9MaRWX9NdmSdWaGRhFeS}
-  - {name: "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg", server: 51.250.79.203, port: 22, type: ss, cipher: chacha20-ietf-poly1305, password: NQRCh-qm11GH9MaRWX9NdmSdWaGRhFeS}
-  - {name: "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg", server: 45.15.185.70, port: 990, type: ss, cipher: chacha20-ietf-poly1305, password: ARgvGZywA+gacgGV26Bvmu05+wZmRW/j+AdU+Z8Bt44=}
-  - {name: "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg", server: 103.111.114.29, port: 57456, type: ss, cipher: chacha20-ietf-poly1305, password: 360e21d21977dc11}
-  - {name: "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg", server: 103.111.114.92, port: 57456, type: ss, cipher: chacha20-ietf-poly1305, password: 360e21d21977dc11}
-  - {name: "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg", server: 95.163.211.121, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: 4108cjAYsR5t3b05ToMfe-MRNJu6f5bR}
-  - {name: "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg", server: 95.163.210.102, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: XBR_sBUQuDK-ZodYhRJjHTSusRYErq4E}
-  - {name: "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg", server: 45.15.185.17, port: 80, type: vmess, uuid: c503a96a-a2f5-4847-a31f-20c17ecf3be4, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: 45.15.185.17}}}
-  - {name: "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg", server: 45.15.170.237, port: 80, type: vmess, uuid: 820d4b4f-3357-4dc7-9381-6e5fd52b5f39, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: pelang.org}}}
-  - {name: "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg", server: 45.15.185.17, port: 80, type: vmess, uuid: c503a96a-a2f5-4847-a31f-20c17ecf3be4, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/}}
-  - {name: "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg", server: 5.188.181.201, port: 9005, type: ss, cipher: aes-256-cfb, password: ZET59LF6DvCC8KVt}
+  - {name: "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg", server: 95.163.211.121, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: 4108cjAYsR5t3b05ToMfe-MRNJu6f5bR}
+  - {name: "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg", server: 95.163.210.102, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: XBR_sBUQuDK-ZodYhRJjHTSusRYErq4E}
+  - {name: "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg", server: 78.159.131.12, port: 28259, type: trojan, password: MeaDiUmPlkWbZJ2BON8tz, sni: ads.x5.ru, skip-cert-verify: true}
+  - {name: "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg", server: 45.15.185.17, port: 80, type: vmess, uuid: c503a96a-a2f5-4847-a31f-20c17ecf3be4, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: 45.15.185.17}}}
+  - {name: "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg", server: 45.15.170.237, port: 80, type: vmess, uuid: 820d4b4f-3357-4dc7-9381-6e5fd52b5f39, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: pelang.org}}}
+  - {name: "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg", server: 45.15.185.17, port: 80, type: vmess, uuid: c503a96a-a2f5-4847-a31f-20c17ecf3be4, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/}}
+  - {name: "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg", server: 45.129.3.220, port: 10668, type: trojan, password: oUFBC3Vs2rYmN8_bR-P7quoL, sni: "www.vk.com#🇷🇺 [AS51659] LLC Baxet "}
+  - {name: "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg", server: 45.15.127.49, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: yXoiEDFMVorGUeKla77k7sEXCeSE5r2A}
+  - {name: "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg", server: 83.166.255.72, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: kLAoPSnygmYrZ-B5jo3Atkz-AceVht-d}
+  - {name: "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg", server: 45.15.126.19, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: 6Ts2ZDTQAf3hkFoB8AFufDwsGrlF4e2t}
+  - {name: "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg", server: 45.15.140.107, port: 19106, type: trojan, password: tSk5LQoJr7F.WnRsUM4hT, sni: "binaryboots.algorithmblanket.click#🌐 [AS209847] WorkTitans B.V. "}
+  - {name: "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg", server: 51.250.79.203, port: 80, type: ss, cipher: chacha20-ietf-poly1305, password: NQRCh-qm11GH9MaRWX9NdmSdWaGRhFeS}
+  - {name: "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg", server: 51.250.79.203, port: 22, type: ss, cipher: chacha20-ietf-poly1305, password: NQRCh-qm11GH9MaRWX9NdmSdWaGRhFeS}
+  - {name: "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg", server: 45.15.185.70, port: 990, type: ss, cipher: chacha20-ietf-poly1305, password: ARgvGZywA+gacgGV26Bvmu05+wZmRW/j+AdU+Z8Bt44=}
+  - {name: "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg", server: 103.111.114.29, port: 57456, type: ss, cipher: chacha20-ietf-poly1305, password: 360e21d21977dc11}
+  - {name: "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg", server: 103.111.114.92, port: 57456, type: ss, cipher: chacha20-ietf-poly1305, password: 360e21d21977dc11}
 proxy-groups:
   - name: 🔰 节点选择
     type: select
@@ -53,22 +53,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: ♻️ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
@@ -87,22 +87,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: 🎥 NETFLIX
     type: select
     proxies:
@@ -122,22 +122,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: ⛔️ 广告拦截
     type: select
     proxies:
@@ -169,22 +169,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: 🌏 国内媒体
     type: select
     proxies:
@@ -208,22 +208,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: 📲 电报信息
     type: select
     proxies:
@@ -242,22 +242,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: 🍎 苹果服务
     type: select
     proxies:
@@ -277,22 +277,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
   - name: 🎯 全球直连
     type: select
     proxies:
@@ -321,22 +321,22 @@ proxy-groups:
       - "6384 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "9571 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "10626 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "461. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #510. SS | CIDR: ? | TG: @wlrustg"
-      - "[AS47764] LLC VK #511. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #512. SS | CIDR: ? | TG: @wlrustg"
-      - "516. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #623. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS200350] Yandex.Cloud LLC #632. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
-      - "[AS209847] WorkTitans B.V. #694. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #792. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "[AS8849] Melbikomas UAB #863. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
-      - "1346. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1347. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
-      - "1742. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1743. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
-      - "1744. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
-      - "1749. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
+      - "718. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "719. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "1104. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
+      - "1115. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1116. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
+      - "1117. VMESS | SNI: 45.15.185.17 | CIDR: ? | TG: @wlrustg"
+      - "1256. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1296. SS | CIDR: ? | TG: @wlrustg"
+      - "[AS47764] LLC VK #1297. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1298. SS | CIDR: ? | TG: @wlrustg"
+      - "1302. TROJAN | SNI: binaryboots.algorithmblanket.click | CIDR: ? | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1342. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS200350] Yandex.Cloud LLC #1343. 🇷🇺 SS | CIDR: Yandex | TG: @wlrustg"
+      - "[AS209847] WorkTitans B.V. #1395. 🇦🇺 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1493. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
+      - "[AS8849] Melbikomas UAB #1564. 🇮🇳 SS | CIDR: ? | TG: @wlrustg"
 rules:
   - DOMAIN-SUFFIX,local,🎯 全球直连
   - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
