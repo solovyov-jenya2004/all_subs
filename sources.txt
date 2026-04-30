@@ -12,6 +12,6 @@ https://etoneya.su/whitelist
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
 https://gist.githubusercontent.com/DestroyST6767/50af50221ca1858ba2084efc0f524fbc/raw/1dc2f8edf8b2d7ab2a85ffd970208aa6fbb65a8e/Destroy_ST%2520%25D0%2591%25D0%25A1
-https://wlrus.lol/confs/selected.txt
-https://wlrus.lol/confs/wl.txt
+https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/selected.txt
+https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
 https://raw.githubusercontent.com/ByeWhiteLists/ByeWhiteLists2/refs/heads/main/ByeWhiteLists2.txt
