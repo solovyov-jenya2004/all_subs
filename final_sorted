@@ -1491,6 +1491,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@trtc.ksnodes.net:443?alpn=http/1.1,
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@104.238.24.247:443?type=ws&security=tls&encryption=none&fp=chrome&sni=3-7v4.pages.dev&host=3-7v4.pages.dev&serviceName=&quicSecurity=none#[ 🇰🇿 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4824193-4f54-453b-d037-88368e85ef0e@all.tellmethetrue.shop:443?type=grpc&headerType=none&security=tls&encryption=none&sni=pqf4v4.carwashipdir.shop&alpn=h2&insecure=0#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4824193-4f54-453b-d037-88368e85ef0e@all.tellmethetrue.shop:443?alpn=h2&encryption=none&headerType=none&insecure=0&security=tls&sni=pqf4v4.carwashipdir.shop&type=grpc#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://49c9e424-c47f-482f-982a-e5503f354700@104.18.140.67:443?type=ws&security=tls&encryption=none&fp=chrome&sni=cld1.hesam.online&host=cld1.hesam.online&alpn=h2,http/1.1#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@155.103.71.21:443?alpn=http/1.1,h2&encryption=none&flow=xtls-rprx-vision&security=tls&sni=trtc.ksnodes.net&type=tcp#[ 🇹🇷 ] [ Turkey, Istanbul ] [ by @openlibrecommunity ]
 vless://b24484be-a335-472c-8dff-060ccd2b8f3b@xn-dns.onlineblog.ir:2083?encryption=none&host=xn-de.shakhle.ir.&security=tls&sni=xn-de.shakhle.ir.&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://2399fe0a-b359-40a9-a3f0-b70c3c177a01@aa.beijng.dpdns.org:80?host=aa.beijng.dpdns.org&path=/?ed=2048&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
