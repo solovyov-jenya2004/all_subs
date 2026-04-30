@@ -109,7 +109,7 @@ jobs:
           done
 
           # 4. Конвертируем с target=nekobox (или попробуйте nekoboxv2/json, если не сработает)
-          curl -s "http://127.0.0.1:25500/sub?target=nekobox&url=http://127.0.0.1:8000/final_sorted_b64" \
+          curl -s "http://127.0.0.1:25500/sub?target=clash&url=http://127.0.0.1:8000/final_sorted_b64" \
                -o "${GITHUB_WORKSPACE}/final_sorted_json"
 
           # 5. Останавливаем всё
