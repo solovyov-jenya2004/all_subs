@@ -79,17 +79,17 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
 
-      - name: Создать JSON-подписку (через subconverter)
+      - name: Создать JSON-подписку через subconverter (Base64)
         run: |
-          # Создаём символическую ссылку с расширением .txt, чтобы HTTP-сервер отдал text/plain
-          ln -sf final_sorted final_sorted.txt
+          # 1. Кодируем final_sorted в Base64 и сохраняем как final_sorted_b64
+          base64 -w 0 final_sorted > final_sorted_b64
 
-          # Запускаем простой HTTP-сервер на порту 8000
+          # 2. Запускаем HTTP-сервер, который будет отдавать этот файл
           python3 -m http.server 8000 --directory "${GITHUB_WORKSPACE}" &
           HTTP_PID=$!
           sleep 2
 
-          # Скачиваем и запускаем subconverter
+          # 3. Скачиваем и запускаем subconverter
           mkdir -p tools && cd tools
           wget -q https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_linux64.tar.gz
           tar -xzf subconverter_linux64.tar.gz
@@ -108,14 +108,19 @@ jobs:
             sleep 1
           done
 
-          # Конвертируем с явным указанием типа (singbox)
-          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=http://127.0.0.1:8000/final_sorted.txt&filename=final_sorted_json" \
+          # 4. Конвертируем с target=nekobox (или попробуйте nekoboxv2/json, если не сработает)
+          curl -s "http://127.0.0.1:25500/sub?target=nekobox&url=http://127.0.0.1:8000/final_sorted_b64" \
                -o "${GITHUB_WORKSPACE}/final_sorted_json"
 
-          # Останавливаем серверы
+          # 5. Останавливаем всё
           kill $SUB_PID
           kill $HTTP_PID
-          echo "JSON-подписка создана, размер: $(wc -c < ${GITHUB_WORKSPACE}/final_sorted_json) байт"
+
+          # Диагностика
+          echo "=== Размер JSON ==="
+          ls -lh "${GITHUB_WORKSPACE}/final_sorted_json"
+          echo "=== Первые 5 строк JSON ==="
+          head -n 5 "${GITHUB_WORKSPACE}/final_sorted_json"
           
       - name: Commit и push
         run: |
