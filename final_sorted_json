@@ -7,23 +7,19 @@ external-controller: :9090
 proxies:
   - {name: "The Netherlands | [SNI-RU] ads.x5.ru", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
   - {name: "Sweden [SNI-RU] www.vk.ru", server: 83.219.250.21, port: 53127, type: trojan, password: SuPCmvdWOB, sni: www.vk.ru}
-  - {name: "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.0.13, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu", server: 212.192.12.37, port: 40210, type: ss, cipher: aes-256-gcm, password: 7e1dd4c55bf85da5}
-  - {name: "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.0.13, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu", server: 212.192.12.37, port: 40210, type: ss, cipher: aes-256-gcm, password: 7e1dd4c55bf85da5}
+  - {name: "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.0.13, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.8.178, port: 2053, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.212.44, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.0.13, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
+  - {name: "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg", server: 45.129.3.220, port: 10668, type: trojan, password: oUFBC3Vs2rYmN8_bR-P7quoL, sni: "www.vk.com#🇷🇺 [AS51659] LLC Baxet "}
   - {name: "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg", server: 45.15.127.49, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: yXoiEDFMVorGUeKla77k7sEXCeSE5r2A}
   - {name: "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg", server: 83.166.255.72, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: kLAoPSnygmYrZ-B5jo3Atkz-AceVht-d}
@@ -45,23 +41,19 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -82,23 +74,19 @@ proxy-groups:
     proxies:
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -120,23 +108,19 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -170,23 +154,19 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -212,23 +192,19 @@ proxy-groups:
       - 🔰 节点选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -249,23 +225,19 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -287,23 +259,19 @@ proxy-groups:
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -334,23 +302,19 @@ proxy-groups:
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - Sweden [SNI-RU] www.vk.ru
-      - "0686 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0858 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "0860 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "1113 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2165 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "2746 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3025 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "3659 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
-      - "5052 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "7043 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8276 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "8859 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9782 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "9952 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "10596 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "11550 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - "12511 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - "3015 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "3589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4291 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4582 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "4589 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "5796 | 🇫🇮 Finland | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "6082 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
+      - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1428. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1468. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1469. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
