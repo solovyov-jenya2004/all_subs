@@ -2178,6 +2178,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.191.5:443?encryption=none&f
 vless://2399fe0a-b359-40a9-a3f0-b70c3c177a01@cloudflare.182682.xyz:80?type=ws&host=aa.beijng.dpdns.org&path=/?ed=2048#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@91.132.132.233:443?encryption=none&fp=chrome&host=177-e06.pages.dev&path=/&security=tls&sni=177-e06.pages.dev&type=ws#[ 🇦🇲 ] [ Armenia, Yerevan ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@109.120.134.232:8443?encryption=none&host=babayaga-6i7.pages.dev&path=/?ed=2560&Telegram🇨🇳@WangCai2&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://8f8ccdc5-fe99-38d7-a8a6-422f8c88ef0a@s844.ccgfw.top:443?alpn=&encryption=none&flow=xtls-rprx-vision&fp=random&headerType=none&host=s844.ccgfw.top&mode=&path=&security=tls&serviceName=&sni=u712031u55c0s844.ccgfw.top&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@193.32.177.101:443?fp=chrome&headerType=none&host=babayaga-6i7.pages.dev&path=/?ed=2560&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇺🇸 ] [ United States, Secaucus ] [ by @openlibrecommunity ]
 vless://2399fe0a-b359-40a9-a3f0-b70c3c177a01@cloudflare.182682.xyz:80?host=aa.beijng.dpdns.org&path=/?ed=2048&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
