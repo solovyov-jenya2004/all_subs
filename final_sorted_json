@@ -6,7 +6,7 @@ log-level: info
 external-controller: :9090
 proxies:
   - {name: "The Netherlands | [SNI-RU] ads.x5.ru", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
-  - {name: "Sweden [*CIDR]", server: 83.219.250.21, port: 53127, type: trojan, password: SuPCmvdWOB, sni: www.vk.ru}
+  - {name: "Sweden [SNI-RU] www.vk.ru", server: 83.219.250.21, port: 53127, type: trojan, password: SuPCmvdWOB, sni: www.vk.ru}
   - {name: "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.111, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu", server: 212.192.12.37, port: 40210, type: ss, cipher: aes-256-gcm, password: 7e1dd4c55bf85da5}
@@ -40,7 +40,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -73,7 +73,7 @@ proxy-groups:
     interval: 300
     proxies:
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -107,7 +107,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -153,7 +153,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -191,7 +191,7 @@ proxy-groups:
       - 🎯 全球直连
       - 🔰 节点选择
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -224,7 +224,7 @@ proxy-groups:
       - 🔰 节点选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -258,7 +258,7 @@ proxy-groups:
       - 🎯 全球直连
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
@@ -301,7 +301,7 @@ proxy-groups:
       - 🎯 全球直连
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
-      - Sweden [*CIDR]
+      - Sweden [SNI-RU] www.vk.ru
       - "0981 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "1662 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "2334 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
