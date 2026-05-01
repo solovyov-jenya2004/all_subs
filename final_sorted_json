@@ -19,7 +19,6 @@ proxies:
   - {name: "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.217.100, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
   - {name: "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu", server: 212.192.4.109, port: 8443, type: trojan, password: 8r%3C%5B9%27l6hAO%238ZQi, sni: Koma-YT.PAGeS.Dev, network: ws, ws-opts: {path: /trTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2, headers: {Host: Koma-YT.PAGeS.Dev}}}
-  - {name: "The Netherlands | [SNI-RU] ads.x5.ru", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
   - {name: "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg", server: 45.129.3.220, port: 10668, type: trojan, password: oUFBC3Vs2rYmN8_bR-P7quoL, sni: "www.vk.com#🇷🇺 [AS51659] LLC Baxet "}
   - {name: "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg", server: 45.15.127.49, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: yXoiEDFMVorGUeKla77k7sEXCeSE5r2A}
   - {name: "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg", server: 83.166.255.72, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: kLAoPSnygmYrZ-B5jo3Atkz-AceVht-d}
@@ -53,7 +52,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -86,7 +84,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -120,7 +117,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -166,7 +162,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -204,7 +199,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -237,7 +231,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -271,7 +264,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
@@ -314,7 +306,6 @@ proxy-groups:
       - "7544 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "7963 | 🇳🇱 Netherlands | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
       - "8035 | 🇩🇪 Germany | 🏳️ CIDR-NGENIX | TROJAN | 📺 YT | TG: @YoutubeUnBlockRu"
-      - The Netherlands | [SNI-RU] ads.x5.ru
       - "986. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #1026. SS | CIDR: ? | TG: @wlrustg"
       - "[AS47764] LLC VK #1027. 🇷🇺 SS | CIDR: VK | TG: @wlrustg"
