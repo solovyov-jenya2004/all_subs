@@ -6,6 +6,7 @@ log-level: info
 external-controller: :9090
 proxies:
   - {name: "The Netherlands | [SNI-RU] ads.x5.ru", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
+  - {name: LTE Резерв_12, server: 83.166.250.6, port: 50529, type: ss, cipher: chacha20-ietf-poly1305, password: zEozh4psdpqyy1k9U5tykMFF5}
   - {name: "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu", server: 212.192.12.37, port: 40210, type: ss, cipher: aes-256-gcm, password: 7e1dd4c55bf85da5}
   - {name: "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg", server: 45.129.3.220, port: 10668, type: trojan, password: oUFBC3Vs2rYmN8_bR-P7quoL, sni: "www.vk.com#🇷🇺 [AS51659] LLC Baxet "}
   - {name: "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg", server: 45.15.127.49, port: 443, type: ss, cipher: chacha20-ietf-poly1305, password: yXoiEDFMVorGUeKla77k7sEXCeSE5r2A}
@@ -21,7 +22,6 @@ proxies:
   - {name: "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg", server: 95.163.210.102, port: 1080, type: ss, cipher: chacha20-ietf-poly1305, password: XBR_sBUQuDK-ZodYhRJjHTSusRYErq4E}
   - {name: "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg", server: 78.159.131.12, port: 28259, type: trojan, password: MeaDiUmPlkWbZJ2BON8tz, sni: ads.x5.ru}
   - {name: "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg", server: 78.159.131.12, port: 28259, type: trojan, password: MeaDiUmPlkWbZJ2BON8tz, sni: ads.x5.ru}
-  - {name: "2115. SS | CIDR: VK | TG: @wlrustg", server: 83.166.250.6, port: 50529, type: ss, cipher: chacha20-ietf-poly1305, password: zEozh4psdpqyy1k9U5tykMFF5}
   - {name: "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg", server: 45.15.170.237, port: 80, type: vmess, uuid: 820d4b4f-3357-4dc7-9381-6e5fd52b5f39, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: pelang.org}}}
   - {name: "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg", server: 45.15.185.70, port: 990, type: ss, cipher: chacha20-ietf-poly1305, password: ARgvGZywA+gacgGV26Bvmu05+wZmRW/j+AdU+Z8Bt44=}
 proxy-groups:
@@ -31,6 +31,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -46,7 +47,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: ♻️ 自动选择
@@ -55,6 +55,7 @@ proxy-groups:
     interval: 300
     proxies:
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -70,7 +71,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: 🎥 NETFLIX
@@ -80,6 +80,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -95,7 +96,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: ⛔️ 广告拦截
@@ -117,6 +117,7 @@ proxy-groups:
       - ♻️ 自动选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -132,7 +133,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: 🌏 国内媒体
@@ -146,6 +146,7 @@ proxy-groups:
       - 🎯 全球直连
       - 🔰 节点选择
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -161,7 +162,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: 📲 电报信息
@@ -170,6 +170,7 @@ proxy-groups:
       - 🔰 节点选择
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -185,7 +186,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: 🍎 苹果服务
@@ -195,6 +195,7 @@ proxy-groups:
       - 🎯 全球直连
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -210,7 +211,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
   - name: 🎯 全球直连
@@ -229,6 +229,7 @@ proxy-groups:
       - 🎯 全球直连
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
+      - LTE Резерв_12
       - "0163 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
       - "897. 🇷🇺 TROJAN | SNI: www.vk.com | CIDR: ? | TG: @wlrustg"
       - "[AS209847] WorkTitans B.V. #938. SS | CIDR: ? | TG: @wlrustg"
@@ -244,7 +245,6 @@ proxy-groups:
       - "1724. 🇪🇺 SS | CIDR: VK | TG: @wlrustg"
       - "2113. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
       - "2114. TROJAN | SNI: ads.x5.ru | CIDR: ? | TG: @wlrustg"
-      - "2115. SS | CIDR: VK | TG: @wlrustg"
       - "2126. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "2131. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
 rules:
