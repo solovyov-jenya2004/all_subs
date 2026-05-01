@@ -2691,6 +2691,7 @@ vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?type=ws&security
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.191.5:443?type=grpc&security=tls&encryption=none&sni=api-staging.dropmefile.net&mode=gun&alpn=h2&serviceName=grpc-tunnel&authority=#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@api2.dropmefile.net:443?allowInsecure=0&authority=&encryption=none&insecure=0&mode=gun&security=tls&serviceName=grpc-tunnel&type=grpc#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@217.60.248.94:2053?host=babayaga-6i7.pages.dev&path=/?ed=2560&Telegram🇨🇳@WangCai2&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?allow_insecure=0&host=babayaga-6i7.pages.dev&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@89.208.231.81:443?encryption=none&type=grpc&security=tls&mode=gun&serviceName=grpc-tunnel&sni=fileroute.cc#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?allow_insecure=0&host=babayaga-6i7.pages.dev&path=/?ed=2560&Telegram🇨🇳+@WangCai2&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
