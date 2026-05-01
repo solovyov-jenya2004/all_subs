@@ -2891,6 +2891,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.191.5:443?encryption=none&m
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@45.151.183.111:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=czu.ksnodes.net&alpn=http/1.1,h2#[ 🇨🇿 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@89.208.231.81:443?allowInsecure=0&alpn=h2&encryption=none&insecure=0&mode=gun&security=tls&serviceName=grpc-tunnel&sni=fileroute.cc&type=grpc#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.191.171:443?encryption=none&flow=&security=tls&serviceName=grpc-tunnel&sni=api-no-cache.dropmefile.net&type=grpc#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@149.104.5.224:443?allow_insecure=0&host=babayaga-6i7.pages.dev&path=/?ed=2560&Telegram🇨🇳@WangCai2&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇬 ] [ Singapore, Singapore (Downtown Core) ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?type=ws&security=tls&sni=babayaga-6i7.pages.dev&host=babayaga-6i7.pages.dev&allow_insecure=0#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=czu.ksnodes.net#[ 🇨🇿 ] [ Unknown ] [ by @openlibrecommunity ]
