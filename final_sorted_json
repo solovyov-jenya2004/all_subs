@@ -7,6 +7,7 @@ external-controller: :9090
 proxies:
   - {name: "The Netherlands | [SNI-RU] ads.x5.ru", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
   - {name: "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu", server: 212.192.12.37, port: 40210, type: ss, cipher: aes-256-gcm, password: 7e1dd4c55bf85da5}
+  - {name: "The Netherlands | [SNI-RU] ads.x5.ru 2", server: v30.hdacd.com, port: 30830, type: vmess, uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484, alterId: 0, cipher: auto, tls: false}
   - {name: "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg", server: 45.15.170.237, port: 80, type: vmess, uuid: 820d4b4f-3357-4dc7-9381-6e5fd52b5f39, alterId: 0, cipher: auto, tls: false, network: ws, ws-opts: {path: /vmess/, headers: {Host: pelang.org}}}
   - {name: "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg", server: 45.15.185.70, port: 990, type: ss, cipher: chacha20-ietf-poly1305, password: ARgvGZywA+gacgGV26Bvmu05+wZmRW/j+AdU+Z8Bt44=}
   - {name: "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg", server: 5.188.181.201, port: 9054, type: ss, cipher: aes-256-cfb, password: VcFuyXvND2yQWSFY}
@@ -30,6 +31,7 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -52,6 +54,7 @@ proxy-groups:
     proxies:
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -75,6 +78,7 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -110,6 +114,7 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -137,6 +142,7 @@ proxy-groups:
       - 🔰 节点选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -159,6 +165,7 @@ proxy-groups:
       - 🎯 全球直连
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -182,6 +189,7 @@ proxy-groups:
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
@@ -214,6 +222,7 @@ proxy-groups:
       - ♻️ 自动选择
       - The Netherlands | [SNI-RU] ads.x5.ru
       - "1270 | 🇨🇳 HongKong | 🏳️ CIDR-NGENIX | SS | TG: @YoutubeUnBlockRu"
+      - The Netherlands | [SNI-RU] ads.x5.ru 2
       - "952. VMESS | SNI: pelang.org | CIDR: ? | TG: @wlrustg"
       - "955. 🇨🇾 SS | CIDR: ? | TG: @wlrustg"
       - "956. 🇪🇸 SS | CIDR: VK | TG: @wlrustg"
