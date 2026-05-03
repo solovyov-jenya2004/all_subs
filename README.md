@@ -1,10 +1,10 @@
 # 🚀 all_subs — VPN-подписка для белых списков в РФ
 
-[![Workflow Status](https://img.shields.io/github/actions/workflow/status/solovyov-jenya2004/all_subs/main.yml?branch=main&style=flat-square&logo=githubactions&label=Workflow%20Status)](https://github.com/solovyov-jenya2004/all_subs/actions)
+[![Workflow Status](https://img.shields.io/github/actions/workflow/status/solovyov-jenya2004/all_subs/main.yml?branch=main&style=flat-square&logo=githubactions&label=workflow%20status)](https://github.com/solovyov-jenya2004/all_subs/actions)
 [![Stars](https://img.shields.io/github/stars/solovyov-jenya2004/all_subs?style=flat-square&color=0e75b6)](https://github.com/solovyov-jenya2004/all_subs/stargazers)
 [![Issues](https://img.shields.io/github/issues/solovyov-jenya2004/all_subs?style=flat-square&color=0e75b6)](https://github.com/solovyov-jenya2004/all_subs/issues)
 [![Last commit](https://custom-icon-badges.demolab.com/github/last-commit/solovyov-jenya2004/all_subs?logo=history&logoColor=white&color=0e75b6&style=flat-square)](https://github.com/solovyov-jenya2004/all_subs/commits/main)
-[![Visitors](https://komarev.com/ghpvc/?username=solovyov-jenya2004&label=Visitors&color=0e75b6&style=flat-square)]()
+![Visitors](https://komarev.com/ghpvc/?username=solovyov-jenya2004&label=visitors&color=0e75b6&style=flat-square)
 
 > ⚡ Бесплатные, автообновляемые VPN‑конфигурации для использования при развёртывании белых списков мобильного интернета в Российской Федерации.  
 
