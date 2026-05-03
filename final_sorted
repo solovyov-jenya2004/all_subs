@@ -2204,6 +2204,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?type=tcp&securi
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@finl9.keepsecured.net:443?type=tcp&headerType=none&security=tls&encryption=none&sni=finl9.keepsecured.net&flow=xtls-rprx-vision&insecure=0#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?Telegram🇨🇳 @WangCai2=&fp=chrome&headerType=none&host=babayaga-6i7.pages.dev&path=/?ed=2560&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
 vless://57d24033-f998-45c1-b973-16747ea76ce9@104.19.58.118:443?encryption=none&fp=chrome&host=us1-us1.aiopen.sbs&path=/kbjc/us1&security=tls&sni=us1-us1.aiopen.sbs&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@147.45.77.159:2053?allow_insecure=0&host=babayaga-6i7.pages.dev&path=/?ed=2560&Telegram🇨🇳+@WangCai2&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@finl9.keepsecured.net:443?alpn=http/1.1&flow=xtls-rprx-vision&host=finl9.keepsecured.net&security=tls&sni=finl9.keepsecured.net&type=tcp#[ 🇩🇪 ] [ Germany ] [ by @openlibrecommunity ]
