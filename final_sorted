@@ -2777,6 +2777,7 @@ vless://5b1c5027-5bc6-4ee2-b287-001b05fba219@cdn.prostovpn.website:2087?security
 vless://f899dc32-9238-41e3-a94d-3bcf96622ae7@store.ubi.com:443?type=ws&security=tls&encryption=none&fp=firefox&sni=dedns1.6807251.xyz&host=dedns1.6807251.xyz#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://5b1c5027-5bc6-4ee2-b287-001b05fba219@cdn.prostovpn.website:2087?encryption=none&host=cdn.prostovpn.website&path=/ws-cdn&security=tls&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@dnew.cc:443?ech=cloudflare-ech.com+https://dns.alidns.com/dns-query&encryption=none&fp=chrome&host=2-eox.pages.dev&path=/&security=tls&sni=2-eox.pages.dev&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?encryption=none&type=raw&headerType=none&security=none#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://5b1c5027-5bc6-4ee2-b287-001b05fba219@cdn.prostovpn.website:2087?host=cdn.prostovpn.website&path=/ws-cdn&security=tls&sni=&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?type=tcp#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?encryption=none&headerType=none&security=none&type=tcp#[ 🇺🇸 ] [ United States, Los Angeles ] [ by @openlibrecommunity ]
