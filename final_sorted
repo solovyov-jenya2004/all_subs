@@ -2167,6 +2167,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?headerType=non
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?encryption=none&flow=xtls-rprx-vision&security=tls&sni=ukos.ksnodes.net&type=tcp&headerType=none#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=ukos.ksnodes.net&host=ukos.ksnodes.net&alpn=h2#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@172.67.70.92:443?allowInsecure=1&fp=firefox&host=vless.lrdxw.club&path=/&security=tls&sni=vless.lrdxw.club&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://a01daac7-1e65-4645-854d-b47d226f6b08@104.20.6.134:443?encryption=none&security=tls&sni=y6-3cj.PAgES.DEV&insecure=0&allowInsecure=0&type=ws&host=y6-3cj.PAgES.DEV&path=/#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@109.235.242.101:443?encryption=none&fp=chrome&host=1-gjo.pages.dev&path=/&security=tls&sni=1-gjo.pages.dev&type=ws#[ 🇪🇪 ] [ Estonia, Tallinn ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@cdns.doon.eu.org:443?fp=firefox&host=vless.lrdxw.club&security=tls&sni=vless.lrdxw.club&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://a01daac7-1e65-4645-854d-b47d226f6b08@104.20.6.134:443?encryption=none&host=y6-3cj.PAgES.DEV&path=/&security=tls&sni=y6-3cj.PAgES.DEV&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
