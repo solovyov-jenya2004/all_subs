@@ -1753,6 +1753,7 @@ vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@mfa.gov.ua:443?host=vless.lrdxw.clu
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@finl9.keepsecured.net:443?alpn=http/1.1&flow=xtls-rprx-vision&security=tls&sni=finl9.keepsecured.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@sub.danfeng.eu.org:443?allowInsecure=1&ed=2560&eh=Sec-WebSocket-Protocol&encryption=none&fp=firefox&host=vless.lrdxw.club&path=/&security=tls&sni=vless.lrdxw.club&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=raw#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://5b1c5027-5bc6-4ee2-b287-001b05fba219@cdn.prostovpn.website:2087?host=cdn.prostovpn.website&path=/ws-cdn&security=tls&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?type=tcp&sni=🔒#[ 🇩🇪 ] [ Germany ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@finl9.keepsecured.net:443?allowInsecure=0&encryption=none&flow=xtls-rprx-vision&fp=chrome&headerType=none&host=finl9.keepsecured.net&insecure=0&security=tls&sni=finl9.keepsecured.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
