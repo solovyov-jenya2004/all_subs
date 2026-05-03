@@ -1365,6 +1365,7 @@ vless://e4824193-4f54-453b-d037-88368e85ef0e@all.tellmethetrue.shop:443?type=grp
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@usa.visa.com:443?type=ws&security=tls&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.26:2083?allowInsecure=0&type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@188.226.166.92:443?allowInsecure=0&sni=mug.support.gfw.hidns.co&type=ws&host=mug.support.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇳🇱 ] [ The Netherlands, Amsterdam ] [ by @openlibrecommunity ]
+vless://8007e155-622e-4c9d-8a6e-67f49b4678f4@193.219.99.196:8443?&security=tls&sni=edt2-lgy.pages.dev&type=ws&headerType=none&host=edt2-lgy.pages.dev&path=/#[ 🇬🇧 ] [ United Kingdom ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?allowInsecure=0&type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?ed=2560&eh=Sec-WebSocket-Protocol&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?type=ws&security=tls&encryption=none&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
