@@ -16,4 +16,4 @@ https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
 https://raw.githubusercontent.com/ByeWhiteLists/ByeWhiteLists2/refs/heads/main/ByeWhiteLists2.txt
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
-https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt WL
+https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
