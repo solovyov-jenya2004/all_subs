@@ -46,33 +46,33 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 
 Огромное спасибо создателям, чьи конфиги легли в основу этой сборки:
 
-[**zieng2**](https://t.me/zieng2)
+- [**zieng2**](https://t.me/zieng2)
 
-[**igareck**](https://github.com/igareck)
+- [**igareck**](https://github.com/igareck)
 
-[**olc**](https://t.me/openlibrecommunity)
+- [**olc**](https://t.me/openlibrecommunity)
 
-[**GoodMIXYVPN**](https://t.me/GoodMIXYVPN)
+- [**GoodMIXYVPN**](https://t.me/GoodMIXYVPN)
 
-[**Обход.Ру**](https://t.me/obhod_ru)
+- [**Обход.Ру**](https://t.me/obhod_ru)
 
-[**РосТуннель**](https://t.me/rostunnel)
+- [**РосТуннель**](https://t.me/rostunnel)
 
-[**EtoNeYa**](https://t.me/YoutubeUnBlockRu)
+- [**EtoNeYa**](https://t.me/YoutubeUnBlockRu)
 
-[**EaveVPN**](https://t.me/EaveVPN)
+- [**EaveVPN**](https://t.me/EaveVPN)
 
-[**Destroy_ST**](https://github.com/DestroyST6767)
+- [**Destroy_ST**](https://github.com/DestroyST6767)
 
-[**WL RUS**](https://t.me/wlrustg)
+- [**WL RUS**](https://t.me/wlrustg)
 
-[**ByeWhiteLists 2.0 x GoodbyeWL**](https://t.me/ByeWhiteLists2)
+- [**ByeWhiteLists 2.0 x GoodbyeWL**](https://t.me/ByeWhiteLists2)
 
-[**Alex999ooo**](https://github.com/Alex999ooo)
+- [**Alex999ooo**](https://github.com/Alex999ooo)
 
-[**CID VPN**](https://t.me/CID_VPN)
+- [**CID VPN**](https://t.me/CID_VPN)
 
-[**KfWL**](https://t.me/KfWLRus)
+- [**KfWL**](https://t.me/KfWLRus)
 
 
 ## 🧬 Протоколы
