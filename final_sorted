@@ -2120,6 +2120,7 @@ vless://26524cce-d514-4014-a426-365fb266a14d@46.101.182.178:443?allowInsecure=0&
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?type=raw#[ 🇺🇸 ] [ United States, Los Angeles ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?alpn=h2,http/1.1&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ukos.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?encryption=none&headerType=none&security=none&sni=🔒&type=tcp#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?encryption=none&security=none&type=tcp#[ 🇺🇸 ] [ United States, Los Angeles ] [ by @openlibrecommunity ]
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?encryption=none&headerType=none&security=none&type=tcp#[ 🇺🇸 ] [ United States, Los Angeles ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
