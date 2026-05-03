@@ -281,7 +281,7 @@ GitHub Actions и cron-job — бесплатные сервисы с общей
 
 ## 📜 Лицензия
 
-[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/LICENSE)
 
 Этот проект распространяется под лицензией **Creative Commons Zero v1.0 Universal (CC0)**.
 
