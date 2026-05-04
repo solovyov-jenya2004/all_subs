@@ -129,7 +129,7 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 
 ---
 
-## ❓ Вопросы и ответы
+## ❓ Вопросы и ответы (FAQ)
 
 <details>
 <summary><b>❓ Не добавляется подписка в клиент (ошибка SubscriptionFoundException)</b></summary>
@@ -146,6 +146,8 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 <summary><b>🕐 Конфиги обновляются с большой задержкой (или вообще не обновляются)</b></summary>
 
 GitHub Actions и cron-job — бесплатные сервисы с общей очередью. Одновременных запусков очень много, поэтому выполнение может задерживаться. Это нормально.
+
+Также возможно, что ни один источник подписки не поменялся (следовательно не обновилась и моя подписка).
 
 Если запусков не было очень давно (больше часа) - проверьте, возможно сейчас не работает [GitHub](https://www.githubstatus.com) или [cron-job](https://status.cron-job.org). 
 
@@ -307,4 +309,4 @@ GitHub Actions и cron-job — бесплатные сервисы с общей
 
 ## 🔍 Ключевые слова для поиска
 
-vpn, white list, white lists, wl, бл, белый список, белые списки, подписка, sub, subscription, ru, whitelist, whitelists, впн
+vpn, white list, white lists, wl, бл, белый список, белые списки, подписка, sub, subscription, ru, whitelist, whitelists, впн, ру, россия, рф, российская федерация, russia, russian federation, rf
