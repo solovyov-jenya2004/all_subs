@@ -2039,6 +2039,7 @@ vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?type=tcp&he
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?type=tcp&headerType=none&security=tls&encryption=none&sni=pl74.mechvpn.online&fp=firefox&flow=xtls-rprx-vision&insecure=0#[ 🇵🇱 ] [ Poland, Warsaw ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?type=tcp&headerType=none&security=tls&encryption=none&sni=pl74.mechvpn.online&fp=chrome&host=pl74.mechvpn.online&flow=xtls-rprx-vision&insecure=0#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?type=tcp&headerType=none&security=tls&encryption=none&sni=pl74.mechvpn.online&fp=chrome&alpn=h3&flow=xtls-rprx-vision&insecure=0#[ 🇵🇱 ] [ Poland, Warsaw ] [ by @openlibrecommunity ]
+vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?security=none&encryption=none&headerType=none&type=tcp&sni=178.104.118.247#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?flow=&type=tcp#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?type=tcp#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?security=&sni=178.104.118.247&type=tcp#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
