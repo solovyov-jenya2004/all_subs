@@ -80,6 +80,8 @@ jobs:
           #support-url: https://github.com/solovyov-jenya2004/all_subs/issues
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
           #subscription-userinfo: upload=0; download=0; total=0; expire=0
+
+          
           EOF
 
           # Собираем финальный файл с заголовками
