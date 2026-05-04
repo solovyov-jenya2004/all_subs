@@ -44,11 +44,41 @@
 Прямые ссылки для вашего VPN‑клиента:
 
 ```
-https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+https://solovyov-jenya2004.vercel.app/final_sorted
 ```
 ```
-https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+https://solovyov-jenya2004.vercel.app/final_sorted_base64
 ```
+
+<details>
+  <summary><b>🔗 Зеркала</b></summary>
+  <br>
+    
+  <details>
+    <summary><b>📦 GitHub raw</b></summary>
+    <br>
+<p><b>Обычная подписка</b></p> 
+    
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+<p><b>Base64‑подписка</b></p>
+   
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+  </details>
+  
+  <details>
+    <summary><b>☁️ Cloudflare</b></summary>
+    <br>
+<p><b>Обычная подписка</b></p>   
+     
+    https://final-sorted.solovyov-jenya2004.workers.dev/    
+<p><b>Base64‑подписка</b></p>   
+   
+    https://final-sorted-base64.solovyov-jenya2004.workers.dev/
+  </details>
+</details>
+
+---
+
 Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app), [Throne](https://throneproj.github.io), [TeapodStream](https://github.com/Wendor/teapod-stream) и другие.
 
 **ВНИМАНИЕ! Из-за обнаруженной узявимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет читать практически любому приложению ваш "новый" IP, не рекомендуется использовать v2rayN, Happ на ПК, v2RayTun на IOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet**. Прочитайте об этом больше на Хабре: https://habr.com/ru/articles/1020080.
@@ -63,10 +93,10 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 
 1. Откройте в браузере одну из ссылок:
    ```
-   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted
    ```
    ```
-   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted_base64
    ```
 
 3. В открывшейся странице найдите блок с текстом конфигов.
