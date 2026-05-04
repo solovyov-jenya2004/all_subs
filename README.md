@@ -63,10 +63,10 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 
 1. Откройте в браузере одну из ссылок:
    ```
-   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted&lang=de-de
+   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
    ```
    ```
-   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64&lang=de-de
+   https://translate.yandex.ru/translate?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
    ```
 
 3. В открывшейся странице найдите блок с текстом конфигов.
