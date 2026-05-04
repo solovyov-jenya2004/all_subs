@@ -75,7 +75,7 @@ jobs:
         run: |
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
-          #profile-update-interval: 0,5
+          #profile-update-interval: 1
           #profile-web-page-url: https://github.com/solovyov-jenya2004/all_subs
           #support-url: https://github.com/solovyov-jenya2004/all_subs/issues
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
