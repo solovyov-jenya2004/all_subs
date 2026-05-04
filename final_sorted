@@ -1710,6 +1710,7 @@ vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@172.64.147.104:443?allowInsecure=1&
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.26:2083?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://981fca81-5be1-41f8-ac9b-d138e8109943@92.53.190.231:443?ed=2560&eh=Sec-WebSocket-Protocol&encryption=none&host=babayaga-6i7.pages.dev&path=/?Telegram@WangCai2=&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?type=ws&security=tls&encryption=none&sni=daluan.eu.org&host=daluan.eu.org#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://a01daac7-1e65-4645-854d-b47d226f6b08@8.6.112.0:443?encryption=none&host=y6-3cj.PAgES.DEV&path=/&security=tls&sni=y6-3cj.PAgES.DEV&type=ws#[ 🇺🇸 ] [ United States, San Francisco (South Beach) ] [ by @openlibrecommunity ]
