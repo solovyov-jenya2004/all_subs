@@ -87,7 +87,7 @@ https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_
 
 Каждую минуту сервис [cron‑job.org](https://cron-job.org) запускает Github Actions, который...
 
-1. 📥 **Скачивает** все подписки из файла [`sources.txt`](sources.txt).
+1. 📥 **Скачивает** все подписки из файла [`sources.txt`](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/sources.txt).
 2. 🔓 **Расшифровывает** подписку из Base64, если она была.
 3. 🎯 **Фильтрует** конфигурации по ключевым словам.
 4. 🧹 **Удаляет** комментарии, пустые строки и технический мусор.
