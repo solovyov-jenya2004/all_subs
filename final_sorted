@@ -2181,6 +2181,7 @@ vless://340ce710-8daf-4204-8d0d-74f2edc46386@pwctqbvswnne.ap-northeast-1.clawclo
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@143.42.66.91:443?allowInsecure=0&type=ws&security=tls&fp=chrome&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@vip1.kaixincloud.top:443?type=ws&security=tls&sni=powered-by-surena.configfarsi695fcee895881.workers.dev&host=powered-by-surena.configfarsi695fcee895881.workers.dev#[ 🇨🇦 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://340ce710-8daf-4204-8d0d-74f2edc46386@pwctqbvswnne.ap-northeast-1.clawcloudrun.com:443?allow_insecure=1&host=pwctqbvswnne.ap-northeast-1.clawcloudrun.com&security=tls&sni=pwctqbvswnne.ap-northeast-1.clawcloudrun.com&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?type=ws&security=tls&fp=chrome&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇨🇳 ] [ China ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&alpn=h3,h2,http/1.1#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
