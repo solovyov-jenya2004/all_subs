@@ -307,4 +307,4 @@ GitHub Actions и cron-job — бесплатные сервисы с общей
 
 ## 🔍 Ключевые слова для поиска
 
-vpn, white list, white lists, wl, бл, белый список, белые списки, подписка, sub, subscription, ru
+vpn, white list, white lists, wl, бл, белый список, белые списки, подписка, sub, subscription, ru, whitelist, whitelists, впн
