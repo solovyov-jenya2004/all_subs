@@ -71,11 +71,22 @@ jobs:
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
 
-      - name: Подготовить итоговые файлы (plain + base64)
+      - name: Подготовить итоговые файлы (с заголовками и смайлами)
         run: |
-          cp deduped final_sorted
+          cat > headers.txt <<EOF
+          #profile-title: 🚀 all_subs
+          #profile-update-interval: 0.5
+          #profile-web-page-url: https://github.com/solovyov-jenya2004/all_subs
+          #support-url: https://github.com/solovyov-jenya2004/all_subs/issues
+          #announce: ⚡ Используйте конфиги только в условиях «белых списков»
+          #subscription-userinfo: upload=0; download=0; total=0; expire=0
+          EOF
+
+          # Собираем финальный файл с заголовками
+          cat headers.txt deduped > final_sorted
           echo "final_sorted создан, строк: $(wc -l < final_sorted)"
 
+          # Кодируем в base64 (тоже с заголовками)
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
           
