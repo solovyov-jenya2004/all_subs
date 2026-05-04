@@ -2185,6 +2185,7 @@ vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?type=tcp&se
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@183.105.104.149:23791?allowInsecure=0&sni=xfxl35a.node-edge.gfw.hidns.co&type=ws&host=xfxl35a.node-edge.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇰🇷 ] [ South Korea, Seongnam-si (Buljeong-ro) ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?&security=tls&flow=xtls-rprx-vision&fp=chrome&alpn=h3&sni=pl74.mechvpn.online&type=tcp&headerType=none&host=pl74.mechvpn.online&path=%2F#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?security=&sni=178.104.118.247&type=tcp#[ 🇩🇪 ] [ Germany, Nuremberg ] [ by @openlibrecommunity ]
