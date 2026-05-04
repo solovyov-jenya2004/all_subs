@@ -2206,6 +2206,7 @@ vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.80.111.30:8880?type=ws&encryptio
 vless://40afa553-1745-4f62-a380-4163c7bb4870@188.114.96.3:443?encryption=none&type=ws&security=tls&host=restless-dew-894b.amirhost4.workers.dev&fp=chrome&sni=restless-dew-894b.amirhost4.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@166.62.114.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime23.workers.dev#[ 🇺🇸 ] [ United States, Tempe (South Tempe) ] [ by @openlibrecommunity ]
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@181.214.1.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime39.workers.dev#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.192.224.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime17.workers.dev#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@pl74.mechvpn.online:443?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=pl74.mechvpn.online#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@141.11.202.30:8880?host=vms.lifetime10.workers.dev&security=none&type=ws#[ 🇭🇺 ] [ Hungary, Budapest (XIX. kerület) ] [ by @openlibrecommunity ]
