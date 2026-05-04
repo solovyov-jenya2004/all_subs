@@ -1,3 +1,9 @@
+#profile-title: 🚀 all_subs
+#profile-update-interval: 0.5
+#profile-web-page-url: https://github.com/solovyov-jenya2004/all_subs
+#support-url: https://github.com/solovyov-jenya2004/all_subs/issues
+#announce: ⚡ Используйте конфиги только в условиях «белых списков»
+#subscription-userinfo: upload=0; download=0; total=0; expire=0
 vless://22f65fc9-4dee-456c-a213-2a025389af31@109.120.189.213:58652?encryption=none&type=tcp&security=reality&fp=chrome&sni=www.apple.com&pbk=VZq5atMvE_1AW0nXcn4opuxZdrSu3zy3kP7YTdGj6EQ&sid=28&spx=%2FGWZCgGnbVzCEVS8#%F0%9F%87%B7%F0%9F%87%BA%20VK%20%E2%80%94%20%231
 vless://17c1efa3-dd76-4c76-ac7b-846d1f295c5b@37.139.42.96:6443?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=ads.x5.ru&pbk=yy8j8XpeayWzp-0sJ2fOMy9XY6KQSUhUG-fh5bq1M1k&sid=7f02ab19#%F0%9F%87%B7%F0%9F%87%BA%20VK%20%E2%80%94%20%232
 vless://22f65fc9-4dee-456c-a213-2a025389af31@109.120.189.213:58652?encryption=none&type=tcp&security=reality&fp=chrome&sni=www.apple.com&pbk=VZq5atMvE_1AW0nXcn4opuxZdrSu3zy3kP7YTdGj6EQ&sid=28#%F0%9F%87%B7%F0%9F%87%BA%20VK%20%E2%80%94%20%233
@@ -1472,8 +1478,10 @@ vless://d342d11e-d424-4583-b36e-524ab1f0afa4@154.92.9.156:443?security=tls&sni=W
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@162.159.46.138:443?allowInsecure=1&encryption=none&fp=chrome&host=kalami-eew.pages.dev&path=/&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@172.66.42.200:2083?ed=2560&eh=Sec-WebSocket-Protocol&host=babayaga-6i7.pages.dev&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.19.55.143:443?allowInsecure=1&encryption=none&fp=chrome&host=kalami-eew.pages.dev&path=/&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://df862b4c-2150-4b36-81ac-405036cf9ff6@172.64.147.237:443?sni=kalami-eew.pages.dev&type=ws&host=kalami-eew.pages.dev&path=/fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://0b3e7958-e5c4-498f-ab21-b49686f95d2d@188.114.97.1:2053?encryption=none&security=tls&sni=bold-term-4edd.mbigspot.workers.dev&alpn=h2,http/1.1&fp=chrome&insecure=1&type=ws&host=bold-term-4edd.mbigspot.workers.dev&path=/?ed=2048#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@172.64.229.199:443?allowInsecure=1&encryption=none&fp=chrome&host=kalami-eew.pages.dev&path=/&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://df862b4c-2150-4b36-81ac-405036cf9ff6@108.162.198.172:443?sni=kalami-eew.pages.dev&type=ws&host=kalami-eew.pages.dev&path=/fp=chrome&security=tls#[ 🇺🇸 ] [ United States, Ashburn ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://0b3e7958-e5c4-498f-ab21-b49686f95d2d@188.114.97.1:2053?fp=chrome&host=bold-term-4edd.mbigspot.workers.dev&security=tls&sni=bold-term-4edd.mbigspot.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?path=/&security=tls&encryption=none&host=daluan.eu.org&fp=chrome&type=ws&sni=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
@@ -1522,6 +1530,7 @@ vless://d37a75db-76b6-4db8-b213-0d5b044d138d@104.17.72.206:443?encryption=none&t
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://169221de-6408-4143-9e66-6f77de385e94@172.67.204.84:443?host=cassiusvpn-cassiusvpn-000.stat-4.workers.dev&security=tls&sni=cassiusvpn-cassiusvpn-000.stat-4.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@8.6.112.0:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇺🇸 ] [ United States, San Francisco (South Beach) ] [ by @openlibrecommunity ]
+vless://df862b4c-2150-4b36-81ac-405036cf9ff6@172.67.70.86:443?sni=kalami-eew.pages.dev&type=ws&host=kalami-eew.pages.dev&path=/fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d37a75db-76b6-4db8-b213-0d5b044d138d@104.18.12.149:443?path=/&security=tls&encryption=none&insecure=1&host=hio-awx.pages.dev&type=ws&allowInsecure=1&sni=hio-awx.pages.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://169221de-6408-4143-9e66-6f77de385e94@172.67.204.84:443?type=ws&security=tls&encryption=none&sni=cassiusvpn-cassiusvpn-000.stat-4.workers.dev&host=cassiusvpn-cassiusvpn-000.stat-4.workers.dev#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
@@ -1531,6 +1540,7 @@ vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.15.201:2096?host=daluan.eu.o
 vless://26524cce-d514-4014-a426-365fb266a14d@46.101.182.178:443?allowInsecure=0&sni=xfxl35a.node-edge.gfw.hidns.co&type=ws&host=xfxl35a.node-edge.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://054b9fdb-4ca8-4b2e-9855-c1515c4937c5@188.114.98.0:443?host=ekhtelal120.mobailfarid4.ir&security=tls&sni=ekhtelal120.mobailfarid4.ir&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@146.185.164.169:443?allowInsecure=0&sni=ynwta9.api-edge.fgfw.qzz.io&type=ws&host=ynwta9.api-edge.fgfw.qzz.io&path=/danfeng?ed=2560fp=chrome&security=tls#[ 🇳🇱 ] [ The Netherlands, Amsterdam ] [ by @openlibrecommunity ]
+vless://a01daac7-1e65-4645-854d-b47d226f6b08@104.20.6.134:443?path=/&security=tls&encryption=none&insecure=0&host=y6-3cj.PAgES.DEV&type=ws&allowInsecure=0&sni=y6-3cj.PAgES.DEV#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@188.226.166.92:443?allowInsecure=0&sni=mug.support.gfw.hidns.co&type=ws&host=mug.support.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇳🇱 ] [ The Netherlands, Amsterdam ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@184.174.80.231:443?allowInsecure=1&encryption=none&host=babayaga-6i7.pages.dev&path=/?Telegram🇨🇳@WangCai2=&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇺🇸 ] [ United States, Wilmington ] [ by @openlibrecommunity ]
@@ -1564,6 +1574,7 @@ vless://26524cce-d514-4014-a426-365fb266a14d@159.65.93.241:443?allowInsecure=0&s
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@38.180.100.80:443?ech=cloudflare-ech.com+https%3A%2F%2Fdns.alidns.com%2Fdns-query&fp=chrome&host=3-7ny.pages.dev&security=tls&sni=3-7ny.pages.dev&type=ws#[ 🇷🇸 ] [ Serbia, Belgrade ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@38.180.100.80:443?type=ws&security=tls&fp=chrome&sni=3-7ny.pages.dev&host=3-7ny.pages.dev&ech=cloudflare-ech.com+https://dns.alidns.com/dns-query#[ 🇷🇸 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://981fca81-5be1-41f8-ac9b-d138e8109943@92.53.190.231:443?ed=2560&eh=Sec-WebSocket-Protocol&encryption=none&host=babayaga-6i7.pages.dev&path=/?Telegram@WangCai2=&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@185.75.243.102:443?type=ws&security=tls&fp=chrome&sni=3-7v4.pages.dev&host=3-7v4.pages.dev&ech=cloudflare-ech.com+https://dns.alidns.com/dns-query#[ 🇦🇱 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=raw#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@193.108.112.212:443?type=ws&security=tls&fp=chrome&sni=3-2h8.pages.dev&host=3-2h8.pages.dev&ech=cloudflare-ech.com+https://dns.alidns.com/dns-query#[ 🇦🇱 ] [ Albania, Tirana ] [ by @openlibrecommunity ]
@@ -1677,6 +1688,7 @@ vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?host=2-ee1.page
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?type=ws&security=tls&fp=chrome&sni=3-2ll.pages.dev&host=3-2ll.pages.dev#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@146.56.43.189:34454?host=babayaga-6i7.pages.dev&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?host=2-1ng.pages.dev&security=tls&sni=2-1ng.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
+vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.21.95.34:443?encryption=none&type=ws&security=tls&path=/proxyip=proxyip.cmliussss.net&host=sn1.skylee5.cloudns.ch&sni=sn1.skylee5.cloudns.ch#[ 🇺🇸 ] [ United States, San Jose ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@154.36.179.170:21120?allow_insecure=0&host=babayaga-6i7.pages.dev&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇯🇵 ] [ Japan, Shinagawa (Higashishinagawa) ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@149.104.25.35:15124?type=ws&security=tls&sni=babayaga-6i7.pages.dev&host=babayaga-6i7.pages.dev#[ 🇸🇬 ] [ Singapore, Singapore (Downtown Core) ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?fp=chrome&host=2-ee1.pages.dev&security=tls&sni=2-ee1.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
