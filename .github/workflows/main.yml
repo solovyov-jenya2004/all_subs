@@ -71,7 +71,7 @@ jobs:
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
 
-      - name: Подготовить итоговые файлы (с заголовками и смайлами)
+      - name: Подготовить итоговые файлы (с заголовками и отступами)
         run: |
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
@@ -80,11 +80,10 @@ jobs:
           #support-url: https://github.com/solovyov-jenya2004/all_subs/issues
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
           #subscription-userinfo: upload=0; download=0; total=0; expire=0
-
+          
           
           EOF
-
-          # Собираем финальный файл с заголовками
+          # Собираем финальный файл с заголовками и двумя пустыми строками после них
           cat headers.txt deduped > final_sorted
           echo "final_sorted создан, строк: $(wc -l < final_sorted)"
 
