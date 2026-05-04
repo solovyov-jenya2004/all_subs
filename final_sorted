@@ -1668,6 +1668,7 @@ vless://89b3cbba-e6ac-485a-9481-976a0415eab9@172.66.44.108:443?host=CiaLLO-egb.P
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@172.64.154.211:443?host=177-e06.pages.dev&security=tls&sni=177-e06.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://0b3e7958-e5c4-498f-ab21-b49686f95d2d@188.114.97.1:2053?alpn=h2%2Chttp%2F1.1&fp=chrome&host=bold-term-4edd.mbigspot.workers.dev&security=tls&sni=bold-term-4edd.mbigspot.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://0f4d41cf-0be1-4fcc-ac41-53b843ba0752@172.66.44.118:443?allowInsecure=1&encryption=none&host=H7-83W.pAgeS.deV&security=tls&sni=H7-83W.pAgeS.deV&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@108.162.196.231:443?allowInsecure=1&encryption=none&host=babayaga-6i7.pages.dev&path=/?Telegram🇨🇳+@WangCai2=&security=tls&sni=babayaga-6i7.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
