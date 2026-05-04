@@ -1904,6 +1904,7 @@ vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@store.ubi.com:443?fp=chrome&host=vl
 vless://26524cce-d514-4014-a426-365fb266a14d@139.59.186.54:443?allowInsecure=0&sni=xfxl35a.node-edge.gfw.hidns.co&type=ws&host=xfxl35a.node-edge.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇬🇧 ] [ United Kingdom, Slough ] [ by @openlibrecommunity ]
 vless://b852270a-1283-4ea8-8a2f-5bae8e644a3e@38.55.146.153:13000?type=raw#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@nlyttls.keepsecurevpn.com:443?type=tcp&security=tls&flow=xtls-rprx-vision&sni=nlyttls.keepsecurevpn.com&alpn=http/1.1,h2#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@cf.877774.xyz:443?fp=firefox&host=vless.lrdxw.club&security=tls&sni=vless.lrdxw.club&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
