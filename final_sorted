@@ -1711,6 +1711,7 @@ vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?type=ws&security=
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?fp=randomized&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@162.159.46.138:443?allowInsecure=1&encryption=none&fp=chrome&host=kalami-eew.pages.dev&path=/&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://bd26c0c3-5eb9-425e-a4b6-2660df94e613@8.6.112.0:443?allowInsecure=1&encryption=none&host=nEO1-3zC.pAGes.DeV&security=tls&sni=nEO1-3zC.pAGes.DeV&type=ws#[ 🇺🇸 ] [ United States, San Francisco (South Beach) ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?fp=chrome&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d37a75db-76b6-4db8-b213-0d5b044d138d@104.17.72.206:443?path=/&security=tls&encryption=none&insecure=0&host=hio-awx.pages.dev&type=ws&allowInsecure=0&sni=hio-awx.pages.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
