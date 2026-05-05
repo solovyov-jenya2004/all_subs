@@ -1601,6 +1601,7 @@ vless://00000000-0000-4000-8000-000000000000@142.248.151.249:39085?sni=rvbtoc55o
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.21.95.34:443?host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇺🇸 ] [ United States, San Jose ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
+vless://a34a5f3e-e9fa-40a6-f3af-2984adbd701b@178.104.118.247:2087?encryption=none&security=none&type=tcp#[ 🇩🇪 ] [ Germany ] [ by @openlibrecommunity ]
 vless://981fca81-5be1-41f8-ac9b-d138e8109943@102.134.55.53:20082?type=ws&security=tls&sni=babayaga-6i7.pages.dev&host=babayaga-6i7.pages.dev#[ 🇿🇦 ] [ South Africa, Cape Town (Mowbray) ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@59.5.198.233:10243?allowInsecure=0&sni=xfxl35a.node-edge.gfw.hidns.co&type=ws&host=xfxl35a.node-edge.gfw.hidns.co&path=/danfengfp=chrome&security=tls#[ 🇰🇷 ] [ South Korea, Dobong-gu ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?flow=xtls-rprx-vision&fp=chrome&headertype=none&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
