@@ -1439,6 +1439,7 @@ vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@cf.008500.xyz:443?encryption=none&s
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@usa.visa.com:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@cf.008500.xyz:443?type=ws&security=tls&sni=vless.lrdxw.club&host=vless.lrdxw.club#[ 🌐 ] [ Anycast-IP ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@sub.danfeng.eu.org:443?fp=firefox&host=vless.lrdxw.club&security=tls&sni=vless.lrdxw.club&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://064059ce-23b9-45d3-953d-57d4c5092874@chatgpt.com:443?path=/eyJqdW5rIjoieUVOZzhGTTh2OWdLcVYzRCIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJveHlpcCIsInBhbmVsSVBzIjpbXX0&security=tls&encryption=none&host=026.electrocellco-cf-026.workers.dev&type=ws&sni=026.elEctrOCELLCo-cF-026.wORKERs.deV#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://0f4d41cf-0be1-4fcc-ac41-53b843ba0752@h7-83w.pages.dev:2053?host=H7-83W.pAgeS.deV&security=tls&sni=h7-83w.pages.dev&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@chatgpt.com:2053?type=ws&security=tls&sni=Bpb241.gaNijoV670.WOrkers.Dev.&host=BpB241.gaNIJoV670.WOrkErs.dev.&alpn=h3,h2,http/1.1#[ 🇨🇦 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@mfa.gov.ua:443?host=vless.lrdxw.club&security=tls&sni=vless.lrdxw.club&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
