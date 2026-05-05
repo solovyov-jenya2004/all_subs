@@ -1483,6 +1483,7 @@ vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?type=ws&securit
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?host=2-1ng.pages.dev&security=tls&sni=2-1ng.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?fp=chrome&host=2-ee1.pages.dev&security=tls&sni=2-ee1.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=cluster-russia-1.firstvideocdn.ru&path=%2f#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?flow=xtls-rprx-vision&headertype=&security=tls&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?allow_insecure=1&flow=xtls-rprx-vision&headertype=none&path=%2F&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
