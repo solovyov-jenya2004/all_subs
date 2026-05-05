@@ -79,7 +79,7 @@ jobs:
           #profile-web-page-url: github.com/solovyov-jenya2004/all_subs
           #support-url: github.com/solovyov-jenya2004/all_subs/issues
           #profile-update-interval: 1
-          #subscription-userinfo: total=0
+          #subscription-userinfo: upload=0; download=0; total=0
           
           
           EOF
