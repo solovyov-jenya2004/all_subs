@@ -1576,6 +1576,7 @@ vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?flow=xtls-rprx-v
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@103.21.244.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime34.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@108.162.195.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime58.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.249.3:52006?flow=xtls-rprx-vision&fp=chrome&headertype=none&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@185.158.133.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime58.workers.dev#[ 🇵🇱 ] [ Poland, Warsaw ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@173.245.49.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime36.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://0b3e7958-e5c4-498f-ab21-b49686f95d2d@188.114.97.1:2053?alpn=h2%2Chttp%2F1.1&fp=chrome&host=bold-term-4edd.mbigspot.workers.dev&security=tls&sni=bold-term-4edd.mbigspot.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fe665bb7-a558-42bc-9ba7-a59288ee4b93@104.26.12.31:80?type=ws&security=none&encryption=none&path=%F0%9F%94%92&host=floral-term-d21f.wafajax493.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
