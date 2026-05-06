@@ -325,7 +325,6 @@ jobs:
               else
                 echo "   ⚠️ Не удалось конвертировать JSON"
               fi
-            fi
             else
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   Получено конфигов: $count"
