@@ -1628,6 +1628,7 @@ vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?type=ws&securit
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@1.161.63.21:443?allowInsecure=0&sni=gogo2.kmj.qzz.io&type=ws&host=gogo2.kmj.qzz.io&path=/flow=-udp443&fp=chrome&security=tls#[ 🇹🇼 ] [ Taiwan, Taipei ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@104.199.182.27:443?allowInsecure=0&sni=gogo6.kmj.qzz.io&type=ws&host=gogo6.kmj.qzz.io&path=/fp=chrome&security=tls#[ 🇹🇼 ] [ Taiwan, Taoyuan ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?type=ws&security=tls&encryption=none&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.200.87.244:2053?type=grpc&security=tls&sni=nice.ducks.tel&mode=gun&serviceName=grpc#[ 🇩🇪 ] [ Germany ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@43.161.218.151:11111?allowInsecure=1&sni=gogo.kmj.qzz.io&type=ws&host=gogo.kmj.qzz.io&path=/socks5=gogo:gogo@185.184.70.120:50088fp=chrome&security=tls#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
