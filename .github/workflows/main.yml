@@ -14,8 +14,9 @@ jobs:
 
       - name: Скачать и объединить подписки (включая JSON)
         run: |
-          # Устанавливаем инструмент для конвертации
-          npm install -g singbox-converter
+          # Локально устанавливаем конвертер
+          npm install singbox-converter --prefix ./tools
+          export NODE_PATH="./tools/node_modules"
 
           > raw
           while IFS= read -r line; do
@@ -23,7 +24,6 @@ jobs:
             [ -z "$line" ] && continue
             [[ "$line" =~ ^# ]] && continue
 
-            # Определяем тип источника: j для JSON, иначе обычная подписка
             if [[ "$line" =~ ^j[[:space:]] ]]; then
               is_json=true
               url=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
@@ -36,7 +36,6 @@ jobs:
 
             echo "Загружаю ($([ "$is_json" = true ] && echo "JSON" || echo "текст")): $url${filter:+ (фильтр: $filter)}"
 
-            # Скачиваем подписку
             tmp_src=$(mktemp)
             http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
             curl_exit=$?
@@ -47,7 +46,6 @@ jobs:
               continue
             fi
 
-            # Декодируем base64, если скачали обычную подписку
             if ! $is_json; then
               tmp_dec=$(mktemp)
               if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
@@ -57,26 +55,23 @@ jobs:
               fi
             fi
 
-            # Применяем фильтр, если он задан
             if [ -n "$filter" ]; then
               grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
             if $is_json; then
-              # Обработка JSON с помощью singbox-converter
               node -e "
                 const { convertToLink } = require('singbox-converter');
                 const fs = require('fs');
                 try {
                   const config = JSON.parse(fs.readFileSync('${tmp_src}', 'utf8'));
                   
-                  // Функция для рекурсивного извлечения всех outbounds из конфига
                   function extractOutbounds(obj) {
                     if (!obj || typeof obj !== 'object') return [];
                     if (Array.isArray(obj)) return obj.flatMap(extractOutbounds);
                     if (obj.outbounds) return extractOutbounds(obj.outbounds);
-                    if (obj.protocol) return [obj]; // это и есть outbound
+                    if (obj.protocol) return [obj];
                     return Object.values(obj).flatMap(extractOutbounds);
                   }
 
@@ -94,8 +89,8 @@ jobs:
                 }
               " >> raw
               echo "" >> raw
-              count=$(grep -c '://' "$tmp_src" || true)
-              echo "   Получено конфигов из JSON: $(grep -c '://' "$tmp_src" 2>/dev/null || echo 0)"
+              count=$(grep -c '://' "$tmp_src" 2>/dev/null || echo 0)
+              echo "   Получено конфигов из JSON: $(grep -c '://' raw 2>/dev/null || echo 0)"
             else
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   Получено конфигов: $count"
