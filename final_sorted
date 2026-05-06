@@ -1463,6 +1463,7 @@ vless://06b65903-406d-4a41-8463-6fd5c0ee7798@219.76.13.183:443?type=ws&security=
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@83.229.123.217:443?allowInsecure=0&sni=gogo5.kmj.qzz.io&type=ws&host=gogo5.kmj.qzz.io&path=/fp=chrome&security=tls#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&alpn=http%2F1.1%2Ch2&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.200.77.90:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
