@@ -167,7 +167,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**KfWL**](https://t.me/KfWLRus)
 
-- [**Free_vpn**](t.me/free_vpn123456)
+- [**Free_vpn**](https://t.me/free_vpn123456)
 
 ---
 
