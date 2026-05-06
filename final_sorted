@@ -1820,6 +1820,7 @@ vless://fe665bb7-a558-42bc-9ba7-a59288ee4b93@104.26.12.31:80?host=floral-term-d2
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.26:2083?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?flow=xtls-rprx-vision&encryption=none&type=tcp&security=tls&sni=cluster-russia-1.firstvideocdn.ru&source_name=igareck_vless_reality_rus_mobile&provider_id=igareck_vless_reality_rus_mobile#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://fe665bb7-a558-42bc-9ba7-a59288ee4b93@104.26.13.31:80?host=floral-term-d21f.wafajax493.workers.dev&security=none&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://d342d11e-d424-4583-b36e-524ab1f0afa4@172.66.47.45:2083?sni=wk1.f1w.de5.net&type=ws&host=wk1.f1w.de5.net&fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.26:2083?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?fp=randomized&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
