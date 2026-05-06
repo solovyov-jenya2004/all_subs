@@ -66,7 +66,12 @@ jobs:
                   ..
                   | objects
                   | select(has("protocol") and (has("settings") or has("server")))
-                ] | unique_by(.tag, .protocol, (.settings.vnext[0].address // .settings.server // .server), (.settings.vnext[0].port // .settings.port // .port))
+                ] | unique_by(
+                  (.tag // "") + 
+                  (.protocol // "") + 
+                  (.settings.vnext[0].address // .settings.server // .server // "") + 
+                  ((.settings.vnext[0].port // .settings.port // .port) | tostring)
+                )
               }' "$tmp_src" > "${tmp_src}_fixed.json")
 
               # Запускаем улучшенный конвертер (версия коллеги, адаптированная под Node.js)
@@ -289,7 +294,8 @@ jobs:
                         const obfsParam = s.obfs || 'plain';
                         const obfsParamStr = s.obfs_param || '';
                         const protoParamStr = s.protocol_param || '';
-                        const ssrPart = server + ':' + port + ':' + protocolParam + ':' + method + ':' + obfsParam + ':' + Buffer.from(password).toString('base64') + '/?obfsparam=' + Buffer.from(obfsParamStr).toString('base64') + '&protoparam=' + Buffer.from(protoParamStr).toString('base64') + '&remarks=' + Buffer.from(name).toString('base64') + '&group=' + Buffer.from(remarks).toString('base64');
+                        // Правильное кодирование для эмодзи и юникода (Buffer для CI)
+                        const ssrPart = server + ':' + port + ':' + protocolParam + ':' + method + ':' + obfsParam + ':' + Buffer.from(password).toString('base64') + '/?obfsparam=' + Buffer.from(obfsParamStr).toString('base64') + '&protoparam=' + Buffer.from(protoParamStr).toString('base64') + '&remarks=' + Buffer.from(encodeURIComponent(name)).toString('base64') + '&group=' + Buffer.from(encodeURIComponent(remarks)).toString('base64');
                         const b64 = Buffer.from(ssrPart).toString('base64');
                         links.push('ssr://' + b64);
                         break;
