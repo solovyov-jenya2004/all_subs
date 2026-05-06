@@ -1834,6 +1834,7 @@ vless://06b65903-406d-4a41-8463-6fd5c0ee7798@38.180.9.18:8443?host=sn1.skylee5.c
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@38.180.9.18:8443?sni=sn1.skylee5.cloudns.ch&type=ws&host=sn1.skylee5.cloudns.ch&path=/proxyip=ProxyIP.CMLiussss.netfp=chrome&security=tls#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@38.180.9.18:8443?type=ws&security=tls&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@172.104.186.18:8443?type=ws&security=tls&encryption=none&fp=chrome&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@172.104.186.18:8443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@172.104.191.150:443?host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://26524cce-d514-4014-a426-365fb266a14d@43.213.148.173:443?allowInsecure=0&sni=snippet.gfw.qzz.io&alpn=http/1.1&type=ws&host=snippet.gfw.qzz.io&path=/danfengfp=chrome&security=tls#[ 🇹🇼 ] [ Taiwan, Taoyuan ] [ by @openlibrecommunity ]
