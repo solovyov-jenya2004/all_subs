@@ -59,7 +59,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
         <br>
         <p><b>Обычная подписка</b></p>
     
-    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted 
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
   <p><b>Base64‑подписка</b></p>
   
     https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
@@ -74,6 +74,16 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
    <p><b>Base64‑подписка</b></p>   
    
     https://final-sorted-base64.solovyov-jenya2004.workers.dev/
+  </details>
+  <details>
+    <summary><b>👤 Alexanderoff</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>   
+     
+    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted   
+   <p><b>Base64‑подписка</b></p>   
+   
+    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
   </details>
 </details>
 
