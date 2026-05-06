@@ -12,19 +12,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать, проверить доступность и объединить подписки
+      - name: Скачать и объединить подписки (включая JSON)
         run: |
+          # Устанавливаем инструмент для конвертации
+          npm install -g singbox-converter
+
           > raw
           while IFS= read -r line; do
             line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
             [ -z "$line" ] && continue
             [[ "$line" =~ ^# ]] && continue
 
-            url=$(echo "$line" | awk '{print $1}')
-            filter=$(echo "$line" | awk '{print $2}')
+            # Определяем тип источника: j для JSON, иначе обычная подписка
+            if [[ "$line" =~ ^j[[:space:]] ]]; then
+              is_json=true
+              url=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
+              filter=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $2}')
+            else
+              is_json=false
+              url=$(echo "$line" | awk '{print $1}')
+              filter=$(echo "$line" | awk '{print $2}')
+            fi
 
-            echo "Загружаю: $url${filter:+ (фильтр: $filter)}"
+            echo "Загружаю ($([ "$is_json" = true ] && echo "JSON" || echo "текст")): $url${filter:+ (фильтр: $filter)}"
 
+            # Скачиваем подписку
             tmp_src=$(mktemp)
             http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
             curl_exit=$?
@@ -35,23 +47,61 @@ jobs:
               continue
             fi
 
-            tmp_dec=$(mktemp)
-            if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
-              mv "$tmp_dec" "$tmp_src"
-            else
-              rm -f "$tmp_dec"
+            # Декодируем base64, если скачали обычную подписку
+            if ! $is_json; then
+              tmp_dec=$(mktemp)
+              if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
+                mv "$tmp_dec" "$tmp_src"
+              else
+                rm -f "$tmp_dec"
+              fi
             fi
 
+            # Применяем фильтр, если он задан
             if [ -n "$filter" ]; then
               grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
-            count=$(grep -c '://' "$tmp_src" || true)
-            echo "   Получено конфигов: $count"
+            if $is_json; then
+              # Обработка JSON с помощью singbox-converter
+              node -e "
+                const { convertToLink } = require('singbox-converter');
+                const fs = require('fs');
+                try {
+                  const config = JSON.parse(fs.readFileSync('${tmp_src}', 'utf8'));
+                  
+                  // Функция для рекурсивного извлечения всех outbounds из конфига
+                  function extractOutbounds(obj) {
+                    if (!obj || typeof obj !== 'object') return [];
+                    if (Array.isArray(obj)) return obj.flatMap(extractOutbounds);
+                    if (obj.outbounds) return extractOutbounds(obj.outbounds);
+                    if (obj.protocol) return [obj]; // это и есть outbound
+                    return Object.values(obj).flatMap(extractOutbounds);
+                  }
 
-            cat "$tmp_src" >> raw
-            echo "" >> raw
+                  const outbounds = extractOutbounds(config);
+                  outbounds.forEach(ob => {
+                    try {
+                      const link = convertToLink(ob);
+                      if (link) console.log(link);
+                    } catch (e) {
+                      console.error('⚠️ Не удалось конвертировать outbound:', JSON.stringify(ob).slice(0, 100));
+                    }
+                  });
+                } catch (e) {
+                  console.error('❌ Ошибка парсинга JSON:', e.message);
+                }
+              " >> raw
+              echo "" >> raw
+              count=$(grep -c '://' "$tmp_src" || true)
+              echo "   Получено конфигов из JSON: $(grep -c '://' "$tmp_src" 2>/dev/null || echo 0)"
+            else
+              count=$(grep -c '://' "$tmp_src" || true)
+              echo "   Получено конфигов: $count"
+              cat "$tmp_src" >> raw
+              echo "" >> raw
+            fi
             rm -f "$tmp_src"
           done < sources.txt
 
