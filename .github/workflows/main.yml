@@ -82,17 +82,14 @@ jobs:
                   const remarks = config.remarks || 'Proxy';
                   const outbounds = config.outbounds || [];
                   const links = [];
-
                   for (const out of outbounds) {
                     const tag = out.tag || '';
                     const name = tag || remarks;
-
                     const ss = out.streamSettings || {};
                     const network = ss.network || 'tcp';
                     const security = ss.security || 'none';
                     let sni = '', fp = '', allowInsecure = false;
                     let realityPubKey = '', shortId = '';
-
                     if (security === 'tls') {
                       const tls = ss.tlsSettings || {};
                       sni = tls.serverName || '';
@@ -105,13 +102,11 @@ jobs:
                       sni = reality.serverName || '';
                       fp = reality.fingerprint || '';
                     }
-
                     const wsSettings = ss.wsSettings || {};
                     const grpcSettings = ss.grpcSettings || {};
                     const tcpSettings = ss.tcpSettings || {};
                     const kcpSettings = ss.kcpSettings || {};
                     const xhttpSettings = ss.xhttpSettings || {};
-
                     const buildTransportParams = (baseParams = {}) => {
                       const p = new URLSearchParams();
                       if (network !== 'tcp') p.set('type', network);
@@ -123,7 +118,6 @@ jobs:
                         if (realityPubKey) p.set('pbk', realityPubKey);
                         if (shortId) p.set('sid', shortId);
                       }
-
                       if (network === 'ws') {
                         if (wsSettings.path) p.set('path', wsSettings.path);
                         if (wsSettings.headers && wsSettings.headers.Host) p.set('host', wsSettings.headers.Host);
@@ -146,16 +140,13 @@ jobs:
                         if (kcpSettings.header) p.set('header', kcpSettings.header.type || 'none');
                         if (kcpSettings.seed) p.set('seed', kcpSettings.seed);
                       }
-
                       for (const [key, value] of Object.entries(baseParams)) {
                         if (value) p.set(key, value);
                       }
                       return p.toString();
                     };
-
                     let protocol = out.protocol;
                     if (protocol === 'hy2') protocol = 'hysteria2';
-
                     switch (protocol) {
                       case 'vless': {
                         const vnext = out.settings?.vnext?.[0];
@@ -165,16 +156,13 @@ jobs:
                         const uuid = user.id;
                         const flow = user.flow || '';
                         const encryption = user.encryption || 'none';
-
                         const baseParams = {};
                         if (encryption !== 'none') baseParams.encryption = encryption;
                         if (flow) baseParams.flow = flow;
-
                         const query = buildTransportParams(baseParams);
                         links.push('vless://' + uuid + '@' + vnext.address + ':' + vnext.port + '?' + query + '#' + encodeURIComponent(name));
                         break;
                       }
-
                       case 'vmess': {
                         const vnext = out.settings?.vnext?.[0];
                         if (!vnext) continue;
@@ -183,45 +171,16 @@ jobs:
                         const uuid = user.id;
                         const aid = user.alterId ?? 0;
                         const scy = user.security || 'auto';
-
-                        const vmessObj = {
-                          v: '2',
-                          ps: name,
-                          add: vnext.address,
-                          port: vnext.port,
-                          id: uuid,
-                          aid: aid,
-                          scy: scy,
-                          net: network,
-                          type: 'none',
-                          host: '',
-                          path: '',
-                          tls: security === 'tls' ? 'tls' : (security === 'reality' ? 'reality' : 'none'),
-                          sni: sni,
-                          fp: fp,
-                          alpn: '',
-                        };
-
-                        if (network === 'ws') {
-                          vmessObj.path = wsSettings.path || '/';
-                          vmessObj.host = wsSettings.headers?.Host || sni;
-                        } else if (network === 'grpc') {
-                          vmessObj.path = grpcSettings.serviceName || '';
-                          vmessObj.host = sni;
-                        } else if (network === 'xhttp') {
-                          vmessObj.path = xhttpSettings.path || '/';
-                          vmessObj.host = xhttpSettings.host || sni;
-                        } else if (network === 'kcp') {
-                          vmessObj.path = kcpSettings.seed ? 'seed=' + kcpSettings.seed : '';
-                          vmessObj.host = sni;
-                        }
-
+                        const vmessObj = { v: '2', ps: name, add: vnext.address, port: vnext.port, id: uuid, aid: aid, scy: scy, net: network, type: 'none', host: '', path: '', tls: security === 'tls' ? 'tls' : (security === 'reality' ? 'reality' : 'none'), sni: sni, fp: fp, alpn: '' };
+                        if (network === 'ws') { vmessObj.path = wsSettings.path || '/'; vmessObj.host = wsSettings.headers?.Host || sni; }
+                        else if (network === 'grpc') { vmessObj.path = grpcSettings.serviceName || ''; vmessObj.host = sni; }
+                        else if (network === 'xhttp') { vmessObj.path = xhttpSettings.path || '/'; vmessObj.host = xhttpSettings.host || sni; }
+                        else if (network === 'kcp') { vmessObj.path = kcpSettings.seed ? 'seed=' + kcpSettings.seed : ''; vmessObj.host = sni; }
                         const json = JSON.stringify(vmessObj);
                         const b64 = Buffer.from(json).toString('base64');
                         links.push('vmess://' + b64);
                         break;
                       }
-
                       case 'trojan': {
                         const server = out.settings?.servers?.[0];
                         if (!server) continue;
@@ -230,7 +189,6 @@ jobs:
                         links.push('trojan://' + encodeURIComponent(password) + '@' + server.address + ':' + server.port + '?' + query + '#' + encodeURIComponent(name));
                         break;
                       }
-
                       case 'shadowsocks': {
                         const server = out.settings?.servers?.[0];
                         if (!server) continue;
@@ -241,7 +199,6 @@ jobs:
                         links.push('ss://' + b64 + '#' + encodeURIComponent(name));
                         break;
                       }
-
                       case 'hysteria2':
                       case 'hysteria': {
                         const s = out.settings || {};
@@ -253,7 +210,6 @@ jobs:
                         const down = s.down_mbps || s.down || '';
                         const sniField = s.sni || sni;
                         const insecure = s.insecure || (security === 'tls' && allowInsecure ? '1' : '');
-
                         const params = new URLSearchParams();
                         if (auth) params.set('auth', auth);
                         if (obfs) params.set('obfs', obfs);
@@ -261,12 +217,10 @@ jobs:
                         if (down) params.set('downmbps', down);
                         if (sniField) params.set(protocol === 'hysteria' ? 'peer' : 'sni', sniField);
                         if (insecure) params.set('insecure', insecure);
-
                         const scheme = protocol === 'hysteria2' ? 'hysteria2' : 'hysteria';
                         links.push(scheme + '://' + server + ':' + port + '?' + params.toString() + '#' + encodeURIComponent(name));
                         break;
                       }
-
                       case 'tuic': {
                         const s = out.settings || {};
                         const server = s.server || '';
@@ -283,7 +237,6 @@ jobs:
                         links.push('tuic://' + server + ':' + port + '?' + params.toString() + '#' + encodeURIComponent(name));
                         break;
                       }
-
                       case 'shadowsocksr': {
                         const s = out.settings || {};
                         const server = s.server || '';
@@ -294,13 +247,11 @@ jobs:
                         const obfsParam = s.obfs || 'plain';
                         const obfsParamStr = s.obfs_param || '';
                         const protoParamStr = s.protocol_param || '';
-                        // Правильное кодирование для эмодзи и юникода (Buffer для CI)
-                        const ssrPart = server + ':' + port + ':' + protocolParam + ':' + method + ':' + obfsParam + ':' + Buffer.from(password).toString('base64') + '/?obfsparam=' + Buffer.from(obfsParamStr).toString('base64') + '&protoparam=' + Buffer.from(protoParamStr).toString('base64') + '&remarks=' + Buffer.from(encodeURIComponent(name)).toString('base64') + '&group=' + Buffer.from(encodeURIComponent(remarks)).toString('base64');
+                        const ssrPart = server + ':' + port + ':' + protocolParam + ':' + method + ':' + obfsParam + ':' + Buffer.from(password).toString('base64') + '/?obfsparam=' + Buffer.from(obfsParamStr).toString('base64') + '&protoparam=' + Buffer.from(protoParamStr).toString('base64') + '&remarks=' + Buffer.from(name).toString('base64') + '&group=' + Buffer.from(remarks).toString('base64');
                         const b64 = Buffer.from(ssrPart).toString('base64');
                         links.push('ssr://' + b64);
                         break;
                       }
-
                       case 'socks': {
                         const server = out.settings?.servers?.[0];
                         if (!server) continue;
@@ -311,25 +262,27 @@ jobs:
                         links.push('socks5://' + userinfo + address + ':' + port + '#' + encodeURIComponent(name));
                         break;
                       }
-
-                      default:
-                        break;
+                      default: break;
                     }
                   }
-
                   return links.join('\n');
                 }
                 const input = fs.readFileSync('${tmp_src}_fixed.json', 'utf8');
                 console.log(configToLinks(input));
               ")
 
-              if echo "$converted" | grep -q '://'; then
+              # Фильтрация после конвертации (ищет в названиях ссылок)
+              if [ -n "$filter" ]; then
+                converted=$(echo "$converted" | grep -i "$filter" || true)
+              fi
+
+              if [ -n "$converted" ] && echo "$converted" | grep -q '://'; then
                 echo "$converted" >> raw
                 echo "" >> raw
                 count=$(echo "$converted" | grep -c '://')
                 echo "   Получено конфигов из JSON: $count"
               else
-                echo "   ⚠️ Не удалось конвертировать JSON"
+                echo "   ⚠️ Конфигов после фильтрации не осталось"
               fi
             else
               count=$(grep -c '://' "$tmp_src" || true)
