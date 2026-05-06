@@ -1,7 +1,7 @@
 #profile-title: 🚀 all_subs
 #announce: ⚡ Используйте конфиги только в условиях «белых списков»
-#profile-web-page-url: github.com/solovyov-jenya2004/all_subs
-#support-url: github.com/solovyov-jenya2004/all_subs/issues
+#profile-web-page-url: https://github.com/solovyov-jenya2004/all_subs/
+#support-url: https://github.com/solovyov-jenya2004/all_subs/issues/
 #profile-update-interval: 1
 #subscription-userinfo: upload=0; download=0; total=0
 
@@ -1580,6 +1580,7 @@ vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?ed=2560&eh=Sec-W
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?fp=randomized&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&alpn=http%2F1.1%2Ch2&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.200.87.244:2053?encryption=none&type=grpc&security=tls&mode=gun&serviceName=grpc&sni=nice.ducks.tel&alpn=http/1.1,h2#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.15.201:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
@@ -1593,6 +1594,7 @@ vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?host=daluan.eu.org
 vless://26524cce-d514-4014-a426-365fb266a14d@43.245.227.108:2053?sni=k.3.x.8.p.0.q.m.2.z.a.7.c.v.y.1.b.h.e.5.q.e.1.z.9.gfw.qzz.io&alpn=http/1.1&type=ws&host=k.3.x.8.p.0.q.m.2.z.a.7.c.v.y.1.b.h.e.5.q.e.1.z.9.gfw.qzz.io&path=/danfeng?ed=2560fp=chrome&security=tls#[ 🇬🇧 ] [ United Kingdom, London ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@212.224.86.104:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.200.77.90:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
+vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?encryption=none&type=grpc&security=tls&mode=gun&serviceName=grpc&sni=nice.ducks.tel&alpn=http/1.1,h2#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
