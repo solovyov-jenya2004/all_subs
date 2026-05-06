@@ -1909,6 +1909,7 @@ vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?type=ws&security=
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?type=ws&security=tls&sni=sn1.skylee5.cloudns.ch&host=sn1.skylee5.cloudns.ch#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇺🇸 ] [ United States, New York ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇺🇸 ] [ United States, New York ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?flow=xtls-rprx-vision&fp=chrome&path=%2F&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
