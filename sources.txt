@@ -18,3 +18,4 @@ https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
+j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt
