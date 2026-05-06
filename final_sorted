@@ -1561,6 +1561,7 @@ vless://b24484be-a335-472c-8dff-060ccd2b8f3b@104.20.6.134:2083?allow_insecure=0&
 vless://26524cce-d514-4014-a426-365fb266a14d@43.245.227.108:2053?sni=k.3.x.8.p.0.q.m.2.z.a.7.c.v.y.1.b.h.e.5.q.e.1.z.9.gfw.qzz.io&alpn=http/1.1&type=ws&host=k.3.x.8.p.0.q.m.2.z.a.7.c.v.y.1.b.h.e.5.q.e.1.z.9.gfw.qzz.io&path=/danfeng?ed=2560fp=chrome&security=tls#[ 🇬🇧 ] [ United Kingdom, London ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@80.93.187.2:52006?flow=xtls-rprx-vision&fp=chrome&headertype=&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
