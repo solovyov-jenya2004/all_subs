@@ -2165,6 +2165,7 @@ vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@45.134.36.21:443?sni=gogo2.kmj.qzz.
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@45.134.36.21:443?sni=gogo2.kmj.qzz.io&type=ws&host=gogo2.kmj.qzz.io&path=/fp=chrome&security=tls#[ 🇲🇾 ] [ Malaysia, Kuala Lumpur ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@159.100.9.64:2053?type=grpc&security=tls&sni=nice.ducks.tel&mode=gun&serviceName=grpc#[ 🇩🇪 ] [ Germany ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=cluster-russia-1.firstvideocdn.ru&path=%2f#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?allow_insecure=0&flow=xtls-rprx-vision&security=tls&sni=cluster-russia-1.firstvideocdn.ru#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?flow=xtls-rprx-vision&headertype=none&security=tls&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://86c50e3a-5b87-49dd-bd20-03c7f2735e40@www.csgo.net:2095?allowInsecure=0&sni=cnmfangbinxing.cnmfangbinxing-k.workers.dev&type=ws&host=cnmfangbinxing.cnmfangbinxing-k.workers.dev&path=/fp=randomized#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
