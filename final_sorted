@@ -1357,6 +1357,7 @@ vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?alpn=h3&flow=xtls-r
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=pl74.mechvpn.online#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?flow=xtls-rprx-vision&headertype=none&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?type=tcp&security=tls&flow=xtls-rprx-vision&sni=pl74.mechvpn.online#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.18.47.161:2096?allowInsecure=1&encryption=none&fp=chrome&host=kalami-eew.pages.dev&path=/&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.19.36.80:8443?allowInsecure=0&sni=kalami-eew.pages.dev&type=ws&host=kalami-eew.pages.dev&path=/fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?flow=xtls-rprx-vision&host=pl74.mechvpn.online&path=%2F&security=tls&sni=pl74.mechvpn.online&type=tcp#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?flow=xtls-rprx-vision&fp=firefox&security=tls&sni=pl74.mechvpn.online&type=tcp#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
