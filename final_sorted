@@ -1628,6 +1628,7 @@ vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@cf.877774.xyz:443?fp=firefox&host=v
 vless://3a54d818-82c2-49b8-b01a-e8f8e59d59c5@seoul1.ap221.com:443?security=tls&type=tcp&sni=seoul.ap221.com&fp=chrome&flow=xtls-rprx-vision#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@london1.ap221.com:443?&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=london.ap221.com&type=tcp&headerType=none&host=london.ap221.com&path=%2F#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://3a54d818-82c2-49b8-b01a-e8f8e59d59c5@sg1.ap221.com:443?flow=xtls-rprx-vision&headertype=none&host=sg1.ap221.com&path=%2F&security=tls&sni=sg.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@ohio1.ap221.com:443?security=tls&type=tcp&sni=ohio.ap221.com&fp=chrome&flow=xtls-rprx-vision#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@taipei1.ap221.com:443?flow=xtls-rprx-vision&headertype=none&host=taipei1.ap221.com&path=%2F&security=tls&sni=taipei.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@ohio1.ap221.com:443?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ohio.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://74988350-8b14-4924-b8a2-c3aac967bf28@london1.ap221.com:443?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=london.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
