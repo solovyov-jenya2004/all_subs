@@ -1605,6 +1605,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?type=tcp&security=tls&flow=xtls-rprx-vision&sni=czu.ksnodes.net#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@seoul1.ap221.com:443?flow=xtls-rprx-vision&fp=chrome&headertype=none&host=seoul.ap221.com&path=%2F&security=tls&sni=seoul.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?flow=xtls-rprx-vision&fp=chrome&headertype=none&security=tls&sni=czu.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&encryption=none&flow=xtls-rprx-vision&security=tls&sni=czu.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://74988350-8b14-4924-b8a2-c3aac967bf28@london1.ap221.com:443?security=tls&type=tcp&sni=london.ap221.com&fp=chrome&flow=xtls-rprx-vision#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?type=tcp&security=tls&flow=xtls-rprx-vision&alpn=http/1.1,h2#[ 🇨🇿 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@ohio1.ap221.com:443?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ohio.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
