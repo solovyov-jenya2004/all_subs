@@ -1941,6 +1941,7 @@ vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.249.3:52006?type=tcp&headerT
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@108.162.195.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime58.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d342d11e-d424-4583-b36e-524ab1f0afa4@172.66.44.211:2083?sni=wk1.f1w.de5.net&type=ws&host=wk1.f1w.de5.net&fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fe665bb7-a558-42bc-9ba7-a59288ee4b93@104.26.12.31:80?type=ws&security=none&encryption=none&path=%F0%9F%94%92&host=floral-term-d21f.wafajax493.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@185.148.106.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime54.workers.dev#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@160.153.0.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime60.workers.dev#[ 🇺🇸 ] [ United States, Tempe (South Tempe) ] [ by @openlibrecommunity ]
 vless://2bcfbfba-b446-4ad5-93ad-72af9e008f61@188.114.96.3:443?encryption=none&type=ws&security=tls&path=/free/1.226.227.169:50001&host=nuclear.us.kg&sni=nuclear.us.kg#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@108.162.193.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime56.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
