@@ -1775,6 +1775,7 @@ vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?fp=chrome&host=&path=&quicsecurity=none&security=&servicename=&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇺🇸 ] [ United States, New York ] [ by @openlibrecommunity ]
 vless://00000000-0000-4000-8000-000000000000@168.143.101.145:42251?sni=nisav2de2t0ai8p-hd0.misa.cc.cd&type=ws&host=nisav2de2t0ai8p-hd0.misa.cc.cd&path=/@Marisa_kristifp=chrome&security=tls#[ 🇺🇸 ] [ United States, New York ] [ by @openlibrecommunity ]
