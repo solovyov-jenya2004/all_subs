@@ -1667,6 +1667,7 @@ vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?security=none&t
 vless://b24484be-a335-472c-8dff-060ccd2b8f3b@xn-dns.onlineblog.ir:2083?encryption=none&host=xn-de.shakhle.ir.&security=tls&sni=xn-de.shakhle.ir.&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b24484be-a335-472c-8dff-060ccd2b8f3b@xn-dns.onlineblog.ir:2083?type=ws&security=tls&encryption=none&sni=xn-de.shakhle.ir.&host=xn-de.shakhle.ir.#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://2219a1b1-9290-4ac5-94fd-6cfc1fb25280@usvless.yydzx.xyz:17044?type=tcp&security=tls&flow=xtls-rprx-vision&sni=usvless.yydzx.xyz#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?type=tcp&security=tls&flow=xtls-rprx-vision&sni=pl74.mechvpn.online#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@84.32.129.194:8443?type=ws&security=tls&encryption=none&fp=chrome&sni=3-85q.pages.dev&host=3-85q.pages.dev#[ 🇺🇸 ] [ United States, Chicago ] [ by @openlibrecommunity ]
