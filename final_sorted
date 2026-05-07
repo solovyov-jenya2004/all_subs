@@ -1946,6 +1946,7 @@ vless://6202b230-417c-4d8e-b624-0f71afa9c75d@89.116.180.30:8880?type=ws&encrypti
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@141.101.120.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime18.workers.dev#[ 🇫🇷 ] [ France, Paris ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.85.119.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime56.workers.dev#[ 🇬🇧 ] [ United Kingdom, London ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.196.29.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime20.workers.dev#[ 🇮🇩 ] [ Indonesia, Jakarta ] [ by @openlibrecommunity ]
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@181.214.1.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime39.workers.dev#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.249.3:52006?type=tcp&headerType=none&security=tls&encryption=none&sni=cluster-russia-1.firstvideocdn.ru&fp=chrome&flow=xtls-rprx-vision&insecure=0#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@108.162.195.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime58.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d342d11e-d424-4583-b36e-524ab1f0afa4@172.66.44.211:2083?sni=wk1.f1w.de5.net&type=ws&host=wk1.f1w.de5.net&fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
