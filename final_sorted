@@ -1379,6 +1379,7 @@ vless://00000000-0000-4000-8000-000000000000@178.62.81.144:12306?sni=rvbtoc55o58
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?flow=&fp=chrome&headertype=none&host=&path=&quicsecurity=none&security=&servicename=&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?fp=chrome&host=&path=&quicsecurity=none&security=&servicename=&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@35.79.146.187:443?sni=gogo2.kmj.qzz.io&type=ws&host=gogo2.kmj.qzz.io&path=/fp=chrome&security=tls#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
