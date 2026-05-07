@@ -2024,6 +2024,7 @@ vless://00000000-0000-4000-8000-000000000000@91.186.217.43:35469?sni=9cvs-zyn4r9
 vless://00000000-0000-4000-8000-000000000000@185.104.151.190:44333?sni=9cvs-zyn4r9-6gzdtuo0w.mikuru.ip-ddns.com&type=ws&host=9cvs-zyn4r9-6gzdtuo0w.mikuru.ip-ddns.com&path=/@Marisa_kristifp=chrome&security=tls#[ 🇸🇪 ] [ Sweden, Stockholm ] [ by @openlibrecommunity ]
 vless://f834b1a5-dc5e-4878-a73c-ad0c80f8f748@84.54.29.173:8443?security=tls&type=tcp&headerType=none&path=&host=&sni=vpn.oplatasite.ru&fp=#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
