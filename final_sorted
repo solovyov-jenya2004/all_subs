@@ -1536,6 +1536,7 @@ vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?flow=&fp=chrome
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?fp=chrome&host=&path=&quicsecurity=none&security=&servicename=&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.17.225.73:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇺🇸 ] [ United States, New York ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?encryption=none&type=grpc&security=tls&mode=gun&serviceName=grpc&sni=nice.ducks.tel&alpn=http/1.1,h2#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
@@ -1622,6 +1623,7 @@ vless://2399fe0a-b359-40a9-a3f0-b70c3c177a01@cloudflare.182682.xyz:80?type=ws&ho
 vless://74988350-8b14-4924-b8a2-c3aac967bf28@taipei1.ap221.com:443?&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=taipei.ap221.com&type=tcp&headerType=none&host=taipei.ap221.com&path=%2F#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@103.192.179.132:443?host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
 vless://3a54d818-82c2-49b8-b01a-e8f8e59d59c5@taipei1.ap221.com:443?flow=xtls-rprx-vision&headertype=none&host=taipei1.ap221.com&path=%2F&security=tls&sni=taipei.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://3a54d818-82c2-49b8-b01a-e8f8e59d59c5@taipei1.ap221.com:443?security=tls&flow=xtls-rprx-vision#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://74988350-8b14-4924-b8a2-c3aac967bf28@taipei1.ap221.com:443?flow=xtls-rprx-vision&fp=chrome&headertype=none&host=taipei1.ap221.com&path=%2F&security=tls&sni=taipei.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://74988350-8b14-4924-b8a2-c3aac967bf28@taipei1.ap221.com:443?flow=xtls-rprx-vision&headertype=none&host=taipei1.ap221.com&path=%2F&security=tls&sni=taipei.ap221.com&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://4e7bd311-d91e-4a85-aa08-121313cf50d9@taipei1.ap221.com:443?security=tls&type=tcp&sni=taipei.ap221.com&fp=chrome&flow=xtls-rprx-vision#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
@@ -5464,27 +5466,17 @@ vless://6c7712f4-6e28-41bf-aa9c-90ce8f23e477@109.120.191.233.alexander77.ru:8083
 vless://34158f55-1019-47e7-a2b7-a8e7ccce4ca0@51.250.74.215.alexander77.ru:1443?security=reality&encryption=none&pbk=h8BDQnylBOkY67mfYEWv47OtXIo8FOjL5Y1tlozo8D0&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=google.com#%F0%9F%87%B7%F0%9F%87%BA
 vless://75807638-6f19-2710-ae08-38492ee85c88@178.72.182.24:52006?security=tls&sni=cl-de-1.edgeflux.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy-2
 vless://e033ef6e-ab4b-47d4-a523-ff568d2c8dbb@45.12.146.179:8443?security=reality&sni=tradingview.com&fp=chrome&pbk=TH8C9sgNuMRVR3o5QehXPgYw8PWjoHrH2rVQF4JWwGI&flow=xtls-rprx-vision#proxy-2
-vless://c51f6eac-bacb-4438-a3af-2ad46a648712@45.206.0.72:443?security=reality&sni=rbc.ru&fp=chrome&pbk=dY9SNEllJMW63xo-JdXufhmjAxB_4uFw_QMjgufjiD8&sid=c20b1035d72d7793&flow=xtls-rprx-vision#proxy-2
-vless://bafc879b-eeef-0114-ac47-8ec6c23335e9@95.182.110.147:443?security=reality&sni=cdn.trahodrom.fun&fp=chrome&pbk=IBvNLerjNLpF4OpUX-wGJp8YDZrnKoh-gEItUDNT_Bg&flow=xtls-rprx-vision#proxy-2
 vless://78eaaa97-3502-4850-8cc5-d46244dfbc6b@max4r.skystreamgame.com:8080?type=xhttp&security=reality&sni=ozon.ru&fp=chrome&pbk=XBePIY00JetBf0pbmcx-Dvu8XsZ-l079GiHf93HhS0Y&sid=6d6f13013d3e1d0c&path=%2F#proxy-2
 vless://5b6a67cc-684e-448d-a93d-3335a61be810@pl-free-3.amnesia.pw:443?security=reality&sni=www.ozon.ru&fp=chrome&pbk=TGiarWayhvAmTy5Z26bfEtnmHtRS4YVn03VdRxtm1Es&flow=xtls-rprx-vision#proxy-2
 trojan://f8a6ccdaf2f8474b8287a43757951293@51.250.87.19:9443?security=reality&sni=5post-gate.x5.ru&fp=random&pbk=AgE09mNrPAe9eidpIgw9gVKLC71TgG4L4ctuB3wttiw&sid=aabbccdd#proxy-3
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.249.3:52006?security=tls&sni=cluster-russia-1.firstvideocdn.ru&flow=xtls-rprx-vision-udp443#proxy-3
 vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&sni=cl-de-2.edgeflux.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy-3
 vless://c476ac5f-07af-4346-8c42-6fd377a345f7@104.165.205.239:443?security=reality&sni=g7.steptofreedom.one&fp=randomized&pbk=ivgTfLR13A6xBsicIA28OPoav2tXlsstTTmGuETfnSk&sid=6d6f13013d3e1d0c&flow=xtls-rprx-vision#proxy-4
-vless://87f24033-d6e9-4612-bd5d-50d93ee177dd@155.212.242.75:443?security=reality&sni=rbc.ru&fp=chrome&pbk=hZ2suCOyxMqdLE9YexeRtoG5r5isMoztbDrfMbiOIEY&flow=xtls-rprx-vision#proxy-4
 vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.34:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision-udp443#proxy-4
 vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.35:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision-udp443#proxy-4
 vless://d717c021-33fc-4208-9171-33d815e42eba@51.250.94.95:443?security=reality&sni=ads.x5.ru&fp=qq&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&flow=xtls-rprx-vision#proxy-4
-vless://f189684b-6213-4c0d-a2e3-cb8860f5d4c5@82.115.43.177:443?security=reality&sni=hls-svod.itunes.apple.com&fp=chrome&pbk=9WnuH4KUb9-cCqbApq4bVLDhrqhPbpnd5eTn14bGciA&sid=27e540&flow=xtls-rprx-vision#proxy-4
-vless://e9ebf8c2-dbe9-4220-9234-6a47be3e9dea@217.9.12.218:443?security=reality&sni=ee.cdn-global.pro&fp=edge&pbk=RO5YMxxtJmZo2w370qG-seJ41toowHPbz6i2uXJ2gG0&sid=7a3f9e2b1c8d4f6a&flow=xtls-rprx-vision#proxy-5
 vless://75807638-6f19-0bb8-ae08-38492ee85c88@82.202.197.2:52006?security=tls&allowInsecure=1&flow=xtls-rprx-vision#proxy-5
-vless://4791109f-4814-4f5d-902f-32ccccbc2d76@188.130.154.56:443?security=reality&sni=jobinvest.ru&fp=qq&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&flow=xtls-rprx-vision#proxy-6
 vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&sni=cl-de-1.edgeflux.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy-6
-vless://bcae455a-efd6-007c-bead-4b173b8e5e5a@85.239.40.57:443?security=reality&sni=cdn.trahodrom.fun&fp=chrome&pbk=IBvNLerjNLpF4OpUX-wGJp8YDZrnKoh-gEItUDNT_Bg&flow=xtls-rprx-vision#proxy-7
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@144.31.129.46:443?security=reality&sni=mirror.yandex.ru&fp=chrome&pbk=IarU4xicX8qiVO5nqzeHc6MK9A_Vw9YaAtnPHB4DswU&sid=916a&flow=xtls-rprx-vision#proxy
-vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.68:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy
 vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.72:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy
-vless://34d87d6c-418e-4387-a1e3-2bb477c0b363@45.198.91.52:8443?security=reality&sni=rbc.ru&fp=chrome&pbk=_CjW0Khlrr5z5oc9Oy6-w2ZEanz-zMBktVn5EOX9oTM&sid=f32140952ba18e18&flow=xtls-rprx-vision#proxy
-vless://a0b3bfd1-e9a0-4ea8-bb19-c864c84a6919@87.242.118.99:443?type=xhttp&security=reality&sni=travel.yandex.ru&fp=firefox&pbk=XqH-gNEL9eJfr1pglaI8WU3OvE654_5duXYBS35UXlM&sid=abcdef0123456789&path=%2F#proxy
 vless://c476ac5f-07af-4346-8c42-6fd377a345f7@ru.steptofreedom.one:8443?security=reality&sni=ozon.ru&fp=chrome&pbk=QHkXBS2ENHV0khgY9VBYi8_9bpfqnUYDcfQN4cW5Qg0&sid=4326&flow=xtls-rprx-vision#proxy
