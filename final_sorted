@@ -1869,6 +1869,7 @@ vless://40afa553-1745-4f62-a380-4163c7bb4870@172.67.187.117:443?allowInsecure=1&
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?ed=2560&eh=Sec-WebSocket-Protocol&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?type=ws&security=tls&encryption=none&fp=randomized&sni=daluan.eu.org&host=daluan.eu.org#[ 🇺🇸 ] [ USA ] [ by @openlibrecommunity ]
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?type=grpc&headerType=none&security=tls&encryption=none&sni=nice.ducks.tel&alpn=http%2F1.1%2Ch2&serviceName=grpc&mode=gun&insecure=0#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
+vless://3d243df5-9cda-4aac-89d5-354de77d79e2@84.201.4.56:2053?encryption=none&type=grpc&security=tls&mode=gun&serviceName=grpc&sni=nice.ducks.tel&alpn=http/1.1,h2#[ 🇩🇪 ] [ Germany, Frankfurt am Main ] [ by @openlibrecommunity ]
 vless://93f0761d-4393-4b43-a523-e812fa0b7e83@104.18.32.47:443?sni=cf.cfvip.lol&type=ws&host=cf.cfvip.lol&path=/pyip=47.251.95.178fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d342d11e-d424-4583-b36e-524ab1f0afa4@172.66.47.45:2083?sni=wk1.f1w.de5.net&type=ws&host=wk1.f1w.de5.net&fp=chrome&security=tls#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.15.201:2096?host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
