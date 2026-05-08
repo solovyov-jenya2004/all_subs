@@ -6008,6 +6008,7 @@ vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.35:52006?security=tls&sn
 vless://d717c021-33fc-4208-9171-33d815e42eba@51.250.94.95:443?security=reality&sni=ads.x5.ru&fp=qq&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&flow=xtls-rprx-vision#proxy-4
 vless://75807638-6f19-0bb8-ae08-38492ee85c88@82.202.197.2:52006?security=tls&allowInsecure=1&flow=xtls-rprx-vision#proxy-5
 vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&sni=cl-de-1.edgeflux.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy-6
+vless://abd468c8-a9d9-40b7-b70d-6c7948c37bb2@109.120.152.62:443?security=reality&sni=5post-gate-test.x5.ru&fp=chrome&pbk=I0fEW8_ADJkOVuU98orsk7R_XZljGRHnVNfirvFg4DU&sid=0123456789adcdea&flow=xtls-rprx-vision#proxy
 vless://3d243df5-9cda-4aac-89d5-354de77d79e2@144.31.129.46:443?security=reality&sni=mirror.yandex.ru&fp=chrome&pbk=IarU4xicX8qiVO5nqzeHc6MK9A_Vw9YaAtnPHB4DswU&sid=916a&flow=xtls-rprx-vision#proxy
 vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.72:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy
 vless://c476ac5f-07af-4346-8c42-6fd377a345f7@ru.steptofreedom.one:8443?security=reality&sni=ozon.ru&fp=chrome&pbk=QHkXBS2ENHV0khgY9VBYi8_9bpfqnUYDcfQN4cW5Qg0&sid=4326&flow=xtls-rprx-vision#proxy
