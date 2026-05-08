@@ -1656,6 +1656,7 @@ vless://df862b4c-2150-4b36-81ac-405036cf9ff6@162.159.43.121:2083?host=kalami-eew
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@173.245.58.144:2087?host=kalami-eew.pages.dev&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.26.6.93:8443?fp=chrome&host=kalami-eew.pages.dev&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.26.6.93:8443?type=ws&security=tls&fp=chrome&sni=kalami-eew.pages.dev&host=kalami-eew.pages.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://45e55198-a5ad-4f19-bb39-236822141d25@188.72.103.3:443?encryption=none&type=ws&security=tls&path=/stream/updates/130cdea4/019dee35-0199-dd7e-7323-a62ad725bba07&host=cdn.lovecrafty.link&fp=chrome&sni=cdn.tracker.yandex.net#[ 🇷🇺 ] [ Russia, Moscow (Tsentralnyy administrativnyy okrug) ] [ by @openlibrecommunity ]
 vless://df862b4c-2150-4b36-81ac-405036cf9ff6@104.26.0.241:2087?host=kalami-eew.pages.dev&security=tls&sni=kalami-eew.pages.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://d342d11e-d424-4583-b36e-524ab1f0afa4@172.66.47.45:2083?fp=chrome&host=wk1.f1w.de5.net&security=tls&sni=wk1.f1w.de5.net&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@88.216.69.30:8880?type=ws&host=vms.lifetime06.workers.dev#[ 🇱🇹 ] [ Lithuania, Vilnius ] [ by @openlibrecommunity ]
