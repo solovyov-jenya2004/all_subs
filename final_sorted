@@ -6033,12 +6033,8 @@ vless://ae25bb41-dac8-48f0-89a9-f649459ad6ff@193.221.200.148.alexander77.ru:573?
 vless://6c7712f4-6e28-41bf-aa9c-90ce8f23e477@109.120.191.230.alexander77.ru:8081?security=reality&encryption=none&pbk=Z84J2IelR9ch3k8VtlVhhs5ycBUlXA7wHBWcBrjqnAw&headerType=none&fp=chrome&type=tcp&sni=sso.passport.yandex.ru&sid=7dbf7d3233971d5c#%F0%9F%87%A9%F0%9F%87%AA
 vless://6c7712f4-6e28-41bf-aa9c-90ce8f23e477@109.120.191.233.alexander77.ru:8083?security=reality&encryption=none&pbk=Z84J2IelR9ch3k8VtlVhhs5ycBUlXA7wHBWcBrjqnAw&headerType=none&fp=chrome&type=tcp&sni=sso.passport.yandex.ru&sid=7dbf7d3233971d5c#%F0%9F%87%A9%F0%9F%87%B0
 vless://34158f55-1019-47e7-a2b7-a8e7ccce4ca0@51.250.74.215.alexander77.ru:1443?security=reality&encryption=none&pbk=h8BDQnylBOkY67mfYEWv47OtXIo8FOjL5Y1tlozo8D0&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=google.com#%F0%9F%87%B7%F0%9F%87%BA
-vless://c87f25ee-44a2-11f1-ab34-525400a7149e@78.40.117.29:443?security=reality&sni=www.blocket.se&fp=randomized&pbk=Drg3RJ1fsmdl-mHJg2XAz8sBri58W_xGSA-3ewWcfBU&flow=xtls-rprx-vision#proxy-2
 vless://75807638-6f19-0bb8-ae08-38492ee85c88@82.202.197.2:52006?security=tls&allowInsecure=1&flow=xtls-rprx-vision#proxy-2
 vless://75807638-6f19-03e8-ae08-38492ee85c88@178.72.181.18:52006?security=tls&allowInsecure=1&flow=xtls-rprx-vision#proxy-3
-vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@62.50.146.35:9443?type=grpc&security=reality&sni=raw.githubusercontent.com&fp=qq&pbk=GdCtxJAti3DA8oTu9KkFHjCz1yRGGZB_4NZIBuQxc28&sid=abc5168218c8749c&serviceName=www.apple.com%3A443&authority=raw.githubusercontent.com#proxy-3
 vless://75807638-6f19-2710-ae08-38492ee85c88@178.72.182.24:52006?security=tls&sni=cl-de-1.edgeflux.ru&allowInsecure=1&flow=xtls-rprx-vision#proxy-4
-vless://3c52e091-6714-4915-949f-2149fe69951b@v2ray.simspeedup.com:80?type=ws&path=%2Fws#proxy-4
 vless://75807638-6f19-1f40-ae08-38492ee85c88@178.72.181.34:52006?security=tls&sni=cluster-europe-1.firstvideocdn.ru&allowInsecure=1&flow=xtls-rprx-vision-udp443#proxy
 vless://63b4536b-e8ea-461b-82fe-d2a2ed330642@195.66.24.31:443?type=xhttp&security=reality&sni=yandex.ru&fp=chrome&pbk=K-wZ9SOUX2QMVg5IJy-cCOqA5ZMC6dYA1YqRkPo_vAg&sid=7b425fbe199410c3&path=%2Fxhttp#proxy
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.62.253:22231?security=tls&sni=r1.mizulina.top&flow=xtls-rprx-vision#proxy
