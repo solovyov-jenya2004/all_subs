@@ -1597,6 +1597,7 @@ vless://6202b230-417c-4d8e-b624-0f71afa9c75d@92.53.188.30:8880?type=ws&security=
 vless://75807638-6f19-07d0-ae08-38492ee85c88@80.93.187.2:52006?allowInsecure=1&insecure=1&type=tcp&security=tls&sni=cluster-russia-1.firstvideocdn.ru&fp=chrome&flow=xtls-rprx-vision#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@74.49.214.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime56.workers.dev#[ 🇭🇺 ] [ Hungary, Budapest ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@23.227.60.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime18.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@184.174.80.30:8880?encryption=none&host=vms.lifetime42.workers.dev&security=none&type=ws#[ 🇺🇸 ] [ United States, Wilmington ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.192.224.30:8880?type=ws&security=none&encryption=none&host=vms.lifetime17.workers.dev#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
 vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@144.31.4.74:443?flow=xtls-rprx-vision&security=tls&sni=pl74.mechvpn.online&type=tcp#[ 🇵🇱 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@80.93.187.2:52006?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp":#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
