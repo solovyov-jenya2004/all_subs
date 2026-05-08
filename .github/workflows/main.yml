@@ -314,8 +314,8 @@ jobs:
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
-          #profile-web-page-url: github.com/solovyov-jenya2004/all_subs/
-          #support-url: github.com/solovyov-jenya2004/all_subs/issues/
+          #profile-web-page-url:https://github.com/solovyov-jenya2004/all_subs/
+          #support-url:https://github.com/solovyov-jenya2004/all_subs/issues/
           #profile-update-interval: 1
           #subscription-userinfo: upload=0; download=0; total=0
           
