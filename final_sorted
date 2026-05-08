@@ -1673,6 +1673,7 @@ vless://df862b4c-2150-4b36-81ac-405036cf9ff6@172.64.144.7:2096?host=kalami-eew.p
 vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.62.253:22231?encryption=none&flow=xtls-rprx-vision&type=raw&headerType=none&security=tls&sni=r1.mizulina.top#[ 🇬🇪 ] [ Georgia, Tbilisi ] [ by @openlibrecommunity ]
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@138.124.32.78:443?host=sni.latonyamadeline.ndjp.net&path=fp%3Dchrome&security=tls&sni=sni.latonyamadeline.ndjp.net&type=ws#[ 🇩🇪 ] [ Germany, Frankfurt am Main (Innenstadt I) ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?fp=chrome&headertype=none&security=none&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?flow=&fp=chrome&headertype=none&host=&path=&quicsecurity=none&security=&servicename=&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@84.22.149.236:8443?fp=chrome&host=1-jk1.pages.dev&security=tls&sni=1-jk1.pages.dev&type=ws#[ 🇫🇮 ] [ Finland, Helsinki ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
