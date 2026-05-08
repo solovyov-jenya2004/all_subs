@@ -1866,6 +1866,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&flow=xtls-rprx-vision&security=tls&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?type=tcp&security=tls&flow=xtls-rprx-vision&sni=czu.ksnodes.net&alpn=http/1.1,h2#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://2219a1b1-9290-4ac5-94fd-6cfc1fb25280@usvless.yydzx.xyz:17044?type=tcp&security=tls&flow=xtls-rprx-vision&sni=usvless.yydzx.xyz#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&encryption=none&flow=xtls-rprx-vision&security=tls&sni=czu.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&flow=xtls-rprx-vision&headertype=none&security=tls&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&flow=xtls-rprx-vision&security=tls&sni=czu.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=czu.ksnodes.net&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
