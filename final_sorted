@@ -941,6 +941,7 @@ vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?encryption=none&
 vless://388a6c57-87e7-420b-afe2-b3eb670fd7da@172.64.147.223:80?encryption=none&type=ws&security=none&host=vip.yaml7.ggff.net#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://20c50e3a-5b87-49dd-bd20-03c7f2735e40@104.17.147.22:80?type=ws&security=&host=cvsoidswg.k3ckfz151a.workers.dev#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=cluster-russia-1.firstvideocdn.ru&headerType=none%22%2C#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
+vless://388a6c57-87e7-420b-afe2-b3eb670fd7da@172.66.47.45:80?encryption=none&host=vip.yaml7.ggff.net&security=none&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@82.202.197.3:52006?flow=xtls-rprx-vision&headertype=none&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@80.93.187.2:52006?flow=xtls-rprx-vision&fp=chrome&headertype=none&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🇷🇺 ] [ Russia, St Petersburg ] [ by @openlibrecommunity ]
 vless://20c50e3a-5b87-49dd-bd20-03c7f2735e40@104.17.147.22:80?host=cvsoidswg.k3ckfz151a.workers.dev&security=&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
