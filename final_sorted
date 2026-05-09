@@ -1427,6 +1427,7 @@ vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.192.224.191:2096?ed=2560&eh=Sec-
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@45.142.120.191:2096?host=sni.my111000.tech&path=Telegram%25F0%259F%2587%25A8%25F0%259F%2587%25B3%40WangCai2%2F&security=tls&sni=sni.my111000.tech&type=ws#[ 🇧🇬 ] [ Bulgaria, Sandanski ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@www.visaeurope.ch:2083?fp=randomized&host=daluan.eu.org&security=tls&sni=daluan.eu.org&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://0f4d41cf-0be1-4fcc-ac41-53b843ba0752@172.66.44.118:443?allowInsecure=1&encryption=none&host=H7-83W.pAgeS.deV&security=tls&sni=H7-83W.pAgeS.deV&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://06ef598c-1555-4887-b3f9-08214a2f6792@104.18.16.56:443?type=ws&security=tls&host=2026.hhhhh.eu.org&path=/222.167.202.31:7443&sni=2026.hhhhh.eu.org&alpn=h2,http/1.1#[ 🌐 ] [ Anycast-IP ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.15.201:2096?type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://5dc15e15-f285-4a9d-959b-0e4fbdd77b63@162.159.5.181:443?host=powered-by-surena.configfarsi6982dd6e0355e.workers.dev&security=tls&sni=powered-by-surena.configfarsi6982dd6e0355e.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@myanmar.visa.com:8443?type=ws&security=tls&sni=daluan.eu.org&host=daluan.eu.org#[ 🇨🇦 ] [ Unknown ] [ by @openlibrecommunity ]
