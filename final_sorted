@@ -1740,6 +1740,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@47.239.231.121:443?type=ws&security=tls&fp=chrome&sni=gogo5.kmj.qzz.io&host=gogo5.kmj.qzz.io#[ 🇨🇳 ] [ China ] [ by @openlibrecommunity ]
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@czu.ksnodes.net:443?alpn=http%2F1.1%2Ch2&flow=xtls-rprx-vision&security=tls&sni=czu.ksnodes.net#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://8007e155-622e-4c9d-8a6e-67f49b4678f4@74.48.4.29:37731?host=edt2-lgy.pages.dev&security=tls&sni=edt2-lgy.pages.dev&type=ws#[ 🇺🇸 ] [ United States, Santa Clarita (Canyon Country) ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://fefc6f47-40d5-Fade-b86a-63971f980828@195.209.88.216:443?encryption=none&type=ws&security=tls&host=s28233.cdn.ngenix.net&fp=qq&sni=s28233.cdn.ngenix.net&alpn=h2%2Chttp%2F1.1#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@1.161.50.87:443?fp=chrome&host=gogo5.kmj.qzz.io&quicsecurity=none&security=tls&servicename=&sni=gogo5.kmj.qzz.io&type=ws#[ 🇹🇼 ] [ Taiwan, Taipei ] [ by @openlibrecommunity ]
 vless://75807638-6f19-07d0-ae08-38492ee85c88@cluster-russia-1.firstvideocdn.ru:52006?flow=xtls-rprx-vision&fp=chrome&security=tls&sni=cluster-russia-1.firstvideocdn.ru&type=tcp#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
