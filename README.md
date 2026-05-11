@@ -55,17 +55,63 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
   <br>
     
   <details>
-    <summary><b>📦 GitHub </b></summary>
+    <summary><b>📦 GitHub</b></summary>
         <br>
         <p><b>Обычная подписка</b></p>
     
     https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
-  <p><b>Base64‑подписка</b></p>
+   <p><b>Base64‑подписка</b></p>
   
     https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
   </details>
+  <details>
+    <summary><b>⚽️ jsDelivr</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
+    
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+    
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+  </details>
+
+  <details>
+    <summary><b>⚡ Statically</b></summary>
+    <br>
+    <p><b>Обычная подписка</b></p>
+    
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+    
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64
+  </details>
+<details>
+  <summary><b>🍣 Githack</b></summary>
+  <br>
   
   <details>
+    <summary><b>✈️ Прямая</b></summary>
+    <br>
+    
+   <p><b>Обычная подписка</b></p>
+    
+    https://raw.githack.com/solovyov-jenya2004/all_subs/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+    
+    https://raw.githack.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+  </details>
+  
+  <details>
+    <summary><b>⛅ Через Cloudflare</b></summary>
+    <br>
+    <p><b>Обычная подписка</b></p>
+    
+    https://rawcdn.githack.com/solovyov-jenya2004/all_subs/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+    
+    https://rawcdn.githack.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+  </details>
+    <details>
     <summary><b>☁️ Cloudflare</b></summary>
       <br>
       <p><b>Обычная подписка</b></p>   
@@ -75,6 +121,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
    
     https://final-sorted-base64.solovyov-jenya2004.workers.dev/
   </details>
+</details>
   <details>
     <summary><b>👤 Alexanderoff</b></summary>
       <br>
