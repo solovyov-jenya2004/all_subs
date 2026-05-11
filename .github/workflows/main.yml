@@ -15,44 +15,44 @@ jobs:
       - name: Скачать, проверить доступность и объединить подписки (параллельно)
         run: |
           > raw
-          # Создаём временную папку для результатов
           mkdir -p tmp_results
           i=0
 
-          # --- Функция обработки одного источника ---
           process_source() {
-            local src_line="$1"
-            local index="$2"
+            src_line="$1"
+            index="$2"
 
-            # Парсим строку
-            local line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
-            local is_json=false
-            local url filter
+            # Очистка пробелов
+            line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
 
-            if [[ "$line_clean" =~ ^j[[:space:]] ]]; then
+            # Определяем, JSON или нет
+            is_json=false
+            if echo "$line_clean" | grep -q '^j[[:space:]]'; then
               is_json=true
-              url=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
-              filter=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//' | awk '{print $2}')
-            else
-              url=$(echo "$line_clean" | awk '{print $1}')
-              filter=$(echo "$line_clean" | awk '{print $2}')
+              line_clean=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//')
             fi
 
-            local tmp_src=$(mktemp)
+            # Извлекаем URL (первое слово)
+            url=$(echo "$line_clean" | awk '{print $1}')
+
+            # Собираем фильтры (все последующие слова)
+            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
+
+            tmp_src=$(mktemp)
 
             # Скачиваем
             http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>/dev/null) || true
-            local curl_exit=$?
+            curl_exit=$?
 
-            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
+            if [ $curl_exit -ne 0 ] || ! echo "$http_code" | grep -qE '^(2..|3..)$'; then
               echo "   ❌ [$index] Источник недоступен (curl $curl_exit, HTTP $http_code): $url"
               rm -f "$tmp_src"
               return
             fi
 
-            # Декодируем base64 для обычных подписок
+            # Декодируем base64 для обычных подписок (не JSON)
             if ! $is_json; then
-              local tmp_dec=$(mktemp)
+              tmp_dec=$(mktemp)
               if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
                 mv "$tmp_dec" "$tmp_src"
               else
@@ -60,16 +60,20 @@ jobs:
               fi
             fi
 
-            # Применяем фильтр до конвертации (для обычных подписок)
-            if [ -n "$filter" ]; then
-              grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+            # Применяем все фильтры (хотя бы один) в один проход
+            if [ -n "$filters" ]; then
+              grep_args=""
+              for f in $filters; do
+                grep_args="$grep_args -e $f"
+              done
+              grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
             # Сохраняем результат во временный файл
             if $is_json; then
               # --- Обработка JSON: извлечение outbounds + конвертация ---
-              flat_json=$(jq -c '{
+              jq -c '{
                 remarks: (if type == "array" then .[0].remarks // "VPN" else .remarks // "VPN" end),
                 outbounds: [
                   ..
@@ -81,7 +85,7 @@ jobs:
                   (.settings.vnext[0].address // .settings.server // .server // "") + 
                   ((.settings.vnext[0].port // .settings.port // .port) | tostring)
                 )
-              }' "$tmp_src" > "${tmp_src}_fixed.json")
+              }' "$tmp_src" > "${tmp_src}_fixed.json"
 
               converted=$(node -e "
                 const fs = require('fs');
@@ -279,9 +283,13 @@ jobs:
                 console.log(configToLinks(input));
               ")
 
-              # Применяем фильтр ПОСЛЕ конвертации
-              if [ -n "$filter" ]; then
-                converted=$(echo "$converted" | grep -i "$filter" || true)
+              # Применяем все фильтры (OR) после конвертации
+              if [ -n "$filters" ]; then
+                grep_args=""
+                for f in $filters; do
+                  grep_args="$grep_args -e $f"
+                done
+                converted=$(echo "$converted" | grep -i $grep_args || true)
               fi
 
               if [ -n "$converted" ] && echo "$converted" | grep -q '://'; then
@@ -292,7 +300,6 @@ jobs:
                 touch "tmp_results/${index}.txt"
               fi
             else
-              # Обычная подписка
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$index] Скачано: $count конфигов"
               cat "$tmp_src" > "tmp_results/${index}.txt"
@@ -301,29 +308,26 @@ jobs:
             rm -f "$tmp_src"
           }
 
-          # -------------------------------------------------
-          # 2. Запускаем параллельно все источники
-          # -------------------------------------------------
+          # Запускаем параллельно все источники
           while IFS= read -r line; do
             line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
             [ -z "$line" ] && continue
-            [[ "$line" =~ ^# ]] && continue
+            echo "$line" | grep -q '^#' && continue
 
             i=$((i+1))
             process_source "$line" "$i" &
           done < sources.txt
 
-          # Ждём завершения всех фоновых задач
           wait
 
-          # -------------------------------------------------
-          # 3. Собираем результаты в raw
-          # -------------------------------------------------
-          for ((idx=1; idx<=i; idx++)); do
+          # Собираем результаты в raw
+          idx=1
+          while [ $idx -le $i ]; do
             if [ -f "tmp_results/${idx}.txt" ]; then
               cat "tmp_results/${idx}.txt" >> raw
               echo "" >> raw
             fi
+            idx=$((idx+1))
           done
 
           rm -rf tmp_results
