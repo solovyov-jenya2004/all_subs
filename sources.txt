@@ -6,7 +6,8 @@ https://key.zarazaex.xyz/sub
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt LTE
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/ID%3D1%2Cdata%3D280427 LTE
 https://sub.obbhod.online/premium
-# https://subrostunnel.vercel.app/gen.txt
+http://194.33.61.236:8080/premium
+https://subrostunnel.vercel.app/gen.txt LTE
 https://etoneya.su/whitelist
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
