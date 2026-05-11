@@ -45,7 +45,7 @@ jobs:
             curl_exit=$?
 
             if [ $curl_exit -ne 0 ] || ! echo "$http_code" | grep -qE '^(2..|3..)$'; then
-              echo "   ❌ [$index] Источник недоступен (curl $curl_exit, HTTP $http_code): $url"
+              echo "   ❌ [$url] Источник недоступен (ошибка curl $curl_exit, HTTP $http_code)"
               rm -f "$tmp_src"
               return
             fi
@@ -293,15 +293,16 @@ jobs:
               fi
 
               if [ -n "$converted" ] && echo "$converted" | grep -q '://'; then
+                count=$(echo "$converted" | grep -c '://')
+                echo "   ✅ [$url] JSON обработан: $count конфигов"
                 echo "$converted" > "tmp_results/${index}.txt"
-                echo "   ✅ [$index] JSON обработан"
               else
-                echo "   ⚠️  [$index] После конвертации/фильтрации JSON не осталось конфигов"
+                echo "   ⚠️  [$url] После конвертации/фильтрации JSON не осталось конфигов"
                 touch "tmp_results/${index}.txt"
               fi
             else
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$index] Скачано: $count конфигов"
+              echo "   ✅ [$url] Скачано: $count конфигов"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             fi
 
