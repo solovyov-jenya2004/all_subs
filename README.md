@@ -111,17 +111,18 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
     
     https://rawcdn.githack.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
   </details>
-    <details>
-    <summary><b>☁️ Cloudflare</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>   
+</details>
+<details>
+  <summary><b>☁️ Cloudflare</b></summary>
+    <br>
+    <p><b>Обычная подписка</b></p>   
      
     https://final-sorted.solovyov-jenya2004.workers.dev/    
-   <p><b>Base64‑подписка</b></p>   
+  <p><b>Base64‑подписка</b></p>   
    
     https://final-sorted-base64.solovyov-jenya2004.workers.dev/
-  </details>
 </details>
+
   <details>
     <summary><b>👤 Alexanderoff</b></summary>
       <br>
