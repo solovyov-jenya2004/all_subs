@@ -6,10 +6,10 @@ on:
 jobs:
   merge-subs:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write    
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    permissions:
+      contents: write    
 
     steps:
       - uses: actions/checkout@v4
