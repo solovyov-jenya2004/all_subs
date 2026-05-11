@@ -2,12 +2,17 @@ https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-SNI-RU-all.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
+https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
+https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
+https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://key.zarazaex.xyz/sub
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt LTE
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/ID%3D1%2Cdata%3D280427 LTE
 https://sub.obbhod.online/premium
 http://194.33.61.236:8080/premium
 https://subrostunnel.vercel.app/gen.txt LTE
+https://subrostunnel.vercel.app/wl.txt
+https://rostunnel.vercel.app/mega.txt %D0%91%D0%9B
 https://etoneya.su/whitelist
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
