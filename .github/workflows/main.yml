@@ -33,11 +33,18 @@ jobs:
             echo "Загружаю ($([ "$is_json" = true ] && echo "JSON" || echo "текст")): $url${filter:+ (фильтр: $filter)}"
 
             tmp_src=$(mktemp)
-            http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>&1)
+            # Пытаемся скачать; таймауты и ошибки не прерывают цикл
+            http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>/dev/null) || true
             curl_exit=$?
 
-            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
-              echo "   ❌ Источник недоступен (ошибка curl $curl_exit, HTTP $http_code)"
+            if [ $curl_exit -ne 0 ]; then
+              echo "   ❌ curl завершился с ошибкой (код $curl_exit). Пропускаем."
+              rm -f "$tmp_src"
+              continue
+            fi
+
+            if [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
+              echo "   ❌ Источник вернул код $http_code. Пропускаем."
               rm -f "$tmp_src"
               continue
             fi
@@ -74,7 +81,7 @@ jobs:
                 )
               }' "$tmp_src" > "${tmp_src}_fixed.json")
 
-              # Запускаем улучшенный конвертер (версия коллеги, адаптированная под Node.js)
+              # Запускаем конвертер, адаптированный под Node.js)
               converted=$(node -e "
                 const fs = require('fs');
                 function configToLinks(jsonText) {
@@ -312,7 +319,7 @@ jobs:
       - name: Подготовить итоговые файлы (с заголовками и отступами)
         run: |
           cat > headers.txt <<EOF
-
+          #profile-title: 🚀 all_subs
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
           #profile-web-page-url:https://github.com/solovyov-jenya2004/all_subs/
           #support-url:https://github.com/solovyov-jenya2004/all_subs/issues/
