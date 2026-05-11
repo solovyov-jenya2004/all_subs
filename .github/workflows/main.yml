@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  merge-subs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
