@@ -12,46 +12,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать, проверить доступность и объединить подписки
+      - name: Скачать, проверить доступность и объединить подписки (параллельно)
         run: |
           > raw
-          while IFS= read -r line; do
-            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
-            [ -z "$line" ] && continue
-            [[ "$line" =~ ^# ]] && continue
+          # Создаём временную папку для результатов
+          mkdir -p tmp_results
+          i=0
 
-            if [[ "$line" =~ ^j[[:space:]] ]]; then
+          # --- Функция обработки одного источника ---
+          process_source() {
+            local src_line="$1"
+            local index="$2"
+
+            # Парсим строку
+            local line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            local is_json=false
+            local url filter
+
+            if [[ "$line_clean" =~ ^j[[:space:]] ]]; then
               is_json=true
-              url=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
-              filter=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $2}')
+              url=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
+              filter=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//' | awk '{print $2}')
             else
-              is_json=false
-              url=$(echo "$line" | awk '{print $1}')
-              filter=$(echo "$line" | awk '{print $2}')
+              url=$(echo "$line_clean" | awk '{print $1}')
+              filter=$(echo "$line_clean" | awk '{print $2}')
             fi
 
-            echo "Загружаю ($([ "$is_json" = true ] && echo "JSON" || echo "текст")): $url${filter:+ (фильтр: $filter)}"
+            local tmp_src=$(mktemp)
 
-            tmp_src=$(mktemp)
-            # Пытаемся скачать; таймауты и ошибки не прерывают цикл
+            # Скачиваем
             http_code=$(curl -sS -L --max-time 30 -o "$tmp_src" -w '%{http_code}' "$url" 2>/dev/null) || true
-            curl_exit=$?
+            local curl_exit=$?
 
-            if [ $curl_exit -ne 0 ]; then
-              echo "   ❌ curl завершился с ошибкой (код $curl_exit). Пропускаем."
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
+              echo "   ❌ [$index] Источник недоступен (curl $curl_exit, HTTP $http_code): $url"
               rm -f "$tmp_src"
-              continue
+              return
             fi
 
-            if [[ ! "$http_code" =~ ^(2..|3..)$ ]]; then
-              echo "   ❌ Источник вернул код $http_code. Пропускаем."
-              rm -f "$tmp_src"
-              continue
-            fi
-
-            # Для обычных подписок (не JSON) пробуем декодировать base64
+            # Декодируем base64 для обычных подписок
             if ! $is_json; then
-              tmp_dec=$(mktemp)
+              local tmp_dec=$(mktemp)
               if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
                 mv "$tmp_dec" "$tmp_src"
               else
@@ -59,14 +60,15 @@ jobs:
               fi
             fi
 
-            # Применяем фильтр, если задан
+            # Применяем фильтр до конвертации (для обычных подписок)
             if [ -n "$filter" ]; then
               grep -i "$filter" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
+            # Сохраняем результат во временный файл
             if $is_json; then
-              # Извлекаем все outbounds в плоский массив через jq (готовый инструмент)
+              # --- Обработка JSON: извлечение outbounds + конвертация ---
               flat_json=$(jq -c '{
                 remarks: (if type == "array" then .[0].remarks // "VPN" else .remarks // "VPN" end),
                 outbounds: [
@@ -81,7 +83,6 @@ jobs:
                 )
               }' "$tmp_src" > "${tmp_src}_fixed.json")
 
-              # Запускаем конвертер, адаптированный под Node.js)
               converted=$(node -e "
                 const fs = require('fs');
                 function configToLinks(jsonText) {
@@ -278,27 +279,54 @@ jobs:
                 console.log(configToLinks(input));
               ")
 
-              # Фильтрация после конвертации (ищет в названиях ссылок)
+              # Применяем фильтр ПОСЛЕ конвертации
               if [ -n "$filter" ]; then
                 converted=$(echo "$converted" | grep -i "$filter" || true)
               fi
 
               if [ -n "$converted" ] && echo "$converted" | grep -q '://'; then
-                echo "$converted" >> raw
-                echo "" >> raw
-                count=$(echo "$converted" | grep -c '://')
-                echo "   Получено конфигов из JSON: $count"
+                echo "$converted" > "tmp_results/${index}.txt"
+                echo "   ✅ [$index] JSON обработан"
               else
-                echo "   ⚠️ Конфигов после фильтрации не осталось"
+                echo "   ⚠️  [$index] После конвертации/фильтрации JSON не осталось конфигов"
+                touch "tmp_results/${index}.txt"
               fi
             else
+              # Обычная подписка
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   Получено конфигов: $count"
-              cat "$tmp_src" >> raw
+              echo "   ✅ [$index] Скачано: $count конфигов"
+              cat "$tmp_src" > "tmp_results/${index}.txt"
+            fi
+
+            rm -f "$tmp_src"
+          }
+
+          # -------------------------------------------------
+          # 2. Запускаем параллельно все источники
+          # -------------------------------------------------
+          while IFS= read -r line; do
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
+
+            i=$((i+1))
+            process_source "$line" "$i" &
+          done < sources.txt
+
+          # Ждём завершения всех фоновых задач
+          wait
+
+          # -------------------------------------------------
+          # 3. Собираем результаты в raw
+          # -------------------------------------------------
+          for ((idx=1; idx<=i; idx++)); do
+            if [ -f "tmp_results/${idx}.txt" ]; then
+              cat "tmp_results/${idx}.txt" >> raw
               echo "" >> raw
             fi
-            rm -f "$tmp_src"
-          done < sources.txt
+          done
+
+          rm -rf tmp_results
 
           echo "Всего строк в raw: $(wc -l < raw)"
 
