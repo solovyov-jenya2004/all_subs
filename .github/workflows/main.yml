@@ -21,9 +21,11 @@ jobs:
           i=0
 
           process_source() {
-            src_line="$1"
-            index="$2"
-
+            local src_line="$1"
+            local index="$2"
+            local line_clean is_json url filters tmp_src http_code curl_exit
+            local tmp_dec converted count grep_args
+            
             # Очистка пробелов
             line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
 
