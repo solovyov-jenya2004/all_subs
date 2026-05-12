@@ -224,6 +224,9 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 - [**HardVPN**](https://t.me/hard_wlvpn)
 
 - [**AirLinkVPN**](https://t.me/AirLinkVPN)
+
+- [**#РКП**](https://t.me/RKP_group)
+
 ---
 
 ## ❓ Вопросы и ответы (FAQ)
