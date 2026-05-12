@@ -25,7 +25,6 @@ https://gist.githubusercontent.com/DestroyST6767/50af50221ca1858ba2084efc0f524fb
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/selected.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/merged.txt
-# https://raw.githubusercontent.com/ByeWhiteLists/ByeWhiteLists2/refs/heads/main/ByeWhiteLists2.txt
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ %F0%9F%8F%B3%EF%B8%8F
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
