@@ -137,9 +137,9 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 ---
 
-Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app), [Throne](https://throneproj.github.io), [TeapodStream](https://github.com/Wendor/teapod-stream) и другие.
+Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app), [Throne](https://throneproj.github.io), [TeapodStream](https://github.com/Wendor/teapod-stream), [v2rayNG](https://v2rayng.2dust.link), [Happ](https://www.happ.su), [Exclave](https://github.com/dyhkwong/Exclave) и другие.
 
-**ВНИМАНИЕ! Из-за обнаруженной узявимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет читать практически любому приложению ваш "новый" IP, не рекомендуется использовать v2rayN, Happ на ПК, v2RayTun на IOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet**. Прочитайте об этом больше на Хабре: https://habr.com/ru/articles/1020080.
+**ВНИМАНИЕ! Из-за обнаруженной узявимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет читать практически любому приложению ваш "новый" IP, не рекомендуется использовать v2rayN, v2RayTun на IOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet**. Прочитайте об этом больше на Хабре: https://habr.com/ru/articles/1020080.
 
 ---
 
