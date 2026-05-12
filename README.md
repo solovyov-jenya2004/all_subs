@@ -225,7 +225,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**AirLinkVPN**](https://t.me/AirLinkVPN)
 
-- [**#РКП**](https://t.me/RKP_group)
+- [**#РосКомПозор**](https://t.me/RKP_group)
 
 ---
 
