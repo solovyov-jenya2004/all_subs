@@ -187,7 +187,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 ## 👥 Авторы подписок
 
-Огромное спасибо создателям подписок, чьи конфигурации легли в основу этой сборки:
+Огромное спасибо создателям актуальных подписок, чьи конфигурации легли в основу этой сборки:
 
 - [**zieng2**](https://t.me/zieng2)
 
@@ -208,8 +208,6 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 - [**Destroy_ST**](https://github.com/DestroyST6767)
 
 - [**WL RUS**](https://t.me/wlrustg)
-
-- [**ByeWhiteLists 2.0 x GoodbyeWL**](https://t.me/ByeWhiteLists2)
 
 - [**Alex999ooo**](https://github.com/Alex999ooo)
 
