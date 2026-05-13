@@ -225,6 +225,10 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**OBWL**](https://t.me/obprojects)
 
+- [**AeryxVPN**](https://t.me/AeryxVPN)
+
+- [**VOID**](https://github.com/VOID-Anonymity)
+
 ---
 
 ## ❓ Вопросы и ответы (FAQ)
