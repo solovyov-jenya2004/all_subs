@@ -223,6 +223,8 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**КIЗЯК VPN**](https://t.me/+KLYYc-t388QwOTEy)
 
+- [**OBWL**](https://t.me/obprojects)
+
 ---
 
 ## ❓ Вопросы и ответы (FAQ)
