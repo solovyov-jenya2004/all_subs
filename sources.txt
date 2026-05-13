@@ -41,3 +41,4 @@ https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizy
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyaktestru.txt
 https://obwl.vercel.app/configs/configs.txt
 https://obwl.vercel.app/configs/selected.txt
+https://tinyurl.com/AeryxVPNyandexua
