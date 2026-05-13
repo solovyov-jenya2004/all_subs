@@ -39,3 +39,5 @@ https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta7.txt
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyaktestru.txt
+https://obwl.vercel.app/configs/configs.txt
+https://obwl.vercel.app/configs/selected.txt
