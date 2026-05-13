@@ -665,6 +665,7 @@ vless://69d38faa-21a1-4d18-82cb-796a942c181b@104.16.239.205:80?type=ws&host=sfsl
 vless://0a5ab719-2407-4398-b507-8437ef365023@104.21.31.4:8880?host=underthegun.cfd.&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://04969b01-ac6a-4056-b5cd-852ccf45f100@104.16.63.239:80?ed=2048&eh=Sec-WebSocket-Protocol&host=netherlands.vipserver14.workers.dev&security=none&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://f929cc78-e2a1-4ce3-8051-3e9538405144@104.17.254.236:80?host=netherlands.xydcqd.workers.dev&security=none&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
+vless://1de37726-744b-46e1-9101-c926b3402e82@104.17.72.206:80?encryption=none&host=v2.v2configlab.workers.dev&security=none&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://69d38faa-21a1-4d18-82cb-796a942c181b@104.18.237.216:80?type=ws&host=sfsl.ardomains1.dpdns.org#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://623d675e-8748-4881-ac0f-dc1a10b595b1@africa.visa.com:8880?ed=2560&eh=Sec-WebSocket-Protocol&encryption=none&host=vahidasd1988-se08ot-3.vahidasd1988.workers.dev&path=/&security=none&type=ws#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://69d38faa-21a1-4d18-82cb-796a942c181b@104.17.46.112:80?host=sfsl.ardomains1.dpdns.org&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
@@ -9231,7 +9232,6 @@ trojan://humanity@v1.dabache.top:443?allowInsecure=1&host=www.creationlong.org&p
 trojan://r137979f@162.159.153.212:2087?allowInsecure=1&fp=chrome&host=sheleqaz.emotionreza.workers.dev&path=%2F&sni=sheleqaz.emotionreza.workers.dev&type=ws#5454.%20TROJAN%20%7C%20SNI%3A%20sheleqaz.emotionreza.workers.dev%20%7C%20TG%3A%20%40wlrustg
 trojan://humanity@www.ignitelimit.com:443?allowInsecure=1&path=%2Fassignment&type=ws#5455.%20TROJAN%20%7C%20SNI%3A%20www.ignitelimit.com%20%7C%20TG%3A%20%40wlrustg
 trojan://mSzFVhUczD@104.20.5.134:443?allowInsecure=1&alpn=http%2F1.1&host=abest.api-tel.xyz&path=%2F&sni=abest.api-tel.xyz&type=ws#5456.%20TROJAN%20%7C%20SNI%3A%20abest.api-tel.xyz%20%7C%20TG%3A%20%40wlrustg
-vless://1de37726-744b-46e1-9101-c926b3402e82@104.17.72.206:80?encryption=none&host=v2.v2configlab.workers.dev&security=none&type=ws#5457.%20VLESS%20%7C%20TG%3A%20%40wlrustg
 vless://25efc727-e853-49ba-9609-3c20009d0e7a@104.18.13.229:2052?encryption=none&host=winbiss-0tpka6-v1.winbiss.workers.dev&path=%2F&security=none&type=ws#5458.%20VLESS%20%7C%20TG%3A%20%40wlrustg
 vless://20e295db-a6af-4006-bfd6-91453f169968@45.67.215.233:443?allowInsecure=1&alpn=http%2F1.1&encryption=none&host=057.electrocellco-cf-057.workers.dev&path=%2FeyJqdW5rIjoiSFM1N0lLQmx2UU1qRzlnTiIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJveHlpcCIsInBhbmVsSVBzIjpbXX0%3D&security=tls&sni=057.ElecTRocElLco-Cf-057.wOrKeRs.dEv&type=ws#5459.%20VLESS%20%7C%20SNI%3A%20057.ElecTRocElLco-Cf-057.wOrKeRs.dEv%20%7C%20TG%3A%20%40wlrustg
 vless://2f0f84ed-9e4c-40ef-8a6c-286839e11a63@104.18.40.152:8880?encryption=none&host=hmedrza.ghwhdr51.workers.dev&path=%2F512&security=none&type=ws#5460.%20VLESS%20%7C%20TG%3A%20%40wlrustg
