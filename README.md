@@ -195,8 +195,6 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**olc**](https://t.me/openlibrecommunity)
 
-- [**GoodMIXYVPN**](https://t.me/GoodMIXYVPN)
-
 - [**Обход.Ру**](https://t.me/obhod_ru)
 
 - [**РосТуннель**](https://t.me/rostunnel)
@@ -210,8 +208,6 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 - [**WL RUS**](https://t.me/wlrustg)
 
 - [**Alex999ooo**](https://github.com/Alex999ooo)
-
-- [**CID VPN**](https://t.me/CID_VPN)
 
 - [**KfWL**](https://t.me/KfWLRus)
 
