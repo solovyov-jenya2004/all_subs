@@ -1073,6 +1073,7 @@ vless://90972d17-6c31-470b-8b23-2a31d989c60d@usa77.freednet.org:443?type=tcp&hea
 vless://2399fe0a-b359-40a9-a3f0-b70c3c177a01@cloudflare.182682.xyz:80?type=ws&host=aa.beijng.dpdns.org&path=/?ed=2048#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://00000000-0000-4000-8000-000000000000@173.249.203.40:16353?sni=ooa858iqkhza12.mesa.ip-ddns.com&type=ws&host=ooa858iqkhza12.mesa.ip-ddns.com&path=/@Marisa_kristifp=chrome&security=tls#[ 🇺🇸 ] [ United States, Phoenix ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://0da53d40-3e61-4459-8014-bd0f22bef196@13.229.38.188:443?flow=xtls-rprx-vision&host=sg1.ap221.com&security=tls&sni=sg.ap221.com&type=tcp#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@54.151.189.38:443?sni=gogo.qzzio.dpdns.org&type=ws&host=gogo.qzzio.dpdns.org&path=/fp=chrome&security=tls#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@35.79.146.187:443?sni=gogo2.kmj.qzz.io&type=ws&host=gogo2.kmj.qzz.io&path=/fp=chrome&security=tls#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
