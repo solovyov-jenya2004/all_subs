@@ -362,6 +362,10 @@ jobs:
 
       - name: Подготовить итоговые файлы (с заголовками и отступами)
         run: |
+          # Перемешиваем уникальные конфиги
+          shuf deduped > deduped_shuffled
+          mv deduped_shuffled deduped
+          
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
           #announce: ⚡ Используйте конфиги только в условиях «белых списков»
