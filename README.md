@@ -229,6 +229,10 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 - [**VOID**](https://github.com/VOID-Anonymity)
 
+- [**ByRKN ☭**](https://t.me/byrkn)
+
+- [**ScalaVPN**](https://t.me/ScalaVPN)
+- 
 ---
 
 ## ❓ Вопросы и ответы (FAQ)
