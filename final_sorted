@@ -1360,6 +1360,7 @@ vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@211.75.210.33:443?type=ws&security=
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@211.75.210.33:443?host=gogo11.kmj.qzz.io&security=tls&sni=gogo11.kmj.qzz.io&type=ws#[ 🇹🇼 ] [ Taiwan, Taipei ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@132.145.91.181:8443?host=3-93f.pages.dev&security=tls&sni=3-93f.pages.dev&type=ws#[ 🇰🇷 ] [ South Korea, Yangcheondong ] [ by @openlibrecommunity ]
 vless://90972d17-6c31-470b-8b23-2a31d989c60d@usa77.freednet.org:443?type=tcp&headerType=none&security=tls&encryption=none&sni=usa77.freednet.org&fp=chrome&flow=xtls-rprx-vision&insecure=0#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@1.161.58.221:443?sni=gogo.wknm.qzz.io&type=ws&host=gogo.wknm.qzz.io&path=/fp=chrome&security=tls#[ 🇹🇼 ] [ Taiwan, Xindian District ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@211.75.210.33:443?fp=chrome&host=gogo11.kmj.qzz.io&security=tls&sni=gogo11.kmj.qzz.io&type=ws#[ 🇹🇼 ] [ Taiwan, Taipei ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@96.126.191.9:443?sni=gogo.onetap.qzz.io&type=ws&host=gogo.onetap.qzz.io&path=/fp=chrome&security=tls#[ 🇯🇵 ] [ Japan, Osaka (Dōjima) ] [ by @openlibrecommunity ]
