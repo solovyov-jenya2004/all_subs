@@ -1207,6 +1207,7 @@ vless://a3b07a39-dbbc-Fade-b5de-a5797996c246@195.209.88.180:443?alpn=h2%2Chttp%2
 vless://0ca855d9-7c03-40eb-929b-919f934abdc3@104.19.35.216:443?host=amirvpn.amirhm00100.workers.dev&security=tls&sni=amirvpn.amirhm00100.workers.dev&type=ws#[ 🇨🇦 ] [ Canada, Toronto ] [ by @openlibrecommunity ]
 vless://90972d17-6c31-470b-8b23-2a31d989c60d@usa77.freednet.org:443?flow=xtls-rprx-vision&security=tls&sni=usa77.freednet.org&fp=chrome&type=tcp&path=%2f#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=tcp&encryption=none&host=&path=&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?encryption=none&type=raw&headerType=none&security=none#[ 🇸🇬 ] [ Singapore ] [ by @openlibrecommunity ]
 vless://fba0f717-c14c-fade-b85b-4cd03da2f687@195.209.82.149:443?alpn=h2%2Chttp%2F1.1&host=s28233.cdn.ngenix.net&security=tls&sni=s28233.cdn.ngenix.net&type=ws#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.219.213.195:10032?type=raw#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://6e42b88a-b78f-Fade-b164-791160cbaef5@195.209.90.178:443?alpn=h2%2Chttp%2F1.1&fp=qq&host=s28233.cdn.ngenix.net&security=tls&sni=s28233.cdn.ngenix.net&type=ws#[ 🇷🇺 ] [ Russia, Moscow ] [ by @openlibrecommunity ]
