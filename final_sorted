@@ -1404,6 +1404,7 @@ vless://fba0f717-c14c-fade-b85b-4cd03da2f687@195.209.82.149:443?encryption=none&
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?headertype=none&security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@125.228.236.138:443?allowInsecure=0&sni=gogo.onetap.qzz.io&type=ws&host=gogo.onetap.qzz.io&path=/fp=chrome&security=tls#[ 🇹🇼 ] [ Taiwan, Taipei ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?security=none&type=tcp#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://1027b850-de79-4a94-b337-eccdac28e141@8.47.69.0:443?encryption=none&type=ws&security=tls&path=/vless&host=g.sandesh.qzz.io&sni=g.sandesh.qzz.io#[ 🇺🇸 ] [ United States, San Francisco (South Beach) ] [ by @openlibrecommunity ]
