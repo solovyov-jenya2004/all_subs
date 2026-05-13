@@ -875,6 +875,7 @@ vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?path=%2F&securit
 vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026#[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://0da53d40-3e61-4459-8014-bd0f22bef196@13.229.38.188:443?security=tls&flow=xtls-rprx-vision&sni=sg.ap221.com&type=tcp&host=sg1.ap221.com&path=%2F#[ 🇸🇬 ] [ Singapore, Singapore ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@140.245.101.81:443?sni=gogo.vks.dpdns.org&type=ws&host=gogo.vks.dpdns.org&path=/fp=chrome&security=tls#[ 🇸🇬 ] [ Singapore, Singapore (Loyang) ] [ by @openlibrecommunity ]
+vless://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@8.216.21.135:10026?type=tcp&security=none #[ 🇯🇵 ] [ Japan, Shibuya City ] [ by @openlibrecommunity ]
 vless://7bd29cac-f692-48a3-88d1-505f7e55f0d0@georg.sbrf-cdn342.ru:443?flow=xtls-rprx-vision&security=tls&encryption=none&sni=sub.sbrf-cdn342.ru&type=tcp&headerType=none&path=%2f&allow_insecure=0#[ 🌐 ] [ Unknown ] [ by @openlibrecommunity ]
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@20.17.97.232:443?fp=chrome&host=gogo.wknm.qzz.io&security=tls&sni=gogo.wknm.qzz.io&type=ws#[ 🇲🇾 ] [ Malaysia, Kuala Lumpur ] [ by @openlibrecommunity ]
 vless://06b65903-406d-4a41-8463-6fd5c0ee7798@154.16.10.4:443?fp=chrome&host=sn1.skylee5.cloudns.ch&security=tls&sni=sn1.skylee5.cloudns.ch&type=ws#[ 🇭🇰 ] [ Hong Kong, Hong Kong ] [ by @openlibrecommunity ]
