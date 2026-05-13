@@ -23,7 +23,7 @@ https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/merged.txt
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ %F0%9F%8F%B3%EF%B8%8F
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
-j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt
+https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist_full
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/WHITELIST-ALL.txt
