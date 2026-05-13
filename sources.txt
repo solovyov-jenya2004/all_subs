@@ -42,3 +42,4 @@ https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizy
 https://obwl.vercel.app/configs/configs.txt
 https://obwl.vercel.app/configs/selected.txt
 https://tinyurl.com/AeryxVPNyandexua
+https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-VPN_Bypass/refs/heads/main/url_work.txt
