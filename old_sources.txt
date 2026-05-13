@@ -6,3 +6,11 @@ https://raw.githubusercontent.com/RYZgames31/UWB/refs/heads/main/wcfg
 https://raw.githubusercontent.com/twinkalex1470-crypto/CatWhiteVPN/refs/heads/main/CaTWhiteVPN.txt
 https://raw.githubusercontent.com/DarkFirexs/Whitelist-bypass_VPN/refs/heads/main/Whitelist%20%7C%20VPN
 https://jsnegsukavsos.hb.ru-msk.vkcloud-storage.ru/love
+https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt сервер
+https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/ID%3D1%2Cdata%3D280427 LTE
+https://raw.githubusercontent.com/stanislavPLS/GMVPN-users/refs/heads/main/id%3D1%2Cdata%3D120527
+j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Q
+j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Autoconf.ru
+https://obwl.vercel.app/sub.txt
+https://raw.githubusercontent.com/vsevjik/OBSpiskov/refs/heads/main/wwh
+https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
