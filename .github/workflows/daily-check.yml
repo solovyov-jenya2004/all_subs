@@ -106,8 +106,7 @@ jobs:
           # --- Функция извлечения самой поздней даты ---
           get_latest_date_from_text() {
             local raw="$1"
-            # Удаляем нулевые байты, которые могут вызвать ошибки
-            raw=$(echo "$raw" | tr -d '\0')
+            raw=$(echo "$raw" | tr -d '\0')               # убираем null-байты
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
             local text="$raw"
@@ -228,23 +227,23 @@ jobs:
               local year="$1"
               local month="$2"
               local day="$3"
-              # Защита от восьмеричных чисел (printf "%d" с ведущим нулём)
+              # Защита от пустых и нечисловых значений
+              [[ "$month" =~ ^[0-9]+$ ]] || return
+              [[ "$day"   =~ ^[0-9]+$ ]] || return
               month=$((10#$month))
               day=$((10#$day))
-              # Простейшая валидация: месяц 1..12, день 1..31
-              if [ "$month" -ge 1 ] && [ "$month" -le 12 ] && [ "$day" -ge 1 ] && [ "$day" -le 31 ]; then
+              if (( month >= 1 && month <= 12 && day >= 1 && day <= 31 )); then
                 printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
               fi
             }
 
-            # --- Сбор дат через временный файл, чтобы избежать broken pipe ---
             local tmpdates=$(mktemp)
 
-            # 1. YYYY-MM-DD (уже отфильтровано grep)
-            echo "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b' >> "$tmpdates"
+            # 1. YYYY-MM-DD
+            printf '%s\n' "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b' >> "$tmpdates"
 
-            # 2. DD.MM.YYYY и т.п.
-            echo "$text" | grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' | while IFS= read -r d; do
+            # 2. DD.MM.YYYY и подобные
+            printf '%s\n' "$text" | grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(echo "$d" | awk -F'[./-]' '{print $3}')
@@ -252,7 +251,7 @@ jobs:
             done
 
             # 3. DD.MM (текущий год)
-            echo "$text" | grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' | while IFS= read -r d; do
+            printf '%s\n' "$text" | grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(date -u +%Y)
@@ -260,20 +259,20 @@ jobs:
             done
 
             # 4. Год с "г." / "y."
-            echo "$text" | grep -oP '\b\d{4}\s?[гy]\.?\b' | while IFS= read -r d; do
+            printf '%s\n' "$text" | grep -oP '\b\d{4}\s?[гy]\.?\b' | while IFS= read -r d; do
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" 1 1 >> "$tmpdates"
             done
 
             # 5. Месяц и год
-            echo "$text" | grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' | while IFS= read -r d; do
+            printf '%s\n' "$text" | grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' | while IFS= read -r d; do
               month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" "$month" 1 >> "$tmpdates"
             done
 
             # 6. День месяц год
-            echo "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' | while IFS= read -r d; do
+            printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(echo "$d" | awk '{print $3}')
@@ -281,7 +280,7 @@ jobs:
             done
 
             # 7. День месяц (текущий год)
-            echo "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' | while IFS= read -r d; do
+            printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(date -u +%Y)
@@ -292,7 +291,6 @@ jobs:
             rm -f "$tmpdates"
             [ -z "$latest" ] && return 1
             echo "$latest"
-          }
           # --- Проверка возраста источника ---
           is_stale_date() {
             local date_str="$1"
@@ -387,7 +385,10 @@ jobs:
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                content_for_date="$decoded_body"
+                # Берем первые 5 и последние 5 непустых строк
+                head_lines=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 5)
+                tail_lines=$(echo "$decoded_body" | grep -v '^\s*$' | tail -n 5)
+                content_for_date="${head_lines}${tail_lines}"
               fi
               content_for_date+=" $url"
 
