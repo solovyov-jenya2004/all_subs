@@ -104,13 +104,17 @@ jobs:
           # Функция извлечения самой поздней даты
           get_latest_date_from_text() {
             local raw="$1"
-            raw=$(echo "$raw" | tr -d '\0')  # убираем null-байты
+            # Убираем нулевые байты, время и URL-encoded
+            raw=$(echo "$raw" | tr -d '\0')
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
-            local text="$raw"
 
-            # Нормализация месяцев
-            text=$(echo "$text" | sed -E '
+            # Сохраняем текст в файл (больше никаких echo | sed)
+            local textfile=$(mktemp)
+            printf '%s\n' "$raw" > "$textfile"
+
+            # --- Нормализация месяцев (sed -i прямо в файле) ---
+            sed -i -E '
               s/\bянв(ар[ьяюе]?)?\.?\b/01/gi;
               s/\bфев(рал[ьяюе]?)?\.?\b/02/gi;
               s/\bмар(т[ауе]?)?\.?\b/03/gi;
@@ -135,10 +139,10 @@ jobs:
               s/\boct(ober)?\.?\b/10/gi;
               s/\bnov(ember)?\.?\b/11/gi;
               s/\bdec(ember)?\.?\b/12/gi
-            ')
+            ' "$textfile"
 
-            # Русские числительные
-            text=$(echo "$text" | sed -E '
+            # --- Русские числительные ---
+            sed -i -E '
               s/\bпервое\b/1/gi; s/\bпервого\b/1/gi;
               s/\bвторое\b/2/gi; s/\bвторого\b/2/gi;
               s/\bтретье\b/3/gi; s/\bтретьего\b/3/gi;
@@ -180,10 +184,10 @@ jobs:
               s/\bдвадцать[\s-]*восьмое\b/28/gi; s/\bдвадцать[\s-]*восьмого\b/28/gi;
               s/\bдвадцать[\s-]*девятое\b/29/gi; s/\bдвадцать[\s-]*девятого\b/29/gi;
               s/\bтридцать[\s-]*первое\b/31/gi; s/\bтридцать[\s-]*первого\b/31/gi
-            ')
+            ' "$textfile"
 
-            # Английские числительные (1–31)
-            text=$(echo "$text" | sed -E '
+            # --- Английские числительные ---
+            sed -i -E '
               s/\bfirst\b/1/gi; s/\b1st\b/1/gi; s/\b1-st\b/1/gi;
               s/\bsecond\b/2/gi; s/\b2nd\b/2/gi; s/\b2-nd\b/2/gi;
               s/\bthird\b/3/gi; s/\b3rd\b/3/gi; s/\b3-rd\b/3/gi;
@@ -215,13 +219,7 @@ jobs:
               s/\btwenty ninth\b/29/gi; s/\btwenty-ninth\b/29/gi; s/\btwentyninth\b/29/gi; s/\b29th\b/29/gi; s/\b29-th\b/29/gi;
               s/\bthirtieth\b/30/gi; s/\b30th\b/30/gi; s/\b30-th\b/30/gi;
               s/\bthirty first\b/31/gi; s/\bthirty-first\b/31/gi; s/\bthirtyfirst\b/31/gi; s/\b31st\b/31/gi; s/\b31-st\b/31/gi
-            ')
-
-            local all_dates=""
-
-            # Сохраняем нормализованный текст во временный файл
-            local textfile=$(mktemp)
-            printf '%s\n' "$text" > "$textfile"
+            ' "$textfile"
 
             local tmpdates=$(mktemp)
 
@@ -236,53 +234,47 @@ jobs:
               fi
             }
 
-            # 1. YYYY-MM-DD – напрямую в файл
+            # Извлекаем даты – только grep из файла, никаких пайпов
             grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
 
-            # 2. DD.MM.YYYY и т.п.
-            while IFS= read -r d; do
+            grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(echo "$d" | awk -F'[./-]' '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" 2>/dev/null || true)"
+            done
 
-            # 3. DD.MM (текущий год)
-            while IFS= read -r d; do
+            grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(date -u +%Y)
               add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" 2>/dev/null || true)"
+            done
 
-            # 4. Год с "г." / "y."
-            while IFS= read -r d; do
+            grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" | while IFS= read -r d; do
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" 1 1 >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" 2>/dev/null || true)"
+            done
 
-            # 5. Месяц и год
-            while IFS= read -r d; do
+            grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" | while IFS= read -r d; do
               month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" "$month" 1 >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" 2>/dev/null || true)"
+            done
 
-            # 6. День месяц год
-            while IFS= read -r d; do
+            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(echo "$d" | awk '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" 2>/dev/null || true)"
+            done
 
-            # 7. День месяц (текущий год)
-            while IFS= read -r d; do
+            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(date -u +%Y)
               add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done <<< "$(grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" 2>/dev/null || true)"
+            done
 
             local latest=$(sort -r "$tmpdates" | head -1)
             rm -f "$textfile" "$tmpdates"
