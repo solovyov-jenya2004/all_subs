@@ -106,9 +106,6 @@ jobs:
           # --- Функция извлечения самой поздней даты ---
           get_latest_date_from_text() {
             local raw="$1"
-            # Временно отключаем set -e и игнорируем Broken pipe внутри этой функции
-            set +e
-            trap '' PIPE
             raw=$(echo "$raw" | tr -d '\0')               # убираем null-байты
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
@@ -224,9 +221,12 @@ jobs:
             ')
 
             local all_dates=""
+            # Сохраняем обработанный текст во временный файл, чтобы избежать пайпов
+            local textfile=$(mktemp)
+            printf '%s\n' "$text" > "$textfile"
+
             local tmpdates=$(mktemp)
 
-            # Вспомогательная функция безопасного добавления даты
             add_date() {
               local year="$1" month="$2" day="$3"
               [[ "$month" =~ ^[0-9]+$ ]] || return
@@ -238,42 +238,42 @@ jobs:
               fi
             }
 
-            # Все grep обёрнуты в || true, чтобы не ронять скрипт при отсутствии совпадений
-            printf '%s\n' "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b' >> "$tmpdates" 2>/dev/null || true
+            # Вместо printf ... | grep используем прямое чтение из файла
+            grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
 
-            printf '%s\n' "$text" | grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' | while IFS= read -r d; do
+            grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(echo "$d" | awk -F'[./-]' '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates"
             done || true
 
-            printf '%s\n' "$text" | grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' | while IFS= read -r d; do
+            grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(date -u +%Y)
               add_date "$year" "$month" "$day" >> "$tmpdates"
             done || true
 
-            printf '%s\n' "$text" | grep -oP '\b\d{4}\s?[гy]\.?\b' | while IFS= read -r d; do
+            grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" | while IFS= read -r d; do
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" 1 1 >> "$tmpdates"
             done || true
 
-            printf '%s\n' "$text" | grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' | while IFS= read -r d; do
+            grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" | while IFS= read -r d; do
               month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" "$month" 1 >> "$tmpdates"
             done || true
 
-            printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' | while IFS= read -r d; do
+            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(echo "$d" | awk '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates"
             done || true
 
-            printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' | while IFS= read -r d; do
+            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(date -u +%Y)
@@ -281,10 +281,8 @@ jobs:
             done || true
 
             local latest=$(sort -r "$tmpdates" | head -1)
-            rm -f "$tmpdates"
+            rm -f "$textfile" "$tmpdates"
             [ -z "$latest" ] && return 1
-            trap - PIPE
-            set -e
             echo "$latest"
           }
           # --- Проверка наличия источника ---
