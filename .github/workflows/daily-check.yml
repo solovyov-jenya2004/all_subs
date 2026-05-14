@@ -14,11 +14,9 @@ jobs:
 
       - name: Проверить источники и обновить списки (параллельно)
         run: |
-          # ============================================================
-          # 1. Вспомогательные функции
-          # ============================================================
+          # Вспомогательные функции
 
-          # --- GitHub: дата последнего коммита ---
+          # GitHub: дата последнего коммита
           get_github_last_commit_date() {
             local url="$1"
             local owner repo branch path api_url
@@ -49,7 +47,7 @@ jobs:
             return 1
           }
 
-          # --- GitVerse: дата последнего коммита ---
+          # GitVerse: дата последнего коммита
           get_gitverse_last_commit_date() {
             local url="$1"
             local owner repo branch path api_url
@@ -75,7 +73,7 @@ jobs:
             return 1
           }
 
-          # --- Удаление времени из текста ---
+          # Удаление времени из текста
           remove_time_patterns() {
             local text="$1"
             text=$(echo "$text" | sed -E '
@@ -84,12 +82,12 @@ jobs:
             echo "$text"
           }
 
-          # --- Полное URL-декодирование ---
+          # Полное URL-декодирование
           url_decode() {
             python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
           }
 
-          # --- Нормализация пробелов и URL-encoded ---
+          # Нормализация пробелов и URL-encoded
           normalize_text() {
             local text="$1"
             # Декодируем все %XX (включая кириллицу)
@@ -103,10 +101,10 @@ jobs:
             echo "$text"
           }
 
-          # --- Функция извлечения самой поздней даты ---
+          # Функция извлечения самой поздней даты
           get_latest_date_from_text() {
             local raw="$1"
-            raw=$(echo "$raw" | tr -d '\0')               # убираем null-байты
+            raw=$(echo "$raw" | tr -d '\0')  # убираем null-байты
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
             local text="$raw"
@@ -185,7 +183,6 @@ jobs:
             ')
 
             # Английские числительные (1–31)
-            # Английские порядковые числительные (1–31)
             text=$(echo "$text" | sed -E '
               s/\bfirst\b/1/gi; s/\b1st\b/1/gi; s/\b1-st\b/1/gi;
               s/\bsecond\b/2/gi; s/\b2nd\b/2/gi; s/\b2-nd\b/2/gi;
@@ -288,7 +285,7 @@ jobs:
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
-          # --- Проверка наличия источника ---
+          # Проверка наличия источника
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
@@ -303,9 +300,7 @@ jobs:
             [ $age_days -gt $days_limit ]
           }
 
-          # ============================================================
-          # 2. Последовательная обработка источников
-          # ============================================================
+          # Последовательная обработка источников
           cp sources.txt sources_backup.txt
           cp old_sources.txt old_sources_backup.txt 2>/dev/null || true
           touch old_sources.txt
@@ -431,9 +426,7 @@ jobs:
             fi
           done < old_sources_backup.txt
 
-          # ============================================================
-          # 3. Формируем новые файлы и коммитим
-          # ============================================================
+          # Формируем новые файлы и коммитим
           printf "%s\n" "${new_sources[@]}" > sources_tmp.txt
           for line in "${revived[@]}"; do
             echo "$line" >> sources_tmp.txt
