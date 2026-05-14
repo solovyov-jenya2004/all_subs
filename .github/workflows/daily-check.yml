@@ -306,9 +306,8 @@ jobs:
 
             echo "Проверяю: $url"
 
-            # Проверка доступности
-            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
-            curl_exit=$?
+            # Проверка доступности (сохраняем настоящий код возврата curl)
+            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
             if [ $curl_exit -ne 0 ] || [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; then
               echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
               dead_or_stale+=("$original_line")
@@ -317,7 +316,7 @@ jobs:
             echo "   ✅ Доступен"
 
             # 1. Проверка по дате коммита (GitHub/GitVerse)
-            local last_commit_date=""
+            last_commit_date=""          # <-- убрали local
             if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
