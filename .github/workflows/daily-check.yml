@@ -103,6 +103,7 @@ jobs:
 
           # Функция извлечения самой поздней даты
           get_latest_date_from_text() {
+            set +o pipefail   # отключаем сразу при входе
             local raw="$1"
             raw=$(echo "$raw" | tr -d '\0')  # убираем null-байты
             raw=$(remove_time_patterns "$raw")
@@ -291,9 +292,11 @@ jobs:
                 add_date "$year" "$month" "$day" >> "$tmpdates"
               } || true
             done || true
-
+  
             local latest=$(sort -r "$tmpdates" | head -1)
             rm -f "$textfile" "$tmpdates"
+        
+            set -o pipefail   # восстанавливаем перед выходом
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
