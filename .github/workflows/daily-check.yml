@@ -1,72 +1,544 @@
-name: Ежедневная проверка источников подписок
+name: Revive & Check Sources (Parallel, Full URL-decode, Ultimate Date Parser)
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:       # ручной запуск для теста
+  workflow_dispatch:
 
 jobs:
-  check-sources:
+  check-and-revive:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: Проверка всех источников из sources.txt
+      - name: Проверить источники и обновить списки (параллельно)
         run: |
-          echo "===== ПРОВЕРКА ИСТОЧНИКОВ ПОДПИСОК ====="
-          while IFS= read -r line; do
-            # очистка пробелов и комментариев
-            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
-            [ -z "$line" ] && continue
-            [[ "$line" =~ ^# ]] && continue
+          # ============================================================
+          # 1. Вспомогательные функции
+          # ============================================================
 
-            url=$(echo "$line" | awk '{print $1}')
-            
-            echo ""
-            echo "➡️  Источник: $url"
-
-            # 1. Проверка доступности
-            http_code=$(curl -sS -L --max-time 30 -o /dev/null -w '%{http_code}' "$url" 2>&1)
-            curl_exit=$?
-            if [ $curl_exit -eq 0 ] && [[ "$http_code" =~ ^(2..|3..)$ ]]; then
-              echo "   ✅ ДОСТУПЕН (HTTP $http_code)"
-              accessible=true
-            else
-              echo "   ❌ НЕДОСТУПЕН (ошибка curl $curl_exit, HTTP $http_code)"
-              accessible=false
-            fi
-
-            # 2. Последнее обновление (только для GitHub)
-            if $accessible && echo "$url" | grep -qE 'github\.com|githubusercontent\.com'; then
-              # Извлекаем owner/repo/branch/path из raw URL
-              if echo "$url" | grep -q raw.githubusercontent.com; then
-                # Пример: https://raw.githubusercontent.com/owner/repo/branch/path
-                owner=$(echo "$url" | awk -F/ '{print $4}')
-                repo=$(echo "$url" | awk -F/ '{print $5}')
+          # --- GitHub: дата последнего коммита ---
+          get_github_last_commit_date() {
+            local url="$1"
+            local owner repo branch path api_url
+            if echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
+              owner=$(echo "$url" | awk -F/ '{print $4}')
+              repo=$(echo "$url" | awk -F/ '{print $5}')
+              if [ "$(echo "$url" | awk -F/ '{print $6}')" = "refs" ]; then
+                branch=$(echo "$url" | awk -F/ '{print $8}')
+                path=$(echo "$url" | awk -F/ '{for(i=9;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+              else
                 branch=$(echo "$url" | awk -F/ '{print $6}')
                 path=$(echo "$url" | awk -F/ '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
-              else
-                # Обычный github.com URL (например, https://github.com/owner/repo/blob/branch/path)
-                owner=$(echo "$url" | awk -F/ '{print $4}')
-                repo=$(echo "$url" | awk -F/ '{print $5}')
-                branch=$(echo "$url" | awk -F/ '{print $7}')
-                path=$(echo "$url" | awk -F/ '{for(i=8;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
-              fi
-
-              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ]; then
-                api_url="https://api.github.com/repos/$owner/$repo/commits?sha=$branch&path=$path&per_page=1"
-                echo "   🔍 Запрос к API: $api_url"
-                last_date=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url" | jq -r '.[0].commit.committer.date // "неизвестно"')
-                echo "   🕒 Последнее обновление: $last_date"
-              else
-                echo "   ⚠️  Не удалось разобрать URL GitHub"
               fi
             else
-              if $accessible; then
-                echo "   ℹ️  Не GitHub-ресурс, проверка обновления не производится"
+              owner=$(echo "$url" | awk -F/ '{print $4}')
+              repo=$(echo "$url" | awk -F/ '{print $5}')
+              branch=$(echo "$url" | awk -F/ '{print $7}')
+              path=$(echo "$url" | awk -F/ '{for(i=8;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+            fi
+            if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$path" ]; then
+              api_url="https://api.github.com/repos/$owner/$repo/commits?sha=$branch&path=$path&per_page=1"
+              response=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url")
+              if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
+                echo $(echo "$response" | jq -r '.[0].commit.committer.date')
+                return 0
               fi
             fi
-          done < sources.txt
+            return 1
+          }
 
-          echo ""
-          echo "===== ПРОВЕРКА ЗАВЕРШЕНА ====="
+          # --- GitVerse: дата последнего коммита ---
+          get_gitverse_last_commit_date() {
+            local url="$1"
+            local owner repo branch path api_url
+            if echo "$url" | grep -q '/api/repos/'; then
+              owner=$(echo "$url" | awk -F/ '{print $6}')
+              repo=$(echo "$url" | awk -F/ '{print $7}')
+              branch=$(echo "$url" | awk -F/ '{print $10}')
+              path=$(echo "$url" | awk -F/ '{for(i=11;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+            else
+              owner=$(echo "$url" | awk -F/ '{print $4}')
+              repo=$(echo "$url" | awk -F/ '{print $5}')
+              branch=$(echo "$url" | awk -F/ '{print $8}')
+              path=$(echo "$url" | awk -F/ '{for(i=9;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+            fi
+            if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$path" ]; then
+              api_url="https://api.gitverse.ru/repos/$owner/$repo/commits?branch=$branch&path=$path&per_page=1"
+              response=$(curl -sS "$api_url")
+              if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
+                echo $(echo "$response" | jq -r '.[0].commit.committer_date // .[0].commit.committer.date')
+                return 0
+              fi
+            fi
+            return 1
+          }
+
+          # --- Удаление времени из текста ---
+          remove_time_patterns() {
+            local text="$1"
+            text=$(echo "$text" | sed -E '
+              s/\b([01]?[0-9]|2[0-3])\s*[.:-]\s*([0-5][0-9])(\s*[.:-]\s*([0-5][0-9]))?\b/ /g
+            ')
+            echo "$text"
+          }
+
+          # --- Полное URL-декодирование ---
+          url_decode() {
+            python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
+          }
+
+          # --- Нормализация пробелов и URL-encoded ---
+          normalize_text() {
+            local text="$1"
+            # Декодируем все %XX (включая кириллицу)
+            text=$(echo "$text" | url_decode)
+            # Нормализуем пробелы вокруг разделителей дат
+            text=$(echo "$text" | sed -E '
+              s/(\d)\s*\.\s*(\d)/\1.\2/g;
+              s/(\d)\s*\/\s*(\d)/\1\/\2/g;
+              s/(\d)\s*-\s*(\d)/\1-\2/g
+            ')
+            echo "$text"
+          }
+
+          # --- Мега-функция извлечения самой поздней даты ---
+          get_latest_date_from_text() {
+            local raw="$1"
+            raw=$(remove_time_patterns "$raw")
+            raw=$(normalize_text "$raw")
+            local text="$raw"
+
+            # Нормализация месяцев
+            text=$(echo "$text" | sed -E '
+              s/\bянв(ар[ьяюе]?)?\.?\b/01/gi;
+              s/\bфев(рал[ьяюе]?)?\.?\b/02/gi;
+              s/\bмар(т[ауе]?)?\.?\b/03/gi;
+              s/\bапр(ел[ьяюе]?)?\.?\b/04/gi;
+              s/\bма[йяюе]?\.?\b/05/gi;
+              s/\bиюн[ьяюе]?\.?\b/06/gi;
+              s/\bиюл[ьяюе]?\.?\b/07/gi;
+              s/\bавг(уст[ауе]?)?\.?\b/08/gi;
+              s/\bсен(тябр[ьяюе]?)?\.?\b/09/gi;
+              s/\bокт(ябр[ьяюе]?)?\.?\b/10/gi;
+              s/\bноя(бр[ьяюе]?)?\.?\b/11/gi;
+              s/\bдек(абр[ьяюе]?)?\.?\b/12/gi;
+              s/\bjan(uary)?\.?\b/01/gi;
+              s/\bfeb(ruary)?\.?\b/02/gi;
+              s/\bmar(ch)?\.?\b/03/gi;
+              s/\bapr(il)?\.?\b/04/gi;
+              s/\bmay\.?\b/05/gi;
+              s/\bjun(e)?\.?\b/06/gi;
+              s/\bjul(y)?\.?\b/07/gi;
+              s/\baug(ust)?\.?\b/08/gi;
+              s/\bsep(tember)?\.?\b/09/gi;
+              s/\boct(ober)?\.?\b/10/gi;
+              s/\bnov(ember)?\.?\b/11/gi;
+              s/\bdec(ember)?\.?\b/12/gi
+            ')
+
+            # Русские числительные (все падежи, 1–31)
+            text=$(echo "$text" | sed -E '
+              s/\bодин\b/1/gi; s/\bодно\b/1/gi; s/\bодна\b/1/gi; s/\bодного\b/1/gi; s/\bодному\b/1/gi; s/\bодним\b/1/gi; s/\bодном\b/1/gi;
+              s/\bдва\b/2/gi; s/\bдве\b/2/gi; s/\bдвух\b/2/gi; s/\bдвум\b/2/gi; s/\bдвумя\b/2/gi;
+              s/\bтри\b/3/gi; s/\bтрёх\b/3/gi; s/\bтрём\b/3/gi; s/\bтремя\b/3/gi;
+              s/\bчетыре\b/4/gi; s/\bчетырёх\b/4/gi; s/\bчетырём\b/4/gi; s/\bчетырьмя\b/4/gi;
+              s/\bпять\b/5/gi; s/\bпяти\b/5/gi; s/\bпятью\b/5/gi;
+              s/\bшесть\b/6/gi; s/\bшести\b/6/gi; s/\bшестью\b/6/gi;
+              s/\bсемь\b/7/gi; s/\bсеми\b/7/gi; s/\bсемью\b/7/gi;
+              s/\bвосемь\b/8/gi; s/\bвосьми\b/8/gi; s/\bвосемью\b/8/gi;
+              s/\bдевять\b/9/gi; s/\bдевяти\b/9/gi; s/\bдевятью\b/9/gi;
+              s/\bдесять\b/10/gi; s/\bдесяти\b/10/gi; s/\bдесятью\b/10/gi;
+              s/\bодиннадцать\b/11/gi; s/\bодиннадцати\b/11/gi; s/\bодиннадцатью\b/11/gi;
+              s/\bдвенадцать\b/12/gi; s/\bдвенадцати\b/12/gi; s/\bдвенадцатью\b/12/gi;
+              s/\bтринадцать\b/13/gi; s/\bтринадцати\b/13/gi; s/\bтринадцатью\b/13/gi;
+              s/\bчетырнадцать\b/14/gi; s/\bчетырнадцати\b/14/gi; s/\bчетырнадцатью\b/14/gi;
+              s/\bпятнадцать\b/15/gi; s/\bпятнадцати\b/15/gi; s/\bпятнадцатью\b/15/gi;
+              s/\bшестнадцать\b/16/gi; s/\bшестнадцати\b/16/gi; s/\bшестнадцатью\b/16/gi;
+              s/\bсемнадцать\b/17/gi; s/\bсемнадцати\b/17/gi; s/\bсемнадцатью\b/17/gi;
+              s/\bвосемнадцать\b/18/gi; s/\bвосемнадцати\b/18/gi; s/\bвосемнадцатью\b/18/gi;
+              s/\bдевятнадцать\b/19/gi; s/\bдевятнадцати\b/19/gi; s/\bдевятнадцатью\b/19/gi;
+              s/\bдвадцать\b/20/gi; s/\bдвадцати\b/20/gi; s/\bдвадцатью\b/20/gi;
+              s/\bдвадцать один\b/21/gi; s/\bдвадцать одного\b/21/gi; s/\bдвадцать одному\b/21/gi; s/\bдвадцать одним\b/21/gi; s/\bдвадцать одном\b/21/gi;
+              s/\bдвадцать два\b/22/gi; s/\bдвадцать двух\b/22/gi; s/\bдвадцать двум\b/22/gi; s/\bдвадцать двумя\b/22/gi;
+              s/\bдвадцать три\b/23/gi; s/\bдвадцать трёх\b/23/gi; s/\bдвадцать трём\b/23/gi; s/\bдвадцать тремя\b/23/gi;
+              s/\bдвадцать четыре\b/24/gi; s/\bдвадцать четырёх\b/24/gi; s/\bдвадцать четырём\b/24/gi; s/\bдвадцать четырьмя\b/24/gi;
+              s/\bдвадцать пять\b/25/gi; s/\bдвадцать пяти\b/25/gi; s/\bдвадцать пятью\b/25/gi;
+              s/\bдвадцать шесть\b/26/gi; s/\bдвадцать шести\b/26/gi; s/\bдвадцать шестью\b/26/gi;
+              s/\bдвадцать семь\b/27/gi; s/\bдвадцать семи\b/27/gi; s/\bдвадцать семью\b/27/gi;
+              s/\bдвадцать восемь\b/28/gi; s/\bдвадцать восьми\b/28/gi; s/\bдвадцать восемью\b/28/gi;
+              s/\bдвадцать девять\b/29/gi; s/\bдвадцать девяти\b/29/gi; s/\bдвадцать девятью\b/29/gi;
+              s/\bтридцать\b/30/gi; s/\bтридцати\b/30/gi; s/\bтридцатью\b/30/gi;
+              s/\bтридцать один\b/31/gi; s/\bтридцать одного\b/31/gi; s/\bтридцать одному\b/31/gi; s/\bтридцать одним\b/31/gi; s/\bтридцать одном\b/31/gi
+              s/\bпервый\b/1/gi; s/\bпервая\b/1/gi; s/\bпервое\b/1/gi;
+              s/\bпервого\b/1/gi; s/\bпервой\b/1/gi; s/\bпервому\b/1/gi;
+              s/\bпервым\b/1/gi; s/\bпервом\b/1/gi; s/\bпервую\b/1/gi;
+              s/\bвторой\b/2/gi; s/\bвторая\b/2/gi; s/\bвторое\b/2/gi;
+              s/\bвторого\b/2/gi; s/\bвторой\b/2/gi; s/\bвторому\b/2/gi;
+              s/\bвторым\b/2/gi; s/\bвтором\b/2/gi; s/\bвторую\b/2/gi;
+              s/\bтретий\b/3/gi; s/\bтретья\b/3/gi; s/\bтретье\b/3/gi;
+              s/\bтретьего\b/3/gi; s/\bтретьей\b/3/gi; s/\bтретьему\b/3/gi;
+              s/\bтретьим\b/3/gi; s/\bтретьем\b/3/gi; s/\bтретью\b/3/gi;
+              s/\bчетвёртый\b/4/gi; s/\bчетвёртая\b/4/gi; s/\bчетвёртое\b/4/gi;
+              s/\bчетвёртого\b/4/gi; s/\bчетвёртой\b/4/gi; s/\bчетвёртому\b/4/gi;
+              s/\bчетвёртым\b/4/gi; s/\bчетвёртом\b/4/gi; s/\bчетвёртую\b/4/gi;
+              s/\bпятый\b/5/gi; s/\bпятая\b/5/gi; s/\bпятое\b/5/gi;
+              s/\bпятого\b/5/gi; s/\bпятой\b/5/gi; s/\bпятому\b/5/gi;
+              s/\bпятым\b/5/gi; s/\bпятом\b/5/gi; s/\bпятую\b/5/gi;
+              s/\bшестой\b/6/gi; s/\bшестая\b/6/gi; s/\bшестое\b/6/gi;
+              s/\bшестого\b/6/gi; s/\bшестой\b/6/gi; s/\bшестому\b/6/gi;
+              s/\bшестым\b/6/gi; s/\bшестом\b/6/gi; s/\bшестую\b/6/gi;
+              s/\bседьмой\b/7/gi; s/\bседьмая\b/7/gi; s/\bседьмое\b/7/gi;
+              s/\bседьмого\b/7/gi; s/\bседьмой\b/7/gi; s/\bседьмому\b/7/gi;
+              s/\bседьмым\b/7/gi; s/\bседьмом\b/7/gi; s/\bседьмую\b/7/gi;
+              s/\bвосьмой\b/8/gi; s/\bвосьмая\b/8/gi; s/\bвосьмое\b/8/gi;
+              s/\bвосьмого\b/8/gi; s/\bвосьмой\b/8/gi; s/\bвосьмому\b/8/gi;
+              s/\bвосьмым\b/8/gi; s/\bвосьмом\b/8/gi; s/\bвосьмую\b/8/gi;
+              s/\bдевятый\b/9/gi; s/\bдевятая\b/9/gi; s/\bдевятое\b/9/gi;
+              s/\bдевятого\b/9/gi; s/\bдевятой\b/9/gi; s/\bдевятому\b/9/gi;
+              s/\bдевятым\b/9/gi; s/\bдевятом\b/9/gi; s/\bдевятую\b/9/gi;
+              s/\bдесятый\b/10/gi; s/\bдесятая\b/10/gi; s/\bдесятое\b/10/gi;
+              s/\bдесятого\b/10/gi; s/\bдесятой\b/10/gi; s/\bдесятому\b/10/gi;
+              s/\bдесятым\b/10/gi; s/\bдесятом\b/10/gi; s/\bдесятую\b/10/gi;
+              s/\bодиннадцатый\b/11/gi; s/\bодиннадцатая\b/11/gi; s/\bодиннадцатое\b/11/gi;
+              s/\bодиннадцатого\b/11/gi; s/\bодиннадцатой\b/11/gi; s/\bодиннадцатому\b/11/gi;
+              s/\bодиннадцатым\b/11/gi; s/\bодиннадцатом\b/11/gi; s/\bодиннадцатую\b/11/gi;
+              s/\bдвенадцатый\b/12/gi; s/\bдвенадцатая\b/12/gi; s/\bдвенадцатое\b/12/gi;
+              s/\bдвенадцатого\b/12/gi; s/\bдвенадцатой\b/12/gi; s/\bдвенадцатому\b/12/gi;
+              s/\bдвенадцатым\b/12/gi; s/\bдвенадцатом\b/12/gi; s/\bдвенадцатую\b/12/gi;
+              s/\bтринадцатый\b/13/gi; s/\bтринадцатая\b/13/gi; s/\bтринадцатое\b/13/gi;
+              s/\bтринадцатого\b/13/gi; s/\bтринадцатой\b/13/gi; s/\bтринадцатому\b/13/gi;
+              s/\bтринадцатым\b/13/gi; s/\bтринадцатом\b/13/gi; s/\bтринадцатую\b/13/gi;
+              s/\bчетырнадцатый\b/14/gi; s/\bчетырнадцатая\b/14/gi; s/\bчетырнадцатое\b/14/gi;
+              s/\bчетырнадцатого\b/14/gi; s/\bчетырнадцатой\b/14/gi; s/\bчетырнадцатому\b/14/gi;
+              s/\bчетырнадцатым\b/14/gi; s/\bчетырнадцатом\b/14/gi; s/\bчетырнадцатую\b/14/gi;
+              s/\bпятнадцатый\b/15/gi; s/\bпятнадцатая\b/15/gi; s/\bпятнадцатое\b/15/gi;
+              s/\bпятнадцатого\b/15/gi; s/\bпятнадцатой\b/15/gi; s/\bпятнадцатому\b/15/gi;
+              s/\bпятнадцатым\b/15/gi; s/\bпятнадцатом\b/15/gi; s/\bпятнадцатую\b/15/gi;
+              s/\bшестнадцатый\b/16/gi; s/\bшестнадцатая\b/16/gi; s/\bшестнадцатое\b/16/gi;
+              s/\bшестнадцатого\b/16/gi; s/\bшестнадцатой\b/16/gi; s/\bшестнадцатому\b/16/gi;
+              s/\bшестнадцатым\b/16/gi; s/\bшестнадцатом\b/16/gi; s/\bшестнадцатую\b/16/gi;
+              s/\bсемнадцатый\b/17/gi; s/\bсемнадцатая\b/17/gi; s/\bсемнадцатое\b/17/gi;
+              s/\bсемнадцатого\b/17/gi; s/\bсемнадцатой\b/17/gi; s/\bсемнадцатому\b/17/gi;
+              s/\bсемнадцатым\b/17/gi; s/\bсемнадцатом\b/17/gi; s/\bсемнадцатую\b/17/gi;
+              s/\bвосемнадцатый\b/18/gi; s/\bвосемнадцатая\b/18/gi; s/\bвосемнадцатое\b/18/gi;
+              s/\bвосемнадцатого\b/18/gi; s/\bвосемнадцатой\b/18/gi; s/\bвосемнадцатому\b/18/gi;
+              s/\bвосемнадцатым\b/18/gi; s/\bвосемнадцатом\b/18/gi; s/\bвосемнадцатую\b/18/gi;
+              s/\bдевятнадцатый\b/19/gi; s/\bдевятнадцатая\b/19/gi; s/\bдевятнадцатое\b/19/gi;
+              s/\bдевятнадцатого\b/19/gi; s/\bдевятнадцатой\b/19/gi; s/\bдевятнадцатому\b/19/gi;
+              s/\bдевятнадцатым\b/19/gi; s/\bдевятнадцатом\b/19/gi; s/\bдевятнадцатую\b/19/gi;
+              s/\bдвадцатый\b/20/gi; s/\bдвадцатая\b/20/gi; s/\bдвадцатое\b/20/gi;
+              s/\bдвадцатого\b/20/gi; s/\bдвадцатой\b/20/gi; s/\bдвадцатому\b/20/gi;
+              s/\bдвадцатым\b/20/gi; s/\bдвадцатом\b/20/gi; s/\bдвадцатую\b/20/gi;
+              s/\bдвадцать первый\b/21/gi; s/\bдвадцать первая\b/21/gi; s/\bдвадцать первое\b/21/gi;
+              s/\bдвадцать первого\b/21/gi; s/\bдвадцать первой\b/21/gi; s/\bдвадцать первому\b/21/gi;
+              s/\bдвадцать первым\b/21/gi; s/\bдвадцать первом\b/21/gi; s/\bдвадцать первую\b/21/gi;
+              s/\bдвадцать второй\b/22/gi; s/\bдвадцать вторая\b/22/gi; s/\bдвадцать второе\b/22/gi;
+              s/\bдвадцать второго\b/22/gi; s/\bдвадцать второй\b/22/gi; s/\bдвадцать второму\b/22/gi;
+              s/\bдвадцать вторым\b/22/gi; s/\bдвадцать втором\b/22/gi; s/\bдвадцать вторую\b/22/gi;
+              s/\bдвадцать третий\b/23/gi; s/\bдвадцать третья\b/23/gi; s/\bдвадцать третье\b/23/gi;
+              s/\bдвадцать третьего\b/23/gi; s/\bдвадцать третьей\b/23/gi; s/\bдвадцать третьему\b/23/gi;
+              s/\bдвадцать третьим\b/23/gi; s/\bдвадцать третьем\b/23/gi; s/\bдвадцать третью\b/23/gi;
+              s/\bдвадцать четвёртый\b/24/gi; s/\bдвадцать четвёртая\b/24/gi; s/\bдвадцать четвёртое\b/24/gi;
+              s/\bдвадцать четвёртого\b/24/gi; s/\bдвадцать четвёртой\b/24/gi; s/\bдвадцать четвёртому\b/24/gi;
+              s/\bдвадцать четвёртым\b/24/gi; s/\bдвадцать четвёртом\b/24/gi; s/\bдвадцать четвёртую\b/24/gi;
+              s/\bдвадцать пятый\b/25/gi; s/\bдвадцать пятая\b/25/gi; s/\bдвадцать пятое\b/25/gi;
+              s/\bдвадцать пятого\b/25/gi; s/\bдвадцать пятой\b/25/gi; s/\bдвадцать пятому\b/25/gi;
+              s/\bдвадцать пятым\b/25/gi; s/\bдвадцать пятом\b/25/gi; s/\bдвадцать пятую\b/25/gi;
+              s/\bдвадцать шестой\b/26/gi; s/\bдвадцать шестая\b/26/gi; s/\bдвадцать шестое\b/26/gi;
+              s/\bдвадцать шестого\b/26/gi; s/\bдвадцать шестой\b/26/gi; s/\bдвадцать шестому\b/26/gi;
+              s/\bдвадцать шестым\b/26/gi; s/\bдвадцать шестом\b/26/gi; s/\bдвадцать шестую\b/26/gi;
+              s/\bдвадцать седьмой\b/27/gi; s/\bдвадцать седьмая\b/27/gi; s/\bдвадцать седьмое\b/27/gi;
+              s/\bдвадцать седьмого\b/27/gi; s/\bдвадцать седьмой\b/27/gi; s/\bдвадцать седьмому\b/27/gi;
+              s/\bдвадцать седьмым\b/27/gi; s/\bдвадцать седьмом\b/27/gi; s/\bдвадцать седьмую\b/27/gi;
+              s/\bдвадцать восьмой\b/28/gi; s/\bдвадцать восьмая\b/28/gi; s/\bдвадцать восьмое\b/28/gi;
+              s/\bдвадцать восьмого\b/28/gi; s/\bдвадцать восьмой\b/28/gi; s/\bдвадцать восьмому\b/28/gi;
+              s/\bдвадцать восьмым\b/28/gi; s/\bдвадцать восьмом\b/28/gi; s/\bдвадцать восьмую\b/28/gi;
+              s/\bдвадцать девятый\b/29/gi; s/\bдвадцать девятая\b/29/gi; s/\bдвадцать девятое\b/29/gi;
+              s/\bдвадцать девятого\b/29/gi; s/\bдвадцать девятой\b/29/gi; s/\bдвадцать девятому\b/29/gi;
+              s/\bдвадцать девятым\b/29/gi; s/\bдвадцать девятом\b/29/gi; s/\bдвадцать девятую\b/29/gi;
+              s/\bтридцатый\b/30/gi; s/\bтридцатая\b/30/gi; s/\bтридцатое\b/30/gi;
+              s/\bтридцатого\b/30/gi; s/\bтридцатой\b/30/gi; s/\bтридцатому\b/30/gi;
+              s/\bтридцатым\b/30/gi; s/\bтридцатом\b/30/gi; s/\bтридцатую\b/30/gi;
+              s/\bтридцать первый\b/31/gi; s/\bтридцать первая\b/31/gi; s/\bтридцать первое\b/31/gi;
+              s/\bтридцать первого\b/31/gi; s/\bтридцать первой\b/31/gi; s/\bтридцать первому\b/31/gi;
+              s/\bтридцать первым\b/31/gi; s/\bтридцать первом\b/31/gi; s/\bтридцать первую\b/31/gi;
+              s/\bдвадцать[\s-]*первый\b/21/gi; s/\bдвадцать[\s-]*первая\b/21/gi; s/\bдвадцать[\s-]*первое\b/21/gi;
+              s/\bдвадцать[\s-]*второй\b/22/gi; s/\bдвадцать[\s-]*вторая\b/22/gi; s/\bдвадцать[\s-]*второе\b/22/gi;
+              s/\bдвадцать[\s-]*третий\b/23/gi; s/\bдвадцать[\s-]*третья\b/23/gi; s/\bдвадцать[\s-]*третье\b/23/gi;
+              s/\bдвадцать[\s-]*четвёртый\b/24/gi; s/\bдвадцать[\s-]*четвёртая\b/24/gi; s/\bдвадцать[\s-]*четвёртое\b/24/gi;
+              s/\bдвадцать[\s-]*пятый\b/25/gi; s/\bдвадцать[\s-]*пятая\b/25/gi; s/\bдвадцать[\s-]*пятое\b/25/gi;
+              s/\bдвадцать[\s-]*шестой\b/26/gi; s/\bдвадцать[\s-]*шестая\b/26/gi; s/\bдвадцать[\s-]*шестое\b/26/gi;
+              s/\bдвадцать[\s-]*седьмой\b/27/gi; s/\bдвадцать[\s-]*седьмая\b/27/gi; s/\bдвадцать[\s-]*седьмое\b/27/gi;
+              s/\bдвадцать[\s-]*восьмой\b/28/gi; s/\bдвадцать[\s-]*восьмая\b/28/gi; s/\bдвадцать[\s-]*восьмое\b/28/gi;
+              s/\bдвадцать[\s-]*девятый\b/29/gi; s/\bдвадцать[\s-]*девятая\b/29/gi; s/\bдвадцать[\s-]*девятое\b/29/gi;
+              s/\bтридцать[\s-]*первый\b/31/gi; s/\bтридцать[\s-]*первая\b/31/gi; s/\bтридцать[\s-]*первое\b/31/gi
+            ')
+            ')
+
+            # Английские числительные (1–31)
+            text=$(echo "$text" | sed -E '
+              s/\bone\b/1/gi; s/\bfirst\b/1/gi; s/\b1st\b/1/gi; s/\b1-st\b/1/gi;
+              s/\btwo\b/2/gi; s/\bsecond\b/2/gi; s/\b2nd\b/2/gi; s/\b2-nd\b/2/gi;
+              s/\bthree\b/3/gi; s/\bthird\b/3/gi; s/\b3rd\b/3/gi; s/\b3-rd\b/3/gi;
+              s/\bfour\b/4/gi; s/\bfourth\b/4/gi; s/\b4th\b/4/gi; s/\b4-th\b/4/gi;
+              s/\bfive\b/5/gi; s/\bfifth\b/5/gi; s/\b5th\b/5/gi; s/\b5-th\b/5/gi;
+              s/\bsix\b/6/gi; s/\bsixth\b/6/gi; s/\b6th\b/6/gi; s/\b6-th\b/6/gi;
+              s/\bseven\b/7/gi; s/\bseventh\b/7/gi; s/\b7th\b/7/gi; s/\b7-th\b/7/gi;
+              s/\beight\b/8/gi; s/\beighth\b/8/gi; s/\b8th\b/8/gi; s/\b8-th\b/8/gi;
+              s/\bnine\b/9/gi; s/\bninth\b/9/gi; s/\b9th\b/9/gi; s/\b9-th\b/9/gi;
+              s/\bten\b/10/gi; s/\btenth\b/10/gi; s/\b10th\b/10/gi; s/\b10-th\b/10/gi;
+              s/\beleven\b/11/gi; s/\beleventh\b/11/gi; s/\b11th\b/11/gi; s/\b11-th\b/11/gi;
+              s/\btwelve\b/12/gi; s/\btwelfth\b/12/gi; s/\b12th\b/12/gi; s/\b12-th\b/12/gi;
+              s/\bthirteen\b/13/gi; s/\bthirteenth\b/13/gi; s/\b13th\b/13/gi; s/\b13-th\b/13/gi;
+              s/\bfourteen\b/14/gi; s/\bfourteenth\b/14/gi; s/\b14th\b/14/gi; s/\b14-th\b/14/gi;
+              s/\bfifteen\b/15/gi; s/\bfifteenth\b/15/gi; s/\b15th\b/15/gi; s/\b15-th\b/15/gi;
+              s/\bsixteen\b/16/gi; s/\bsixteenth\b/16/gi; s/\b16th\b/16/gi; s/\b16-th\b/16/gi;
+              s/\bseventeen\b/17/gi; s/\bseventeenth\b/17/gi; s/\b17th\b/17/gi; s/\b17-th\b/17/gi;
+              s/\beighteen\b/18/gi; s/\beighteenth\b/18/gi; s/\b18th\b/18/gi; s/\b18-th\b/18/gi;
+              s/\bnineteen\b/19/gi; s/\bnineteenth\b/19/gi; s/\b19th\b/19/gi; s/\b19-th\b/19/gi;
+              s/\btwenty\b/20/gi; s/\btwentieth\b/20/gi; s/\b20th\b/20/gi; s/\b20-th\b/20/gi;
+              s/\btwenty-one\b/21/gi; s/\btwenty-first\b/21/gi; s/\b21st\b/21/gi; s/\b21-st\b/21/gi;
+              s/\btwenty-two\b/22/gi; s/\btwenty-second\b/22/gi; s/\b22nd\b/22/gi; s/\b22-nd\b/22/gi;
+              s/\btwenty-three\b/23/gi; s/\btwenty-third\b/23/gi; s/\b23rd\b/23/gi; s/\b23-rd\b/23/gi;
+              s/\btwenty-four\b/24/gi; s/\btwenty-fourth\b/24/gi; s/\b24th\b/24/gi; s/\b24-th\b/24/gi;
+              s/\btwenty-five\b/25/gi; s/\btwenty-fifth\b/25/gi; s/\b25th\b/25/gi; s/\b25-th\b/25/gi;
+              s/\btwenty-six\b/26/gi; s/\btwenty-sixth\b/26/gi; s/\b26th\b/26/gi; s/\b26-th\b/26/gi;
+              s/\btwenty-seven\b/27/gi; s/\btwenty-seventh\b/27/gi; s/\b27th\b/27/gi; s/\b27-th\b/27/gi;
+              s/\btwenty-eight\b/28/gi; s/\btwenty-eighth\b/28/gi; s/\b28th\b/28/gi; s/\b28-th\b/28/gi;
+              s/\btwenty-nine\b/29/gi; s/\btwenty-ninth\b/29/gi; s/\b29th\b/29/gi; s/\b29-th\b/29/gi;
+              s/\bthirty\b/30/gi; s/\bthirtieth\b/30/gi; s/\b30th\b/30/gi; s/\b30-th\b/30/gi;
+              s/\bthirty-one\b/31/gi; s/\bthirty-first\b/31/gi; s/\b31st\b/31/gi; s/\b31-st\b/31/gi
+            ')
+
+            local all_dates=""
+            all_dates+=$(echo "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b')$'\n'
+            all_dates+=$(echo "$text" | grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' | while read d; do
+              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
+              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
+              year=$(echo "$d" | awk -F'[./-]' '{print $3}')
+              printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
+            done)
+            all_dates+=$(echo "$text" | grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' | while read d; do
+              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
+              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
+              year=$(date -u +%Y)
+              printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
+            done)
+            all_dates+=$(echo "$text" | grep -oP '\b\d{4}\s?[гy]\.?\b' | while read d; do
+              year=$(echo "$d" | grep -oP '\d{4}')
+              printf "%04d-01-01\n" "$year"
+            done)
+            all_dates+=$(echo "$text" | grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' | while read d; do
+              month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
+              year=$(echo "$d" | grep -oP '\d{4}')
+              printf "%04d-%02d-01\n" "$year" "$month"
+            done)
+            all_dates+=$(echo "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' | while read d; do
+              day=$(echo "$d" | awk '{print $1}')
+              month=$(echo "$d" | awk '{print $2}')
+              year=$(echo "$d" | awk '{print $3}')
+              printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
+            done)
+            all_dates+=$(echo "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' | while read d; do
+              day=$(echo "$d" | awk '{print $1}')
+              month=$(echo "$d" | awk '{print $2}')
+              year=$(date -u +%Y)
+              printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
+            done)
+
+            local latest=$(echo "$all_dates" | sort -r | head -1)
+            [ -z "$latest" ] && return 1
+            echo "$latest"
+          }
+
+          # --- Проверка возраста источника ---
+          is_stale_date() {
+            local date_str="$1"
+            local days_limit="$2"
+            [ -z "$date_str" ] && return 1
+            local current_epoch=$(date -u +%s)
+            local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || {
+              echo "   ⚠️ Дата $date_str вне диапазона, пропускаю"
+              return 1
+            }
+            local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
+            [ $age_days -lt 0 ] && return 1
+            [ $age_days -gt $days_limit ]
+          }
+
+          # ============================================================
+          # 2. Функция проверки одного источника (параллельная)
+          # ============================================================
+          check_source() {
+            local line="$1"
+            local index="$2"
+            local status_file="tmp/${index}.status"
+
+            # Извлекаем URL и фильтры
+            local is_json=false
+            local line_clean="$line"
+            if echo "$line" | grep -q '^j[[:space:]]'; then
+              is_json=true
+              line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
+            fi
+            local url=$(echo "$line_clean" | awk '{print $1}')
+            local filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
+
+            # Проверка доступности
+            local http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
+            local curl_exit=$?
+            if [ $curl_exit -ne 0 ] || [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; then
+              echo "dead" > "$status_file"
+              return
+            fi
+
+            # 1. Проверка по дате коммита (GitHub/GitVerse)
+            local last_commit_date=""
+            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
+              last_commit_date=$(get_github_last_commit_date "$url")
+              if [ -n "$last_commit_date" ]; then
+                if is_stale_date "$last_commit_date" 14; then
+                  echo "stale_commit" > "$status_file"
+                  return
+                fi
+              fi
+            elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
+              last_commit_date=$(get_gitverse_last_commit_date "$url")
+              if [ -n "$last_commit_date" ]; then
+                if is_stale_date "$last_commit_date" 14; then
+                  echo "stale_commit" > "$status_file"
+                  return
+                fi
+              fi
+            fi
+
+            # 2. Поиск даты в содержимом (включая URL)
+            local content_for_date=""
+            if $is_json; then
+              local tmp_json=$(mktemp)
+              curl -sS -L --max-time 20 -o "$tmp_json" "$url"
+              content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
+              rm -f "$tmp_json"
+            else
+              local raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
+              local decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
+              content_for_date="$decoded_body"
+            fi
+            content_for_date+=" $url"   # добавляем сам URL
+
+            local latest_date=$(get_latest_date_from_text "$content_for_date")
+            if [ -n "$latest_date" ] && is_stale_date "$latest_date" 14; then
+              echo "stale_content" > "$status_file"
+              return
+            fi
+
+            echo "ok" > "$status_file"
+          }
+
+          # ============================================================
+          # 3. Главный цикл (параллельный)
+          # ============================================================
+          mkdir -p tmp
+          # Загружаем источники из sources.txt
+          mapfile -t sources_lines < <(grep -v '^\s*#' sources.txt | grep -v '^\s*$')
+          mapfile -t old_lines < <(grep -v '^\s*#' old_sources.txt | grep -v '^\s*$')
+
+          # Запускаем проверку всех источников из sources.txt параллельно
+          index=0
+          for line in "${sources_lines[@]}"; do
+            index=$((index+1))
+            check_source "$line" "$index" &
+            # Ограничиваем количество одновременных процессов (10)
+            while [ $(jobs -r | wc -l) -ge 10 ]; do sleep 0.1; done
+          done
+          # Ждём завершения всех фоновых процессов
+          wait
+          sources_total=$index
+
+          # Собираем результаты из sources.txt
+          new_sources=()
+          dead_or_stale=()
+          for ((i=1; i<=sources_total; i++)); do
+            status_file="tmp/${i}.status"
+            if [ -f "$status_file" ]; then
+              status=$(cat "$status_file")
+              if [ "$status" = "ok" ]; then
+                new_sources+=("${sources_lines[$((i-1))]}")
+              else
+                dead_or_stale+=("${sources_lines[$((i-1))]}")
+              fi
+            fi
+          done
+
+          # Теперь проверяем old_sources.txt параллельно (отдельный цикл)
+          rm -rf tmp/old_*
+          mkdir -p tmp/old
+          index=0
+          for line in "${old_lines[@]}"; do
+            index=$((index+1))
+            url=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
+            (
+              http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
+              if [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; then
+                echo "ok" > "tmp/old/${index}.status"
+              else
+                echo "dead" > "tmp/old/${index}.status"
+              fi
+            ) &
+            while [ $(jobs -r | wc -l) -ge 10 ]; do sleep 0.1; done
+          done
+          wait
+          old_total=$index
+
+          revived=()
+          still_dead=()
+          for ((i=1; i<=old_total; i++)); do
+            status_file="tmp/old/${i}.status"
+            if [ -f "$status_file" ]; then
+              status=$(cat "$status_file")
+              if [ "$status" = "ok" ]; then
+                revived+=("${old_lines[$((i-1))]}")
+              else
+                still_dead+=("${old_lines[$((i-1))]}")
+              fi
+            fi
+          done
+
+          # ============================================================
+          # 4. Формируем новые sources.txt и old_sources.txt
+          # ============================================================
+          printf "%s\n" "${new_sources[@]}" > sources_tmp.txt
+          for line in "${revived[@]}"; do
+            echo "$line" >> sources_tmp.txt
+          done
+          sed -i '/^$/d' sources_tmp.txt
+
+          printf "%s\n" "${dead_or_stale[@]}" > old_tmp.txt
+          for line in "${still_dead[@]}"; do
+            echo "$line" >> old_tmp.txt
+          done
+          sed -i '/^$/d' old_tmp.txt
+
+          modified=false
+          if ! cmp -s sources.txt sources_tmp.txt; then
+            mv sources_tmp.txt sources.txt
+            modified=true
+          fi
+          if ! cmp -s old_sources.txt old_tmp.txt; then
+            mv old_tmp.txt old_sources.txt
+            modified=true
+          fi
+
+          if [ "$modified" = true ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add sources.txt old_sources.txt
+            git diff --staged --quiet || (git commit -m "Авто-ротация источников $(date -u +'%Y-%m-%d %H:%M')" && git push)
+            echo "✅ Списки обновлены."
+          else
+            echo "✅ Все источники актуальны, изменений нет."
+          fi
+
+          rm -rf tmp
