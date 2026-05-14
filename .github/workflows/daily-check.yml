@@ -276,166 +276,133 @@ jobs:
           }
 
           # ============================================================
-          # 2. Функция проверки одного источника (параллельная)
+          # 2. Последовательная обработка источников
           # ============================================================
-          check_source() {
-            local line="$1"
-            local index="$2"
-            local status_file="tmp/${index}.status"
+          cp sources.txt sources_backup.txt
+          cp old_sources.txt old_sources_backup.txt 2>/dev/null || true
+          touch old_sources.txt
 
-            # Извлекаем URL и фильтры
-            local is_json=false
-            local line_clean="$line"
+          STALE_DAYS=14
+          new_sources=()
+          dead_or_stale=()
+          revived=()
+          still_dead=()
+
+          echo "====== ПРОВЕРКА sources.txt ======"
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            echo "$line" | grep -q '^\s*#' && continue
+
+            original_line="$line"
+            is_json=false
             if echo "$line" | grep -q '^j[[:space:]]'; then
               is_json=true
               line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
+            else
+              line_clean="$line"
             fi
-            local url=$(echo "$line_clean" | awk '{print $1}')
-            local filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
+            url=$(echo "$line_clean" | awk '{print $1}')
+            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
-            echo "Проверяю: $url" >&2
+            echo "Проверяю: $url"
 
             # Проверка доступности
-            local http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
-            local curl_exit=$?
+            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
+            curl_exit=$?
             if [ $curl_exit -ne 0 ] || [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; then
-              echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt." >&2
-              echo "dead" > "$status_file"
-              return
+              echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
+              dead_or_stale+=("$original_line")
+              continue
             fi
-            echo "   ✅ Доступен" >&2
+            echo "   ✅ Доступен"
 
             # 1. Проверка по дате коммита (GitHub/GitVerse)
             local last_commit_date=""
             if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date" >&2
-                if is_stale_date "$last_commit_date" 14; then
-                  echo "   ⚠️ Файл не обновлялся >14 дней. Переношу в old_sources.txt." >&2
-                  echo "stale_commit" > "$status_file"
-                  return
+                echo "   📅 Последний коммит: $last_commit_date"
+                if is_stale_date "$last_commit_date" $STALE_DAYS; then
+                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old_sources.txt."
+                  dead_or_stale+=("$original_line")
+                  continue
                 fi
               else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое" >&2
+                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
               last_commit_date=$(get_gitverse_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date" >&2
-                if is_stale_date "$last_commit_date" 14; then
-                  echo "   ⚠️ Файл не обновлялся >14 дней. Переношу в old_sources.txt." >&2
-                  echo "stale_commit" > "$status_file"
-                  return
+                echo "   📅 Последний коммит: $last_commit_date"
+                if is_stale_date "$last_commit_date" $STALE_DAYS; then
+                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old_sources.txt."
+                  dead_or_stale+=("$original_line")
+                  continue
                 fi
               else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое" >&2
+                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             fi
 
-            # 2. Поиск даты в содержимом (включая URL) – только для не‑GitHub/GitVerse, или если API не дал дату
+            # 2. Поиск даты в содержимом (только для не‑GitHub/GitVerse, или если API не дал дату)
             if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
-              local content_for_date=""
+              content_for_date=""
               if $is_json; then
-                local tmp_json=$(mktemp)
+                tmp_json=$(mktemp)
                 curl -sS -L --max-time 20 -o "$tmp_json" "$url"
                 content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
                 rm -f "$tmp_json"
               else
-                local raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
-                local decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
+                raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
+                decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
                 content_for_date="$decoded_body"
               fi
-              content_for_date+=" $url"   # добавляем сам URL
+              content_for_date+=" $url"
 
-              local latest_date=$(get_latest_date_from_text "$content_for_date")
+              latest_date=$(get_latest_date_from_text "$content_for_date")
               if [ -n "$latest_date" ]; then
-                echo "   📅 Самая поздняя дата в содержимом: $latest_date" >&2
-                if is_stale_date "$latest_date" 14; then
-                  echo "   ⚠️ Данные старше 14 дней. Переношу в old_sources.txt." >&2
-                  echo "stale_content" > "$status_file"
-                  return
+                echo "   📅 Самая поздняя дата в содержимом: $latest_date"
+                if is_stale_date "$latest_date" $STALE_DAYS; then
+                  echo "   ⚠️ Данные старше $STALE_DAYS дней. Переношу в old_sources.txt."
+                  dead_or_stale+=("$original_line")
+                  continue
                 fi
               else
-                echo "   ℹ️ Дат не найдено." >&2
+                echo "   ℹ️ Дат не найдено."
               fi
             fi
 
-            echo "   ✅ Источник актуален" >&2
-            echo "ok" > "$status_file"
-          }
+            echo "   ✅ Источник актуален"
+            new_sources+=("$original_line")
+          done < sources_backup.txt
 
-          # ============================================================
-          # 3. Главный цикл (параллельный)
-          # ============================================================
-          mkdir -p tmp
-          # Загружаем источники из sources.txt
-          mapfile -t sources_lines < <(grep -v '^\s*#' sources.txt | grep -v '^\s*$')
-          mapfile -t old_lines < <(grep -v '^\s*#' old_sources.txt | grep -v '^\s*$')
+          echo "====== ПРОВЕРКА old_sources.txt ======"
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            echo "$line" | grep -q '^\s*#' && continue
 
-          # Запускаем проверку всех источников из sources.txt параллельно
-          index=0
-          for line in "${sources_lines[@]}"; do
-            index=$((index+1))
-            check_source "$line" "$index" &
-            # Ограничиваем количество одновременных процессов (10)
-            while [ $(jobs -r | wc -l) -ge 10 ]; do sleep 0.1; done
-          done
-          # Ждём завершения всех фоновых процессов
-          wait
-          sources_total=$index
-
-          # Собираем результаты из sources.txt
-          new_sources=()
-          dead_or_stale=()
-          for ((i=1; i<=sources_total; i++)); do
-            status_file="tmp/${i}.status"
-            if [ -f "$status_file" ]; then
-              status=$(cat "$status_file")
-              if [ "$status" = "ok" ]; then
-                new_sources+=("${sources_lines[$((i-1))]}")
-              else
-                dead_or_stale+=("${sources_lines[$((i-1))]}")
-              fi
+            original_line="$line"
+            if echo "$line" | grep -q '^j[[:space:]]'; then
+              line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
+            else
+              line_clean="$line"
             fi
-          done
+            url=$(echo "$line_clean" | awk '{print $1}')
 
-          # Теперь проверяем old_sources.txt параллельно (отдельный цикл)
-          rm -rf tmp/old_*
-          mkdir -p tmp/old
-          index=0
-          for line in "${old_lines[@]}"; do
-            index=$((index+1))
-            url=$(echo "$line" | sed -e 's/^j[[:space:]]*//' | awk '{print $1}')
-            (
-              http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
-              if [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; then
-                echo "ok" > "tmp/old/${index}.status"
-              else
-                echo "dead" > "tmp/old/${index}.status"
-              fi
-            ) &
-            while [ $(jobs -r | wc -l) -ge 10 ]; do sleep 0.1; done
-          done
-          wait
-          old_total=$index
-
-          revived=()
-          still_dead=()
-          for ((i=1; i<=old_total; i++)); do
-            status_file="tmp/old/${i}.status"
-            if [ -f "$status_file" ]; then
-              status=$(cat "$status_file")
-              if [ "$status" = "ok" ]; then
-                revived+=("${old_lines[$((i-1))]}")
-              else
-                still_dead+=("${old_lines[$((i-1))]}")
-              fi
+            echo "Проверяю старый источник: $url"
+            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
+            curl_exit=$?
+            if [ $curl_exit -eq 0 ] && [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; then
+              echo "   ✅ Ожил! Возвращаю в sources.txt"
+              revived+=("$original_line")
+            else
+              echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
+              still_dead+=("$original_line")
             fi
-          done
+          done < old_sources_backup.txt
 
           # ============================================================
-          # 4. Формируем новые sources.txt и old_sources.txt
+          # 3. Формируем новые файлы и коммитим
           # ============================================================
           printf "%s\n" "${new_sources[@]}" > sources_tmp.txt
           for line in "${revived[@]}"; do
@@ -468,5 +435,3 @@ jobs:
           else
             echo "✅ Все источники актуальны, изменений нет."
           fi
-
-          rm -rf tmp
