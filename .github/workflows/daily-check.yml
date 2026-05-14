@@ -1,4 +1,4 @@
-name: Revive & Check Sources (Parallel, Full URL-decode, Ultimate Date Parser)
+name: Проверка источников
 
 on:
   workflow_dispatch:
