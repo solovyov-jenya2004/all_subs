@@ -221,13 +221,11 @@ jobs:
             ')
 
             local all_dates=""
+            local tmpdates=$(mktemp)
 
-            # Вспомогательная функция для безопасного добавления дат
+            # Вспомогательная функция безопасного добавления даты
             add_date() {
-              local year="$1"
-              local month="$2"
-              local day="$3"
-              # Защита от пустых и нечисловых значений
+              local year="$1" month="$2" day="$3"
               [[ "$month" =~ ^[0-9]+$ ]] || return
               [[ "$day"   =~ ^[0-9]+$ ]] || return
               month=$((10#$month))
@@ -237,70 +235,62 @@ jobs:
               fi
             }
 
-            local tmpdates=$(mktemp)
+            # Все grep обёрнуты в || true, чтобы не ронять скрипт при отсутствии совпадений
+            printf '%s\n' "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b' >> "$tmpdates" 2>/dev/null || true
 
-            # 1. YYYY-MM-DD
-            printf '%s\n' "$text" | grep -oP '\b\d{4}-\d{2}-\d{2}\b' >> "$tmpdates"
-
-            # 2. DD.MM.YYYY и подобные
             printf '%s\n' "$text" | grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(echo "$d" | awk -F'[./-]' '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates"
-            done
+            done || true
 
-            # 3. DD.MM (текущий год)
             printf '%s\n' "$text" | grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk -F'[./-]' '{print $1}')
               month=$(echo "$d" | awk -F'[./-]' '{print $2}')
               year=$(date -u +%Y)
               add_date "$year" "$month" "$day" >> "$tmpdates"
-            done
+            done || true
 
-            # 4. Год с "г." / "y."
             printf '%s\n' "$text" | grep -oP '\b\d{4}\s?[гy]\.?\b' | while IFS= read -r d; do
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" 1 1 >> "$tmpdates"
-            done
+            done || true
 
-            # 5. Месяц и год
             printf '%s\n' "$text" | grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' | while IFS= read -r d; do
               month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" "$month" 1 >> "$tmpdates"
-            done
+            done || true
 
-            # 6. День месяц год
             printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(echo "$d" | awk '{print $3}')
               add_date "$year" "$month" "$day" >> "$tmpdates"
-            done
+            done || true
 
-            # 7. День месяц (текущий год)
             printf '%s\n' "$text" | grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' | while IFS= read -r d; do
               day=$(echo "$d" | awk '{print $1}')
               month=$(echo "$d" | awk '{print $2}')
               year=$(date -u +%Y)
               add_date "$year" "$month" "$day" >> "$tmpdates"
-            done
+            done || true
 
             local latest=$(sort -r "$tmpdates" | head -1)
             rm -f "$tmpdates"
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
-          # --- Проверка возраста источника ---
+          # --- Проверка наличия источника ---
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
             [ -z "$date_str" ] && return 1
             local current_epoch=$(date -u +%s)
             local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || {
-              echo "   ⚠️ Дата $date_str вне диапазона, пропускаю"
-              return 1
+              echo " ⚠️ Дата $date_str вне пары, пропускаю"
+              вернуть 1
             }
             local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
             [ $age_days -lt 0 ] && return 1
