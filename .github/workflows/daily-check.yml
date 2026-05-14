@@ -106,6 +106,9 @@ jobs:
           # --- Функция извлечения самой поздней даты ---
           get_latest_date_from_text() {
             local raw="$1"
+            # Временно отключаем set -e и игнорируем Broken pipe внутри этой функции
+            set +e
+            trap '' PIPE
             raw=$(echo "$raw" | tr -d '\0')               # убираем null-байты
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
@@ -280,6 +283,8 @@ jobs:
             local latest=$(sort -r "$tmpdates" | head -1)
             rm -f "$tmpdates"
             [ -z "$latest" ] && return 1
+            trap - PIPE
+            set -e
             echo "$latest"
           }
           # --- Проверка наличия источника ---
