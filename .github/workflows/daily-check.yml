@@ -229,13 +229,16 @@ jobs:
 
             add_date() {
               local year="$1" month="$2" day="$3"
-              [[ "$month" =~ ^[0-9]+$ ]] || return
-              [[ "$day"   =~ ^[0-9]+$ ]] || return
+              # Если любой из параметров отсутствует или не является числом — тихо выходим с успехом
+              [[ -n "$month" && "$month" =~ ^[0-9]+$ ]] || return 0
+              [[ -n "$day"   && "$day"   =~ ^[0-9]+$ ]] || return 0
+              # Убираем ведущие нули (10# гарантирует десятичную интерпретацию, если переменная не пуста)
               month=$((10#$month))
               day=$((10#$day))
               if (( month >= 1 && month <= 12 && day >= 1 && day <= 31 )); then
                 printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
               fi
+              return 0
             }
 
             # Вместо printf ... | grep используем прямое чтение из файла
@@ -293,7 +296,7 @@ jobs:
             local current_epoch=$(date -u +%s)
             local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || {
               echo " ⚠️ Дата $date_str вне пары, пропускаю"
-              вернуть 1
+              return 1
             }
             local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
             [ $age_days -lt 0 ] && return 1
