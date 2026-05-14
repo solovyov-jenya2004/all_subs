@@ -103,7 +103,7 @@ jobs:
             echo "$text"
           }
 
-          # --- Мега-функция извлечения самой поздней даты ---
+          # --- Функция извлечения самой поздней даты ---
           get_latest_date_from_text() {
             local raw="$1"
             raw=$(remove_time_patterns "$raw")
@@ -293,54 +293,75 @@ jobs:
             local url=$(echo "$line_clean" | awk '{print $1}')
             local filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
+            echo "Проверяю: $url" >&2
+
             # Проверка доступности
             local http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
             local curl_exit=$?
             if [ $curl_exit -ne 0 ] || [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; then
+              echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt." >&2
               echo "dead" > "$status_file"
               return
             fi
+            echo "   ✅ Доступен" >&2
 
             # 1. Проверка по дате коммита (GitHub/GitVerse)
             local last_commit_date=""
             if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
+                echo "   📅 Последний коммит: $last_commit_date" >&2
                 if is_stale_date "$last_commit_date" 14; then
+                  echo "   ⚠️ Файл не обновлялся >14 дней. Переношу в old_sources.txt." >&2
                   echo "stale_commit" > "$status_file"
                   return
                 fi
+              else
+                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое" >&2
               fi
             elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
               last_commit_date=$(get_gitverse_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
+                echo "   📅 Последний коммит: $last_commit_date" >&2
                 if is_stale_date "$last_commit_date" 14; then
+                  echo "   ⚠️ Файл не обновлялся >14 дней. Переношу в old_sources.txt." >&2
                   echo "stale_commit" > "$status_file"
                   return
                 fi
+              else
+                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое" >&2
               fi
             fi
 
-            # 2. Поиск даты в содержимом (включая URL)
-            local content_for_date=""
-            if $is_json; then
-              local tmp_json=$(mktemp)
-              curl -sS -L --max-time 20 -o "$tmp_json" "$url"
-              content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
-              rm -f "$tmp_json"
-            else
-              local raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
-              local decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-              content_for_date="$decoded_body"
-            fi
-            content_for_date+=" $url"   # добавляем сам URL
+            # 2. Поиск даты в содержимом (включая URL) – только для не‑GitHub/GitVerse, или если API не дал дату
+            if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
+              local content_for_date=""
+              if $is_json; then
+                local tmp_json=$(mktemp)
+                curl -sS -L --max-time 20 -o "$tmp_json" "$url"
+                content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
+                rm -f "$tmp_json"
+              else
+                local raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
+                local decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
+                content_for_date="$decoded_body"
+              fi
+              content_for_date+=" $url"   # добавляем сам URL
 
-            local latest_date=$(get_latest_date_from_text "$content_for_date")
-            if [ -n "$latest_date" ] && is_stale_date "$latest_date" 14; then
-              echo "stale_content" > "$status_file"
-              return
+              local latest_date=$(get_latest_date_from_text "$content_for_date")
+              if [ -n "$latest_date" ]; then
+                echo "   📅 Самая поздняя дата в содержимом: $latest_date" >&2
+                if is_stale_date "$latest_date" 14; then
+                  echo "   ⚠️ Данные старше 14 дней. Переношу в old_sources.txt." >&2
+                  echo "stale_content" > "$status_file"
+                  return
+                fi
+              else
+                echo "   ℹ️ Дат не найдено." >&2
+              fi
             fi
 
+            echo "   ✅ Источник актуален" >&2
             echo "ok" > "$status_file"
           }
 
