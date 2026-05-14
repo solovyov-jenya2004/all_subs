@@ -291,6 +291,7 @@ jobs:
             rm -f "$tmpdates"
             [ -z "$latest" ] && return 1
             echo "$latest"
+          }
           # --- Проверка возраста источника ---
           is_stale_date() {
             local date_str="$1"
