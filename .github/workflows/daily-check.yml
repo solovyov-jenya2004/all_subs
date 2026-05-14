@@ -103,7 +103,6 @@ jobs:
 
           # Функция извлечения самой поздней даты
           get_latest_date_from_text() {
-            set +o pipefail   # отключаем сразу при входе
             local raw="$1"
             raw=$(echo "$raw" | tr -d '\0')  # убираем null-байты
             raw=$(remove_time_patterns "$raw")
@@ -219,7 +218,8 @@ jobs:
             ')
 
             local all_dates=""
-            # Сохраняем обработанный текст во временный файл, чтобы избежать пайпов
+
+            # Сохраняем нормализованный текст во временный файл
             local textfile=$(mktemp)
             printf '%s\n' "$text" > "$textfile"
 
@@ -227,79 +227,67 @@ jobs:
 
             add_date() {
               local year="$1" month="$2" day="$3"
-              # Если любой из параметров отсутствует или не является числом — тихо выходим с успехом
-              [[ -n "$month" && "$month" =~ ^[0-9]+$ ]] || return 0
-              [[ -n "$day"   && "$day"   =~ ^[0-9]+$ ]] || return 0
-              # Убираем ведущие нули (10# гарантирует десятичную интерпретацию, если переменная не пуста)
+              [[ "$month" =~ ^[0-9]+$ ]] || return
+              [[ "$day"   =~ ^[0-9]+$ ]] || return
               month=$((10#$month))
               day=$((10#$day))
               if (( month >= 1 && month <= 12 && day >= 1 && day <= 31 )); then
                 printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
               fi
-              return 0
             }
 
-            # Через grep используем прямое чтение из файла
+            # 1. YYYY-MM-DD – напрямую в файл
             grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
 
-            grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" | while IFS= read -r d; do
-              {
-                day=$(echo "$d" | awk -F'[./-]' '{print $1}')
-                month=$(echo "$d" | awk -F'[./-]' '{print $2}')
-                year=$(echo "$d" | awk -F'[./-]' '{print $3}')
-                add_date "$year" "$month" "$day" >> "$tmpdates"
-              } || true
-            done || true
-            
-            grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" | while IFS= read -r d; do
-              {
-                day=$(echo "$d" | awk -F'[./-]' '{print $1}')
-                month=$(echo "$d" | awk -F'[./-]' '{print $2}')
-                year=$(date -u +%Y)
-                add_date "$year" "$month" "$day" >> "$tmpdates"
-              } || true
-            done || true
-            
-            grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" | while IFS= read -r d; do
-              {
-                year=$(echo "$d" | grep -oP '\d{4}')
-                add_date "$year" 1 1 >> "$tmpdates"
-              } || true
-            done || true
-            
-            grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" | while IFS= read -r d; do
-              {
-                month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
-                year=$(echo "$d" | grep -oP '\d{4}')
-                add_date "$year" "$month" 1 >> "$tmpdates"
-              } || true
-            done || true
-            
-            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" | while IFS= read -r d; do
-              {
-                day=$(echo "$d" | awk '{print $1}')
-                month=$(echo "$d" | awk '{print $2}')
-                year=$(echo "$d" | awk '{print $3}')
-                add_date "$year" "$month" "$day" >> "$tmpdates"
-              } || true
-            done || true
-            
-            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" | while IFS= read -r d; do
-              {
-                day=$(echo "$d" | awk '{print $1}')
-                month=$(echo "$d" | awk '{print $2}')
-                year=$(date -u +%Y)
-                add_date "$year" "$month" "$day" >> "$tmpdates"
-              } || true
-            done || true
-  
+            # 2. DD.MM.YYYY и т.п.
+            while IFS= read -r d; do
+              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
+              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
+              year=$(echo "$d" | awk -F'[./-]' '{print $3}')
+              add_date "$year" "$month" "$day" >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" 2>/dev/null || true)"
+
+            # 3. DD.MM (текущий год)
+            while IFS= read -r d; do
+              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
+              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
+              year=$(date -u +%Y)
+              add_date "$year" "$month" "$day" >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" 2>/dev/null || true)"
+
+            # 4. Год с "г." / "y."
+            while IFS= read -r d; do
+              year=$(echo "$d" | grep -oP '\d{4}')
+              add_date "$year" 1 1 >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" 2>/dev/null || true)"
+
+            # 5. Месяц и год
+            while IFS= read -r d; do
+              month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
+              year=$(echo "$d" | grep -oP '\d{4}')
+              add_date "$year" "$month" 1 >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" 2>/dev/null || true)"
+
+            # 6. День месяц год
+            while IFS= read -r d; do
+              day=$(echo "$d" | awk '{print $1}')
+              month=$(echo "$d" | awk '{print $2}')
+              year=$(echo "$d" | awk '{print $3}')
+              add_date "$year" "$month" "$day" >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" 2>/dev/null || true)"
+
+            # 7. День месяц (текущий год)
+            while IFS= read -r d; do
+              day=$(echo "$d" | awk '{print $1}')
+              month=$(echo "$d" | awk '{print $2}')
+              year=$(date -u +%Y)
+              add_date "$year" "$month" "$day" >> "$tmpdates" || true
+            done <<< "$(grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" 2>/dev/null || true)"
+
             local latest=$(sort -r "$tmpdates" | head -1)
             rm -f "$textfile" "$tmpdates"
-        
-            set -o pipefail   # восстанавливаем перед выходом
             [ -z "$latest" ] && return 1
             echo "$latest"
-          }
           # Проверка наличия источника
           is_stale_date() {
             local date_str="$1"
@@ -315,7 +303,7 @@ jobs:
             [ $age_days -gt $days_limit ]
           }
 
-          # Последовательная обработка источников
+          # Обработка источников
           cp sources.txt sources_backup.txt
           cp old_sources.txt old_sources_backup.txt 2>/dev/null || true
           touch old_sources.txt
