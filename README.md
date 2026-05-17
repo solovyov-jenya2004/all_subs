@@ -6,7 +6,9 @@
 [![Last commit](https://custom-icon-badges.demolab.com/github/last-commit/solovyov-jenya2004/all_subs?logo=history&logoColor=white&color=0e75b6&style=flat-square)](https://github.com/solovyov-jenya2004/all_subs/commits/main)
 ![Visitors](https://komarev.com/ghpvc/?username=solovyov-jenya2004&label=visitors&color=0e75b6&style=flat-square)
 
-> ⚡ Бесплатные, автообновляемые VPN‑конфигурации для использования при развёртывании белых списков мобильного интернета в Российской Федерации.  
+> ⚡ Бесплатные, автообновляемые VPN‑конфигурации для использования при развёртывании белых списков мобильного интернета в Российской Федерации.
+
+🎉 **Огромное спасибо создателям актуальных подписок, чьи конфигурации легли в основу этой сборки.**
 
 ---
 
@@ -183,56 +185,6 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 6. ✍️ **Добавляет** заголовки подписки.
 7. 💾 **Сохраняет** результат в `final_sorted` и `final_sorted_base64`.
 
----
-
-## 👥 Авторы подписок
-
-Огромное спасибо создателям актуальных подписок, чьи конфигурации легли в основу этой сборки:
-
-- [**zieng2**](https://t.me/zieng2)
-
-- [**igareck**](https://github.com/igareck)
-
-- [**olc**](https://t.me/openlibrecommunity)
-
-- [**Обход.Ру**](https://t.me/obhod_ru)
-
-- [**РосТуннель**](https://t.me/rostunnel)
-
-- [**EtoNeYa**](https://t.me/YoutubeUnBlockRu)
-
-- [**EaveVPN**](https://t.me/EaveVPN)
-
-- [**Destroy_ST**](https://github.com/DestroyST6767)
-
-- [**WL RUS**](https://t.me/wlrustg)
-
-- [**Alex999ooo**](https://github.com/Alex999ooo)
-
-- [**KfWL**](https://t.me/KfWLRus)
-
-- [**Free_vpn**](https://t.me/free_vpn123456)
-
-- [**хех ВПН**](https://t.me/xex_vpn)
-
-- [**HardVPN**](https://t.me/hard_wlvpn)
-
-- [**AirLinkVPN**](https://t.me/AirLinkVPN)
-
-- [**#РосКомПозор**](https://t.me/RKP_group)
-
-- [**КIЗЯК VPN**](https://t.me/+KLYYc-t388QwOTEy)
-
-- [**OBWL**](https://t.me/obprojects)
-
-- [**AeryxVPN**](https://t.me/AeryxVPN)
-
-- [**VOID**](https://github.com/VOID-Anonymity)
-
-- [**ByRKN ☭**](https://t.me/byrkn)
-
-- [**ScalaVPN**](https://t.me/ScalaVPN)
-- 
 ---
 
 ## ❓ Вопросы и ответы (FAQ)
