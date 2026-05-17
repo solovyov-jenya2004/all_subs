@@ -15,7 +15,7 @@ jobs:
       - name: Проверить источники и обновить списки
         run: |
           # Вспомогательные функции
- 
+
           # GitHub: дата последнего коммита
           get_github_last_commit_date() {
             local url="$1"
@@ -46,7 +46,7 @@ jobs:
             fi
             return 1
           }
- 
+          
           # GitVerse: дата последнего коммита
           get_gitverse_last_commit_date() {
             local url="$1"
@@ -72,8 +72,8 @@ jobs:
             fi
             return 1
           }
- 
-          # Удаление времени из текста
+          
+           # Удаление времени из текста
           remove_time_patterns() {
             local text="$1"
             text=$(echo "$text" | sed -E '
@@ -81,12 +81,12 @@ jobs:
             ')
             echo "$text"
           }
- 
+          
           # Полное URL-декодирование
           url_decode() {
             python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
           }
- 
+          
           # Нормализация пробелов и URL-encoded
           normalize_text() {
             local text="$1"
@@ -100,7 +100,7 @@ jobs:
             ')
             echo "$text"
           }
- 
+          
           # Функция извлечения самой поздней даты
           get_latest_date_from_text() {
             local raw="$1"
@@ -108,11 +108,11 @@ jobs:
             raw=$(echo "$raw" | tr -d '\0')
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
- 
+            
             # Сохраняем текст в файл
             local textfile=$(mktemp)
             printf '%s\n' "$raw" > "$textfile"
- 
+            
             # --- Нормализация месяцев ---
             sed -i -E '
               s/\bянв(ар[ьяюе]?)?\.?\b/01/gi;
@@ -140,7 +140,7 @@ jobs:
               s/\bnov(ember)?\.?\b/11/gi;
               s/\bdec(ember)?\.?\b/12/gi
             ' "$textfile"
- 
+            
             # --- Русские числительные ---
             sed -i -E '
               s/\bпервое\b/1/gi; s/\bпервого\b/1/gi;
@@ -185,7 +185,7 @@ jobs:
               s/\bдвадцать[\s-]*девятое\b/29/gi; s/\bдвадцать[\s-]*девятого\b/29/gi;
               s/\bтридцать[\s-]*первое\b/31/gi; s/\bтридцать[\s-]*первого\b/31/gi
             ' "$textfile"
- 
+            
             # --- Английские числительные ---
             sed -i -E '
               s/\bfirst\b/1/gi; s/\b1st\b/1/gi; s/\b1-st\b/1/gi;
@@ -233,7 +233,7 @@ jobs:
                 printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
               fi
             }
- 
+            
             # Извлекаем даты
             grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
  
@@ -281,7 +281,7 @@ jobs:
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
- 
+          
           # Проверка наличия источника
           is_stale_date() {
             local date_str="$1"
@@ -296,7 +296,7 @@ jobs:
             [ $age_days -lt 0 ] && return 1
             [ $age_days -gt $days_limit ]
           }
- 
+          
           # Обработка источников
           cp sources.txt sources_backup.txt
           cp old_sources.txt old_sources_backup.txt 2>/dev/null || true
@@ -308,7 +308,6 @@ jobs:
           revived=()
           still_dead=()
  
-          # ==================== ПРОВЕРКА ОСНОВНЫХ ИСТОЧНИКОВ ====================
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -326,7 +325,7 @@ jobs:
             filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
  
             echo "Проверяю: $url"
- 
+            
             # Проверка доступности
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
             if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
@@ -335,10 +334,10 @@ jobs:
               continue
             fi
             echo "   ✅ Доступен"
- 
+            
             # 1. Проверка по дате коммита
             last_commit_date=""
-            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
+            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
                 echo "   📅 Последний коммит: $last_commit_date"
@@ -398,7 +397,6 @@ jobs:
             new_sources+=("$original_line")
           done < sources_backup.txt
  
-          # ==================== ПРОВЕРКА СТАРЫХ ИСТОЧНИКОВ ====================
           echo "====== ПРОВЕРКА old_sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
