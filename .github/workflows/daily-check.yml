@@ -152,7 +152,7 @@ jobs:
             done
  
             grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" | while IFS= read -r d; do
-              month=$(echo "$d" | grep -oP '\b\d{2}\b' | head -1)
+              month=$(echo "$d" | grep -oP '\b\d{2}\b' | awk 'NR==1')
               year=$(echo "$d" | grep -oP '\d{4}')
               add_date "$year" "$month" 1 >> "$tmpdates" || true
             done
@@ -171,12 +171,13 @@ jobs:
               add_date "$year" "$month" "$day" >> "$tmpdates" || true
             done
  
-            local latest=$(sort -r "$tmpdates" | head -1)
+            # Изменено head -1 на awk 'NR==1' для предотвращения Broken pipe
+            local latest=$(sort -r "$tmpdates" | awk 'NR==1')
             rm -f "$textfile" "$tmpdates"
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
- 
+          
           # Проверка просроченности даты
           is_stale_date() {
             local date_str="$1"
@@ -257,7 +258,7 @@ jobs:
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 15)
+                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | awk 'NR<=15')
               fi
               content_for_date+=" $url"
  
@@ -324,7 +325,7 @@ jobs:
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 15)
+                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | awk 'NR<=15')
               fi
               content_for_date+=" $url"
  
@@ -341,7 +342,7 @@ jobs:
           done < old_sources_backup.txt
  
           echo "====== ИТОГИ И ОБНОВЛЕНИЕ ФАЙЛОВ ======"
- 
+          
           > sources.txt
           for s in "${new_sources[@]}"; do echo "$s" >> sources.txt; done
           for s in "${revived[@]}"; do echo "$s" >> sources.txt; done
@@ -361,7 +362,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
- 
+          
           if git diff --quiet; then
             echo "Нет изменений для коммита."
           else
@@ -370,3 +371,4 @@ jobs:
             git push
             echo "Изменения успешно закоммичены."
           fi
+ 
