@@ -15,7 +15,7 @@ jobs:
       - name: Проверить источники и обновить списки
         run: |
           # Вспомогательные функции
-
+ 
           # GitHub: дата последнего коммита
           get_github_last_commit_date() {
             local url="$1"
@@ -46,7 +46,7 @@ jobs:
             fi
             return 1
           }
-          
+ 
           # GitVerse: дата последнего коммита
           get_gitverse_last_commit_date() {
             local url="$1"
@@ -72,8 +72,8 @@ jobs:
             fi
             return 1
           }
-          
-           # Удаление времени из текста
+ 
+          # Удаление времени из текста
           remove_time_patterns() {
             local text="$1"
             text=$(echo "$text" | sed -E '
@@ -81,145 +81,40 @@ jobs:
             ')
             echo "$text"
           }
-          
+ 
           # Полное URL-декодирование
           url_decode() {
             python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
           }
-          
+ 
           # Нормализация пробелов и URL-encoded
           normalize_text() {
             local text="$1"
-            # Декодируем все %XX (включая кириллицу)
             text=$(echo "$text" | url_decode)
-            # Нормализуем пробелы вокруг разделителей дат
             text=$(echo "$text" | sed -E '
-              s/(\d)\s*\.\s*(\d)/\1.\2/g;
-              s/(\d)\s*\/\s*(\d)/\1\/\2/g;
-              s/(\d)\s*-\s*(\d)/\1-\2/g
+              s/([0-9])\s*\.\s*([0-9])/\1.\2/g;
+              s/([0-9])\s*\/\s*([0-9])/\1\/\2/g;
+              s/([0-9])\s*-\s*([0-9])/\1-\2/g
             ')
             echo "$text"
           }
-          
-          # Функция извлечения самой поздней даты
+ 
+          # Функция извлечения самой поздней даты из текста
           get_latest_date_from_text() {
             local raw="$1"
-            # Убираем нулевые байты, время и URL-encoded
             raw=$(echo "$raw" | tr -d '\0')
             raw=$(remove_time_patterns "$raw")
             raw=$(normalize_text "$raw")
-            
-            # Сохраняем текст в файл
+ 
             local textfile=$(mktemp)
             printf '%s\n' "$raw" > "$textfile"
-            
-            # --- Нормализация месяцев ---
-            sed -i -E '
-              s/\bянв(ар[ьяюе]?)?\.?\b/01/gi;
-              s/\bфев(рал[ьяюе]?)?\.?\b/02/gi;
-              s/\bмар(т[ауе]?)?\.?\b/03/gi;
-              s/\bапр(ел[ьяюе]?)?\.?\b/04/gi;
-              s/\bма[йяюе]?\.?\b/05/gi;
-              s/\bиюн[ьяюе]?\.?\b/06/gi;
-              s/\bиюл[ьяюе]?\.?\b/07/gi;
-              s/\bавг(уст[ауе]?)?\.?\b/08/gi;
-              s/\bсен(тябр[ьяюе]?)?\.?\b/09/gi;
-              s/\bокт(ябр[ьяюе]?)?\.?\b/10/gi;
-              s/\bноя(бр[ьяюе]?)?\.?\b/11/gi;
-              s/\bдек(абр[ьяюе]?)?\.?\b/12/gi;
-              s/\bjan(uary)?\.?\b/01/gi;
-              s/\bfeb(ruary)?\.?\b/02/gi;
-              s/\bmar(ch)?\.?\b/03/gi;
-              s/\bapr(il)?\.?\b/04/gi;
-              s/\bmay\.?\b/05/gi;
-              s/\bjun(e)?\.?\b/06/gi;
-              s/\bjul(y)?\.?\b/07/gi;
-              s/\baug(ust)?\.?\b/08/gi;
-              s/\bsep(tember)?\.?\b/09/gi;
-              s/\boct(ober)?\.?\b/10/gi;
-              s/\bnov(ember)?\.?\b/11/gi;
-              s/\bdec(ember)?\.?\b/12/gi
-            ' "$textfile"
-            
-            # --- Русские числительные ---
-            sed -i -E '
-              s/\bпервое\b/1/gi; s/\bпервого\b/1/gi;
-              s/\bвторое\b/2/gi; s/\bвторого\b/2/gi;
-              s/\bтретье\b/3/gi; s/\bтретьего\b/3/gi;
-              s/\bчетвёртое\b/4/gi; s/\bчетвёртого\b/4/gi;
-              s/\bпятое\b/5/gi; s/\bпятого\b/5/gi;
-              s/\bшестое\b/6/gi; s/\bшестого\b/6/gi;
-              s/\bседьмое\b/7/gi; s/\bседьмого\b/7/gi;
-              s/\bвосьмое\b/8/gi; s/\bвосьмого\b/8/gi;
-              s/\bдевятое\b/9/gi; s/\bдевятого\b/9/gi;
-              s/\bдесятое\b/10/gi; s/\bдесятого\b/10/gi;
-              s/\bодиннадцатое\b/11/gi; s/\bодиннадцатого\b/11/gi;
-              s/\bдвенадцатое\b/12/gi; s/\bдвенадцатого\b/12/gi;
-              s/\bтринадцатое\b/13/gi; s/\bтринадцатого\b/13/gi;
-              s/\bчетырнадцатое\b/14/gi; s/\bчетырнадцатого\b/14/gi;
-              s/\bпятнадцатое\b/15/gi; s/\bпятнадцатого\b/15/gi;
-              s/\bшестнадцатое\b/16/gi; s/\bшестнадцатого\b/16/gi;
-              s/\bсемнадцатое\b/17/gi; s/\bсемнадцатого\b/17/gi;
-              s/\bвосемнадцатое\b/18/gi; s/\bвосемнадцатого\b/18/gi;
-              s/\bдевятнадцатое\b/19/gi; s/\bдевятнадцатого\b/19/gi;
-              s/\bдвадцатое\b/20/gi; s/\bдвадцатого\b/20/gi;
-              s/\bдвадцать первое\b/21/gi; s/\bдвадцать первого\b/21/gi;
-              s/\bдвадцать второе\b/22/gi; s/\bдвадцать второго\b/22/gi;
-              s/\bдвадцать третье\b/23/gi; s/\bдвадцать третьего\b/23/gi;
-              s/\bдвадцать четвёртое\b/24/gi; s/\bдвадцать четвёртого\b/24/gi;
-              s/\bдвадцать пятое\b/25/gi; s/\bдвадцать пятого\b/25/gi;
-              s/\bдвадцать шестое\b/26/gi; s/\bдвадцать шестого\b/26/gi;
-              s/\bдвадцать седьмое\b/27/gi; s/\bдвадцать седьмого\b/27/gi;
-              s/\bдвадцать восьмое\b/28/gi; s/\bдвадцать восьмого\b/28/gi;
-              s/\bдвадцать девятое\b/29/gi; s/\bдвадцать девятого\b/29/gi;
-              s/\bтридцатое\b/30/gi; s/\bтридцатого\b/30/gi;
-              s/\bтридцать первое\b/31/gi; s/\bтридцать первого\b/31/gi;
-              s/\bдвадцать[\s-]*первое\b/21/gi; s/\bдвадцать[\s-]*первого\b/21/gi;
-              s/\bдвадцать[\s-]*второе\b/22/gi; s/\bдвадцать[\s-]*второго\b/22/gi;
-              s/\bдвадцать[\s-]*третье\b/23/gi; s/\bдвадцать[\s-]*третьего\b/23/gi;
-              s/\bдвадцать[\s-]*четвёртое\b/24/gi; s/\bдвадцать[\s-]*четвёртого\b/24/gi;
-              s/\bдвадцать[\s-]*пятое\b/25/gi; s/\bдвадцать[\s-]*пятого\b/25/gi;
-              s/\bдвадцать[\s-]*шестое\b/26/gi; s/\bдвадцать[\s-]*шестого\b/26/gi;
-              s/\bдвадцать[\s-]*седьмое\b/27/gi; s/\bдвадцать[\s-]*седьмого\b/27/gi;
-              s/\bдвадцать[\s-]*восьмое\b/28/gi; s/\bдвадцать[\s-]*восьмого\b/28/gi;
-              s/\bдвадцать[\s-]*девятое\b/29/gi; s/\bдвадцать[\s-]*девятого\b/29/gi;
-              s/\bтридцать[\s-]*первое\b/31/gi; s/\bтридцать[\s-]*первого\b/31/gi
-            ' "$textfile"
-            
-            # --- Английские числительные ---
-            sed -i -E '
-              s/\bfirst\b/1/gi; s/\b1st\b/1/gi; s/\b1-st\b/1/gi;
-              s/\bsecond\b/2/gi; s/\b2nd\b/2/gi; s/\b2-nd\b/2/gi;
-              s/\bthird\b/3/gi; s/\b3rd\b/3/gi; s/\b3-rd\b/3/gi;
-              s/\bfourth\b/4/gi; s/\b4th\b/4/gi; s/\b4-th\b/4/gi;
-              s/\bfifth\b/5/gi; s/\b5th\b/5/gi; s/\b5-th\b/5/gi;
-              s/\bsixth\b/6/gi; s/\b6th\b/6/gi; s/\b6-th\b/6/gi;
-              s/\bseventh\b/7/gi; s/\b7th\b/7/gi; s/\b7-th\b/7/gi;
-              s/\beighth\b/8/gi; s/\b8th\b/8/gi; s/\b8-th\b/8/gi;
-              s/\bninth\b/9/gi; s/\b9th\b/9/gi; s/\b9-th\b/9/gi;
-              s/\btenth\b/10/gi; s/\b10th\b/10/gi; s/\b10-th\b/10/gi;
-              s/\beleventh\b/11/gi; s/\b11th\b/11/gi; s/\b11-th\b/11/gi;
-              s/\btwelfth\b/12/gi; s/\b12th\b/12/gi; s/\b12-th\b/12/gi;
-              s/\bthirteenth\b/13/gi; s/\b13th\b/13/gi; s/\b13-th\b/13/gi;
-              s/\bfourteenth\b/14/gi; s/\b14th\b/14/gi; s/\b14-th\b/14/gi;
-              s/\bfifteenth\b/15/gi; s/\b15th\b/15/gi; s/\b15-th\b/15/gi;
-              s/\bsixteenth\b/16/gi; s/\b16th\b/16/gi; s/\b16-th\b/16/gi;
-              s/\bseventeenth\b/17/gi; s/\b17th\b/17/gi; s/\b17-th\b/17/gi;
-              s/\beighteenth\b/18/gi; s/\b18th\b/18/gi; s/\b18-th\b/18/gi;
-              s/\bnineteenth\b/19/gi; s/\b19th\b/19/gi; s/\b19-th\b/19/gi;
-              s/\btwentieth\b/20/gi; s/\b20th\b/20/gi; s/\b20-th\b/20/gi;
-              s/\btwenty first\b/21/gi; s/\btwenty-first\b/21/gi; s/\btwentyfirst\b/21/gi; s/\b21st\b/21/gi; s/\b21-st\b/21/gi;
-              s/\btwenty second\b/22/gi; s/\btwenty-second\b/22/gi; s/\btwentysecond\b/22/gi; s/\b22nd\b/22/gi; s/\b22-nd\b/22/gi;
-              s/\btwenty third\b/23/gi; s/\btwenty-third\b/23/gi; s/\btwentythird\b/23/gi; s/\b23rd\b/23/gi; s/\b23-rd\b/23/gi;
-              s/\btwenty fourth\b/24/gi; s/\btwenty-fourth\b/24/gi; s/\btwentyfourth\b/24/gi; s/\b24th\b/24/gi; s/\b24-th\b/24/gi;
-              s/\btwenty fifth\b/25/gi; s/\btwenty-fifth\b/25/gi; s/\btwentyfifth\b/25/gi; s/\b25th\b/25/gi; s/\b25-th\b/25/gi;
-              s/\btwenty sixth\b/26/gi; s/\btwenty-sixth\b/26/gi; s/\btwentysixth\b/26/gi; s/\b26th\b/26/gi; s/\b26-th\b/26/gi;
-              s/\btwenty seventh\b/27/gi; s/\btwenty-seventh\b/27/gi; s/\btwentyseventh\b/27/gi; s/\b27th\b/27/gi; s/\b27-th\b/27/gi;
-              s/\btwenty eighth\b/28/gi; s/\btwenty-eighth\b/28/gi; s/\btwentyeighth\b/28/gi; s/\b28th\b/28/gi; s/\b28-th\b/28/gi;
-              s/\btwenty ninth\b/29/gi; s/\btwenty-ninth\b/29/gi; s/\btwentyninth\b/29/gi; s/\b29th\b/29/gi; s/\b29-th\b/29/gi;
-              s/\bthirtieth\b/30/gi; s/\b30th\b/30/gi; s/\b30-th\b/30/gi;
-              s/\bthirty first\b/31/gi; s/\bthirty-first\b/31/gi; s/\bthirtyfirst\b/31/gi; s/\b31st\b/31/gi; s/\b31-st\b/31/gi
-            ' "$textfile"
+ 
+            # Применяем внешние правила замен числительных и месяцев
+            if [ -f "clean_dates.sed" ]; then
+              sed -i -E -f clean_dates.sed "$textfile"
+            else
+              echo "⚠️ Файл clean_dates.sed не найден!"
+            fi
  
             local tmpdates=$(mktemp)
  
@@ -233,8 +128,8 @@ jobs:
                 printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
               fi
             }
-            
-            # Извлекаем даты
+ 
+            # Парсинг различных форматов дат
             grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
  
             grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" | while IFS= read -r d; do
@@ -281,26 +176,25 @@ jobs:
             [ -z "$latest" ] && return 1
             echo "$latest"
           }
-          
-          # Проверка наличия источника
+ 
+          # Проверка просроченности даты
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
             [ -z "$date_str" ] && return 1
             local current_epoch=$(date -u +%s)
             local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || {
-              echo " ⚠️ Дата $date_str вне пары, пропускаю"
+              echo " ⚠️ Дата $date_str некорректна, пропускаю"
               return 1
             }
             local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
             [ $age_days -lt 0 ] && return 1
             [ $age_days -gt $days_limit ]
           }
-          
-          # Обработка источников
-          cp sources.txt sources_backup.txt
-          cp old_sources.txt old_sources_backup.txt 2>/dev/null || true
-          touch old_sources.txt
+ 
+          # Подготовка бэкапов файлов списков
+          cp sources.txt sources_backup.txt 2>/dev/null || touch sources_backup.txt
+          cp old_sources.txt old_sources_backup.txt 2>/dev/null || touch old_sources_backup.txt
  
           STALE_DAYS=14
           new_sources=()
@@ -308,6 +202,7 @@ jobs:
           revived=()
           still_dead=()
  
+          # ==================== ПРОВЕРКА ОСНОВНЫХ ИСТОЧНИКОВ ====================
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -322,81 +217,63 @@ jobs:
               line_clean="$line"
             fi
             url=$(echo "$line_clean" | awk '{print $1}')
-            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
  
             echo "Проверяю: $url"
-            
-            # Проверка доступности
+ 
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
             if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
               echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
               dead_or_stale+=("$original_line")
               continue
             fi
-            echo "   ✅ Доступен"
-            
-            # 1. Проверка по дате коммита
+ 
             last_commit_date=""
-            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|githubusercontent\.com' ); then
+            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date"
                 if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old."
+                  echo "   ⚠️ Просрочен коммит. Переношу в old."
                   dead_or_stale+=("$original_line")
                   continue
                 fi
-              else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
               last_commit_date=$(get_gitverse_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date"
                 if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old."
+                  echo "   ⚠️ Просрочен коммит. Переношу в old."
                   dead_or_stale+=("$original_line")
                   continue
                 fi
-              else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             fi
  
-            # 2. Поиск даты в содержимом
             if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
               content_for_date=""
               if $is_json; then
                 tmp_json=$(mktemp)
-                curl -sS -L --max-time 20 -o "$tmp_json" "$url"
-                content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
+                curl -sS -L --max-time 20 -o "$tmp_json" "$url" && content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json" 2>/dev/null)
                 rm -f "$tmp_json"
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                head_lines=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 5)
-                tail_lines=$(echo "$decoded_body" | grep -v '^\s*$' | tail -n 5)
-                content_for_date="${head_lines}${tail_lines}"
+                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 15)
               fi
               content_for_date+=" $url"
  
               latest_date=$(get_latest_date_from_text "$content_for_date")
-              if [ -n "$latest_date" ]; then
-                echo "   📅 Самая поздняя дата в содержимом: $latest_date"
-                if is_stale_date "$latest_date" $STALE_DAYS; then
-                  echo "   ⚠️ Данные старше $STALE_DAYS дней. Переношу в old_sources.txt."
-                  dead_or_stale+=("$original_line")
-                  continue
-                fi
-              else
-                echo "   ℹ️ Дат не найдено."
+              if [ -n "$latest_date" ] && is_stale_date "$latest_date" $STALE_DAYS; then
+                echo "   ⚠️ Данные старее $STALE_DAYS дней. Переношу в old_sources.txt."
+                dead_or_stale+=("$original_line")
+                continue
               fi
             fi
  
-            echo "   ✅ Источник актуален"
+            echo "   ✅ Актуален"
             new_sources+=("$original_line")
           done < sources_backup.txt
  
+          # ==================== ПРОВЕРКА СТАРЫХ ИСТОЧНИКОВ ====================
           echo "====== ПРОВЕРКА old_sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
@@ -410,12 +287,10 @@ jobs:
             else
               line_clean="$line"
             fi
- 
             url=$(echo "$line_clean" | awk '{print $1}')
  
             echo "Проверяю старый источник: $url"
  
-            # Проверка доступности
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
             if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
               echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
@@ -423,79 +298,63 @@ jobs:
               continue
             fi
  
-            # 1. Проверка по дате коммита
             last_commit_date=""
             if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
-              if [ -n "$last_commit_date" ]; then
-                if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Всё ещё устаревший (>$STALE_DAYS дней)"
-                  still_dead+=("$original_line")
-                  continue
-                fi
+              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
+                echo "   ⚠️ Всё ещё устаревший по коммиту"
+                still_dead+=("$original_line")
+                continue
               fi
             elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
               last_commit_date=$(get_gitverse_last_commit_date "$url")
-              if [ -n "$last_commit_date" ]; then
-                if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Всё ещё устаревший (>$STALE_DAYS дней)"
-                  still_dead+=("$original_line")
-                  continue
-                fi
+              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
+                echo "   ⚠️ Всё ещё устаревший по коммиту"
+                still_dead+=("$original_line")
+                continue
               fi
             fi
  
-            # 2. Поиск даты в содержимом
             if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
               content_for_date=""
               if $is_json; then
                 tmp_json=$(mktemp)
-                curl -sS -L --max-time 20 -o "$tmp_json" "$url"
-                content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json")
+                curl -sS -L --max-time 20 -o "$tmp_json" "$url" && content_for_date=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json" 2>/dev/null)
                 rm -f "$tmp_json"
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                head_lines=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 5)
-                tail_lines=$(echo "$decoded_body" | grep -v '^\s*$' | tail -n 5)
-                content_for_date="${head_lines}${tail_lines}"
+                content_for_date=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 15)
               fi
               content_for_date+=" $url"
  
               latest_date=$(get_latest_date_from_text "$content_for_date")
-              if [ -n "$latest_date" ]; then
-                if is_stale_date "$latest_date" $STALE_DAYS; then
-                  echo "   ⚠️ Данные всё ещё старше $STALE_DAYS дней"
-                  still_dead+=("$original_line")
-                  continue
-                fi
+              if [ -n "$latest_date" ] && is_stale_date "$latest_date" $STALE_DAYS; then
+                echo "   ⚠️ Данные всё ещё старые"
+                still_dead+=("$original_line")
+                continue
               fi
             fi
  
             echo "   🎉 Источник ОЖИЛ! Возвращаю в основной список."
             revived+=("$original_line")
- 
           done < old_sources_backup.txt
  
           echo "====== ИТОГИ И ОБНОВЛЕНИЕ ФАЙЛОВ ======"
  
-          # Очищаем и перезаписываем sources.txt
           > sources.txt
           for s in "${new_sources[@]}"; do echo "$s" >> sources.txt; done
           for s in "${revived[@]}"; do echo "$s" >> sources.txt; done
  
-          # Очищаем и перезаписываем old_sources.txt
           > old_sources.txt
           for s in "${dead_or_stale[@]}"; do echo "$s" >> old_sources.txt; done
           for s in "${still_dead[@]}"; do echo "$s" >> old_sources.txt; done
  
-          # Вывод статистики в логи
           echo "Актуальных источников (осталось): ${#new_sources[@]}"
           echo "Устаревших/недоступных (перенесено): ${#dead_or_stale[@]}"
           echo "Оживших источников (возвращено): ${#revived[@]}"
           echo "Всё ещё мертвых (осталось в old): ${#still_dead[@]}"
  
-          # Очистка временных файлов
           rm -f sources_backup.txt old_sources_backup.txt
  
       - name: Закоммитить изменения
@@ -509,5 +368,5 @@ jobs:
             git add sources.txt old_sources.txt
             git commit -m "Автоматическая проверка и обновление списков источников"
             git push
-            echo "Изменения успешно закоммичены и отправлены."
+            echo "Изменения успешно закоммичены."
           fi
