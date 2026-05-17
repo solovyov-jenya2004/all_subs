@@ -321,49 +321,48 @@ jobs:
             else
               line_clean="$line"
             fi
+            
+            is_json=false
+            if echo "$line" | grep -q '^j[[:space:]]'; then
+              is_json=true
+            fi
+
             url=$(echo "$line_clean" | awk '{print $1}')
             filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
-            echo "Проверяю: $url"
+            echo "Проверяю старый источник: $url"
 
-            # Проверка доступности (сохраняем настоящий код возврата curl)
+            # Проверка доступности
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
-            if [ $curl_exit -ne 0 ] || [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; then
-              echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
-              dead_or_stale+=("$original_line")
+            if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
+              echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
+              still_dead+=("$original_line")
               continue
             fi
-            echo "   ✅ Доступен"
 
             # 1. Проверка по дате коммита (GitHub/GitVerse)
-            last_commit_date=""          # <-- убрали local
+            last_commit_date=""
             if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
               last_commit_date=$(get_github_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date"
                 if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old_sources.txt."
-                  dead_or_stale+=("$original_line")
+                  echo "   ⚠️ Всё ещё устаревший (>$STALE_DAYS дней)"
+                  still_dead+=("$original_line")
                   continue
                 fi
-              else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
               last_commit_date=$(get_gitverse_last_commit_date "$url")
               if [ -n "$last_commit_date" ]; then
-                echo "   📅 Последний коммит: $last_commit_date"
                 if is_stale_date "$last_commit_date" $STALE_DAYS; then
-                  echo "   ⚠️ Файл не обновлялся >$STALE_DAYS дней. Переношу в old_sources.txt."
-                  dead_or_stale+=("$original_line")
+                  echo "   ⚠️ Всё ещё устаревший (>$STALE_DAYS дней)"
+                  still_dead+=("$original_line")
                   continue
                 fi
-              else
-                echo "   ⚠️ Не удалось получить дату коммита, проверю содержимое"
               fi
             fi
 
-            # 2. Поиск даты в содержимом (только для не‑GitHub/GitVerse, или если API не дал дату)
+            # 2. Поиск даты в содержимом (если нет коммитов)
             if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
               content_for_date=""
               if $is_json; then
@@ -374,7 +373,6 @@ jobs:
               else
                 raw_body=$(curl -sS -L --max-time 20 "$url" 2>/dev/null)
                 decoded_body=$(echo "$raw_body" | base64 -d 2>/dev/null || echo "$raw_body")
-                # Берем первые 5 и последние 5 непустых строк
                 head_lines=$(echo "$decoded_body" | grep -v '^\s*$' | head -n 5)
                 tail_lines=$(echo "$decoded_body" | grep -v '^\s*$' | tail -n 5)
                 content_for_date="${head_lines}${tail_lines}"
@@ -383,75 +381,49 @@ jobs:
 
               latest_date=$(get_latest_date_from_text "$content_for_date")
               if [ -n "$latest_date" ]; then
-                echo "   📅 Самая поздняя дата в содержимом: $latest_date"
                 if is_stale_date "$latest_date" $STALE_DAYS; then
-                  echo "   ⚠️ Данные старше $STALE_DAYS дней. Переношу в old_sources.txt."
-                  dead_or_stale+=("$original_line")
+                  echo "   ⚠️ Данные всё ещё старше $STALE_DAYS дней"
+                  still_dead+=("$original_line")
                   continue
                 fi
-              else
-                echo "   ℹ️ Дат не найдено."
               fi
             fi
 
-            echo "   ✅ Источник актуален"
-            new_sources+=("$original_line")
-          done < sources_backup.txt
+            echo "   🎉 Источник ОЖИЛ! Возвращаю в основной список."
+            revived+=("$original_line")
 
-          echo "====== ПРОВЕРКА old_sources.txt ======"
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            echo "$line" | grep -q '^\s*#' && continue
-
-            original_line="$line"
-            if echo "$line" | grep -q '^j[[:space:]]'; then
-              line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
-            else
-              line_clean="$line"
-            fi
-            url=$(echo "$line_clean" | awk '{print $1}')
-
-            echo "Проверяю старый источник: $url"
-            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) || true
-            curl_exit=$?
-            if [ $curl_exit -eq 0 ] && [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; then
-              echo "   ✅ Ожил! Возвращаю в sources.txt"
-              revived+=("$original_line")
-            else
-              echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
-              still_dead+=("$original_line")
-            fi
           done < old_sources_backup.txt
 
-          # Формируем новые файлы и коммитим
-          printf "%s\n" "${new_sources[@]}" > sources_tmp.txt
-          for line in "${revived[@]}"; do
-            echo "$line" >> sources_tmp.txt
-          done
-          sed -i '/^$/d' sources_tmp.txt
+          echo "====== ИТОГИ И ОБНОВЛЕНИЕ ФАЙЛОВ ======"
+          
+          # Очищаем и перезаписываем sources.txt
+          > sources.txt
+          for s in "${new_sources[@]}"; do echo "$s" >> sources.txt; done
+          for s in "${revived[@]}"; do echo "$s" >> sources.txt; done
 
-          printf "%s\n" "${dead_or_stale[@]}" > old_tmp.txt
-          for line in "${still_dead[@]}"; do
-            echo "$line" >> old_tmp.txt
-          done
-          sed -i '/^$/d' old_tmp.txt
+          # Очищаем и перезаписываем old_sources.txt
+          > old_sources.txt
+          for s in "${dead_or_stale[@]}"; do echo "$s" >> old_sources.txt; done
+          for s in "${still_dead[@]}"; do echo "$s" >> old_sources.txt; done
+          # Вывод статистики в логи
+          echo "Актуальных источников (осталось): ${#new_sources[@]}"
+          echo "Устаревших/недоступных (перенесено): ${#dead_or_stale[@]}"
+          echo "Оживших источников (возвращено): ${#revived[@]}"
+          echo "Всё ещё мертвых (осталось в old): ${#still_dead[@]}"
 
-          modified=false
-          if ! cmp -s sources.txt sources_tmp.txt; then
-            mv sources_tmp.txt sources.txt
-            modified=true
-          fi
-          if ! cmp -s old_sources.txt old_tmp.txt; then
-            mv old_tmp.txt old_sources.txt
-            modified=true
-          fi
+          # Очистка временных файлов
+          rm -f sources_backup.txt old_sources_backup.txt
 
-          if [ "$modified" = true ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add sources.txt old_sources.txt
-            git diff --staged --quiet || (git commit -m "Авто-ротация источников $(date -u +'%Y-%m-%d %H:%M')" && git push)
-            echo "✅ Списки обновлены."
+      - name: Закоммитить изменения
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          if git diff --quiet; then
+            echo "Нет изменений для коммита."
           else
-            echo "✅ Все источники актуальны, изменений нет."
+            git add sources.txt old_sources.txt
+            git commit -m "Автоматическая проверка и обновление списков источников"
+            git push
+            echo "Изменения успешно закоммичены и отправлены."
           fi
