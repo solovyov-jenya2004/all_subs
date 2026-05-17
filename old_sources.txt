@@ -14,3 +14,4 @@ j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Aut
 https://obwl.vercel.app/sub.txt
 https://raw.githubusercontent.com/vsevjik/OBSpiskov/refs/heads/main/wwh
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
+https://github.com/kama55726/KomaryServers/blob/main/White-List-2
