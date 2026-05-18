@@ -16,3 +16,5 @@ https://raw.githubusercontent.com/vsevjik/OBSpiskov/refs/heads/main/wwh
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist(beta).txt
 https://github.com/kama55726/KomaryServers/blob/main/White-List-2
+https://raw.githubusercontent.com/zxcDeadinsulte/scalavpn-configs/refs/heads/main/test.txt
+https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/configs/url_work.txt
