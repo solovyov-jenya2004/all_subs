@@ -47,3 +47,5 @@ https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt О�
 https://raw.githubusercontent.com/LimeHi/Old-Context-Menu/refs/heads/main/afg.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/nzea243/ikoV31tud_vpn/refs/heads/main/tri_228.txt обход бс обход%20бс %D0%BE%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B1%D1%81
 https://raw.githubusercontent.com/mbelspb-gif/gdffgd/refs/heads/main/Swordware.net LTE
+https://gist.githubusercontent.com/flaafix/c79a81037d15163360571c7a7331b153/raw/AetrisVPN.txt White lists White%20lists
+https://raw.githubusercontent.com/HalyavusVPNUS/halyava-vpn-lte/refs/heads/main/lte.txt
