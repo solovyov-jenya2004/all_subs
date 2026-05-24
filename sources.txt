@@ -19,7 +19,7 @@ https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/selected.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/merged.txt
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ %F0%9F%8F%B3%EF%B8%8F
-https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
+https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE Белые списки Белые%20списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist_full
@@ -41,8 +41,6 @@ https://obwl.vercel.app/configs/selected.txt
 https://tinyurl.com/AeryxVPNyandexua
 https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-VPN_Bypass/refs/heads/main/url_work.txt
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
-https://tinyurl.com/scalavpnbot LTE связь Мобильная%20связь %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C Обход глушилок Обход%20глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
-https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки Белые%20списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/LimeHi/Old-Context-Menu/refs/heads/main/afg.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/nzea243/ikoV31tud_vpn/refs/heads/main/tri_228.txt обход бс обход%20бс %D0%BE%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B1%D1%81
@@ -52,3 +50,4 @@ https://raw.githubusercontent.com/HalyavusVPNUS/halyava-vpn-lte/refs/heads/main/
 https://adminvpn.onrender.com/get/nuu2xk Обход глушилок Обход%20глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA %93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BA%D0%B8 Глушилки LTE
 https://adminvpn.onrender.com/get/zjiwp Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 https://gist.githubusercontent.com/VSPBOOST/d84dcf89bf31012a96ee60a9eb73b852/raw/4f6af123b4a0251806b89958c845666268283c5a/gistfile1.txt Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
+http://144.31.165.198:8080/premium Белый интернет %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82
