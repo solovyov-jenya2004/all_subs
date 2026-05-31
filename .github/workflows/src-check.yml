@@ -202,8 +202,8 @@ jobs:
 
       - name: Закоммитить изменения
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet; then
             git add sources.txt old_sources.txt
             git commit -m "Автоматическая проверка и обновление списков источников"
