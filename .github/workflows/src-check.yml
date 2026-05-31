@@ -54,6 +54,7 @@ jobs:
                 branch=$(echo "$remain" | cut -d'/' -f2)
                 file_path=$(echo "$remain" | cut -d'/' -f3-)
               fi
+            fi
 
               if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
                 local api_url="https://github.com"
