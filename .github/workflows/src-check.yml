@@ -10,6 +10,7 @@ jobs:
       contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - uses: actions/checkout@v6
 
@@ -18,13 +19,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # ----------------------------------------------------------
-          # GitHub / Gist – через API коммитов (защищено от падений)
+          # GitHub / Gist – через API коммитов
           # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
             set +e
 
-            # 1. Gist
+            # Gist
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
               local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
               if [ -n "$gist_id" ]; then
@@ -40,7 +41,7 @@ jobs:
               return 1
             fi
 
-            # 2. Обычный GitHub
+            # Обычный GitHub
             if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
               local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
               local owner=$(echo "$clean_path" | cut -d'/' -f1)
@@ -85,11 +86,13 @@ jobs:
 
           # ----------------------------------------------------------
           # Все остальные сайты – через HTTP-заголовок Last-Modified
+          # (используем GET с Range, чтобы гарантированно получить заголовки)
           # ----------------------------------------------------------
           get_last_modified_date() {
             local url="$1"
             set +e
-            local headers=$(curl -sI -L --max-time 15 "$url" 2>/dev/null)
+            # Используем GET с байтовым диапазоном 0-0, чтобы не скачивать файл, но получить заголовки
+            local headers=$(curl -s -L --range 0-0 --dump-header - -o /dev/null --max-time 15 "$url" 2>/dev/null)
             local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
             if [ -n "$last_modified" ]; then
               date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || { set -e; return 1; }
@@ -153,27 +156,36 @@ jobs:
 
             local url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Один запрос curl для получения кода ответа и финального URL (защита от падения)
+            # Один запрос curl для кода и финального URL
             set +e
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
             set -e
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # Проверка доступности (пустой код тоже считаем недоступным)
+            # Отладочный вывод (можно закомментировать, если мешает)
+            echo "   -> effective_url: $effective_url" >&2
+            echo "   -> http_code: $http_code" >&2
+
+            # Проверка доступности
             if [ -z "$http_code" ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo " ❌ Недоступен (HTTP $http_code): $url" >&2
               echo "$line" >> old_sources.txt
               return
             fi
 
-            # Проверка даты обновления (только для не-JSON источников)
             if ! $is_json; then
               local last_update=""
               if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
                 last_update=$(get_github_last_commit_date "$effective_url")
+                if [ -z "$last_update" ]; then
+                  echo "   ℹ️ Дата коммита не найдена" >&2
+                fi
               else
                 last_update=$(get_last_modified_date "$effective_url")
+                if [ -z "$last_update" ]; then
+                  echo "   ℹ️ Last-Modified не найден" >&2
+                fi
               fi
 
               if [ -n "$last_update" ] && [ "$last_update" != "null" ]; then
@@ -181,11 +193,12 @@ jobs:
                   echo " ⚠️ Устарел ($last_update): $url" >&2
                   echo "$line" >> old_sources.txt
                   return
+                else
+                  echo "   📅 Обновлён $last_update" >&2
                 fi
               fi
             fi
 
-            # Если дошли сюда – источник актуален
             if [ "$is_old_list" = true ]; then
               echo " 🎉 Ожил!: $url" >&2
             else
