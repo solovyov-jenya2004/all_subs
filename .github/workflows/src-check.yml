@@ -21,42 +21,36 @@ jobs:
           # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
-            
-            # 1. Обработка Gist
+
+            # 1. Gist
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
               local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
-              if [ -n "$gist_id" ]; then
-                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
-                echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null
-                return 0
-              fi
+              [ -z "$gist_id" ] && return 1
+              local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
+              local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
+              [ -n "$updated" ] && [ "$updated" != "null" ] && echo "$updated" && return 0
               return 1
             fi
 
-            # 2. Обработка обычного GitHub
+            # 2. Обычный GitHub (raw.githubusercontent.com, github.com)
             if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
+              # Убираем протокол и домен
               local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
-              
               local owner=$(echo "$clean_path" | cut -d'/' -f1)
               local repo=$(echo "$clean_path" | cut -d'/' -f2)
               local remain=$(echo "$clean_path" | cut -d'/' -f3-)
-              
-              local branch=""
-              local file_path=""
 
-              # Проверяем, есть ли вообще путь после owner/repo
+              local branch="" file_path=""
+
               if [ -z "$remain" ]; then
-                branch="main" # или master по умолчанию
+                branch="main"
                 file_path=""
-              # Ссылки вида blob/main/path/to/file или tree/main/...
               elif echo "$remain" | grep -qE '^(blob|tree)/'; then
                 branch=$(echo "$remain" | cut -d'/' -f2)
                 file_path=$(echo "$remain" | cut -d'/' -f3-)
-              # Ссылки ://githubusercontent.com (там сразу идет branch/path)
               elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
                 branch=$(echo "$remain" | cut -d'/' -f1)
                 file_path=$(echo "$remain" | cut -d'/' -f2-)
-              # Ссылки с refs/heads/
               elif echo "$remain" | grep -q '^refs/heads/'; then
                 branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
                 file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
@@ -65,17 +59,12 @@ jobs:
                 file_path="$remain"
               fi
 
-              # Только теперь проверяем, есть ли все компоненты для API-запроса
               if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
                 local api_url="https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch&per_page=1"
                 local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
                 if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
-                  local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
-                  if [ -z "$date_commit" ] || [ "$date_commit" = "null" ]; then
-                    date_commit=$(echo "$response" | jq -r '.[0].commit.author.date // empty' 2>/dev/null)
-                  fi
-                  echo "$date_commit"
-                  return 0
+                  local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date // empty' 2>/dev/null)
+                  [ -n "$date_commit" ] && [ "$date_commit" != "null" ] && echo "$date_commit" && return 0
                 fi
               fi
             fi
@@ -121,15 +110,15 @@ jobs:
           > old_sources.txt
 
           # ----------------------------------------------------------
-          # Основная функция валидации ссылки
+          # Основная функция валидации одной строки
           # ----------------------------------------------------------
           validate_source() {
             local line="$1"
             local is_old_list="$2"
 
             [ -z "$line" ] && return
-            
-            # Сохраняем комментарии в соответствующий файл
+
+            # Комментарии сохраняем без изменений в соответствующий файл
             if echo "$line" | grep -q '^\s*#'; then
               if [ "$is_old_list" = true ]; then
                 echo "$line" >> old_sources.txt
@@ -147,19 +136,20 @@ jobs:
             fi
 
             local url=$(echo "$line_clean" | awk '{print $1}')
-            
-            # Один запрос curl для кода и финального URL
+
+            # Один запрос curl для получения кода ответа и финального URL
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # ИСПРАВЛЕНО: Строгая проверка кодов 2xx и 3xx
-            if [[ ! "$http_code" =~ ^[23] ]]; then
+            # Проверка доступности
+            if [ -z "$http_code" ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo " ❌ Недоступен (HTTP $http_code): $url" >&2
               echo "$line" >> old_sources.txt
               return
             fi
 
+            # Проверка даты обновления (только для не-JSON источников)
             if ! $is_json; then
               local last_update=""
               if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
@@ -177,6 +167,7 @@ jobs:
               fi
             fi
 
+            # Если дошли сюда – источник актуален
             if [ "$is_old_list" = true ]; then
               echo " 🎉 Ожил!: $url" >&2
             else
@@ -186,7 +177,7 @@ jobs:
           }
 
           # ----------------------------------------------------------
-          # Запуск циклов проверки
+          # Запуск проверки
           # ----------------------------------------------------------
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line || [ -n "$line" ]; do
@@ -204,8 +195,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
-            git add sources.txt old_sources.txt
-            git commit -m "Автоматическая проверка и обновление списков источников"
-            git push
-          fi
+          git add sources.txt old_sources.txt
+          git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC" && git push)
