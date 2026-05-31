@@ -59,7 +59,8 @@ jobs:
                 local api_url="https://github.com"
                 local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
                 if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
-                  echo $(echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date')
+                  # ИСПРАВЛЕНО: Безопасный и синтаксически верный парсинг даты коммита
+                  echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date' 2>/dev/null
                   return 0
                 fi
               fi
@@ -113,7 +114,16 @@ jobs:
             local is_old_list="$2"
 
             [ -z "$line" ] && return
-            echo "$line" | grep -q '^\s*#' && { echo "$line" >> ( [ "$is_old_list" = true ] && echo "old_sources.txt" || echo "sources.txt" ); return; }
+            
+            # Сохраняем комментарии в соответствующий файл
+            if echo "$line" | grep -q '^\s*#'; then
+              if [ "$is_old_list" = true ]; then
+                echo "$line" >> old_sources.txt
+              else
+                echo "$line" >> sources.txt
+              fi
+              return
+            fi
 
             local line_clean="$line"
             local is_json=false
@@ -124,12 +134,11 @@ jobs:
 
             local url=$(echo "$line_clean" | awk '{print $1}')
             
-            # Стабильный curl с fallback-значением, если сайт полностью «лежит»
+            # Один запрос curl для кода и финального URL
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # ИСПРАВЛЕНО: Корректное регулярное выражение проверки успешных кодов (2xx и 3xx)
             if [[ ! "$http_code" =~ ^[23] ]]; then
               echo " ❌ Недоступен (HTTP $http_code): $url" >&2
               echo "$line" >> old_sources.txt
@@ -153,7 +162,7 @@ jobs:
               fi
             fi
 
-            if $is_old_list; then
+            if [ "$is_old_list" = true ]; then
               echo " 🎉 Ожил!: $url" >&2
             else
               echo " ✅ Актуален: $url" >&2
