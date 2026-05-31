@@ -51,3 +51,4 @@ https://adminvpn.onrender.com/get/nuu2xk Обход глушилок Обход%
 https://adminvpn.onrender.com/get/zjiwp Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 https://gist.githubusercontent.com/VSPBOOST/d84dcf89bf31012a96ee60a9eb73b852/raw/4f6af123b4a0251806b89958c845666268283c5a/gistfile1.txt Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 http://144.31.165.198:8080/premium Белый интернет %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82
+https://vpn.akres.fun/bwl
