@@ -13,182 +13,217 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Проверить источники и обновить списки
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # ----------------------------------------------------------
-          # GitHub / Gist – через API коммитов
+          #  GitHub / Gist – через API коммитов (нужен GITHUB_TOKEN)
           # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
-            
-            # 1. Обработка Gist
+
+            # Gist
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
-              local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
+              local gist_id
+              if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
+                gist_id=$(echo "$url" | awk -F/ '{print $4}')
+              else
+                gist_id=$(echo "$url" | awk -F/ '{print $5}')
+              fi
               if [ -n "$gist_id" ]; then
-                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://github.com")
-                echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null
-                return 0
+                local api_url="https://api.github.com/gists/$gist_id"
+                local response=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url")
+                local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at')
+                [ -n "$updated" ] && echo "$updated" && return 0
               fi
               return 1
             fi
 
-            # 2. Обработка обычного GitHub
-            if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
-              local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
-              
-              local owner=$(echo "$clean_path" | cut -d'/' -f1)
-              local repo=$(echo "$clean_path" | cut -d'/' -f2)
-              local remain=$(echo "$clean_path" | cut -d'/' -f3-)
-              
-              local branch=""
-              local file_path=""
-
-              if echo "$remain" | grep -q '^refs/heads/'; then
-                branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
-                file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
-              elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
-                branch=$(echo "$remain" | cut -d'/' -f1)
-                file_path=$(echo "$remain" | cut -d'/' -f2-)
+            # Обычный GitHub
+            local owner repo branch path api_url
+            if echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
+              owner=$(echo "$url" | awk -F/ '{print $4}')
+              repo=$(echo "$url" | awk -F/ '{print $5}')
+              # Проверяем, есть ли refs/heads/ в пути
+              if [ "$(echo "$url" | awk -F/ '{print $6}')" = "refs" ] && [ "$(echo "$url" | awk -F/ '{print $7}')" = "heads" ]; then
+                branch=$(echo "$url" | awk -F/ '{print $8}')
+                path=$(echo "$url" | awk -F/ '{for(i=9;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
               else
-                branch=$(echo "$remain" | cut -d'/' -f2)
-                file_path=$(echo "$remain" | cut -d'/' -f3-)
+                branch=$(echo "$url" | awk -F/ '{print $6}')
+                path=$(echo "$url" | awk -F/ '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
               fi
-
-              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
-                local api_url="https://github.com"
-                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
-                if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
-                  # ИСПРАВЛЕНО: Безопасный и синтаксически верный парсинг даты коммита
-                  echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date' 2>/dev/null
-                  return 0
-                fi
+            else
+              owner=$(echo "$url" | awk -F/ '{print $4}')
+              repo=$(echo "$url" | awk -F/ '{print $5}')
+              branch=$(echo "$url" | awk -F/ '{print $7}')
+              path=$(echo "$url" | awk -F/ '{for(i=8;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+            fi
+            if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$path" ]; then
+              api_url="https://api.github.com/repos/$owner/$repo/commits?sha=$branch&path=$path&per_page=1"
+              response=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url")
+              if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
+                echo $(echo "$response" | jq -r '.[0].commit.committer.date')
+                return 0
               fi
             fi
             return 1
-          fi
+          }
 
           # ----------------------------------------------------------
-          # Все остальные сайты – через HTTP-заголовок Last-Modified
+          #  Все остальные сайты – через HTTP-заголовок Last-Modified
           # ----------------------------------------------------------
           get_last_modified_date() {
             local url="$1"
             local headers=$(curl -sI -L --max-time 15 "$url" 2>/dev/null)
-            local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
+            local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//')
             if [ -n "$last_modified" ]; then
               date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || return 1
             else
               return 1
             fi
-          fi
+          }
 
           # ----------------------------------------------------------
-          # Проверка устаревания (срок в днях)
+          #  Проверка, устарела ли дата (срок = 3 дня)
           # ----------------------------------------------------------
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
-            [ -z "$date_str" ] || [ "$date_str" = "null" ] && return 1
+            [ -z "$date_str" ] && return 1
             local current_epoch=$(date -u +%s)
             local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || return 1
             local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
+            [ $age_days -lt 0 ] && return 1
             [ $age_days -gt $days_limit ]
-          fi
+          }
 
           # ----------------------------------------------------------
-          # Подготовка файлов
+          #  Главная логика
           # ----------------------------------------------------------
-          touch sources.txt old_sources.txt
-          cp sources.txt sources_backup.txt
-          cp old_sources.txt old_sources_backup.txt
+          cp sources.txt sources_backup.txt 2>/dev/null || touch sources_backup.txt
+          cp old_sources.txt old_sources_backup.txt 2>/dev/null || touch old_sources_backup.txt
 
           STALE_DAYS=3
-          > sources.txt
-          > old_sources.txt
+          new_sources=()
+          dead_or_stale=()
+          revived=()
+          still_dead=()
 
-          # ----------------------------------------------------------
-          # Основная функция валидации ссылки
-          # ----------------------------------------------------------
-          validate_source() {
-            local line="$1"
-            local is_old_list="$2"
+          echo "====== ПРОВЕРКА sources.txt ======"
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            echo "$line" | grep -q '^\s*#' && continue
 
-            [ -z "$line" ] && return
-            
-            # Сохраняем комментарии в соответствующий файл
-            if echo "$line" | grep -q '^\s*#'; then
-              if [ "$is_old_list" = true ]; then
-                echo "$line" >> old_sources.txt
-              else
-                echo "$line" >> sources.txt
-              fi
-              return
-            fi
-
-            local line_clean="$line"
-            local is_json=false
+            original_line="$line"
+            is_json=false
             if echo "$line" | grep -q '^j[[:space:]]'; then
               is_json=true
               line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
+            else
+              line_clean="$line"
+            fi
+            url=$(echo "$line_clean" | awk '{print $1}')
+
+            echo "Проверяю: $url"
+
+            # 1. Доступность + финальный URL после редиректов (один curl-запрос)
+            read effective_url http_code <<< $(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective} %{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
+              echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
+              dead_or_stale+=("$original_line")
+              continue
             fi
 
-            local url=$(echo "$line_clean" | awk '{print $1}')
-            
-            # Один запрос curl для кода и финального URL
-            local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
-            local http_code=$(echo "$curl_out" | awk '{print $1}')
-            local effective_url=$(echo "$curl_out" | awk '{print $2}')
+            # 2. Проверка даты последнего обновления
+            if ! $is_json; then
+              last_update=""
+              # GitHub / Gist – через API
+              if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
+                last_update=$(get_github_last_commit_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ GitHub/Gist: прошло >$STALE_DAYS дней ($last_update). Переношу в old."
+                  dead_or_stale+=("$original_line")
+                  continue
+                fi
+              else
+                # Все остальные – Last-Modified
+                last_update=$(get_last_modified_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Last-Modified старше $STALE_DAYS дней ($last_update). Переношу в old."
+                  dead_or_stale+=("$original_line")
+                  continue
+                fi
+                # Если Last-Modified нет – оставляем источник
+              fi
+            fi
 
-            if [[ ! "$http_code" =~ ^[23] ]]; then
-              echo " ❌ Недоступен (HTTP $http_code): $url" >&2
-              echo "$line" >> old_sources.txt
-              return
+            echo "   ✅ Актуален"
+            new_sources+=("$original_line")
+          done < sources_backup.txt
+
+          echo "====== ПРОВЕРКА old_sources.txt ======"
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            echo "$line" | grep -q '^\s*#' && continue
+
+            original_line="$line"
+            is_json=false
+            if echo "$line" | grep -q '^j[[:space:]]'; then
+              is_json=true
+              line_clean=$(echo "$line" | sed -e 's/^j[[:space:]]*//')
+            else
+              line_clean="$line"
+            fi
+            url=$(echo "$line_clean" | awk '{print $1}')
+
+            echo "Проверяю старый источник: $url"
+
+            read effective_url http_code <<< $(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective} %{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
+              echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
+              still_dead+=("$original_line")
+              continue
             fi
 
             if ! $is_json; then
-              local last_update=""
+              last_update=""
               if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
                 last_update=$(get_github_last_commit_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Всё ещё устаревший по коммиту ($last_update)"
+                  still_dead+=("$original_line")
+                  continue
+                fi
               else
                 last_update=$(get_last_modified_date "$effective_url")
-              fi
-
-              if [ -n "$last_update" ] && [ "$last_update" != "null" ]; then
-                if is_stale_date "$last_update" $STALE_DAYS; then
-                  echo " ⚠️ Устарел ($last_update): $url" >&2
-                  echo "$line" >> old_sources.txt
-                  return
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Всё ещё устаревший по Last-Modified ($last_update)"
+                  still_dead+=("$original_line")
+                  continue
                 fi
               fi
             fi
 
-            if [ "$is_old_list" = true ]; then
-              echo " 🎉 Ожил!: $url" >&2
-            else
-              echo " ✅ Актуален: $url" >&2
-            fi
-            echo "$line" >> sources.txt
-          }
-
-          # ----------------------------------------------------------
-          # Запуск циклов проверки
-          # ----------------------------------------------------------
-          echo "====== ПРОВЕРКА sources.txt ======"
-          while IFS= read -r line || [ -n "$line" ]; do
-            validate_source "$line" false
-          done < sources_backup.txt
-
-          echo "====== ПРОВЕРКА old_sources.txt ======"
-          while IFS= read -r line || [ -n "$line" ]; do
-            validate_source "$line" true
+            echo "   🎉 Источник ОЖИЛ! Возвращаю в основной список."
+            revived+=("$original_line")
           done < old_sources_backup.txt
+
+          echo "====== ИТОГИ И ОБНОВЛЕНИЕ ФАЙЛОВ ======"
+          # Безопасная запись в файлы (даже если массивы пусты)
+          > sources.txt
+          for s in "${new_sources[@]}"; do echo "$s" >> sources.txt; done
+          for s in "${revived[@]}"; do echo "$s" >> sources.txt; done
+
+          > old_sources.txt
+          for s in "${dead_or_stale[@]}"; do echo "$s" >> old_sources.txt; done
+          for s in "${still_dead[@]}"; do echo "$s" >> old_sources.txt; done
 
           rm -f sources_backup.txt old_sources_backup.txt
 
       - name: Закоммитить изменения
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@://github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet; then
             git add sources.txt old_sources.txt
             git commit -m "Автоматическая проверка и обновление списков источников"
