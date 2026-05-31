@@ -17,24 +17,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # ----------------------------------------------------------
-          # GitHub / Gist – через API коммитов
+          # GitHub / Gist – через API коммитов (защищено от падений)
           # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
+            set +e
 
             # 1. Gist
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
               local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
-              [ -z "$gist_id" ] && return 1
-              local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
-              local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
-              [ -n "$updated" ] && [ "$updated" != "null" ] && echo "$updated" && return 0
+              if [ -n "$gist_id" ]; then
+                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
+                local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
+                if [ -n "$updated" ] && [ "$updated" != "null" ]; then
+                  echo "$updated"
+                  set -e
+                  return 0
+                fi
+              fi
+              set -e
               return 1
             fi
 
-            # 2. Обычный GitHub (raw.githubusercontent.com, github.com)
+            # 2. Обычный GitHub
             if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
-              # Убираем протокол и домен
               local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
               local owner=$(echo "$clean_path" | cut -d'/' -f1)
               local repo=$(echo "$clean_path" | cut -d'/' -f2)
@@ -64,10 +70,15 @@ jobs:
                 local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
                 if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
                   local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date // empty' 2>/dev/null)
-                  [ -n "$date_commit" ] && [ "$date_commit" != "null" ] && echo "$date_commit" && return 0
+                  if [ -n "$date_commit" ] && [ "$date_commit" != "null" ]; then
+                    echo "$date_commit"
+                    set -e
+                    return 0
+                  fi
                 fi
               fi
             fi
+            set -e
             return 1
           }
 
@@ -76,11 +87,15 @@ jobs:
           # ----------------------------------------------------------
           get_last_modified_date() {
             local url="$1"
+            set +e
             local headers=$(curl -sI -L --max-time 15 "$url" 2>/dev/null)
             local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
             if [ -n "$last_modified" ]; then
-              date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || return 1
+              date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || { set -e; return 1; }
+              set -e
+              return 0
             else
+              set -e
               return 1
             fi
           }
@@ -137,12 +152,14 @@ jobs:
 
             local url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Один запрос curl для получения кода ответа и финального URL
+            # Один запрос curl для получения кода ответа и финального URL (защита от падения)
+            set +e
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
+            set -e
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # Проверка доступности
+            # Проверка доступности (пустой код тоже считаем недоступным)
             if [ -z "$http_code" ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo " ❌ Недоступен (HTTP $http_code): $url" >&2
               echo "$line" >> old_sources.txt
