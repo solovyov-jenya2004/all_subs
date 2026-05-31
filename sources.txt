@@ -39,6 +39,7 @@ https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizy
 https://obwl.vercel.app/configs/configs.txt
 https://obwl.vercel.app/configs/selected.txt
 https://tinyurl.com/AeryxVPNyandexua
+https://gitverse.ru/api/repos/flaafix/AetrisVPN/raw/branch/master/AetrisVPN.txt
 https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-VPN_Bypass/refs/heads/main/url_work.txt
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
