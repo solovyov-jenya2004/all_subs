@@ -222,8 +222,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sources.txt old_sources.txt
+          # Временно прячем изменения, чтобы безопасно обновить ветку
+          git stash --include-untracked
+          # Получаем последние изменения из main и перекладываем наши правки поверх
+          git pull --rebase origin main
+          # Возвращаем наши изменения
+          git stash pop || true
+          # Коммитим, только если есть отличия от того, что уже в ветке
           if ! git diff --quiet; then
+            git add sources.txt old_sources.txt
             git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC"
-            git pull --rebase origin main
             git push
+          else
+            echo "Изменений нет, push не требуется"
           fi
