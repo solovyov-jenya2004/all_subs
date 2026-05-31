@@ -25,11 +25,17 @@ jobs:
             local url="$1"
             set +e
 
-            # Gist
+            # Gist (gist.githubusercontent.com / gist.github.com)
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
-              local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
+              local gist_id
+              if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
+                gist_id=$(echo "$url" | awk -F/ '{print $4}')
+              else
+                gist_id=$(echo "$url" | awk -F/ '{print $5}')
+              fi
               if [ -n "$gist_id" ]; then
-                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
+                local api_url="https://api.github.com/gists/$gist_id"
+                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
                 local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
                 if [ -n "$updated" ] && [ "$updated" != "null" ]; then
                   echo "$updated"
@@ -41,34 +47,32 @@ jobs:
               return 1
             fi
 
-            # Обычный GitHub
+            # Обычный GitHub (raw.githubusercontent.com или github.com)
             if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
-              local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
-              local owner=$(echo "$clean_path" | cut -d'/' -f1)
-              local repo=$(echo "$clean_path" | cut -d'/' -f2)
-              local remain=$(echo "$clean_path" | cut -d'/' -f3-)
-
-              local branch="" file_path=""
-
-              if [ -z "$remain" ]; then
-                branch="main"
-                file_path=""
-              elif echo "$remain" | grep -qE '^(blob|tree)/'; then
-                branch=$(echo "$remain" | cut -d'/' -f2)
-                file_path=$(echo "$remain" | cut -d'/' -f3-)
-              elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
-                branch=$(echo "$remain" | cut -d'/' -f1)
-                file_path=$(echo "$remain" | cut -d'/' -f2-)
-              elif echo "$remain" | grep -q '^refs/heads/'; then
-                branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
-                file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
+              local owner repo branch path api_url
+              if echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
+                owner=$(echo "$url" | awk -F/ '{print $4}')
+                repo=$(echo "$url" | awk -F/ '{print $5}')
+                if [ "$(echo "$url" | awk -F/ '{print $6}')" = "refs" ] && [ "$(echo "$url" | awk -F/ '{print $7}')" = "heads" ]; then
+                  branch=$(echo "$url" | awk -F/ '{print $8}')
+                  path=$(echo "$url" | awk -F/ '{for(i=9;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+                else
+                  branch=$(echo "$url" | awk -F/ '{print $6}')
+                  path=$(echo "$url" | awk -F/ '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+                fi
               else
-                branch="main"
-                file_path="$remain"
+                owner=$(echo "$url" | awk -F/ '{print $4}')
+                repo=$(echo "$url" | awk -F/ '{print $5}')
+                if [ "$(echo "$url" | awk -F/ '{print $6}')" = "blob" ] || [ "$(echo "$url" | awk -F/ '{print $6}')" = "tree" ]; then
+                  branch=$(echo "$url" | awk -F/ '{print $7}')
+                  path=$(echo "$url" | awk -F/ '{for(i=8;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+                else
+                  branch=$(echo "$url" | awk -F/ '{print $6}')
+                  path=$(echo "$url" | awk -F/ '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+                fi
               fi
-
-              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
-                local api_url="https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch&per_page=1"
+              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$path" ]; then
+                api_url="https://api.github.com/repos/$owner/$repo/commits?sha=$branch&path=$path&per_page=1"
                 local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
                 if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
                   local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // .[0].commit.author.date // empty' 2>/dev/null)
@@ -86,12 +90,10 @@ jobs:
 
           # ----------------------------------------------------------
           # Все остальные сайты – через HTTP-заголовок Last-Modified
-          # (используем GET с Range, чтобы гарантированно получить заголовки)
           # ----------------------------------------------------------
           get_last_modified_date() {
             local url="$1"
             set +e
-            # Используем GET с байтовым диапазоном 0-0, чтобы не скачивать файл, но получить заголовки
             local headers=$(curl -s -L --range 0-0 --dump-header - -o /dev/null --max-time 15 "$url" 2>/dev/null)
             local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
             if [ -n "$last_modified" ]; then
@@ -156,20 +158,17 @@ jobs:
 
             local url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Один запрос curl для кода и финального URL
+            # Один запрос curl для кода и финального URL (сохраняем код возврата)
             set +e
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
+            local curl_exit=$?
             set -e
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # Отладочный вывод (можно закомментировать, если мешает)
-            echo "   -> effective_url: $effective_url" >&2
-            echo "   -> http_code: $http_code" >&2
-
             # Проверка доступности
             if [ -z "$http_code" ] || [[ ! "$http_code" =~ ^[23] ]]; then
-              echo " ❌ Недоступен (HTTP $http_code): $url" >&2
+              echo " ❌ Недоступен (curl=$curl_exit, HTTP=$http_code): $url" >&2
               echo "$line" >> old_sources.txt
               return
             fi
@@ -178,17 +177,13 @@ jobs:
               local last_update=""
               if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
                 last_update=$(get_github_last_commit_date "$effective_url")
-                if [ -z "$last_update" ]; then
-                  echo "   ℹ️ Дата коммита не найдена" >&2
-                fi
               else
                 last_update=$(get_last_modified_date "$effective_url")
-                if [ -z "$last_update" ]; then
-                  echo "   ℹ️ Last-Modified не найден" >&2
-                fi
               fi
 
-              if [ -n "$last_update" ] && [ "$last_update" != "null" ]; then
+              if [ -z "$last_update" ] || [ "$last_update" = "null" ]; then
+                echo "   ℹ️ Дата обновления не найдена" >&2
+              else
                 if is_stale_date "$last_update" $STALE_DAYS; then
                   echo " ⚠️ Устарел ($last_update): $url" >&2
                   echo "$line" >> old_sources.txt
