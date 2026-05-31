@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v6
 
@@ -198,12 +199,12 @@ jobs:
           # ----------------------------------------------------------
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line || [ -n "$line" ]; do
-            validate_source "$line" false
+            validate_source "$line" false || true
           done < sources_backup.txt
 
           echo "====== ПРОВЕРКА old_sources.txt ======"
           while IFS= read -r line || [ -n "$line" ]; do
-            validate_source "$line" true
+            validate_source "$line" true || true
           done < old_sources_backup.txt
 
           rm -f sources_backup.txt old_sources_backup.txt
