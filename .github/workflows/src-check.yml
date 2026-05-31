@@ -123,9 +123,12 @@ jobs:
 
             echo "Проверяю: $url"
 
-            # 1. Доступность + финальный URL после редиректов
-            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null) || true
-            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
+            # 1. Доступность + финальный URL после редиректов (безопасно отключаем set -e)
+            set +e
+            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null)
+            curl_exit=$?
+            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null)
+            set -e
 
             if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
@@ -177,8 +180,11 @@ jobs:
 
             echo "Проверяю старый источник: $url"
 
-            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null) || true
-            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
+            set +e
+            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null)
+            curl_exit=$?
+            http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null)
+            set -e
 
             if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
