@@ -20,60 +20,66 @@ jobs:
           # GitHub / Gist – через API коммитов
           # ----------------------------------------------------------
           get_github_last_commit_date() {
-              local url="$1"
-          
-              # 1. Gist
-              if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
-                  local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
-                  if [ -n "$gist_id" ]; then
-                      local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://github.com")
-                      echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null
-                      return 0
-                  fi
-                  return 1
-              fi
-          
-              # 2. Обычный GitHub
-              if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
-                  local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
-                  local owner=$(echo "$clean_path" | cut -d'/' -f1)
-                  local repo=$(echo "$clean_path" | cut -d'/' -f2)
-                  local remain=$(echo "$clean_path" | cut -d'/' -f3-)
-                  local branch=""
-                  local file_path=""
-          
-                  if [ -z "$remain" ]; then
-                      branch="main"
-                      file_path=""
-                  elif echo "$remain" | grep -qE '^(blob|tree)/'; then
-                      branch=$(echo "$remain" | cut -d'/' -f2)
-                      file_path=$(echo "$remain" | cut -d'/' -f3-)
-                  elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
-                      branch=$(echo "$remain" | cut -d'/' -f1)
-                      file_path=$(echo "$remain" | cut -d'/' -f2-)
-                  elif echo "$remain" | grep -q '^refs/heads/'; then
-                      branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
-                      file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
-                  else
-                      branch="main"
-                      file_path="$remain"
-                  fi
-          
-                  # Только теперь можно проверить owner/repo/branch/file_path
-                  if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
-                      local api_url="https://github.com"
-                      local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
-                      if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
-                          local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
-                          if [ -z "$date_commit" ] || [ "$date_commit" = "null" ]; then
-                              date_commit=$(echo "$response" | jq -r '.[0].commit.author.date // empty' 2>/dev/null)
-                          fi
-                          echo "$date_commit"
-                          return 0
-                      fi
-                  fi
+            local url="$1"
+            
+            # 1. Обработка Gist
+            if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
+              local gist_id=$(echo "$url" | sed -E 's|https://[^/]+/([^/]+)/?.*|\1|' | awk -F/ '{print $(NF)}')
+              if [ -n "$gist_id" ]; then
+                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/gists/$gist_id")
+                echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null
+                return 0
               fi
               return 1
+            fi
+
+            # 2. Обработка обычного GitHub
+            if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
+              local clean_path=$(echo "$url" | sed -E 's|https://(raw\.)?github(usercontent)?\.com/||')
+              
+              local owner=$(echo "$clean_path" | cut -d'/' -f1)
+              local repo=$(echo "$clean_path" | cut -d'/' -f2)
+              local remain=$(echo "$clean_path" | cut -d'/' -f3-)
+              
+              local branch=""
+              local file_path=""
+
+              # Проверяем, есть ли вообще путь после owner/repo
+              if [ -z "$remain" ]; then
+                branch="main" # или master по умолчанию
+                file_path=""
+              # Ссылки вида blob/main/path/to/file или tree/main/...
+              elif echo "$remain" | grep -qE '^(blob|tree)/'; then
+                branch=$(echo "$remain" | cut -d'/' -f2)
+                file_path=$(echo "$remain" | cut -d'/' -f3-)
+              # Ссылки ://githubusercontent.com (там сразу идет branch/path)
+              elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
+                branch=$(echo "$remain" | cut -d'/' -f1)
+                file_path=$(echo "$remain" | cut -d'/' -f2-)
+              # Ссылки с refs/heads/
+              elif echo "$remain" | grep -q '^refs/heads/'; then
+                branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
+                file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
+              else
+                branch="main"
+                file_path="$remain"
+              fi
+
+              # Только теперь проверяем, есть ли все компоненты для API-запроса
+              if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
+                local api_url="https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch&per_page=1"
+                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
+                if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
+                  local date_commit=$(echo "$response" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+                  if [ -z "$date_commit" ] || [ "$date_commit" = "null" ]; then
+                    date_commit=$(echo "$response" | jq -r '.[0].commit.author.date // empty' 2>/dev/null)
+                  fi
+                  echo "$date_commit"
+                  return 0
+                fi
+              fi
+            fi
+            return 1
           }
 
           # ----------------------------------------------------------
@@ -88,7 +94,7 @@ jobs:
             else
               return 1
             fi
-          fi
+          }
 
           # ----------------------------------------------------------
           # Проверка устаревания (срок в днях)
@@ -101,7 +107,7 @@ jobs:
             local commit_epoch=$(date -u -d "$date_str" +%s 2>/dev/null) || return 1
             local age_days=$(( (current_epoch - commit_epoch) / 86400 ))
             [ $age_days -gt $days_limit ]
-          fi
+          }
 
           # ----------------------------------------------------------
           # Подготовка файлов
@@ -197,7 +203,7 @@ jobs:
       - name: Закоммитить изменения
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@://github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet; then
             git add sources.txt old_sources.txt
             git commit -m "Автоматическая проверка и обновление списков источников"
