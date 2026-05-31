@@ -44,17 +44,28 @@ jobs:
               local branch=""
               local file_path=""
 
-              if echo "$remain" | grep -q '^refs/heads/'; then
-                branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
-                file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
+              # Проверяем, есть ли вообще путь после owner/repo
+              if [ -z "$remain" ]; then
+                branch="main" # или master по умолчанию
+                file_path=""
+              # Ссылки вида blob/main/path/to/file или tree/main/...
+              elif echo "$remain" | grep -qE '^(blob|tree)/'; then
+                branch=$(echo "$remain" | cut -d'/' -f2)
+                file_path=$(echo "$remain" | cut -d'/' -f3-)
+              # Ссылки ://githubusercontent.com (там сразу идет branch/path)
               elif echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
                 branch=$(echo "$remain" | cut -d'/' -f1)
                 file_path=$(echo "$remain" | cut -d'/' -f2-)
+              # Ссылки с refs/heads/
+              elif echo "$remain" | grep -q '^refs/heads/'; then
+                branch=$(echo "$remain" | sed -E 's|^refs/heads/([^/]+)/.*|\1|')
+                file_path=$(echo "$remain" | sed -E 's|^refs/heads/[^/]+/||')
               else
-                branch=$(echo "$remain" | cut -d'/' -f2)
-                file_path=$(echo "$remain" | cut -d'/' -f3-)
+                branch="main"
+                file_path="$remain"
               fi
             fi
+
 
               if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$file_path" ]; then
                 local api_url="https://github.com"
