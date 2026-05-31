@@ -1,22 +1,43 @@
 name: Проверка источников
- 
+
 on:
   workflow_dispatch:
- 
+
 jobs:
   check-and-revive:
     runs-on: ubuntu-latest
     permissions:
       contents: write
- 
+
     steps:
       - uses: actions/checkout@v6
- 
+
       - name: Проверить источники и обновить списки
         run: |
-          # Вспомогательные функции (остаются без изменений)
+          # ----------------------------------------------------------
+          #  GitHub / Gist – через API коммитов (нужен GITHUB_TOKEN)
+          # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
+
+            # Gist (gist.githubusercontent.com / gist.github.com)
+            if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
+              local gist_id
+              if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
+                gist_id=$(echo "$url" | awk -F/ '{print $4}')
+              else
+                gist_id=$(echo "$url" | awk -F/ '{print $5}')
+              fi
+              if [ -n "$gist_id" ]; then
+                local api_url="https://api.github.com/gists/$gist_id"
+                local response=$(curl -sS -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$api_url")
+                local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at')
+                [ -n "$updated" ] && echo "$updated" && return 0
+              fi
+              return 1
+            fi
+
+            # Обычный GitHub (raw.githubusercontent.com или github.com)
             local owner repo branch path api_url
             if echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
               owner=$(echo "$url" | awk -F/ '{print $4}')
@@ -44,115 +65,24 @@ jobs:
             fi
             return 1
           }
- 
-          get_gitverse_last_commit_date() {
+
+          # ----------------------------------------------------------
+          #  Все остальные сайты – через HTTP-заголовок Last-Modified
+          # ----------------------------------------------------------
+          get_last_modified_date() {
             local url="$1"
-            local owner repo branch path api_url
-            if echo "$url" | grep -q '/api/repos/'; then
-              owner=$(echo "$url" | awk -F/ '{print $6}')
-              repo=$(echo "$url" | awk -F/ '{print $7}')
-              branch=$(echo "$url" | awk -F/ '{print $10}')
-              path=$(echo "$url" | awk -F/ '{for(i=11;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+            local headers=$(curl -sI -L --max-time 15 "$url" 2>/dev/null)
+            local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//')
+            if [ -n "$last_modified" ]; then
+              date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || return 1
             else
-              owner=$(echo "$url" | awk -F/ '{print $4}')
-              repo=$(echo "$url" | awk -F/ '{print $5}')
-              branch=$(echo "$url" | awk -F/ '{print $8}')
-              path=$(echo "$url" | awk -F/ '{for(i=9;i<=NF;i++) printf "%s%s", $i, (i<NF?"/":"")}')
+              return 1
             fi
-            if [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$branch" ] && [ -n "$path" ]; then
-              api_url="https://api.gitverse.ru/repos/$owner/$repo/commits?branch=$branch&path=$path&per_page=1"
-              response=$(curl -sS "$api_url")
-              if echo "$response" | jq -e 'type == "array" and length > 0' >/dev/null 2>&1; then
-                echo $(echo "$response" | jq -r '.[0].commit.committer_date // .[0].commit.committer.date')
-                return 0
-              fi
-            fi
-            return 1
           }
- 
-          remove_time_patterns() {
-            local text="$1"
-            text=$(echo "$text" | sed -E 's/\b([01]?[0-9]|2[0-3])\s*[.:-]\s*([0-5][0-9])(\s*[.:-]\s*([0-5][0-9]))?\b/ /g')
-            echo "$text"
-          }
- 
-          url_decode() {
-            python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
-          }
- 
-          normalize_text() {
-            local text="$1"
-            text=$(echo "$text" | url_decode)
-            text=$(echo "$text" | sed -E 's/([0-9])\s*\.\s*([0-9])/\1.\2/g; s/([0-9])\s*\/\s*([0-9])/\1\/\2/g; s/([0-9])\s*-\s*([0-9])/\1-\2/g')
-            echo "$text"
-          }
- 
-          get_latest_date_from_text() {
-            local raw="$1"
-            raw=$(echo "$raw" | tr -d '\0')
-            raw=$(remove_time_patterns "$raw")
-            raw=$(normalize_text "$raw")
- 
-            local textfile=$(mktemp)
-            printf '%s\n' "$raw" > "$textfile"
- 
-            if [ -f "clean_dates.sed" ]; then
-              sed -i -E -f clean_dates.sed "$textfile"
-            fi
- 
-            local tmpdates=$(mktemp)
-            add_date() {
-              local year="$1" month="$2" day="$3"
-              [[ "$month" =~ ^[0-9]+$ ]] || return
-              [[ "$day"   =~ ^[0-9]+$ ]] || return
-              month=$((10#$month))
-              day=$((10#$day))
-              if (( month >= 1 && month <= 12 && day >= 1 && day <= 31 )); then
-                printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
-              fi
-            }
- 
-            grep -oP '\b\d{4}-\d{2}-\d{2}\b' "$textfile" >> "$tmpdates" 2>/dev/null || true
-            grep -oP '\b\d{1,2}[\./-]\d{1,2}[\./-]\d{4}\b' "$textfile" | while IFS= read -r d; do
-              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
-              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
-              year=$(echo "$d" | awk -F'[./-]' '{print $3}')
-              add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done
-            grep -oP '\b\d{1,2}[.\/-]\d{1,2}\b' "$textfile" | while IFS= read -r d; do
-              day=$(echo "$d" | awk -F'[./-]' '{print $1}')
-              month=$(echo "$d" | awk -F'[./-]' '{print $2}')
-              year=$(date -u +%Y)
-              add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done
-            grep -oP '\b\d{4}\s?[гy]\.?\b' "$textfile" | while IFS= read -r d; do
-              year=$(echo "$d" | grep -oP '\d{4}')
-              add_date "$year" 1 1 >> "$tmpdates" || true
-            done
-            grep -oP '\b(01|02|03|04|05|06|07|08|09|10|11|12)\s*\d{4}\b' "$textfile" | while IFS= read -r d; do
-              month=$(echo "$d" | grep -m 1 -oP '\b\d{2}\b')
-              year=$(echo "$d" | grep -oP '\d{4}')
-              add_date "$year" "$month" 1 >> "$tmpdates" || true
-            done
-            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\s+\d{4}\b' "$textfile" | while IFS= read -r d; do
-              day=$(echo "$d" | awk '{print $1}')
-              month=$(echo "$d" | awk '{print $2}')
-              year=$(echo "$d" | awk '{print $3}')
-              add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done
-            grep -oP '\b\d{1,2}\s+(01|02|03|04|05|06|07|08|09|10|11|12)\b' "$textfile" | while IFS= read -r d; do
-              day=$(echo "$d" | awk '{print $1}')
-              month=$(echo "$d" | awk '{print $2}')
-              year=$(date -u +%Y)
-              add_date "$year" "$month" "$day" >> "$tmpdates" || true
-            done
- 
-            local latest=$(sort -r "$tmpdates" | sed -n '1p')
-            rm -f "$textfile" "$tmpdates"
-            [ -z "$latest" ] && return 1
-            echo "$latest"
-          }
- 
+
+          # ----------------------------------------------------------
+          #  Проверка, устарела ли дата (срок = 3 дня)
+          # ----------------------------------------------------------
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
@@ -163,77 +93,24 @@ jobs:
             [ $age_days -lt 0 ] && return 1
             [ $age_days -gt $days_limit ]
           }
- 
-          # Универсальный парсер контента
-          parse_smart_content() {
-            local url="$1"
-            local is_json="$2"
-            local accumulated=""
- 
-            # 1. Сбор и фильтрация HTTP заголовков
-            local headers_file=$(mktemp)
-            curl -sS -I -L --max-time 15 "$url" > "$headers_file" 2>/dev/null || true
- 
-            # Ищем даты (Last-Modified, Date) и #announce во всех заголовках
-            local h_dates=$(grep -iE 'last-modified|date|expires|announce' "$headers_file" || true)
-            accumulated+="$h_dates $h_announce "
-            rm -f "$headers_file"
- 
-            # 2. Обработка тела файла
-            if $is_json; then
-              local tmp_json=$(mktemp)
-              curl -sS -L --max-time 20 -o "$tmp_json" "$url" 2>/dev/null || true
-              local json_data=$(jq -r '[.. | objects | .tag // empty, .remarks // empty] | join(" ")' "$tmp_json" 2>/dev/null || true)
-              accumulated+="$json_data"
-              rm -f "$tmp_json"
-            else     
-              # Скачиваем весь файл
-              local tmp_body=$(mktemp)
-              curl -sS -L --max-time 20 "$url" -o "$tmp_body" 2>/dev/null || true
 
-              # Пытаемся декодировать base64
-              local tmp_dec=$(mktemp)
-              if base64 -d "$tmp_body" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
-                  # Если успешно, берём первые 30 строк расшифрованного текста
-                  head -n 30 "$tmp_dec" > "$tmp_body"
-              else
-                  # Иначе берём первые 30 строк из исходного файла
-                  head -n 30 "$tmp_body" > "$tmp_body.head"
-                  mv "$tmp_body.head" "$tmp_body"
-              fi
-              rm -f "$tmp_dec"
- 
-              # Условие А: первые 5 строк, содержащие "://"
-              local cond_a=$(grep '://' "$tmp_dec" | head -n 5 || true)
- 
-              # Условие Б: ищем "#announce" в тексте
-              local cond_b=$(grep -i 'announce' "$tmp_dec" || true)
- 
-              # Условие В: до 15 строк, которые НЕ содержат "://" и НЕ содержат "#"
-              local cond_c=$(grep -vE '://|#' "$tmp_dec" | head -n 15 || true)
- 
-              accumulated+="$cond_a $cond_b $cond_c"
-              rm -f "$tmp_body" "$tmp_dec"
-            fi
- 
-            echo "$accumulated $url"
-          }
- 
+          # ----------------------------------------------------------
+          #  Главная логика
+          # ----------------------------------------------------------
           cp sources.txt sources_backup.txt 2>/dev/null || touch sources_backup.txt
           cp old_sources.txt old_sources_backup.txt 2>/dev/null || touch old_sources_backup.txt
- 
-          STALE_DAYS=14
+
+          STALE_DAYS=3
           new_sources=()
           dead_or_stale=()
           revived=()
           still_dead=()
- 
-          # ==================== ПРОВЕРКА ОСНОВНЫХ ИСТОЧНИКОВ ====================
+
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
             echo "$line" | grep -q '^\s*#' && continue
- 
+
             original_line="$line"
             is_json=false
             if echo "$line" | grep -q '^j[[:space:]]'; then
@@ -243,53 +120,51 @@ jobs:
               line_clean="$line"
             fi
             url=$(echo "$line_clean" | awk '{print $1}')
- 
+
             echo "Проверяю: $url"
- 
+
+            # 1. Доступность + финальный URL после редиректов
+            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null) || true
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
-            if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo "   ❌ Недоступен: curl=$curl_exit, HTTP=$http_code. Переношу в old_sources.txt."
               dead_or_stale+=("$original_line")
               continue
             fi
- 
-            last_commit_date=""
-            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
-              last_commit_date=$(get_github_last_commit_date "$url")
-              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
-                echo "   ⚠️ Просрочен коммит. Переношу в old."
-                dead_or_stale+=("$original_line")
-                continue
-              fi
-            elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
-              last_commit_date=$(get_gitverse_last_commit_date "$url")
-              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
-                echo "   ⚠️ Просрочен коммит. Переношу в old."
-                dead_or_stale+=("$original_line")
-                continue
-              fi
-            fi
- 
-            if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
-              content_for_date=$(parse_smart_content "$url" "$is_json")
-              latest_date=$(get_latest_date_from_text "$content_for_date")
-              if [ -n "$latest_date" ] && is_stale_date "$latest_date" $STALE_DAYS; then
-                echo "   ⚠️ Данные старее $STALE_DAYS дней. Переношу в old_sources.txt."
-                dead_or_stale+=("$original_line")
-                continue
+
+            # 2. Проверка даты последнего обновления
+            if ! $is_json; then
+              last_update=""
+              # GitHub / Gist – через API
+              if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
+                last_update=$(get_github_last_commit_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ GitHub/Gist: прошло >$STALE_DAYS дней ($last_update). Переношу в old."
+                  dead_or_stale+=("$original_line")
+                  continue
+                fi
+              else
+                # Все остальные – Last-Modified
+                last_update=$(get_last_modified_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Last-Modified старше $STALE_DAYS дней ($last_update). Переношу в old."
+                  dead_or_stale+=("$original_line")
+                  continue
+                fi
+                # Если Last-Modified нет – оставляем источник
               fi
             fi
- 
+
             echo "   ✅ Актуален"
             new_sources+=("$original_line")
           done < sources_backup.txt
- 
-          # ==================== ПРОВЕРКА СТАРЫХ ИСТОЧНИКОВ ====================
+
           echo "====== ПРОВЕРКА old_sources.txt ======"
           while IFS= read -r line; do
             [ -z "$line" ] && continue
             echo "$line" | grep -q '^\s*#' && continue
- 
+
             original_line="$line"
             is_json=false
             if echo "$line" | grep -q '^j[[:space:]]'; then
@@ -299,58 +174,52 @@ jobs:
               line_clean="$line"
             fi
             url=$(echo "$line_clean" | awk '{print $1}')
- 
+
             echo "Проверяю старый источник: $url"
- 
+
+            effective_url=$(curl -sS -L --max-time 15 -o /dev/null -w '%{url_effective}' "$url" 2>/dev/null) || true
             http_code=$(curl -sS -L --max-time 15 -o /dev/null -w '%{http_code}' "$url" 2>/dev/null) && curl_exit=0 || curl_exit=$?
-            if [ $curl_exit -ne 0 ] || { [ "$http_code" != "200" ] && [ "$http_code" != "302" ]; }; then
+
+            if [ $curl_exit -ne 0 ] || [[ ! "$http_code" =~ ^[23] ]]; then
               echo "   ❌ Всё ещё недоступен: curl=$curl_exit, HTTP=$http_code"
               still_dead+=("$original_line")
               continue
             fi
- 
-            last_commit_date=""
-            if ! $is_json && ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com' ); then
-              last_commit_date=$(get_github_last_commit_date "$url")
-              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
-                echo "   ⚠️ Всё ещё устаревший по коммиту"
-                still_dead+=("$original_line")
-                continue
-              fi
-            elif ! $is_json && ( echo "$url" | grep -q 'gitverse\.ru' ); then
-              last_commit_date=$(get_gitverse_last_commit_date "$url")
-              if [ -n "$last_commit_date" ] && is_stale_date "$last_commit_date" $STALE_DAYS; then
-                echo "   ⚠️ Всё ещё устаревший по коммиту"
-                still_dead+=("$original_line")
-                continue
-              fi
-            fi
- 
-            if ! ( echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gitverse\.ru' ) || [ -z "$last_commit_date" ]; then
-              content_for_date=$(parse_smart_content "$url" "$is_json")
-              latest_date=$(get_latest_date_from_text "$content_for_date")
-              if [ -n "$latest_date" ] && is_stale_date "$latest_date" $STALE_DAYS; then
-                echo "   ⚠️ Данные всё ещё старые"
-                still_dead+=("$original_line")
-                continue
+
+            if ! $is_json; then
+              last_update=""
+              if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
+                last_update=$(get_github_last_commit_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Всё ещё устаревший по коммиту ($last_update)"
+                  still_dead+=("$original_line")
+                  continue
+                fi
+              else
+                last_update=$(get_last_modified_date "$effective_url")
+                if [ -n "$last_update" ] && is_stale_date "$last_update" $STALE_DAYS; then
+                  echo "   ⚠️ Всё ещё устаревший по Last-Modified ($last_update)"
+                  still_dead+=("$original_line")
+                  continue
+                fi
               fi
             fi
- 
+
             echo "   🎉 Источник ОЖИЛ! Возвращаю в основной список."
             revived+=("$original_line")
           done < old_sources_backup.txt
- 
+
           echo "====== ИТОГИ И ОБНОВЛЕНИЕ ФАЙЛОВ ======"
           > sources.txt
           for s in "${new_sources[@]}"; do echo "$s" >> sources.txt; done
           for s in "${revived[@]}"; do echo "$s" >> sources.txt; done
- 
+
           > old_sources.txt
           for s in "${dead_or_stale[@]}"; do echo "$s" >> old_sources.txt; done
           for s in "${still_dead[@]}"; do echo "$s" >> old_sources.txt; done
- 
+
           rm -f sources_backup.txt old_sources_backup.txt
- 
+
       - name: Закоммитить изменения
         run: |
           git config --global user.name "github-actions[bot]"
