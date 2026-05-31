@@ -50,5 +50,6 @@ https://raw.githubusercontent.com/HalyavusVPNUS/halyava-vpn-lte/refs/heads/main/
 https://adminvpn.onrender.com/get/nuu2xk Обход глушилок Обход%20глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA %93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BA%D0%B8 Глушилки LTE
 https://adminvpn.onrender.com/get/zjiwp Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 https://gist.githubusercontent.com/VSPBOOST/d84dcf89bf31012a96ee60a9eb73b852/raw/4f6af123b4a0251806b89958c845666268283c5a/gistfile1.txt Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
-http://144.31.165.198:8080/premium Белый интернет %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82
 https://vpn.akres.fun/bwl
+https://raw.githubusercontent.com/Ilyacom4ik/free-v2ray-2026/refs/heads/main/subscriptions/FreeCFGHub1.txt LTE
+https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFreeCFGHub.txt LTE
