@@ -44,3 +44,4 @@ https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/Komary
 https://key.zarazaex.xyz/sub
 https://raw.githubusercontent.com/mbelspb-gif/gdffgd/refs/heads/main/Swordware.net LTE
 http://144.31.165.198:8080/premium Белый интернет %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82
+https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist(beta).txt
