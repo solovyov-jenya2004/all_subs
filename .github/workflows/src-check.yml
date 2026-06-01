@@ -158,10 +158,9 @@ jobs:
 
             local url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Выводим заголовок проверки
             echo "Проверяю: $url" >&2
 
-            # Один запрос curl для кода и финального URL
+            # Один запрос curl
             set +e
             local curl_out=$(curl -sS -L --max-time 15 -o /dev/null -w "%{http_code} %{url_effective}" "$url" 2>/dev/null || echo "000 $url")
             local curl_exit=$?
@@ -169,10 +168,13 @@ jobs:
             local http_code=$(echo "$curl_out" | awk '{print $1}')
             local effective_url=$(echo "$curl_out" | awk '{print $2}')
 
-            # Проверка доступности
+            # Недоступность
             if [ -z "$http_code" ] || [[ ! "$http_code" =~ ^[23] ]]; then
-              echo "   ❌ Недоступен (curl=$curl_exit, HTTP=$http_code)" >&2
-              echo "   ⛔ Недоступен, переношу" >&2
+              if [ "$is_old_list" = true ]; then
+                echo "   ⛔ Недоступен (curl=$curl_exit, HTTP=$http_code), оставляю" >&2
+              else
+                echo "   ❌ Недоступен (curl=$curl_exit, HTTP=$http_code), переношу" >&2
+              fi
               echo "$line" >> old_sources.txt
               echo "" >&2
               return
@@ -188,27 +190,39 @@ jobs:
 
               if [ -z "$last_update" ] || [ "$last_update" = "null" ]; then
                 echo "   ℹ️ Дата обновления не найдена" >&2
+                if [ "$is_old_list" = true ]; then
+                  echo "   ✅ Оставляю" >&2
+                else
+                  echo "   ✅ Оставляю" >&2
+                fi
               else
                 if is_stale_date "$last_update" $STALE_DAYS; then
                   echo "   📅 Обновлён $last_update" >&2
-                  echo "   ⚠️ Устарел, переношу" >&2
+                  if [ "$is_old_list" = true ]; then
+                    echo "   ⚠️ Устарел, оставляю" >&2
+                  else
+                    echo "   ⚠️ Устарел, переношу" >&2
+                  fi
                   echo "$line" >> old_sources.txt
                   echo "" >&2
                   return
                 else
                   echo "   📅 Обновлён $last_update" >&2
+                  if [ "$is_old_list" = true ]; then
+                    echo "   🔄 Актуально, переношу" >&2
+                  else
+                    echo "   ✅ Актуально, оставляю" >&2
+                  fi
                 fi
               fi
             fi
 
-            # Финальный вердикт
+            echo "" >&2
             if [ "$is_old_list" = true ]; then
-              echo "   🔄 Актуально, переношу" >&2
+              echo "$line" >> sources.txt
             else
-              echo "   ✅ Актуально, оставляю" >&2
+              echo "$line" >> sources.txt
             fi
-            echo "" >&2   # пустая строка для разделения источников
-            echo "$line" >> sources.txt
           }
 
           # ----------------------------------------------------------
