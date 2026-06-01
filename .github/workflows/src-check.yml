@@ -143,6 +143,9 @@ jobs:
 
             [ -z "$line" ] && return
 
+            # Визуальный разделитель между источниками
+            echo "" >&2
+
             # Комментарии сохраняем во временные файлы
             if echo "$line" | grep -q '^\s*#'; then
               if [ "$is_old_list" = true ]; then
