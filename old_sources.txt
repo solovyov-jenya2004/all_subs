@@ -1,3 +1,5 @@
+j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Q lte
+j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Autoconf.ru lte
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist(beta).txt
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt сервер
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/selected.txt
