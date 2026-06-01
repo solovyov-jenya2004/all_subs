@@ -33,9 +33,9 @@ jobs:
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
               local gist_id
               if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
-                gist_id=$(echo "$url" | awk -F/ '{print $4}')
-              else
                 gist_id=$(echo "$url" | awk -F/ '{print $5}')
+              else
+                gist_id=$(echo "$url" | awk -F/ '{print $6}')
               fi
               if [ -n "$gist_id" ]; then
                 local api_url="https://api.github.com/gists/$gist_id"
