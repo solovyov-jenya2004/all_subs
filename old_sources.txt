@@ -1,3 +1,4 @@
+https://key.zarazaex.xyz/sub
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/selected.txt
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/WHITELIST-ALL.txt
