@@ -5,7 +5,6 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-checked.txt
-https://key.zarazaex.xyz/sub
 https://rostunnel.vercel.app/mega.txt %D0%91%D0%A1 БС
 https://subrostunnel.vercel.app/wl.txt
 https://subrostunnel.vercel.app/gen.txt LTE
