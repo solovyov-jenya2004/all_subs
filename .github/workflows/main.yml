@@ -1,4 +1,4 @@
-name: Сборка и дедупликация подписок
+name: Сборка подписок
 
 on:
   workflow_dispatch:
@@ -339,7 +339,7 @@ jobs:
 
           echo "Всего строк в raw: $(wc -l < raw)"
 
-      - name: Очистить и дедуплицировать
+      - name: Дедуплицировать и удалить
         run: |
           # Удаляем комментарии, пустые строки, \r
           grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' > clean_tmp
@@ -384,7 +384,7 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
           
-      - name: Commit и push
+      - name: Закоммитить изменения
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
