@@ -11,7 +11,6 @@ https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/he
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/good_keys.txt
 https://raw.githubusercontent.com/LimeHi/Old-Context-Menu/refs/heads/main/afg.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/nzea243/ikoV31tud_vpn/refs/heads/main/tri_228.txt обход бс обход%20бс %D0%BE%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B1%D1%81
-https://raw.githubusercontent.com/mbelspb-gif/gdffgd/refs/heads/main/Swordware.net LTE
 https://adminvpn.onrender.com/get/nuu2xk Обход глушилок Обход%20глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA %93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BA%D0%B8 Глушилки LTE
 https://adminvpn.onrender.com/get/zjiwp Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 https://raw.githubusercontent.com/ByeWhiteLists/ByeWhiteLists2/refs/heads/main/ByeWhiteLists2.txt
