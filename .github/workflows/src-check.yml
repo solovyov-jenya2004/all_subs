@@ -13,6 +13,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: main
 
       - name: Проверить источники и обновить списки
         env:
@@ -27,6 +30,7 @@ jobs:
 
             # Gist (gist.githubusercontent.com / gist.github.com)
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
+              # Извлекаем gist_id: для raw-ссылки это 4-й сегмент, для обычной — 5-й
               local gist_id
               if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
                 gist_id=$(echo "$url" | awk -F/ '{print $4}')
@@ -36,6 +40,7 @@ jobs:
               if [ -n "$gist_id" ]; then
                 local api_url="https://api.github.com/gists/$gist_id"
                 local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
+                # Берём updated_at, либо последний committed_at из истории
                 local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
                 if [ -n "$updated" ] && [ "$updated" != "null" ]; then
                   echo "$updated"
@@ -239,11 +244,11 @@ jobs:
           done < old_sources_backup.txt
 
           rm -f sources_backup.txt old_sources_backup.txt
-
+          
       - name: Закоммитить изменения
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@://github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sources.txt old_sources.txt
           if ! git diff --cached --quiet; then
             git stash --keep-index --include-untracked
