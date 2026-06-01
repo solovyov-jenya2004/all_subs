@@ -245,9 +245,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sources.txt old_sources.txt
-          if ! git diff --quiet; then
-            git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC"
+          if ! git diff --cached --quiet; then
+            git stash --keep-index --include-untracked
+            git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git fetch origin main
-            git rebase origin/main
-            git push
+            git rebase origin/main -X theirs
+            git push --force-with-lease
+            git stash pop || true
           fi
