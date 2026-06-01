@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
-          fetch-depth: 10
+          fetch-depth: 7
 
       - name: Проверить источники и обновить списки
         env:
@@ -31,7 +31,6 @@ jobs:
 
             # Gist (gist.githubusercontent.com / gist.github.com)
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
-              # Извлекаем gist_id: для raw-ссылки это 4-й сегмент, для обычной — 5-й
               local gist_id
               if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
                 gist_id=$(echo "$url" | awk -F/ '{print $4}')
@@ -40,8 +39,7 @@ jobs:
               fi
               if [ -n "$gist_id" ]; then
                 local api_url="https://api.github.com/gists/$gist_id"
-                local response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" "$api_url")
-                # Берём updated_at, либо последний committed_at из истории
+                local response=$(curl -sS "$api_url")
                 local updated=$(echo "$response" | jq -r '.updated_at // .history[0].committed_at // .created_at' 2>/dev/null)
                 if [ -n "$updated" ] && [ "$updated" != "null" ]; then
                   echo "$updated"
@@ -133,8 +131,8 @@ jobs:
           cp old_sources.txt old_sources_backup.txt
 
           STALE_DAYS=3
-          > sources.txt
-          > old_sources.txt
+          > sources_tmp.txt
+          > old_tmp.txt
 
           # ----------------------------------------------------------
           # Основная функция валидации одной строки
@@ -145,12 +143,12 @@ jobs:
 
             [ -z "$line" ] && return
 
-            # Комментарии сохраняем без изменений в соответствующий файл
+            # Комментарии сохраняем во временные файлы
             if echo "$line" | grep -q '^\s*#'; then
               if [ "$is_old_list" = true ]; then
-                echo "$line" >> old_sources.txt
+                echo "$line" >> old_tmp.txt
               else
-                echo "$line" >> sources.txt
+                echo "$line" >> sources_tmp.txt
               fi
               return
             fi
@@ -181,54 +179,53 @@ jobs:
               else
                 echo "   ❌ Недоступен (curl=$curl_exit, HTTP=$http_code), переношу" >&2
               fi
-              echo "$line" >> old_sources.txt
+              echo "$line" >> old_tmp.txt
               echo "" >&2
               return
             fi
 
-            if ! $is_json; then
-              local last_update=""
-              if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
-                last_update=$(get_github_last_commit_date "$effective_url")
-              else
-                last_update=$(get_last_modified_date "$effective_url")
-              fi
+            # Проверка даты – теперь для ВСЕХ источников (включая JSON)
+            local last_update=""
+            if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
+              last_update=$(get_github_last_commit_date "$effective_url")
+            else
+              last_update=$(get_last_modified_date "$effective_url")
+            fi
 
-              if [ -z "$last_update" ] || [ "$last_update" = "null" ]; then
-                echo "   ℹ️ Дата обновления не найдена" >&2
-                if [ "$is_old_list" = true ]; then
-                  echo "   ✅ Оставляю" >&2
-                else
-                  echo "   ✅ Оставляю" >&2
-                fi
+            if [ -z "$last_update" ] || [ "$last_update" = "null" ]; then
+              echo "   ℹ️ Дата обновления не найдена" >&2
+              if [ "$is_old_list" = true ]; then
+                echo "   ✅ Оставляю" >&2
+                echo "$line" >> old_tmp.txt
+                echo "" >&2
+                return
               else
-                if is_stale_date "$last_update" $STALE_DAYS; then
-                  echo "   📅 Обновлён $last_update" >&2
-                  if [ "$is_old_list" = true ]; then
-                    echo "   ⚠️ Устарел, оставляю" >&2
-                  else
-                    echo "   ⚠️ Устарел, переношу" >&2
-                  fi
-                  echo "$line" >> old_sources.txt
-                  echo "" >&2
-                  return
+                echo "   ✅ Оставляю" >&2
+              fi
+            else
+              if is_stale_date "$last_update" $STALE_DAYS; then
+                echo "   📅 Обновлён $last_update" >&2
+                if [ "$is_old_list" = true ]; then
+                  echo "   ⚠️ Устарел, оставляю" >&2
                 else
-                  echo "   📅 Обновлён $last_update" >&2
-                  if [ "$is_old_list" = true ]; then
-                    echo "   🔄 Актуально, переношу" >&2
-                  else
-                    echo "   ✅ Актуально, оставляю" >&2
-                  fi
+                  echo "   ⚠️ Устарел, переношу" >&2
+                fi
+                echo "$line" >> old_tmp.txt
+                echo "" >&2
+                return
+              else
+                echo "   📅 Обновлён $last_update" >&2
+                if [ "$is_old_list" = true ]; then
+                  echo "   🔄 Актуально, переношу" >&2
+                else
+                  echo "   ✅ Актуально, оставляю" >&2
                 fi
               fi
             fi
 
             echo "" >&2
-            if [ "$is_old_list" = true ]; then
-              echo "$line" >> sources.txt
-            else
-              echo "$line" >> sources.txt
-            fi
+            # Актуальные источники – в основной временный файл
+            echo "$line" >> sources_tmp.txt
           }
 
           # ----------------------------------------------------------
@@ -245,6 +242,10 @@ jobs:
           done < old_sources_backup.txt
 
           rm -f sources_backup.txt old_sources_backup.txt
+
+          # Замена оригиналов временными файлами
+          mv sources_tmp.txt sources.txt
+          mv old_tmp.txt old_sources.txt
           
       - name: Закоммитить изменения
         run: |
