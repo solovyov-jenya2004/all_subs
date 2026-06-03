@@ -91,15 +91,42 @@ https://solovyov-jenya2004.vercel.app/random
 
 
   <details>
-    <summary><b>⚡ Statically</b></summary>
+    <summary><b>⚽️ jsDelivr</b></summary>
     <br>
-    <p><b>Обычная подписка</b></p>
+
+  <details>
+      <summary><b>🏠 Основной</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
     
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
+      
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+   </details>
+
+  <details>
+      <summary><b>🏎️ Через Fastly</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
     
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64
-  </details> 
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+      
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+   </details>
+
+   <details>
+      <summary><b>🌍 Через Gcore</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
+     
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+      
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+   </details>
+</details>
 
 
 <details>
@@ -166,54 +193,15 @@ https://solovyov-jenya2004.vercel.app/random
 
 
 <details>
-    <summary><b>⚽️ jsDelivr</b></summary>
+    <summary><b>⚡ Statically</b></summary>
     <br>
-
-  <details>
-      <summary><b>🏠 Основной</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
+    <p><b>Обычная подписка</b></p>
     
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
-   <p><b>Base64‑подписка</b></p>
-      
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
-   </details>
-
-  <details>
-      <summary><b>🏎️ Через Fastly</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
-    
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
-   <p><b>Base64‑подписка</b></p>
-      
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
-   </details>
-
-   <details>
-      <summary><b>🌍 Через Gcore</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
-     
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
-   <p><b>Base64‑подписка</b></p>
-      
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
-   </details>
-</details>
-
-
-  <details>
-    <summary><b>⚽️ jsDelivr</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
-    
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted
    <p><b>Base64‑подписка</b></p>
     
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
-  </details>
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64
+  </details> 
 </details>
 
 ---
