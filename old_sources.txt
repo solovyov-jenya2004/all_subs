@@ -1,3 +1,4 @@
+https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://gist.githubusercontent.com/nikitavalentinov90021-ai/a4de8e24121096a7714be35465849a0c/raw/995e0ee28983e89e3dab94d9e80834514bd212c1/ID6592823693.txt
 https://gist.githubusercontent.com/nikitavalentinov90021-ai/41901f30db6c78a6a4d0da27429f4fab/raw/6efae398be2ad0ab70ba257bab20a82053c36383/LTE.txt
 https://vpn.akres.fun/bwl
