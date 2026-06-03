@@ -115,7 +115,7 @@ https://solovyov-jenya2004.vercel.app/random
 
 
 <details>
-  <summary><b>☁️ Cloudflare</b></summary>
+  <summary><b>🦕 Deno Deploy</b></summary>
     <br>
     <p><b>Обычная подписка</b></p>   
      
