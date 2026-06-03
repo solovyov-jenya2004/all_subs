@@ -130,7 +130,7 @@ https://solovyov-jenya2004.vercel.app/random
    </details>
 
   <details>
-      <summary><b>⚡ Fastly</b></summary>
+      <summary><b>🏎️ Через Fastly</b></summary>
       <br>
       <p><b>Обычная подписка</b></p>
     
@@ -141,7 +141,7 @@ https://solovyov-jenya2004.vercel.app/random
    </details>
 
    <details>
-      <summary><b>🌍 Gcore</b></summary>
+      <summary><b>🌍 Через Gcore</b></summary>
       <br>
       <p><b>Обычная подписка</b></p>
      
