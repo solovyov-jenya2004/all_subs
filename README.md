@@ -123,10 +123,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
     
-      https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-      https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
 
   <details>
@@ -134,10 +134,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
     
-      https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-      https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
 
    <details>
@@ -145,10 +145,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
      
-      https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-      https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
 </details>
 
