@@ -158,6 +158,22 @@ https://solovyov-jenya2004.vercel.app/random
 
 
 <details>
+  <summary><b>🖥️ Render</b></summary>
+    <br>
+    <p><b>Обычная подписка</b></p>   
+     
+    https://all-subs.onrender.com/final_sorted
+  <p><b>Base64‑подписка</b></p>   
+   
+    https://all-subs.onrender.com/final_sorted_base64
+  <p><b>Мобильная подписка</b></p>
+    
+    https://all-subs.onrender.com/random
+   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
+</details>
+
+
+<details>
   <summary><b>☁️ Cloudflare</b></summary>
     <br>
     <p><b>Обычная подписка</b></p>   
