@@ -203,7 +203,7 @@ https://solovyov-jenya2004.vercel.app/random
 
 Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app), [Throne](https://throneproj.github.io), [TeapodStream](https://github.com/Wendor/teapod-stream), [v2rayNG](https://v2rayng.2dust.link), [Happ](https://www.happ.su), [Exclave](https://github.com/dyhkwong/Exclave) и другие.
 
-**ВНИМАНИЕ! Из-за обнаруженной уязвимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет практически любому приложению читать ваш «новый» IP, не рекомендуется использовать v2rayN, v2RayTun на iOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet. Чтобы свести риски к минимуму, используйте только последние версии VPN-клиентов, которые исправили эту уязвимость.** Подробнее — на [Хабре](https://habr.com/ru/articles/1020080).
+**ВНИМАНИЕ! Из-за обнаруженной уязвимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет практически любому приложению читать ваш «новый» IP, не рекомендуется использовать v2rayN, v2RayTun на iOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet. Для любого VPN-клиента, который вы выберете, обязательно устанавливайте последнюю версию — разработчики закрывают подобные проблемы в первую очередь.** Подробнее — на [Хабре](https://habr.com/ru/articles/1020080).
 
 ---
 
