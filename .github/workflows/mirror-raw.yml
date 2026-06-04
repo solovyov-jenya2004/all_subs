@@ -41,7 +41,7 @@ jobs:
             secret: GITLAB_TOKEN
             branch: main
           - name: Gitea
-            clone_url: https://gitea.com/solovyov-jenya2004/all_subs.git
+            clone_url: https://${GITEA_TOKEN}@gitea.com/solovyov-jenya2004/all_subs.git
             secret: GITEA_TOKEN
             branch: main
                    #- name: Bitbucket
