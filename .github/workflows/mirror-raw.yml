@@ -42,10 +42,10 @@ jobs:
             #clone_url: https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/solovyov-jenya2004/all_subs_raw.git
             #secret: BITBUCKET_TOKEN
             #branch: main
-          #- name: Codeberg
-            #clone_url: https://${CODEBERG_TOKEN}:@codeberg.org/solovyov-jenya2004/all_subs_raw.git
-            #secret: CODEBERG_TOKEN
-            #branch: main
+          - name: Codeberg
+            clone_url: https://${CODEBERG_TOKEN}:@codeberg.org/solovyov-jenya2004/all_subs.git
+            secret: CODEBERG_TOKEN
+            branch: main
           # - name: SourceHut
           #   clone_url: https://git:${SOURCEHUT_TOKEN}@git.sr.ht/~solovyov-jenya2004/all_subs_raw
           #   secret: SOURCEHUT_TOKEN
