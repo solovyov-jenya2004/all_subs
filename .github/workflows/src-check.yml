@@ -6,6 +6,7 @@ on:
 jobs:
   check-and-revive:
     runs-on: ubuntu-latest
+    name: Проверка источников
     permissions:
       contents: write
     env:
