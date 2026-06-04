@@ -173,6 +173,40 @@ https://solovyov-jenya2004.vercel.app/random
 </details>
 
 
+  <details>
+    <summary><b>🦊 GitLab</b></summary>
+        <br>
+        <p><b>Обычная подписка</b></p>
+    
+    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+  
+    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted_base64
+  </details>
+
+
+  <details>
+    <summary><b>🗻 Codeberg</b></summary>
+        <br>
+        <p><b>Обычная подписка</b></p>
+    
+     https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+  
+    https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted_base64
+  </details>
+
+
+  <details>
+    <summary><b>☕ Gitea</b></summary>
+        <br>
+        <p><b>Обычная подписка</b></p>
+    
+     https://gitea.com/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+  
+    https://gitea.com/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted_base64
+  </details>
 <details>
   <summary><b>☁️ Cloudflare</b></summary>
     <br>
