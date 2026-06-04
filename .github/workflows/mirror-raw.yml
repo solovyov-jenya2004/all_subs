@@ -1,0 +1,80 @@
+name: Зеркалирование raw-файлов на внешние Git-сервисы
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # флаг свежего Node.js
+
+    steps:
+      - uses: actions/checkout@v6   # версия 6
+        # клонируем текущий репозиторий (all_subs)
+
+      - name: Копирование файлов в артефакт
+        run: |
+          mkdir -p artifacts
+          cp final_sorted artifacts/final_sorted
+          cp final_sorted_base64 artifacts/final_sorted_base64
+
+      - name: Публикация артефакта
+        uses: actions/upload-artifact@v6
+        with:
+          name: subscription-files
+          path: artifacts/
+
+  mirror:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false   # если одно зеркало упало, остальные продолжают
+      matrix:
+        include:
+          - name: GitLab
+            clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs_raw.git
+            secret: GITLAB_TOKEN
+            branch: main
+          #- name: Bitbucket
+            #clone_url: https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/solovyov-jenya2004/all_subs_raw.git
+            #secret: BITBUCKET_TOKEN
+            #branch: main
+          #- name: Codeberg
+            #clone_url: https://${CODEBERG_TOKEN}:@codeberg.org/solovyov-jenya2004/all_subs_raw.git
+            #secret: CODEBERG_TOKEN
+            #branch: main
+          # - name: SourceHut
+          #   clone_url: https://git:${SOURCEHUT_TOKEN}@git.sr.ht/~solovyov-jenya2004/all_subs_raw
+          #   secret: SOURCEHUT_TOKEN
+          #   branch: main
+
+    steps:
+      - name: Скачивание артефакта с файлами
+        uses: actions/download-artifact@v6
+        with:
+          name: subscription-files
+          path: files
+
+      - name: Клонирование удалённого репозитория ${{ matrix.name }}
+        run: |
+          git clone ${{ matrix.clone_url }} repo
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          BITBUCKET_TOKEN: ${{ secrets.BITBUCKET_TOKEN }}
+          CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
+          SOURCEHUT_TOKEN: ${{ secrets.SOURCEHUT_TOKEN }}
+
+      - name: Обновление и пуш в ${{ matrix.name }}
+        run: |
+          cd repo
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          cp ../files/final_sorted ../files/final_sorted_base64 .
+          git add final_sorted final_sorted_base64
+          if git diff --cached --quiet; then
+            echo "Изменений нет, пуш не требуется"
+          else
+            git commit -m "Обновление $(date -Iseconds)"
+            git push origin ${{ matrix.branch }}
+          fi
