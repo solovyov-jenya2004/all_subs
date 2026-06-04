@@ -191,7 +191,7 @@ https://solovyov-jenya2004.vercel.app/random
         <br>
         <p><b>Обычная подписка</b></p>
     
-     https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
+    https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
    <p><b>Base64‑подписка</b></p>
   
     https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted_base64
@@ -203,7 +203,7 @@ https://solovyov-jenya2004.vercel.app/random
         <br>
         <p><b>Обычная подписка</b></p>
     
-     https://gitea.com/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
+    https://gitea.com/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
    <p><b>Base64‑подписка</b></p>
   
     https://gitea.com/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted_base64
