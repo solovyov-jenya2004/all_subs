@@ -2,6 +2,7 @@
 
 [![Сборка подписок](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/main.yml/badge.svg)](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/main.yml)
 [![Проверка источников](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/src-check.yml/badge.svg)](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/src-check.yml)
+[![Синхронизация зеркал](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/mirror-raw.yml/badge.svg)](https://github.com/solovyov-jenya2004/all_subs/actions/workflows/mirror-raw.yml)
 [![Stars](https://img.shields.io/github/stars/solovyov-jenya2004/all_subs?style=flat-square&color=0e75b6)](https://github.com/solovyov-jenya2004/all_subs/stargazers)
 [![Issues](https://img.shields.io/github/issues/solovyov-jenya2004/all_subs?style=flat-square&color=0e75b6)](https://github.com/solovyov-jenya2004/all_subs/issues)
 [![Last commit](https://custom-icon-badges.demolab.com/github/last-commit/solovyov-jenya2004/all_subs?logo=history&logoColor=white&color=0e75b6&style=flat-square)](https://github.com/solovyov-jenya2004/all_subs/commits/main)
