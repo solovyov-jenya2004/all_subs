@@ -46,3 +46,4 @@ https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/he
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/subscriptions/1sub.txt
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/best_keys.txt
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/good_keys.txt
+https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки Белые%20списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
