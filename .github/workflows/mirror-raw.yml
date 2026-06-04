@@ -7,11 +7,10 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # флаг свежего Node.js
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - uses: actions/checkout@v6   # версия 6
-        # клонируем текущий репозиторий (all_subs)
+      - uses: actions/checkout@v6
 
       - name: Копирование файлов в артефакт
         run: |
@@ -28,28 +27,18 @@ jobs:
   mirror:
     needs: prepare
     runs-on: ubuntu-latest
+    name: ${{ matrix.name }}   # короткое имя задачи
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     strategy:
-      fail-fast: false   # если одно зеркало упало, остальные продолжают
+      fail-fast: false
       matrix:
         include:
           - name: GitLab
             clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs.git
             secret: GITLAB_TOKEN
             branch: main
-          #- name: Bitbucket
-            #clone_url: https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/solovyov-jenya2004/all_subs_raw.git
-            #secret: BITBUCKET_TOKEN
-            #branch: main
-          - name: Codeberg
-            clone_url: https://${CODEBERG_TOKEN}:@codeberg.org/solovyov-jenya2004/all_subs.git
-            secret: CODEBERG_TOKEN
-            branch: main
-          # - name: SourceHut
-          #   clone_url: https://git:${SOURCEHUT_TOKEN}@git.sr.ht/~solovyov-jenya2004/all_subs_raw
-          #   secret: SOURCEHUT_TOKEN
-          #   branch: main
+          # остальные сервисы закомментированы
 
     steps:
       - name: Скачивание артефакта с файлами
@@ -77,6 +66,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Изменений нет, пуш не требуется"
           else
-            git commit -m "Обновление $(date -Iseconds)"
+            git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git push origin ${{ matrix.branch }}
           fi
