@@ -187,18 +187,6 @@ https://solovyov-jenya2004.vercel.app/random
 
 
   <details>
-    <summary><b>🗻 Codeberg</b></summary>
-        <br>
-        <p><b>Обычная подписка</b></p>
-    
-    https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted
-   <p><b>Base64‑подписка</b></p>
-  
-    https://codeberg.org/solovyov-jenya2004/all_subs/raw/branch/main/final_sorted_base64
-  </details>
-
-
-  <details>
     <summary><b>☕ Gitea</b></summary>
         <br>
         <p><b>Обычная подписка</b></p>
@@ -329,7 +317,7 @@ https://solovyov-jenya2004.vercel.app/random
  Бесплатные раннеры **GitHub Actions** выполняют сборку в общей очереди – возможны паузы в ожидании свободного ресурса.
 - Сервис **cron‑job.org**, инициирующий запуск сборки, может срабатывать с отклонением до 1–2 минут.
 - Зеркало **Render** после 15 минут отсутствия запросов переходит в спящий режим; первый последующий запрос пробуждает его в течение 60 секунд.
-- Зеркала **GitLab**, **Codeberg** и **Gitea** получают файлы через отдельный шаг синхронизации, добавляющий 1–2 минуты после завершения основной сборки.
+- Зеркала **GitLab** и **Gitea** получают файлы через отдельный шаг синхронизации, добавляющий 1–2 минуты после завершения основной сборки.
 
 **Статусы сервисов**
 
@@ -342,14 +330,13 @@ https://solovyov-jenya2004.vercel.app/random
 | Deno Deploy | [denostatus.com](https://denostatus.com) |
 | Render | [status.render.com](https://status.render.com) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com) |
-| Codeberg | [status.codeberg.org](https://status.codeberg.org) |
 | Gitea | [status.gitea.com](https://status.gitea.com) |
 | Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com) |
 | Netlify | [netlifystatus.com](https://netlifystatus.com) |
 | Statically | [status.statically.io](https://status.statically.io) |
 
 Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.  
-При недоступности GitHub новые файлы не собираются, однако зеркала GitLab, Codeberg и Gitea продолжают отдавать последнюю сохранённую версию — в таком случае переключитесь на одно из них.
+При недоступности GitHub новые файлы не собираются, однако зеркала GitLab и Gitea продолжают отдавать последнюю сохранённую версию — в таком случае переключитесь на одно из них.
 </details>
 
 <details>
@@ -390,7 +377,7 @@ https://all-subs.onrender.com/random?n=200 → 200 конфигов
 
 Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy.
 
-На зеркалах GitHub, jsDelivr, Alexanderoff, GitLab, Codeberg, Gitea и Statically мобильная подписка отсутствует.
+На зеркалах GitHub, jsDelivr, Alexanderoff, GitLab, Gitea и Statically мобильная подписка отсутствует.
 </details>
 
 <details>
