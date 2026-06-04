@@ -430,14 +430,14 @@ jobs:
           name: subscription-files
           path: files
 
-      - name: Клонирование удалённого репозитория ${{ matrix.name }}
+      - name: Клонирование удалённого репозитория
         run: |
           git clone --depth 1 ${{ matrix.clone_url }} repo
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
 
-      - name: Обновление и пуш в ${{ matrix.name }}
+      - name: Обновление и пуш
         run: |
           cd repo
           git config user.name "GitHub Actions"
