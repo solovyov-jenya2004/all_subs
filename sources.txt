@@ -35,7 +35,6 @@ https://raw.githubusercontent.com/nzea243/ikoV31tud_vpn/refs/heads/main/wl_228.t
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
-https://key.zarazaex.xyz/sub
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
 https://vpn.akres.fun/bwl
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
