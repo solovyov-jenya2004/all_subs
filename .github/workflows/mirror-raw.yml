@@ -28,6 +28,8 @@ jobs:
   mirror:
     needs: prepare
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     strategy:
       fail-fast: false   # если одно зеркало упало, остальные продолжают
       matrix:
