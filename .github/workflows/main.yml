@@ -6,6 +6,7 @@ on:
 jobs:
   merge-subs:
     runs-on: ubuntu-latest
+    name: Сборка подписок
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
@@ -394,3 +395,58 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted final_sorted_base64
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC" && git push)
+
+      - name: Публикация артефакта с готовыми файлами
+        uses: actions/upload-artifact@v6
+        with:
+          name: subscription-files
+          path: |
+            final_sorted
+            final_sorted_base64
+
+  sync-mirrors:
+    needs: merge-subs
+    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Публикация в GitLab
+            clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs.git
+            secret: GITLAB_TOKEN
+            branch: main
+          - name: Публикация в Gitea
+            clone_url: https://${GITEA_TOKEN}:@gitea.com/solovyov-jenya2004/all_subs.git
+            secret: GITEA_TOKEN
+            branch: main
+
+    steps:
+      - name: Скачивание артефакта с файлами
+        uses: actions/download-artifact@v6
+        with:
+          name: subscription-files
+          path: files
+
+      - name: Клонирование удалённого репозитория ${{ matrix.name }}
+        run: |
+          git clone --depth 1 ${{ matrix.clone_url }} repo
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
+
+      - name: Обновление и пуш в ${{ matrix.name }}
+        run: |
+          cd repo
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          cp ../files/final_sorted ../files/final_sorted_base64 .
+          git add final_sorted final_sorted_base64
+          if git diff --cached --quiet; then
+            echo "Изменений нет, пуш не требуется"
+          else
+            git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
+            git push origin ${{ matrix.branch }}
+          fi
