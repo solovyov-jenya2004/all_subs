@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 3
 
       - name: Копирование файлов в артефакт
         run: |
@@ -38,6 +40,10 @@ jobs:
             clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs.git
             secret: GITLAB_TOKEN
             branch: main
+          - name: Gitea
+            clone_url: https://gitea.com/solovyov-jenya2004/all_subs.git
+            secret: GITEA_TOKEN
+            branch: main
                    #- name: Bitbucket
             #clone_url: https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/solovyov-jenya2004/all_subs_raw.git
             #secret: BITBUCKET_TOKEN
@@ -60,7 +66,7 @@ jobs:
 
       - name: Клонирование удалённого репозитория ${{ matrix.name }}
         run: |
-          git clone ${{ matrix.clone_url }} repo
+          git clone --depth 3 ${{ matrix.clone_url }} repo
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           BITBUCKET_TOKEN: ${{ secrets.BITBUCKET_TOKEN }}
