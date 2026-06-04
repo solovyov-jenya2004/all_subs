@@ -130,7 +130,7 @@ jobs:
           cp sources.txt sources_backup.txt
           cp old_sources.txt old_sources_backup.txt
 
-          STALE_DAYS=3
+          STALE_DAYS=1
           > sources_tmp.txt
           > old_tmp.txt
 
