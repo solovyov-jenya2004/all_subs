@@ -45,3 +45,4 @@ https://raw.githubusercontent.com/Ghost-LInk-star/bambuk/refs/heads/main/vpn.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://key.zarazaex.xyz/sub
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
+https://vpn.akres.fun/bwl
