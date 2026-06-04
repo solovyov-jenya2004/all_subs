@@ -72,6 +72,7 @@ jobs:
           BITBUCKET_TOKEN: ${{ secrets.BITBUCKET_TOKEN }}
           CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
           SOURCEHUT_TOKEN: ${{ secrets.SOURCEHUT_TOKEN }}
+          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
 
       - name: Обновление и пуш в ${{ matrix.name }}
         run: |
