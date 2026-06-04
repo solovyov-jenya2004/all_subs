@@ -1,3 +1,4 @@
+j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vpn.txt обход
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist_full
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist
