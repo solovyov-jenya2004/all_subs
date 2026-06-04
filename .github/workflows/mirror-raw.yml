@@ -33,7 +33,7 @@ jobs:
       matrix:
         include:
           - name: GitLab
-            clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs_raw.git
+            clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs.git
             secret: GITLAB_TOKEN
             branch: main
           #- name: Bitbucket
