@@ -36,7 +36,6 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/wl.txt
 https://gitverse.ru/api/repos/bywarm/rser/raw/branch/master/merged.txt
-https://gitverse.ru/api/repos/flaafix/AetrisVPN/raw/branch/master/AetrisVPN.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/WHITELIST-ALL.txt
 https://raw.githubusercontent.com/ksenkovsolo/HardVPN-bypass-WhiteLists-/refs/heads/main/vpn-lte/subscriptions/1sub.txt
