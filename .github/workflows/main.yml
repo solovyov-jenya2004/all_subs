@@ -418,10 +418,6 @@ jobs:
             clone_url: https://oauth2:${GITLAB_TOKEN}@gitlab.com/solovyov-jenya2004/all_subs.git
             secret: GITLAB_TOKEN
             branch: main
-          - name: Публикация в Gitea
-            clone_url: https://${GITEA_TOKEN}:@gitea.com/solovyov-jenya2004/all_subs.git
-            secret: GITEA_TOKEN
-            branch: main
 
     steps:
       - name: Скачивание артефакта с файлами
@@ -435,7 +431,6 @@ jobs:
           git clone --depth 1 ${{ matrix.clone_url }} repo
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
 
       - name: Обновление и пуш
         run: |
