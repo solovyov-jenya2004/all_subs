@@ -76,12 +76,8 @@ jobs:
             fi
 
             if $is_json; then
-              # --- Обработка JSON через Node.js (исправлено перезапись) ---
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
-              
-              echo "▶️ Начинаем обработку JSON: $url"
-              echo "   Размер скачанного файла: $(wc -c < "$tmp_src") байт"
               
               node -e '
                 const fs = require("fs");
@@ -89,21 +85,14 @@ jobs:
                 let raw;
                 try {
                   let buffer = fs.readFileSync(inputFile);
-                  // удаляем BOM, если есть
                   if (buffer[0] === 0xEF && buffer[1] === 0xBB && buffer[2] === 0xBF) {
                     buffer = buffer.slice(3);
                   }
-                  // декодируем с игнорированием ошибок
                   raw = new TextDecoder("utf-8", { fatal: false }).decode(buffer).trim();
                 } catch(e) {
-                  console.error("❌ Ошибка чтения файла:", e.message);
                   process.exit(1);
                 }
-                console.error("Сырые данные (первые 200 символов):", raw.substring(0, 200));
-                if (raw.length === 0) {
-                  console.error("❌ Файл пуст! Конфигов не будет.");
-                  process.exit(0);
-                }
+                if (raw.length === 0) process.exit(0);
                 if (!raw.startsWith("[")) {
                   raw = "[" + raw + "]";
                 }
@@ -111,15 +100,12 @@ jobs:
                 try {
                   configs = JSON.parse(raw);
                 } catch(e) {
-                  console.error("❌ JSON parse error:", e.message);
                   process.exit(1);
                 }
                 if (!Array.isArray(configs)) configs = [configs];
-                console.error("✅ Всего объектов в JSON:", configs.length);
 
                 const filtersStr = process.env.FILTERS || "";
                 const filters = filtersStr ? filtersStr.split(" ").filter(Boolean) : [];
-                console.error("Фильтры:", filters);
 
                 const filteredConfigs = [];
                 for (const config of configs) {
@@ -130,16 +116,30 @@ jobs:
                   }
                   filteredConfigs.push(config);
                 }
-                console.error("✅ Объектов после фильтрации:", filteredConfigs.length);
 
+                const systemTags = ["proxy", "direct", "block"];
                 const allLinks = [];
                 for (const config of filteredConfigs) {
                   const outbounds = config.outbounds || [];
                   for (const out of outbounds) {
                     const protocol = out.protocol;
                     if (!["vless","vmess","trojan","shadowsocks","hysteria","hysteria2","tuic","socks"].includes(protocol)) continue;
+
+                    const remarks = config.remarks || "";
                     const tag = out.tag || "";
-                    const name = tag || config.remarks || "Proxy";
+                    
+                    let name;
+                    if (remarks) {
+                      name = remarks;
+                      if (tag && !systemTags.includes(tag)) {
+                        name = remarks + " - " + tag;
+                      }
+                    } else if (tag && !systemTags.includes(tag)) {
+                      name = tag;
+                    } else {
+                      name = "Proxy";
+                    }
+
                     const ss = out.streamSettings || {};
                     const network = ss.network || "tcp";
                     const security = ss.security || "none";
@@ -242,22 +242,14 @@ jobs:
                     if (link) allLinks.push(link);
                   }
                 }
-                console.error("✅ Сгенерировано ссылок:", allLinks.length);
                 console.log(allLinks.join("\n"));
-              ' > "$tmp_src.out"   # пишем в отдельный файл
+              ' > "$tmp_src.out" 2>/dev/null
               
-              # Заменяем исходный файл результатом
               mv "$tmp_src.out" "$tmp_src"
               
-              echo "   DEBUG: node exit code: $?"
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $count конфигов"
-              if [ -s "$tmp_src" ]; then
-                cat "$tmp_src" > "tmp_results/${index}.txt"
-              else
-                echo "   ⚠️  После конвертации/фильтрации JSON не осталось конфигов"
-                touch "tmp_results/${index}.txt"
-              fi
+              cat "$tmp_src" > "tmp_results/${index}.txt"
             else
               # --- Обработка не-JSON источников (с внешним фильтром) ---
               if [ -n "$filters" ]; then
