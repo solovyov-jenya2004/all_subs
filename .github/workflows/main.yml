@@ -95,7 +95,6 @@ jobs:
                 if (!Array.isArray(configs)) configs = [configs];
                 console.error('Всего объектов в JSON:', configs.length);
 
-                // Фильтры
                 const filtersStr = process.env.FILTERS || '';
                 const filters = filtersStr ? filtersStr.split(' ').filter(Boolean) : [];
                 console.error('Фильтры:', filters);
@@ -131,7 +130,6 @@ jobs:
                       sni = ss.realitySettings?.serverName || '';
                       fp = ss.realitySettings?.fingerprint || '';
                     }
-                    // строим транспортный параметр
                     const params = new URLSearchParams();
                     if (network !== 'tcp') params.set('type', network);
                     if (security !== 'none') params.set('security', security);
@@ -162,7 +160,7 @@ jobs:
                     if (!host || !port) continue;
                     switch (protocol) {
                       case 'vless':
-                        link = `vless://${userId}@${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
+                        link = \`vless://\${userId}@\${host}:\${port}?\${params.toString()}#\${encodeURIComponent(name)}\`;
                         break;
                       case 'vmess': {
                         const vmess = JSON.stringify({
@@ -176,10 +174,10 @@ jobs:
                         break;
                       }
                       case 'trojan':
-                        link = `trojan://${encodeURIComponent(userId)}@${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
+                        link = \`trojan://\${encodeURIComponent(userId)}@\${host}:\${port}?\${params.toString()}#\${encodeURIComponent(name)}\`;
                         break;
                       case 'shadowsocks': {
-                        const userInfo = `${out.settings?.servers?.[0]?.method || 'aes-128-gcm'}:${userId}`;
+                        const userInfo = \`\${out.settings?.servers?.[0]?.method || 'aes-128-gcm'}:\${userId}\`;
                         const b64 = Buffer.from(userInfo + '@' + host + ':' + port).toString('base64');
                         link = 'ss://' + b64 + '#' + encodeURIComponent(name);
                         break;
@@ -196,7 +194,7 @@ jobs:
                         if (sniField) params.set(protocol === 'hysteria' ? 'peer' : 'sni', sniField);
                         const insecure = out.settings?.insecure || (security === 'tls' && allowInsecure ? '1' : '');
                         if (insecure) params.set('insecure', '1');
-                        link = protocol + '://' + host + ':' + port + '?' + params.toString() + '#' + encodeURIComponent(name);
+                        link = protocol + \`://\${host}:\${port}?\${params.toString()}#\${encodeURIComponent(name)}\`;
                         break;
                       }
                       case 'tuic': {
@@ -208,13 +206,13 @@ jobs:
                         params.set('congestion_control', congestion);
                         if (sni) params.set('sni', sni);
                         if (allowInsecure) params.set('allow_insecure', '1');
-                        link = 'tuic://' + host + ':' + port + '?' + params.toString() + '#' + encodeURIComponent(name);
+                        link = \`tuic://\${host}:\${port}?\${params.toString()}#\${encodeURIComponent(name)}\`;
                         break;
                       }
                       case 'socks': {
                         const user = out.settings?.servers?.[0]?.users?.[0];
-                        const userinfo = user ? encodeURIComponent(user.user) + ':' + encodeURIComponent(user.pass) + '@' : '';
-                        link = 'socks5://' + userinfo + host + ':' + port + '#' + encodeURIComponent(name);
+                        const userinfo = user ? \`\${encodeURIComponent(user.user)}:\${encodeURIComponent(user.pass)}@\` : '';
+                        link = \`socks5://\${userinfo}\${host}:\${port}#\${encodeURIComponent(name)}\`;
                         break;
                       }
                     }
