@@ -76,11 +76,11 @@ jobs:
             fi
 
             if $is_json; then
-              # --- Обработка JSON через Node.js с фильтрацией внутри ---
+              # --- Обработка JSON через Node.js (через временный файл, без конфликтов с bash) ---
               export FILTERS="$filters"
-              node -e "
+              cat > /tmp/json_worker.js << 'JSEOF'
                 const fs = require('fs');
-                let raw = fs.readFileSync('$tmp_src', 'utf8').trim();
+                let raw = fs.readFileSync(process.env.INPUT_FILE, 'utf8').trim();
                 if (!raw.startsWith('[')) {
                   raw = '[' + raw + ']';
                 }
@@ -221,7 +221,9 @@ jobs:
                 }
                 console.error('Сгенерировано ссылок:', allLinks.length);
                 console.log(allLinks.join('\n'));
-              " > "$tmp_src" 2>/dev/null
+              JSEOF
+              INPUT_FILE="$tmp_src" node /tmp/json_worker.js > "$tmp_src" 2>/dev/null
+              rm -f /tmp/json_worker.js
 
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $count конфигов"
