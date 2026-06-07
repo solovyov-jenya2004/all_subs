@@ -137,7 +137,7 @@ jobs:
                     } else if (tag && !systemTags.includes(tag)) {
                       name = tag;
                     } else {
-                      name = "Proxy";
+                      name = "Server";
                     }
 
                     const ss = out.streamSettings || {};
