@@ -32,3 +32,4 @@ https://tinyurl.com/freesub-scalavpnrobot Белый список Белый%20�
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-SNI-RU-all.txt
 https://tinyurl.com/Sub1EggAeryx
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки Белые%20списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
+https://tinyurl.com/AeryxVPNyandexua
