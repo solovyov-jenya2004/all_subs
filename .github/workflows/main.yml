@@ -76,14 +76,32 @@ jobs:
             fi
 
             if $is_json; then
-              # --- Обработка JSON через Node.js (с видимыми ошибками) ---
+              # --- Обработка JSON через Node.js (с полной диагностикой) ---
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
+              
               echo "▶️ Начинаем обработку JSON: $url"
+              echo "   Размер скачанного файла: $(wc -c < "$tmp_src") байт"
+              
+              # Показываем первые 200 байт сырых данных (для отладки)
+              echo "   Первые 200 байт файла:"
+              head -c 200 "$tmp_src" | od -c || echo "(пусто)"
+              
               node -e '
                 const fs = require("fs");
-                let raw = fs.readFileSync(process.env.INPUT_FILE, "utf8").trim();
+                const inputFile = process.env.INPUT_FILE;
+                let raw;
+                try {
+                  raw = fs.readFileSync(inputFile, "utf8").trim();
+                } catch(e) {
+                  console.error("❌ Ошибка чтения файла:", e.message);
+                  process.exit(1);
+                }
                 console.error("Сырые данные (первые 200 символов):", raw.substring(0, 200));
+                if (raw.length === 0) {
+                  console.error("❌ Файл пуст! Конфигов не будет.");
+                  process.exit(0);   // не ошибка, просто нет данных
+                }
                 if (!raw.startsWith("[")) {
                   raw = "[" + raw + "]";
                 }
@@ -224,9 +242,9 @@ jobs:
                 }
                 console.error("✅ Сгенерировано ссылок:", allLinks.length);
                 console.log(allLinks.join("\n"));
-              ' > "$tmp_src"   # ← больше нет 2>/dev/null !!!
-              echo "DEBUG: node exit code: $?"
-
+              ' > "$tmp_src"   # stderr виден, stdout пишется в файл
+              
+              echo "   DEBUG: node exit code: $?"
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $count конфигов"
               if [ -s "$tmp_src" ]; then
