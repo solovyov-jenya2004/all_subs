@@ -294,16 +294,6 @@ jobs:
                 console.log(allLinks.join('\n'));
               " > "$tmp_src" 2>/dev/null
 
-              # Применяем фильтры, если есть
-              if [ -n "$filters" ]; then
-                grep_args=""
-                for f in $filters; do
-                  grep_args="$grep_args -e $f"
-                done
-                grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-                mv "${tmp_src}_filtered" "$tmp_src"
-              fi
-
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $count конфигов"
               if [ -s "$tmp_src" ]; then
