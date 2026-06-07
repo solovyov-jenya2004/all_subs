@@ -76,12 +76,14 @@ jobs:
             fi
 
             if $is_json; then
-              # --- Обработка JSON через Node.js (фильтрация внутри) ---
+              # --- Обработка JSON через Node.js (с видимыми ошибками) ---
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
+              echo "▶️ Начинаем обработку JSON: $url"
               node -e '
                 const fs = require("fs");
                 let raw = fs.readFileSync(process.env.INPUT_FILE, "utf8").trim();
+                console.error("Сырые данные (первые 200 символов):", raw.substring(0, 200));
                 if (!raw.startsWith("[")) {
                   raw = "[" + raw + "]";
                 }
@@ -89,11 +91,11 @@ jobs:
                 try {
                   configs = JSON.parse(raw);
                 } catch(e) {
-                  console.error("JSON parse error:", e.message);
+                  console.error("❌ JSON parse error:", e.message);
                   process.exit(1);
                 }
                 if (!Array.isArray(configs)) configs = [configs];
-                console.error("Всего объектов в JSON:", configs.length);
+                console.error("✅ Всего объектов в JSON:", configs.length);
 
                 const filtersStr = process.env.FILTERS || "";
                 const filters = filtersStr ? filtersStr.split(" ").filter(Boolean) : [];
@@ -108,7 +110,7 @@ jobs:
                   }
                   filteredConfigs.push(config);
                 }
-                console.error("Объектов после фильтрации:", filteredConfigs.length);
+                console.error("✅ Объектов после фильтрации:", filteredConfigs.length);
 
                 const allLinks = [];
                 for (const config of filteredConfigs) {
@@ -220,16 +222,17 @@ jobs:
                     if (link) allLinks.push(link);
                   }
                 }
-                console.error("Сгенерировано ссылок:", allLinks.length);
+                console.error("✅ Сгенерировано ссылок:", allLinks.length);
                 console.log(allLinks.join("\n"));
-              ' > "$tmp_src" 2>/dev/null
+              ' > "$tmp_src"   # ← больше нет 2>/dev/null !!!
+              echo "DEBUG: node exit code: $?"
 
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $count конфигов"
               if [ -s "$tmp_src" ]; then
                 cat "$tmp_src" > "tmp_results/${index}.txt"
               else
-                echo "   ⚠️  [$url] После конвертации/фильтрации JSON не осталось конфигов"
+                echo "   ⚠️  После конвертации/фильтрации JSON не осталось конфигов"
                 touch "tmp_results/${index}.txt"
               fi
             else
