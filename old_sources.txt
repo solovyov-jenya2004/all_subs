@@ -1,4 +1,3 @@
-https://gist.githubusercontent.com/DestroyST6767/50af50221ca1858ba2084efc0f524fbc/raw/1dc2f8edf8b2d7ab2a85ffd970208aa6fbb65a8e/Destroy_ST%2520%25D0%2591%25D0%25A1
 https://raw.githubusercontent.com/Ilyacom4ik/free-v2ray-2026/refs/heads/main/subscriptions/FreeCFGHub1.txt LTE
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFreeCFGHub.txt LTE
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/FreeCFGHubSUB LTE
