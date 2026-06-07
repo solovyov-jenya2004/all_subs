@@ -304,15 +304,65 @@ jobs:
           grep -a -v -E \
             '(127\.0\.0\.1|\[?::1\]?|0\.0\.0\.0|\[?::\]|0\.0\.0\.0\.0\.0\.0\.0|224\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|255\.255\.255\.255|240\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[fF][fF]00::/8|fe80::/10|\blocalhost\b|\bexample\.com\b|\bexample\.net\b|\bexample\.org\b)' \
             clean_tmp > clean
-            
-          # Дедупликация (игнорируем name/remarks/ps/…)
-          awk -F'#' '{
-            uri = $1;
-            gsub(/[?&](name|remarks|ps|tag|note|remark)=[^&]*/, "", uri);
-            gsub(/&$/, "", uri);
-            gsub(/\?$/, "", uri);
-            if (!seen[uri]++) print $0
-          }' clean > deduped
+
+          # Умная дедупликация с нормализацией параметров
+          node -e "
+            const fs = require('fs');
+            const lines = fs.readFileSync('clean', 'utf8').split('\n').filter(l => l.trim());
+            const seen = new Set();
+            const result = [];
+
+            for (const line of lines) {
+              // Отделяем имя (после #) – оно не влияет на уникальность конфига
+              const hashIndex = line.indexOf('#');
+              const uri = hashIndex >= 0 ? line.substring(0, hashIndex) : line;
+              const namePart = hashIndex >= 0 ? line.substring(hashIndex) : '';
+
+              // Разбираем URI: протокол, хост, путь, параметры
+              const protoSplit = uri.split('://');
+              if (protoSplit.length < 2) { result.push(line); continue; }
+              const proto = protoSplit[0];
+              const rest = protoSplit[1];
+
+              // Отделяем параметры (query string)
+              const queryIndex = rest.indexOf('?');
+              let base = rest, query = '';
+              if (queryIndex >= 0) {
+                base = rest.substring(0, queryIndex);
+                query = rest.substring(queryIndex + 1);
+              }
+
+              // Нормализуем параметры: сортируем их по ключу
+              let normalizedQuery = '';
+              if (query) {
+                const params = query.split('&').filter(p => p);
+                // Убираем параметры, которые точно не влияют на идентичность конфига
+                const ignoredParams = ['name','remarks','ps','tag','note','remark'];
+                const filtered = params.filter(p => {
+                  const key = p.split('=')[0].toLowerCase();
+                  return !ignoredParams.includes(key);
+                });
+                filtered.sort((a, b) => {
+                  const ka = a.split('=')[0].toLowerCase();
+                  const kb = b.split('=')[0].toLowerCase();
+                  return ka.localeCompare(kb);
+                });
+                normalizedQuery = filtered.join('&');
+              }
+
+              // Собираем нормализованный URI (без имени)
+              const normalizedUri = proto + '://' + base + (normalizedQuery ? '?' + normalizedQuery : '');
+
+              // Проверяем уникальность
+              if (!seen.has(normalizedUri)) {
+                seen.add(normalizedUri);
+                // Вставляем оригинальную строку с любым именем (первое встреченное)
+                result.push(line);
+              }
+              // Если дубликат – просто пропускаем
+            }
+            fs.writeFileSync('deduped', result.join('\n') + '\n');
+          "
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
 
