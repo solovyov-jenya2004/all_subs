@@ -76,7 +76,7 @@ jobs:
             fi
 
             if $is_json; then
-              # --- Обработка JSON через Node.js (исправлено чтение файла) ---
+              # --- Обработка JSON через Node.js (исправлено перезапись) ---
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
               
@@ -244,7 +244,10 @@ jobs:
                 }
                 console.error("✅ Сгенерировано ссылок:", allLinks.length);
                 console.log(allLinks.join("\n"));
-              ' > "$tmp_src"
+              ' > "$tmp_src.out"   # пишем в отдельный файл
+              
+              # Заменяем исходный файл результатом
+              mv "$tmp_src.out" "$tmp_src"
               
               echo "   DEBUG: node exit code: $?"
               count=$(grep -c '://' "$tmp_src" || true)
