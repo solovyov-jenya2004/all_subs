@@ -77,7 +77,7 @@ jobs:
 
             # Сохраняем результат во временный файл
             if $is_json; then
-              # --- Обработка JSON через Node.js (поддерживает любые форматы) ---
+              # --- Обработка JSON через Node.js с фильтрацией внутри ---
               node -e "
                 const fs = require('fs');
                 let raw = fs.readFileSync('$tmp_src', 'utf8').trim();
@@ -94,9 +94,19 @@ jobs:
                 }
                 if (!Array.isArray(configs)) configs = [configs];
 
+                // Получаем фильтры из переменной окружения (передаём через shell)
+                const filtersStr = '$filters';
+                const filters = filtersStr ? filtersStr.split(' ') : [];
+
                 const allLinks = [];
                 for (const config of configs) {
-                  const remarks = config.remarks || 'VPN';
+                  // Применяем фильтры: ищем ключевые слова в remarks, tag, name и т.д.
+                  if (filters.length > 0) {
+                    const haystack = JSON.stringify(config).toLowerCase();
+                    const matched = filters.some(f => haystack.includes(f.toLowerCase()));
+                    if (!matched) continue;
+                  }
+
                   const outbounds = config.outbounds || [];
 
                   function configToLinks(conf) {
