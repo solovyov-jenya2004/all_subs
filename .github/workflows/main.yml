@@ -294,7 +294,21 @@ jobs:
           rm -rf tmp_results
 
           echo ""
-          echo "Скачано: $(wc -l < raw) конфигураций"
+          plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }
+          echo "Скачано: $(plural_configs $(wc -l < raw))"
 
       - name: Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
         run: |
@@ -307,8 +321,22 @@ jobs:
           grep -a -v -E \
             '(127\.0\.0\.1|\[?::1\]?|0\.0\.0\.0|\[?::\]|0\.0\.0\.0\.0\.0\.0\.0|224\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|255\.255\.255\.255|240\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[fF][fF]00::/8|fe80::/10|fc00::/7|100\.64\.0\.0/10|\blocalhost\b|\bexample\.com\b|\bexample\.net\b|\bexample\.org\b)' \
             > clean
-            
-          echo "После очистки: $(wc -l < clean) конфигураций"
+
+          plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }  
+          echo "После очистки: $(plural_configs $(wc -l < clean))"
 
       - name: Дедупликация
         run: |
@@ -375,8 +403,21 @@ jobs:
             }
             fs.writeFileSync('deduped', result.join('\n') + '\n');
           "
-
-          echo "После дедупликации: $(wc -l < deduped) конфигураций"
+          plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }
+          echo "После дедупликации: $(plural_configs $(wc -l < deduped))"
 
       - name: Подготовка итоговых файлов
         run: |
@@ -410,7 +451,7 @@ jobs:
 
           echo ""
           echo "📊 Количество конфигураций по протоколам:"
-                    awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
+          awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
           
       - name: Публикация на GitHub
         run: |
