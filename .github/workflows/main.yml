@@ -288,7 +288,7 @@ jobs:
       - name: Дедуплицировать и удалить
         run: |
           # Удаляем комментарии, пустые строки, \r
-          grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' > clean_tmp
+          grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' | grep -E '^[a-zA-Z][a-zA-Z0-9+.-]*://' > clean_tmp
 
           # Удаляем конфигурации с заведомо нерабочими адресами
           grep -a -v -E \
@@ -312,6 +312,8 @@ jobs:
               const protoSplit = uri.split('://');
               if (protoSplit.length < 2) { result.push(line); continue; }
               const proto = protoSplit[0];
+              // Считаем h2 и hysteria2 одним протоколом
+              if (proto === 'h2') proto = 'hysteria2';
               const rest = protoSplit[1];
 
               // Отделяем параметры (query string)
@@ -357,7 +359,8 @@ jobs:
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
           echo ""
           echo "📊 Количество уникальных конфигов по протоколам:"
-          awk -F'://' '{print $1}' deduped | sed 's/^hysteria2$/hysteria2/; s/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
+          echo "📊 Количество уникальных конфигов по протоколам:"
+awk -F'://' '{print $1}' deduped | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
 
       - name: Подготовить итоговые файлы
         run: |         
