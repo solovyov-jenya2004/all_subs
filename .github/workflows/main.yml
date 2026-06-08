@@ -360,7 +360,7 @@ jobs:
           echo ""
           echo "📊 Количество уникальных конфигов по протоколам:"
           echo "📊 Количество уникальных конфигов по протоколам:"
-awk -F'://' '{print $1}' deduped | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
+          awk -F'://' '{print $1}' deduped | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
 
       - name: Подготовить итоговые файлы
         run: |         
