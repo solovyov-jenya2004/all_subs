@@ -407,6 +407,7 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан"
 
+          echo ""
           echo "📊 Количество конфигураций по протоколам:"
           awk -F'://' '{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
           
@@ -469,4 +470,5 @@ jobs:
           else
             git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git push origin ${{ matrix.branch }}
+            echo "Подписки опубликованы"
           fi
