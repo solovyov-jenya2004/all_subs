@@ -21,7 +21,6 @@ https://subrostunnel.vercel.app/gen.txt LTE
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt wLTE
-j https://tinyurl.com/SUBLTEAERYX
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/FreeCFGHubSUB LTE
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta7.txt
 https://etoneya.su/whitelist
@@ -31,7 +30,6 @@ j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/h
 https://gist.githubusercontent.com/FrizanGAME/dfd1f7ac36511593dc6d0faff14cc8bb/raw/frizanVPN.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые
-https://tinyurl.com/Sub1EggAeryx
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFreeCFGHub.txt LTE
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-all.txt
