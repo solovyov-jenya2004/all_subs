@@ -256,7 +256,7 @@ jobs:
               echo "   ✅ [$url] JSON обработан: $(plural_configs $count)"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             else
-              # --- Обработка не-JSON источников (с внешним фильтром) ---
+              # Обработка не-JSON источников
               if [ -n "$filters" ]; then
                 grep_args=""
                 for f in $filters; do
@@ -295,7 +295,7 @@ jobs:
 
           wait
 
-          # Собираем результаты в raw
+          # Собираем результаты
           idx=1
           while [ $idx -le $i ]; do
             if [ -f "tmp_results/${idx}.txt" ]; then
