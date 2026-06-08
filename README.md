@@ -185,6 +185,25 @@ https://solovyov-jenya2004.vercel.app/random
   </details>
 
 
+  <details>
+    <summary><b>⚡ Supabase</b></summary>
+    <br>
+
+   <p><b>Обычная подписка</b></p>
+    
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted
+
+   <p><b>Base64‑подписка</b></p>
+   
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted_base64
+
+   <p><b>Мобильная подписка</b></p>
+    
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/random  
+   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
+
+  </details>
+  
 <details>
   <summary><b>☁️ Cloudflare</b></summary>
     <br>
