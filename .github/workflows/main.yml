@@ -18,6 +18,20 @@ jobs:
       - name: Скачать и объединить подписки
         run: |
           # Скачать и объединить подписки
+          plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }
           > raw
           mkdir -p tmp_results
           i=0
@@ -239,7 +253,7 @@ jobs:
               mv "$tmp_src.out" "$tmp_src"
               
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] JSON обработан: $count конфигураций"
+              echo "   ✅ [$url] JSON обработан: $(plural_configs $count)"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             else
               # --- Обработка не-JSON источников (с внешним фильтром) ---
@@ -253,7 +267,7 @@ jobs:
               fi
 
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] Скачано: $count конфигураций"
+              echo "   ✅ [$url] Скачано: $(plural_configs $count)"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             fi
 
@@ -294,20 +308,6 @@ jobs:
           rm -rf tmp_results
 
           echo ""
-          plural_configs() {
-            local n=$1
-            local mod10=$((n % 10))
-            local mod100=$((n % 100))
-            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
-              echo "$n конфигураций"
-            elif [ $mod10 -eq 1 ]; then
-              echo "$n конфигурация"
-            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
-              echo "$n конфигурации"
-            else
-              echo "$n конфигураций"
-            fi
-          }
           echo "Скачано: $(plural_configs $(wc -l < raw))"
 
       - name: Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
@@ -450,8 +450,25 @@ jobs:
           echo "final_sorted_base64 создан"
 
           echo ""
+                    plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }
+
           echo "📊 Количество конфигураций по протоколам:"
-          awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
+          awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | while read count proto; do
+            printf "   %s - %s\n" "$proto" "$(plural_configs $count)"
+          done
           
       - name: Публикация на GitHub
         run: |
