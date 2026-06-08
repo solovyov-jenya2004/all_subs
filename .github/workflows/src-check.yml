@@ -23,14 +23,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # ----------------------------------------------------------
+          # Проверить источники и обновить списки
           # GitHub / Gist – через API коммитов
-          # ----------------------------------------------------------
           get_github_last_commit_date() {
             local url="$1"
             set +e
 
-            # Gist (gist.githubusercontent.com / gist.github.com)
+            # GitHub Gist (gist.githubusercontent.com / gist.github.com)
             if echo "$url" | grep -qE 'gist\.githubusercontent\.com|gist\.github\.com'; then
               local gist_id
               if echo "$url" | grep -q 'gist\.githubusercontent\.com'; then
@@ -52,7 +51,7 @@ jobs:
               return 1
             fi
 
-            # Обычный GitHub (raw.githubusercontent.com или github.com)
+            # GitHub (raw.githubusercontent.com или github.com)
             if echo "$url" | grep -qE 'github\.com|raw\.githubusercontent\.com'; then
               local owner repo branch path api_url
               if echo "$url" | grep -q 'raw\.githubusercontent\.com'; then
@@ -93,9 +92,7 @@ jobs:
             return 1
           }
 
-          # ----------------------------------------------------------
           # Все остальные сайты – через HTTP-заголовок Last-Modified
-          # ----------------------------------------------------------
           get_last_modified_date() {
             local url="$1"
             set +e
@@ -111,9 +108,7 @@ jobs:
             fi
           }
 
-          # ----------------------------------------------------------
-          # Проверка устаревания (срок в днях)
-          # ----------------------------------------------------------
+          # Проверка устаревания
           is_stale_date() {
             local date_str="$1"
             local days_limit="$2"
@@ -124,9 +119,7 @@ jobs:
             [ $age_days -gt $days_limit ]
           }
 
-          # ----------------------------------------------------------
           # Подготовка файлов
-          # ----------------------------------------------------------
           touch sources.txt old_sources.txt
           cp sources.txt sources_backup.txt
           cp old_sources.txt old_sources_backup.txt
@@ -135,9 +128,7 @@ jobs:
           > sources_tmp.txt
           > old_tmp.txt
 
-          # ----------------------------------------------------------
-          # Основная функция валидации одной строки
-          # ----------------------------------------------------------
+          # Функция валидации одной строки
           validate_source() {
             local line="$1"
             local is_old_list="$2"
@@ -188,7 +179,7 @@ jobs:
               return
             fi
 
-            # Проверка даты – теперь для ВСЕХ источников (включая JSON)
+            # Проверка даты
             local last_update=""
             if echo "$effective_url" | grep -qE 'github\.com|raw\.githubusercontent\.com|gist\.github\.com|gist\.githubusercontent\.com'; then
               last_update=$(get_github_last_commit_date "$effective_url")
@@ -232,9 +223,7 @@ jobs:
             echo "$line" >> sources_tmp.txt
           }
 
-          # ----------------------------------------------------------
           # Запуск проверки
-          # ----------------------------------------------------------
           echo "====== ПРОВЕРКА sources.txt ======"
           while IFS= read -r line || [ -n "$line" ]; do
             validate_source "$line" false || true
@@ -251,15 +240,88 @@ jobs:
           mv sources_tmp.txt sources.txt
           mv old_tmp.txt old_sources.txt
           
-      - name: Закоммитить изменения
+      - name: Дедупликация источников
         run: |
+          # Дедупликация источников
+          deduplicate_file() {
+            local file="$1"
+            local tmp_comments="${file}.comments"
+            local tmp_urls="${file}.urls"
+            local tmp_dedup="${file}.dedup"
+
+            # Отделяем комментарии от URL-строк
+            grep '^\s*#' "$file" > "$tmp_comments" 2>/dev/null || true
+            grep -v '^\s*#' "$file" | grep -v '^\s*$' > "$tmp_urls" 2>/dev/null || true
+
+            if [ -s "$tmp_urls" ]; then
+              declare -A url_map
+              declare -A has_j
+              declare -A filters_map
+
+              while IFS= read -r line; do
+                # Определяем префикс j
+                if echo "$line" | grep -q '^j[[:space:]]'; then
+                  prefix="j"
+                  clean_line=$(echo "$line" | sed 's/^j[[:space:]]*//')
+                else
+                  prefix=""
+                  clean_line="$line"
+                fi
+
+                url=$(echo "$clean_line" | awk '{print $1}')
+                filters=$(echo "$clean_line" | awk '{for(i=2;i<=NF;i++) print $i}')
+
+                if [ -n "${url_map[$url]}" ]; then
+                  # Уже есть такой URL: приоритет j, объединение фильтров
+                  if [ "$prefix" = "j" ]; then
+                    has_j[$url]=1
+                  fi
+                  existing_filters="${filters_map[$url]}"
+                  all_filters=$(echo "$existing_filters $filters" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
+                  filters_map[$url]="$all_filters"
+                else
+                  url_map[$url]=1
+                  if [ "$prefix" = "j" ]; then
+                    has_j[$url]=1
+                  fi
+                  filters_map[$url]="$filters"
+                fi
+              done < "$tmp_urls"
+
+              # Формируем итоговые строки
+              > "$tmp_dedup"
+              for url in "${!url_map[@]}"; do
+                line=""
+                [ "${has_j[$url]}" = "1" ] && line="j "
+                line="$line$url"
+                [ -n "${filters_map[$url]}" ] && line="$line ${filters_map[$url]}"
+                echo "$line" >> "$tmp_dedup"
+              done
+
+              # Собираем файл: сначала комментарии, потом уникальные URL
+              cat "$tmp_comments" "$tmp_dedup" > "$file"
+              rm -f "$tmp_comments" "$tmp_urls" "$tmp_dedup"
+            else
+              # Если URL нет, оставляем только комментарии
+              mv "$tmp_comments" "$file"
+            fi
+          }
+
+          deduplicate_file sources.txt
+          deduplicate_file old_sources.txt
+          
+      - name: Публикация
+        run: |
+          # Публикация
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sources.txt old_sources.txt
           if git diff --cached --quiet; then
-            echo "Изменений нет, коммит не требуется"
+            echo "Изменений нет, публикация не требуется"
           else
             git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git pull --rebase origin main
             git push origin main
+            echo ""
+            echo "Источники опубликованы"
           fi
