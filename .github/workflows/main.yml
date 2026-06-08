@@ -261,6 +261,9 @@ jobs:
           }
 
           # Запускаем параллельно все источники
+          max_jobs=10
+          running=0
+
           while IFS= read -r line; do
             line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
             [ -z "$line" ] && continue
@@ -268,6 +271,12 @@ jobs:
 
             i=$((i+1))
             process_source "$line" "$i" &
+
+            running=$((running+1))
+            if [ $running -ge $max_jobs ]; then
+              wait -n
+              running=$((running-1))
+            fi
           done < sources.txt
 
           wait
