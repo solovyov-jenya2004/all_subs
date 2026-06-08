@@ -293,7 +293,7 @@ jobs:
 
           rm -rf tmp_results
 
-          echo "Всего строк в raw: $(wc -l < raw)"
+          echo "Скачано: $(wc -l < raw) конфигураций"
 
       - name: Удаление комментариев и заведомо нерабочих конфигураций
         run: |
@@ -306,6 +306,8 @@ jobs:
           grep -a -v -E \
             '(127\.0\.0\.1|\[?::1\]?|0\.0\.0\.0|\[?::\]|0\.0\.0\.0\.0\.0\.0\.0|224\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|255\.255\.255\.255|240\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[fF][fF]00::/8|fe80::/10|fc00::/7|100\.64\.0\.0/10|\blocalhost\b|\bexample\.com\b|\bexample\.net\b|\bexample\.org\b)' \
             > clean
+            
+          echo "После очистки: $(wc -l < clean) конфигураций"
 
       - name: Дедупликация
         run: |
@@ -373,9 +375,9 @@ jobs:
             fs.writeFileSync('deduped', result.join('\n') + '\n');
           "
 
-          echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
+          echo "После дедупликации: $(wc -l < deduped) конфигураций"
           echo ""
-          echo "📊 Количество уникальных конфигов по протоколам:"
+          echo "📊 Количество конфигураций по протоколам:"
           awk -F'://' '{print $1}' deduped | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
 
       - name: Подготовка итоговых файлов
@@ -397,14 +399,14 @@ jobs:
           
           EOF
           
-          # Перемешиваем дедуплицированные конфиги
+          # Перемешиваем конфигурации
           shuf deduped -o shuffled_deduped
           
           # Собираем финальный файл с заголовками и двумя пустыми строками после них
           cat headers.txt shuffled_deduped > final_sorted
           echo "final_sorted создан"
 
-          # Кодируем в base64 (тоже с заголовками)
+          # Кодируем в base64 с заголовками
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан"
           
@@ -415,6 +417,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted final_sorted_base64
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC" && git push)
+          echo "Подписки опубликованы"
 
       - name: Публикация артефакта
         uses: actions/upload-artifact@v6
