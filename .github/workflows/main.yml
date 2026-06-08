@@ -65,16 +65,6 @@ jobs:
               fi
             fi
 
-            # Декодируем base64 для обычных подписок (не JSON)
-            if ! $is_json; then
-              tmp_dec=$(mktemp)
-              if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
-                mv "$tmp_dec" "$tmp_src"
-              else
-                rm -f "$tmp_dec"
-              fi
-            fi
-
             if $is_json; then
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
