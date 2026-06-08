@@ -15,8 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Скачать, проверить доступность и объединить подписки (параллельно)
+      - name: Скачать и объединить подписки
         run: |
+          # Скачать и объединить подписки
           > raw
           mkdir -p tmp_results
           i=0
@@ -285,17 +286,21 @@ jobs:
 
           echo "Всего строк в raw: $(wc -l < raw)"
 
-      - name: Дедуплицировать и удалить
+      - name: Удаление комментариев и заведомо нерабочих конфигураций
         run: |
-          # Удаляем комментарии, пустые строки, \r
-          grep -a -v '^\s*#' raw | grep -a -v '^\s*//' | sed '/^\s*$/d' | tr -d '\r' | grep -E '^[a-zA-Z][a-zA-Z0-9+.-]*://' > clean_tmp
-
-          # Удаляем конфигурации с заведомо нерабочими адресами
+          # Удаление комментариев и заведомо нерабочих конфигураций
+          grep -a -v '^\s*#' raw | \
+          grep -a -v '^\s*//' | \
+          sed '/^\s*$/d' | \
+          tr -d '\r' | \
+          grep -E '^[a-zA-Z][a-zA-Z0-9+.-]*://' | \
           grep -a -v -E \
-            '(127\.0\.0\.1|\[?::1\]?|0\.0\.0\.0|\[?::\]|0\.0\.0\.0\.0\.0\.0\.0|224\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|255\.255\.255\.255|240\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[fF][fF]00::/8|fe80::/10|\blocalhost\b|\bexample\.com\b|\bexample\.net\b|\bexample\.org\b)' \
-            clean_tmp > clean
+            '(127\.0\.0\.1|\[?::1\]?|0\.0\.0\.0|\[?::\]|0\.0\.0\.0\.0\.0\.0\.0|224\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|255\.255\.255\.255|240\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|[fF][fF]00::/8|fe80::/10|fc00::/7|100\.64\.0\.0/10|\blocalhost\b|\bexample\.com\b|\bexample\.net\b|\bexample\.org\b)' \
+            > clean
 
-          # Умная дедупликация с нормализацией параметров
+      - name: Дедупликация
+        run: |
+          # Дедупликация
           node -e "
             const fs = require('fs');
             const lines = fs.readFileSync('clean', 'utf8').split('\n').filter(l => l.trim());
@@ -303,55 +308,58 @@ jobs:
             const result = [];
 
             for (const line of lines) {
-              // Отделяем имя (после #) – оно не влияет на уникальность конфига
               const hashIndex = line.indexOf('#');
               const uri = hashIndex >= 0 ? line.substring(0, hashIndex) : line;
               const namePart = hashIndex >= 0 ? line.substring(hashIndex) : '';
 
-              // Разбираем URI: протокол, хост, путь, параметры
               const protoSplit = uri.split('://');
               if (protoSplit.length < 2) { result.push(line); continue; }
-              const proto = protoSplit[0];
-              // Считаем h2 и hysteria2 одним протоколом
-              if (proto === 'h2') proto = 'hysteria2';
+              let proto = protoSplit[0];
               const rest = protoSplit[1];
 
-              // Отделяем параметры (query string)
-              const queryIndex = rest.indexOf('?');
-              let base = rest, query = '';
-              if (queryIndex >= 0) {
-                base = rest.substring(0, queryIndex);
-                query = rest.substring(queryIndex + 1);
+              // Считаем h2 и hysteria2 одним протоколом
+              if (proto === 'h2') proto = 'hysteria2';
+
+              let normalizedUri;
+              if (proto === 'vmess') {
+                try {
+                  const json = JSON.parse(Buffer.from(rest, 'base64').toString('utf8'));
+                  delete json.ps;
+                  const sorted = {};
+                  Object.keys(json).sort().forEach(k => { sorted[k] = json[k]; });
+                  normalizedUri = 'vmess://' + Buffer.from(JSON.stringify(sorted)).toString('base64');
+                } catch (e) {
+                  normalizedUri = uri;
+                }
+              } else {
+                const queryIndex = rest.indexOf('?');
+                let base = rest, query = '';
+                if (queryIndex >= 0) {
+                  base = rest.substring(0, queryIndex);
+                  query = rest.substring(queryIndex + 1);
+                }
+                let normalizedQuery = '';
+                if (query) {
+                  const params = query.split('&').filter(p => p);
+                  const ignoredParams = ['name','remarks','ps','tag','note','remark'];
+                  const filtered = params.filter(p => {
+                    const key = p.split('=')[0].toLowerCase();
+                    return !ignoredParams.includes(key);
+                  });
+                  filtered.sort((a, b) => {
+                    const ka = a.split('=')[0].toLowerCase();
+                    const kb = b.split('=')[0].toLowerCase();
+                    return ka.localeCompare(kb);
+                  });
+                  normalizedQuery = filtered.join('&');
+                }
+                normalizedUri = proto + '://' + base + (normalizedQuery ? '?' + normalizedQuery : '');
               }
 
-              // Нормализуем параметры: сортируем их по ключу
-              let normalizedQuery = '';
-              if (query) {
-                const params = query.split('&').filter(p => p);
-                // Убираем параметры, которые точно не влияют на идентичность конфига
-                const ignoredParams = ['name','remarks','ps','tag','note','remark'];
-                const filtered = params.filter(p => {
-                  const key = p.split('=')[0].toLowerCase();
-                  return !ignoredParams.includes(key);
-                });
-                filtered.sort((a, b) => {
-                  const ka = a.split('=')[0].toLowerCase();
-                  const kb = b.split('=')[0].toLowerCase();
-                  return ka.localeCompare(kb);
-                });
-                normalizedQuery = filtered.join('&');
-              }
-
-              // Собираем нормализованный URI (без имени)
-              const normalizedUri = proto + '://' + base + (normalizedQuery ? '?' + normalizedQuery : '');
-
-              // Проверяем уникальность
               if (!seen.has(normalizedUri)) {
                 seen.add(normalizedUri);
-                // Вставляем оригинальную строку с любым именем (первое встреченное)
                 result.push(line);
               }
-              // Если дубликат – просто пропускаем
             }
             fs.writeFileSync('deduped', result.join('\n') + '\n');
           "
@@ -362,8 +370,10 @@ jobs:
           echo "📊 Количество уникальных конфигов по протоколам:"
           awk -F'://' '{print $1}' deduped | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
 
-      - name: Подготовить итоговые файлы
-        run: |         
+      - name: Подготовка итоговых файлов
+        run: |
+          # Подготовка итоговых файлов
+          
           # Удаляем пробелы перед http:// и https:// (сколько бы их ни было)
           sed -E 's/ +(https?:\/\/)/\1/g' deduped > deduped_cleaned
           mv deduped_cleaned deduped
@@ -390,14 +400,15 @@ jobs:
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан"
           
-      - name: Закоммитить изменения
+      - name: Публикация на GitHub
         run: |
+          # Публикация на GitHub
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted final_sorted_base64
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC" && git push)
 
-      - name: Публикация артефакта с готовыми файлами
+      - name: Публикация артефакта
         uses: actions/upload-artifact@v6
         with:
           name: subscription-files
@@ -421,20 +432,22 @@ jobs:
             branch: main
 
     steps:
-      - name: Скачивание артефакта с файлами
+      - name: Скачивание артефакта
         uses: actions/download-artifact@v6
         with:
           name: subscription-files
           path: files
 
-      - name: Клонирование удалённого репозитория
+      - name: Клонирование репозитория
         run: |
+          # Клонирование репозитория
           git clone --depth 1 ${{ matrix.clone_url }} repo
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
-      - name: Обновление и пуш
+      - name: Публикация
         run: |
+          # Публикация
           cd repo
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
