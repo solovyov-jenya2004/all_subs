@@ -1,92 +1,83 @@
 j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Autoconf.ru lte
+%D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
 http://194.33.61.236:8080/premium
+глушилок
 https://raw.githubusercontent.com/vsevjik/OBSpiskov/refs/heads/main/wwh
+Мобильная%20связь
+Обход%20Глушилок
+White%20lists
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://gist.githubusercontent.com/flaafix/c79a81037d15163360571c7a7331b153/raw/AetrisVPN.txt White
-lists
-White%20lists
 https://gist.githubusercontent.com/nikitavalentinov90021-ai/a4de8e24121096a7714be35465849a0c/raw/995e0ee28983e89e3dab94d9e80834514bd212c1/ID6592823693.txt
+lists
 https://raw.githubusercontent.com/RYZgames31/UWB/refs/heads/main/wcfg
 https://gist.githubusercontent.com/nikitavalentinov90021-ai/41901f30db6c78a6a4d0da27429f4fab/raw/6efae398be2ad0ab70ba257bab20a82053c36383/LTE.txt
+%D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C
 https://tinyurl.com/AeryxVPNyandexua
+LTE
+Обход
 https://gist.githubusercontent.com/pidarasuebisov-afk/e220b44264242d1a97c0908aba091edd/raw/PKN%20cocnyL LTE
-http://144.31.165.198:8080/premium Белый
-интернет
 %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82
+http://144.31.165.198:8080/premium Белый
++
 https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist_full
 https://raw.githubusercontent.com/ByeWhiteLists/ByeWhiteLists2/refs/heads/main/ByeWhiteLists2.txt
+связь
+%F0%9F%8F%B3%EF%B8%8F
 https://jsnegsukavsos.hb.ru-msk.vkcloud-storage.ru/love
+Bypass
+Обходы+белых+списков
+Обход%20глушилок
+Обходы%20белых%20списков
 j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Q lte
+%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/Ghost-LInk-star/bambuk/refs/heads/main/vpn.txt белый
-список
-белый+список
-%D0%B1%D0%B5%D0%BB%D1%8B%D0%B9+%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
+списков
+Whitelist%20%2B%20Bypass
+списки
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt сервер
 https://raw.githubusercontent.com/mbelspb-gif/gdffgd/refs/heads/main/Swordware.net LTE
-Белый
-список
-Белый%20список
-%D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
+%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B%20%D0%B1%D0%B5%D0%BB%D1%8B%D1%85%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
 https://raw.githubusercontent.com/LowiKLive/BypassWhitelistRu/refs/heads/main/WhiteList-Bypass_Ru.txt
 https://sub.obbhod.online/premium
-https://github.com/kama55726/KomaryServers/blob/main/White-List-2
+%D0%91%D0%A1
+%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/DarkFirexs/Whitelist-bypass_VPN/refs/heads/main/Whitelist%20%7C%20VPN
-https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
+https://github.com/kama55726/KomaryServers/blob/main/White-List-2
+Белый%20список
+белый+список
 https://raw.githubusercontent.com/55prosek-lgtm/vpn_config_for_russia/refs/heads/main/whitelist.txt
+https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist.txt
+Whitelist
+%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B+%D0%B1%D0%B5%D0%BB%D1%8B%D1%85+%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
 j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vpn.txt обход
 https://raw.githubusercontent.com/mbelspb-gif/bright/refs/heads/main/Kdlddl.sw Белый
-список
-Белый%20список
-%D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
-%D0%91%D0%B5%D0%BB%D1%8B%D0%B9+%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
-Белый+список
-Обходы
-белых
-списков
-Обходы%20белых%20списков
-Обходы+белых+списков
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B+%D0%B1%D0%B5%D0%BB%D1%8B%D1%85+%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B%20%D0%B1%D0%B5%D0%BB%D1%8B%D1%85%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
-https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist
-https://raw.githubusercontent.com/Ghost-LInk-star/GhostL/refs/heads/main/dizzga.txt белый
-список
-белый+список
+интернет
 %D0%B1%D0%B5%D0%BB%D1%8B%D0%B9+%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
-LTE
+https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/whitelist
+Белые
+https://raw.githubusercontent.com/Ghost-LInk-star/GhostL/refs/heads/main/dizzga.txt белый
+Белый
+Белый+список
 https://tinyurl.com/scalavpnbot LTE
-связь
-Мобильная%20связь
-%D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C
-Обход
-глушилок
-Обход%20глушилок
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%B3%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
 https://raw.githubusercontent.com/LimeHi/Old-Context-Menu/refs/heads/main/afg.txt Обход
-Глушилок
-Обход%20Глушилок
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
+Обходы
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist(beta).txt
-https://raw.githubusercontent.com/zxcDeadinsulte/scalavpn-configs/refs/heads/main/test.txt %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C LTE Мобильная%20связь связь
-https://raw.githubusercontent.com/likzil/vless1/refs/heads/main/Treetcpvpn Обходы
 белых
-списков
-Обходы%20белых%20списков
-Обходы+белых+списков
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B+%D0%B1%D0%B5%D0%BB%D1%8B%D1%85+%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
-%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B%20%D0%B1%D0%B5%D0%BB%D1%8B%D1%85%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2
+https://raw.githubusercontent.com/zxcDeadinsulte/scalavpn-configs/refs/heads/main/test.txt %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C
 LTE
+Мобильная%20связь
+связь
+https://raw.githubusercontent.com/likzil/vless1/refs/heads/main/Treetcpvpn Обходы
+Глушилок
 https://raw.githubusercontent.com/twinkalex1470-crypto/CatWhiteVPN/refs/heads/main/CaTWhiteVPN.txt
+%D0%91%D0%B5%D0%BB%D1%8B%D0%B9+%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
 https://raw.githubusercontent.com/Ilyacom4ik/free-v2ray-2026/refs/heads/main/subscriptions/whitelist-keys.txt
 https://gist.githubusercontent.com/nikitavalentinov90021-ai/b5f135a9547a559f8042cfc7c7cde32d/raw/3d454f959d5f4a2c37c47a5d4d9bd4c798506cea/LTE8464552823 БС
-%D0%91%D0%A1
+%D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA
 https://gist.githubusercontent.com/VSPBOOST/d84dcf89bf31012a96ee60a9eb73b852/raw/4f6af123b4a0251806b89958c845666268283c5a/gistfile1.txt Белые+списки
-Белые
-списки
 Белые%20списки
-Whitelist
-+
-Bypass
-Whitelist%20%2B%20Bypass
 https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/ID%3D1%2Cdata%3D280427 LTE
 https://raw.githubusercontent.com/stanislavPLS/GMVPN-users/refs/heads/main/id%3D1%2Cdata%3D120527
+список
