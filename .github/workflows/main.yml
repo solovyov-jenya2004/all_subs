@@ -239,7 +239,7 @@ jobs:
               mv "$tmp_src.out" "$tmp_src"
               
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] JSON обработан: $count конфигов"
+              echo "   ✅ [$url] JSON обработан: $count конфигураций"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             else
               # --- Обработка не-JSON источников (с внешним фильтром) ---
@@ -253,7 +253,7 @@ jobs:
               fi
 
               count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] Скачано: $count конфигов"
+              echo "   ✅ [$url] Скачано: $count конфигураций"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             fi
 
@@ -293,6 +293,7 @@ jobs:
 
           rm -rf tmp_results
 
+          echo ""
           echo "Скачано: $(wc -l < raw) конфигураций"
 
       - name: Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
@@ -387,7 +388,7 @@ jobs:
           
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
-          #announce: ⚡ Используйте конфиги только в условиях «белых списков»
+          #announce: ⚡ Используйте конфигурации только в условиях «белых списков»
           #profile-web-page-url:https://github.com/solovyov-jenya2004/all_subs/
           #support-url:https://github.com/solovyov-jenya2004/all_subs/issues/
           #profile-update-interval: 1
@@ -418,6 +419,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted final_sorted_base64
           git diff --staged --quiet || (git commit -m "Обновление $(date -u +'%Y-%m-%d %H:%M') UTC" && git push)
+          echo ""
           echo "Подписки опубликованы"
 
       - name: Публикация артефакта
@@ -466,9 +468,11 @@ jobs:
           cp ../files/final_sorted ../files/final_sorted_base64 .
           git add final_sorted final_sorted_base64
           if git diff --cached --quiet; then
+            echo ""
             echo "Изменений нет, пуш не требуется"
           else
             git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git push origin ${{ matrix.branch }}
+            echo ""
             echo "Подписки опубликованы"
           fi
