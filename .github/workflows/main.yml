@@ -365,6 +365,9 @@ jobs:
           "
 
           echo "После дедупликации: $(wc -l < deduped) уникальных конфигов"
+          echo ""
+          echo "📊 Количество уникальных конфигов по протоколам:"
+          awk -F'://' '{print $1}' deduped | sed 's/^hysteria2$/hysteria2/; s/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
 
       - name: Подготовить итоговые файлы
         run: |         
@@ -388,11 +391,11 @@ jobs:
           
           # Собираем финальный файл с заголовками и двумя пустыми строками после них
           cat headers.txt shuffled_deduped > final_sorted
-          echo "final_sorted создан, строк: $(wc -l < final_sorted)"
+          echo "final_sorted создан"
 
           # Кодируем в base64 (тоже с заголовками)
           base64 -w 0 final_sorted > final_sorted_base64
-          echo "final_sorted_base64 создан, размер: $(wc -c < final_sorted_base64) байт"
+          echo "final_sorted_base64 создан"
           
       - name: Закоммитить изменения
         run: |
