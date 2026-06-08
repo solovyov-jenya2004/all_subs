@@ -409,7 +409,7 @@ jobs:
 
           echo ""
           echo "📊 Количество конфигураций по протоколам:"
-          awk -F'://' '{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
+                    awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | awk '{printf "   %s - %d\n", $2, $1}'
           
       - name: Публикация на GitHub
         run: |
