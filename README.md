@@ -68,9 +68,9 @@ https://solovyov-jenya2004.vercel.app/random/
 Хотите другое количество?
 Напишите `?n=`, а затем число — и вы получите ровно столько конфигураций, сколько нужно.
 Например:
-> `https://solovyov-jenya2004.vercel.app/random?n=50` → 50 конфигураций
+> `https://solovyov-jenya2004.vercel.app/random/?n=50` → 50 конфигураций
 
-> `https://solovyov-jenya2004.vercel.app/random?n=200` → 200 конфигураций
+> `https://solovyov-jenya2004.vercel.app/random/?n=200` → 200 конфигураций
 
 При каждом обновлении подписки состав будет новым.
 
@@ -385,8 +385,8 @@ https://solovyov-jenya2004.vercel.app/random/
 Она помогает равномерно распределять нагрузку по серверам и быстрее находить работающие конфигурации.
 
 По умолчанию отдаётся 100 случайных конфигураций. Чтобы получить другое количество, добавьте ?n= в URL:
-https://solovyov-jenya2004.vercel.app/random?n=50 → 50 конфигураций
-https://solovyov-jenya2004.vercel.app/random?n=200 → 200 конфигураций
+https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
+https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
 Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy.
 
