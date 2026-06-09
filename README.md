@@ -15,13 +15,13 @@
 
 ## 📘 Что такое «белые списки» и когда они нужны
 
-«Белый список» — это режим работы интернета, при котором **запрещено всё, кроме одобренных Минцифры России сайтов**.  
+«Белый список» — это режим работы интернета, при котором **запрещено всё, кроме одобренных Минцифры России сайтов**.
 Обычно включается на мобильных операторах по соображениям безопасности, например, во время атак БПЛА.
 
 ### Как понять, что у вас «белый список»
 
 - ✅ Яндекс, ВК, Госуслуги, Ozon, Сбербанк и другие российские сервисы открываются...
-- ❌ ...а Google, App Store и другие иностранные сервисы не открываются  
+- ❌ ...а Google, App Store и другие иностранные сервисы не открываются.
 
 > Если у вас сейчас нет ограничений — **прошу не использовать** мою подписку, лучше обновите ее перед очередным отключением для последущего ее использования.
 > 
@@ -55,22 +55,22 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 
 ### 🎲 Мобильная подписка
 
-В отличие от обычных ссылок, этот эндпоинт каждый раз отдаёт **новый случайный набор** конфигураций из общей базы.  
+В отличие от обычных ссылок, этот эндпоинт каждый раз отдаёт **новый случайный набор** конфигураций из общей базы.
 Это помогает равномернее распределять нагрузку и быстрее находить работающие серверы.
 
-По умолчанию он возвращает **100** конфигураций.  
+По умолчанию он возвращает **100** конфигураций.
 Просто добавьте ссылку в ваш VPN‑клиент:
 
 ```
 https://solovyov-jenya2004.vercel.app/random
 ```
 
-Хотите другое количество?  
-Напишите `?n=`, а затем число — и вы получите ровно столько конфигураций, сколько нужно.  
-Например:  
+Хотите другое количество?
+Напишите `?n=`, а затем число — и вы получите ровно столько конфигураций, сколько нужно.
+Например:
 > `https://solovyov-jenya2004.vercel.app/random?n=50` → 50 конфигураций
 
-> `https://solovyov-jenya2004.vercel.app/random?n=200` → 200 конфигураций  
+> `https://solovyov-jenya2004.vercel.app/random?n=200` → 200 конфигураций
 
 При каждом обновлении подписки состав будет новым.
 
@@ -132,10 +132,10 @@ https://solovyov-jenya2004.vercel.app/random
 <details>
     <summary><b>👤 Alexanderoff</b></summary>
       <br>
-      <p><b>Обычная подписка</b></p>   
+      <p><b>Обычная подписка</b></p>
      
-    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted   
-   <p><b>Base64‑подписка</b></p>   
+    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
    
     https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
 </details>
@@ -144,10 +144,10 @@ https://solovyov-jenya2004.vercel.app/random
 <details>
   <summary><b>🦕 Deno Deploy</b></summary>
     <br>
-    <p><b>Обычная подписка</b></p>   
+    <p><b>Обычная подписка</b></p>
      
     https://all-subs.solovyov-jenya2004.deno.net/final_sorted
-  <p><b>Base64‑подписка</b></p>   
+  <p><b>Base64‑подписка</b></p>
    
     https://all-subs.solovyov-jenya2004.deno.net/final_sorted_base64
   <p><b>Мобильная подписка</b></p>
@@ -160,10 +160,10 @@ https://solovyov-jenya2004.vercel.app/random
 <details>
   <summary><b>🖥️ Render</b></summary>
     <br>
-    <p><b>Обычная подписка</b></p>   
+    <p><b>Обычная подписка</b></p>
      
     https://all-subs.onrender.com/final_sorted
-  <p><b>Base64‑подписка</b></p>   
+  <p><b>Base64‑подписка</b></p>
    
     https://all-subs.onrender.com/final_sorted_base64
   <p><b>Мобильная подписка</b></p>
@@ -199,7 +199,7 @@ https://solovyov-jenya2004.vercel.app/random
 
    <p><b>Мобильная подписка</b></p>
     
-    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/random  
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 
   </details>
@@ -207,15 +207,15 @@ https://solovyov-jenya2004.vercel.app/random
 <details>
   <summary><b>☁️ Cloudflare</b></summary>
     <br>
-    <p><b>Обычная подписка</b></p>   
+    <p><b>Обычная подписка</b></p>
      
-    https://final-sorted.solovyov-jenya2004.workers.dev/    
-  <p><b>Base64‑подписка</b></p>   
+    https://final-sorted.solovyov-jenya2004.workers.dev/
+  <p><b>Base64‑подписка</b></p>
    
     https://final-sorted-base64.solovyov-jenya2004.workers.dev/
   <p><b>Мобильная подписка</b></p>
     
-    в разработке 
+    https://random.solovyov-jenya2004.workers.dev/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -226,15 +226,15 @@ https://solovyov-jenya2004.vercel.app/random
 
    <p><b>Обычная подписка</b></p>
     
-    https://all-subs.netlify.app/final_sorted
+    https://all-subs.netlify.app/final_sorted/
 
    <p><b>Base64‑подписка</b></p>
    
-    https://all-subs.netlify.app/final_sorted_base64
+    https://all-subs.netlify.app/final_sorted_base64/
 
    <p><b>Мобильная подписка</b></p>
     
-    https://all-subs.netlify.app/random  
+    https://all-subs.netlify.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -244,10 +244,10 @@ https://solovyov-jenya2004.vercel.app/random
     <br>
     <p><b>Обычная подписка</b></p>
     
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted/
    <p><b>Base64‑подписка</b></p>
     
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64
+    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64/
   </details> 
 </details>
 
@@ -344,7 +344,7 @@ https://solovyov-jenya2004.vercel.app/random
 | Netlify | [netlifystatus.com](https://netlifystatus.com) |
 | Statically | [status.statically.io](https://status.statically.io) |
 
-Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.  
+Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.
 При недоступности GitHub новые файлы не собираются, однако зеркало GitLab продолжает отдавать последнюю сохранённую версию — в таком случае переключитесь на него.
 </details>
 
@@ -493,12 +493,12 @@ https://solovyov-jenya2004.vercel.app/random?n=200 → 200 конфигурац�
 - [x] Поддержка входа JSON-подписок
 - [x] Несколько фильтров
 - [x] Параллельное скачивание подписок
-      
+ 
 ---
 
 ## 💬 Контакты
 
-Есть вопрос, идея или нашли ошибку?  
+Есть вопрос, идея или нашли ошибку?
 Создайте [Issue](https://github.com/solovyov-jenya2004/all_subs/issues).
 
 ---
@@ -517,9 +517,9 @@ https://solovyov-jenya2004.vercel.app/random?n=200 → 200 конфигурац�
 
 ## ДИСКЛЕЙМЕР
 
-> *Я не являюсь создателем, владельцем или распространителем перечисленных VPN-конфигураций. Материал носит независимый информационный характер и содержит результаты тестирования.*  
-> *Данная публикация не рекламирует VPN-сервисы. Вся информация предназначена сугубо для ознакомительных целей и адресована исключительно гражданам государств, где она законна. Если вам запрещено ознакомление с подобными сведениями, немедленно покиньте страницу.*  
-> *Я не преследую целей склонения, поощрения или оправдания использования VPN и любого иного программного обеспечения ни в каких обстоятельствах.*  
+> *Я не являюсь создателем, владельцем или распространителем перечисленных VPN-конфигураций. Материал носит независимый информационный характер и содержит результаты тестирования.*
+> *Данная публикация не рекламирует VPN-сервисы. Вся информация предназначена сугубо для ознакомительных целей и адресована исключительно гражданам государств, где она законна. Если вам запрещено ознакомление с подобными сведениями, немедленно покиньте страницу.*
+> *Я не преследую целей склонения, поощрения или оправдания использования VPN и любого иного программного обеспечения ни в каких обстоятельствах.*
 > *Ответственность за любое применение VPN-конфигураций выше полностью лежит на их пользователе.*
 > *Освобождение от ответственности: я не отвечаю за действия третьих лиц и не одобряю противоправное использование VPN-технологий.*
 > *Я не даю гарантий точности, полноты и достоверности опубликованных данных. Все совпадения случайны. Сведения предоставляются «как есть» и могут расходиться с реальным положением дел.*
