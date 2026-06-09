@@ -47,10 +47,10 @@
 Прямые ссылки для вашего VPN‑клиента:
 
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted
+https://solovyov-jenya2004.vercel.app/final_sorted/
 ```
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted_base64
+https://solovyov-jenya2004.vercel.app/final_sorted_base64/
 ```
 
 ### 🎲 Мобильная подписка
@@ -62,7 +62,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 Просто добавьте ссылку в ваш VPN‑клиент:
 
 ```
-https://solovyov-jenya2004.vercel.app/random
+https://solovyov-jenya2004.vercel.app/random/
 ```
 
 Хотите другое количество?
@@ -83,10 +83,10 @@ https://solovyov-jenya2004.vercel.app/random
         <br>
         <p><b>Обычная подписка</b></p>
     
-    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted/
    <p><b>Base64‑подписка</b></p>
   
-    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64/
   </details>
 
 
@@ -99,10 +99,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
     
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
    <p><b>Base64‑подписка</b></p>
       
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
    </details>
 
   <details>
@@ -110,10 +110,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
     
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
    <p><b>Base64‑подписка</b></p>
       
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
    </details>
 
    <details>
@@ -121,10 +121,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
      
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
    <p><b>Base64‑подписка</b></p>
       
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
    </details>
 </details>
 
@@ -134,10 +134,10 @@ https://solovyov-jenya2004.vercel.app/random
       <br>
       <p><b>Обычная подписка</b></p>
      
-    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted
+    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted/
    <p><b>Base64‑подписка</b></p>
    
-    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64
+    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/main/final_sorted_base64/
 </details>
 
 
@@ -146,13 +146,13 @@ https://solovyov-jenya2004.vercel.app/random
     <br>
     <p><b>Обычная подписка</b></p>
      
-    https://all-subs.solovyov-jenya2004.deno.net/final_sorted
+    https://all-subs.solovyov-jenya2004.deno.net/final_sorted/
   <p><b>Base64‑подписка</b></p>
    
-    https://all-subs.solovyov-jenya2004.deno.net/final_sorted_base64
+    https://all-subs.solovyov-jenya2004.deno.net/final_sorted_base64/
   <p><b>Мобильная подписка</b></p>
     
-    https://all-subs.solovyov-jenya2004.deno.net/random
+    https://all-subs.solovyov-jenya2004.deno.net/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -162,13 +162,13 @@ https://solovyov-jenya2004.vercel.app/random
     <br>
     <p><b>Обычная подписка</b></p>
      
-    https://all-subs.onrender.com/final_sorted
+    https://all-subs.onrender.com/final_sorted/
   <p><b>Base64‑подписка</b></p>
    
-    https://all-subs.onrender.com/final_sorted_base64
+    https://all-subs.onrender.com/final_sorted_base64/
   <p><b>Мобильная подписка</b></p>
     
-    https://all-subs.onrender.com/random
+    https://all-subs.onrender.com/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -178,10 +178,10 @@ https://solovyov-jenya2004.vercel.app/random
         <br>
         <p><b>Обычная подписка</b></p>
     
-    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted
+    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted/
    <p><b>Base64‑подписка</b></p>
   
-    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted_base64
+    https://gitlab.com/solovyov-jenya2004/all_subs/-/raw/main/final_sorted_base64/
   </details>
 
 
@@ -191,11 +191,11 @@ https://solovyov-jenya2004.vercel.app/random
 
    <p><b>Обычная подписка</b></p>
     
-    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted/
 
    <p><b>Base64‑подписка</b></p>
    
-    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted_base64
+    https://ddrnvxbsxvidyagqoewg.supabase.co/functions/v1/all-subs/final_sorted_base64/
 
    <p><b>Мобильная подписка</b></p>
     
@@ -253,9 +253,9 @@ https://solovyov-jenya2004.vercel.app/random
 
 ---
 
-Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app), [Throne](https://throneproj.github.io), [TeapodStream](https://github.com/Wendor/teapod-stream), [v2rayNG](https://v2rayng.2dust.link), [Happ](https://www.happ.su), [Exclave](https://github.com/dyhkwong/Exclave) и другие.
+Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app/), [Throne](https://throneproj.github.io/), [TeapodStream](https://github.com/Wendor/teapod-stream/), [v2rayNG](https://v2rayng.2dust.link/), [Happ](https://www.happ.su/), [Exclave](https://github.com/dyhkwong/Exclave/) и другие.
 
-**ВНИМАНИЕ! Из-за обнаруженной уязвимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет практически любому приложению читать ваш «новый» IP, не рекомендуется использовать v2rayN, v2RayTun на iOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet. Для любого VPN-клиента, который вы выберете, обязательно устанавливайте последнюю версию — разработчики закрывают подобные проблемы в первую очередь.** Подробнее — на [Хабре](https://habr.com/ru/articles/1020080).
+**ВНИМАНИЕ! Из-за обнаруженной уязвимости, связанной с открытыми SOCKS5-прокси при запуске VPN, что позволяет практически любому приложению читать ваш «новый» IP, не рекомендуется использовать v2rayN, v2RayTun на iOS, Hiddify, Streisand, NekoBox, NekoRay, V2Box, Npv Tunnel или SagerNet. Для любого VPN-клиента, который вы выберете, обязательно устанавливайте последнюю версию — разработчики закрывают подобные проблемы в первую очередь.** Подробнее — на [Хабре](https://habr.com/ru/articles/1020080/).
 
 ---
 
@@ -267,10 +267,10 @@ https://solovyov-jenya2004.vercel.app/random
 
 1. Откройте в браузере одну из ссылок:
    ```
-   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted
+   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted/
    ```
    ```
-   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted_base64
+   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted_base64/
    ```
 
 2. В открывшейся странице найдите блок с конфигурациями.
@@ -290,7 +290,7 @@ https://solovyov-jenya2004.vercel.app/random
 
 ## 🧠 Как это устроено
 
-Каждую минуту сервис [cron‑job.org](https://cron-job.org) запускает Github Actions, который...
+Каждую минуту сервис [cron‑job.org](https://cron-job.org/) запускает Github Actions, который...
 
 1. 📥 **Скачивает** все подписки из файла [`sources.txt`](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/sources.txt).
 2. 🔓 **Расшифровывает** подписку из Base64, если она была.
@@ -333,16 +333,16 @@ https://solovyov-jenya2004.vercel.app/random
 
 | Сервис | Статус-панель |
 |--------|----------------|
-| cron‑job.org | [status.cron-job.org](https://status.cron-job.org) |
-| GitHub | [githubstatus.com](https://www.githubstatus.com) |
-| Vercel | [vercel-status.com](https://vercel-status.com) |
-| jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com) |
-| Deno Deploy | [denostatus.com](https://denostatus.com) |
-| Render | [status.render.com](https://status.render.com) |
-| GitLab | [status.gitlab.com](https://status.gitlab.com) |
-| Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com) |
-| Netlify | [netlifystatus.com](https://netlifystatus.com) |
-| Statically | [status.statically.io](https://status.statically.io) |
+| cron‑job.org | [status.cron-job.org](https://status.cron-job.org/) |
+| GitHub | [githubstatus.com](https://www.githubstatus.com/) |
+| Vercel | [vercel-status.com](https://vercel-status.com/) |
+| jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com/) |
+| Deno Deploy | [denostatus.com](https://denostatus.com/) |
+| Render | [status.render.com](https://status.render.com/) |
+| GitLab | [status.gitlab.com](https://status.gitlab.com/) |
+| Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com/) |
+| Netlify | [netlifystatus.com](https://netlifystatus.com/) |
+| Statically | [status.statically.io](https://status.statically.io/) |
 
 Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.
 При недоступности GitHub новые файлы не собираются, однако зеркало GitLab продолжает отдавать последнюю сохранённую версию — в таком случае переключитесь на него.
@@ -499,19 +499,19 @@ https://solovyov-jenya2004.vercel.app/random?n=200 → 200 конфигурац�
 ## 💬 Контакты
 
 Есть вопрос, идея или нашли ошибку?
-Создайте [Issue](https://github.com/solovyov-jenya2004/all_subs/issues).
+Создайте [Issue](https://github.com/solovyov-jenya2004/all_subs/issues/).
 
 ---
 
 ## 📜 Лицензия
 
-[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/LICENSE)
+[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/LICENSE/)
 
 Этот проект распространяется под лицензией **Creative Commons Zero v1.0 Universal (CC0)**.
 
 Вы можете свободно копировать, изменять, распространять и использовать конфигурации в любых целях, включая коммерческие, без получения разрешения автора и без указания авторства.
 
-Подробнее: [LICENSE](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/LICENSE)
+Подробнее: [LICENSE](https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/LICENSE/)
 
 ---
 
