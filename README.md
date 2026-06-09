@@ -47,10 +47,10 @@
 Прямые ссылки для вашего VPN‑клиента:
 
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted
+https://solovyov-jenya2004.vercel.app/final_sorted/
 ```
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted_base64
+https://solovyov-jenya2004.vercel.app/final_sorted_base64/
 ```
 
 ### 🎲 Мобильная подписка
@@ -62,7 +62,7 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64
 Просто добавьте ссылку в ваш VPN‑клиент:
 
 ```
-https://solovyov-jenya2004.vercel.app/random
+https://solovyov-jenya2004.vercel.app/random/
 ```
 
 Хотите другое количество?
@@ -140,7 +140,7 @@ https://solovyov-jenya2004.vercel.app/random
     https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
   <p><b>Мобильная подписка</b></p>
     
-    https://ru-macros.alexanderoff.ru/macros?url=https://solovyov-jenya2004.vercel.app/random
+    https://ru-macros.alexanderoff.ru/macros?url=https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
