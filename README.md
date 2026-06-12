@@ -388,9 +388,9 @@ https://solovyov-jenya2004.vercel.app/random/
 https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
 https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy.
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy и Alexanderoff.
 
-На зеркалах GitHub, jsDelivr, Alexanderoff, GitLab и Statically мобильная подписка отсутствует.
+На зеркалах GitHub, jsDelivr, GitLab и Statically мобильная подписка отсутствует.
 </details>
 
 <details>
