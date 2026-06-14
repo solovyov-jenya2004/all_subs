@@ -7,8 +7,6 @@ jobs:
   merge-subs:
     runs-on: ubuntu-latest
     name: Сборка подписок
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: write    
 
@@ -80,11 +78,11 @@ jobs:
               fi
             fi
 
-            # Рекурсивно раскодируем вложенные base64-строки
+            # Извлекаем вложенные base64-строки (только для не‑JSON)
             if ! $is_json; then
               tmp_dec=$(mktemp)
               while IFS= read -r line; do
-                # Если строка уже содержит :// — оставляем без изменений
+                # если строка уже является настоящим конфигом – не трогаем
                 if echo "$line" | grep -q '://'; then
                   echo "$line" >> "$tmp_dec"
                 elif [[ "$line" =~ ^[A-Za-z0-9+/=]+$ ]] && [ ${#line} -gt 20 ]; then
