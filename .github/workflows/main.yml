@@ -512,8 +512,6 @@ jobs:
     needs: merge-subs
     runs-on: ubuntu-latest
     name: ${{ matrix.name }}
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     strategy:
       fail-fast: false
       matrix:
