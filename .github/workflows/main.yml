@@ -80,6 +80,27 @@ jobs:
               fi
             fi
 
+            # Рекурсивно раскодируем вложенные base64-строки
+            if ! $is_json; then
+              tmp_dec=$(mktemp)
+              while IFS= read -r line; do
+                # Если строка уже содержит :// — оставляем без изменений
+                if echo "$line" | grep -q '://'; then
+                  echo "$line" >> "$tmp_dec"
+                elif [[ "$line" =~ ^[A-Za-z0-9+/=]+$ ]] && [ ${#line} -gt 20 ]; then
+                  decoded=$(echo "$line" | base64 -d 2>/dev/null)
+                  if [ $? -eq 0 ] && echo "$decoded" | grep -q '://'; then
+                    echo "$decoded" >> "$tmp_dec"
+                  else
+                    echo "$line" >> "$tmp_dec"
+                  fi
+                else
+                  echo "$line" >> "$tmp_dec"
+                fi
+              done < "$tmp_src"
+              mv "$tmp_dec" "$tmp_src"
+            fi
+
             if $is_json; then
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
