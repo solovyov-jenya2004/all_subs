@@ -525,7 +525,7 @@ jobs:
 
     steps:
       - name: Скачивание артефакта
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v4
         with:
           name: subscription-files
           path: files
