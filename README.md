@@ -242,19 +242,6 @@ https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
-
-<details>
-    <summary><b>⚡ Statically</b></summary>
-    <br>
-    <p><b>Обычная подписка</b></p>
-    
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted/
-   <p><b>Base64‑подписка</b></p>
-    
-    https://cdn.statically.io/gh/solovyov-jenya2004/all_subs/main/final_sorted_base64/
-  </details> 
-</details>
-
 ---
 
 Поддерживаются практически все VPN-клиенты, например, [Karing](https://karing.app/), [Throne](https://throneproj.github.io/), [TeapodStream](https://github.com/Wendor/teapod-stream/), [v2rayNG](https://v2rayng.2dust.link/), [Happ](https://www.happ.su/), [Exclave](https://github.com/dyhkwong/Exclave/) и другие.
@@ -346,7 +333,6 @@ https://solovyov-jenya2004.vercel.app/random/
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
 | Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com/) |
 | Netlify | [netlifystatus.com](https://netlifystatus.com/) |
-| Statically | [status.statically.io](https://status.statically.io/) |
 
 Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.
 При недоступности GitHub новые файлы не собираются, однако зеркало GitLab продолжает отдавать последнюю сохранённую версию — в таком случае переключитесь на него.
@@ -390,7 +376,7 @@ https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигурац
 
 Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy и Alexanderoff.
 
-На зеркалах GitHub, jsDelivr, GitLab и Statically мобильная подписка отсутствует.
+На зеркалах GitHub, jsDelivr и GitLab мобильная подписка отсутствует.
 </details>
 
 <details>
