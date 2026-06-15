@@ -30,3 +30,4 @@ https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.tx
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
 https://tinyurl.com/5cnvrkmy LTE
 https://etoneya.su/whitelist
+https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
