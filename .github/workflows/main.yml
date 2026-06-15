@@ -81,17 +81,12 @@ jobs:
             # Извлекаем вложенные base64-строки (только для не‑JSON)
             if ! $is_json; then
               tmp_dec=$(mktemp)
-              
               tr -d '\r' < "$tmp_src" > "$tmp_dec"
-            
               mapfile -t b64_lines < <(grep -E '^[A-Za-z0-9+/=]{21,}$' "$tmp_dec")
             
               for line in "${b64_lines[@]}"; do
-                decoded=$(echo "-n $line" | base64 -d 2>/dev/null)
-                
+                decoded=$(echo -n "$line" | base64 -d 2>/dev/null)
                 if [[ "$decoded" == *"://"* ]]; then
-                  escaped_line=$(echo "$line" | sed 's/[^^$*.[\]\\]/\\&/g')
-                  
                   perl -i -pe "s/\Q$line\E/\Q$decoded\E/g" "$tmp_dec"
                 fi
               done
