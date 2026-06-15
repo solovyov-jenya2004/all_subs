@@ -85,9 +85,20 @@ jobs:
               mapfile -t b64_lines < <(grep -E '^[A-Za-z0-9+/=]{21,}$' "$tmp_dec")
             
               for line in "${b64_lines[@]}"; do
-                decoded=$(echo -n "$line" | base64 -d 2>/dev/null)
+                decoded=$(printf "%s" "$line" | base64 -d 2>/dev/null)
+                
                 if [[ "$decoded" == *"://"* ]]; then
-                  perl -i -pe "s/\Q$line\E/\Q$decoded\E/g" "$tmp_dec"
+                  tmp_subst=$(mktemp)
+
+                  while IFS= read -r f_line; do
+                    if [ "$f_line" = "$line" ]; then
+                      printf "%s\n" "$decoded"
+                    else
+                      printf "%s\n" "$f_line"
+                    fi
+                  done < "$tmp_dec" > "$tmp_subst"
+                  
+                  mv "$tmp_subst" "$tmp_dec"
                 fi
               done
             
