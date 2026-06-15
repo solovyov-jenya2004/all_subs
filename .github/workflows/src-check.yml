@@ -92,14 +92,20 @@ jobs:
             return 1
           }
 
-          # Все остальные сайты – через HTTP-заголовок Last-Modified
+          # Все остальные сайты – через HTTP-заголовки Last-Modified или If-Modified-Since
           get_last_modified_date() {
             local url="$1"
             set +e
             local headers=$(curl -s -L --range 0-0 --dump-header - -o /dev/null --max-time 15 "$url" 2>/dev/null)
+            # Пробуем сначала Last-Modified, затем If-Modified-Since
             local last_modified=$(echo "$headers" | grep -i '^last-modified:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
+            if [ -z "$last_modified" ]; then
+              last_modified=$(echo "$headers" | grep -i '^if-modified-since:' | cut -d: -f2- | sed 's/^[[:space:]]*//' | tr -d '\r')
+            fi
             if [ -n "$last_modified" ]; then
-              date -d "$last_modified" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || { set -e; return 1; }
+              # Конвертируем RFC 2822 -> ISO 8601. Убираем день недели (Mon, ) чтобы date точно понял
+              local date_str=$(echo "$last_modified" | sed 's/^[A-Za-z]\{3\}, //')
+              date -d "$date_str" -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || { set -e; return 1; }
               set -e
               return 0
             else
