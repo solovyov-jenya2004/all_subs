@@ -79,33 +79,8 @@ jobs:
             fi
 
             # Извлекаем вложенные base64-строки (только для не‑JSON)
-            if ! $is_json; then
-              tmp_dec=$(mktemp)
-              tr -d '\r' < "$tmp_src" > "$tmp_dec"
-              mapfile -t b64_lines < <(grep -E '^[A-Za-z0-9+/=]{21,}$' "$tmp_dec")
-            
-              for line in "${b64_lines[@]}"; do
-                decoded=$(printf "%s" "$line" | base64 -d 2>/dev/null)
-                
-                if [[ "$decoded" == *"://"* ]]; then
-                  tmp_subst=$(mktemp)
-
-                  while IFS= read -r f_line; do
-                    if [ "$f_line" = "$line" ]; then
-                      printf "%s\n" "$decoded"
-                    else
-                      printf "%s\n" "$f_line"
-                    fi
-                  done < "$tmp_dec" > "$tmp_subst"
-                  
-                  mv "$tmp_subst" "$tmp_dec"
-                fi
-              done
-            
-              mv "$tmp_dec" "$tmp_src"
-            fi
-
             if $is_json; then
+              # --- Обработка JSON ---
               export FILTERS="$filters"
               export INPUT_FILE="$tmp_src"
               
@@ -134,22 +109,9 @@ jobs:
                 }
                 if (!Array.isArray(configs)) configs = [configs];
 
-                const filtersStr = process.env.FILTERS || "";
-                const filters = filtersStr ? filtersStr.split(" ").filter(Boolean) : [];
-
-                const filteredConfigs = [];
-                for (const config of configs) {
-                  if (filters.length > 0) {
-                    const haystack = JSON.stringify(config).toLowerCase();
-                    const matched = filters.some(f => haystack.includes(f.toLowerCase()));
-                    if (!matched) continue;
-                  }
-                  filteredConfigs.push(config);
-                }
-
                 const systemTags = ["proxy", "direct", "block"];
                 const allLinks = [];
-                for (const config of filteredConfigs) {
+                for (const config of configs) {
                   const outbounds = config.outbounds || [];
                   for (const out of outbounds) {
                     const protocol = out.protocol;
@@ -276,12 +238,22 @@ jobs:
               ' > "$tmp_src.out" 2>/dev/null
               
               mv "$tmp_src.out" "$tmp_src"
+
+              # ✅ Теперь фильтруем уже готовые ссылки, как и обычные подписки
+              if [ -n "$filters" ]; then
+                grep_args=""
+                for f in $filters; do
+                  grep_args="$grep_args -e $f"
+                done
+                grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+                mv "${tmp_src}_filtered" "$tmp_src"
+              fi
               
               count=$(grep -c '://' "$tmp_src" || true)
               echo "   ✅ [$url] JSON обработан: $(plural_configs $count)"
               cat "$tmp_src" > "tmp_results/${index}.txt"
             else
-              # Обработка не-JSON источников
+              # Обработка не-JSON источников (без изменений)
               if [ -n "$filters" ]; then
                 grep_args=""
                 for f in $filters; do
