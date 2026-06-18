@@ -1,3 +1,4 @@
+https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://tinyurl.com/5cnvrkmy LTE
