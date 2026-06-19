@@ -32,3 +32,4 @@ https://raw.githubusercontent.com/likzil/vless1/refs/heads/main/Treetcpvpn Об�
 https://tinyurl.com/AeryxVPNyandexua
 https://tinyurl.com/AeryxWiFiLTE Антиглушилка
 https://raw.githubusercontent.com/uretkavpn/Uretkavpn/refs/heads/main/UretkaVpn.txt Lte LTE БС lte %F0%9F%8F%B3%EF%B8%8F %D0%91%D0%A1 🏳️
+https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
