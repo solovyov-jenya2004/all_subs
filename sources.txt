@@ -24,8 +24,6 @@ https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFre
 https://raw.githubusercontent.com/Ilyacom4ik/free-v2ray-2026/refs/heads/main/subscriptions/FreeCFGHub1.txt LTE Lite
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/FreeCFGHubSUB LTE Lite
 https://gist.githubusercontent.com/FrizanGAME/dfd1f7ac36511593dc6d0faff14cc8bb/raw/frizanVPN.txt Обход БС Обход+БС Обход%20БС %D0%9E%D0%B1%D1%85%D0%BE%D0%B4+%D0%91%D0%A1 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1
-https://tinyurl.com/AeryxVPNyandexua
-https://tinyurl.com/AeryxWiFiLTE Антиглушилка
 https://raw.githubusercontent.com/uretkavpn/Uretkavpn/refs/heads/main/UretkaVpn.txt Lte LTE БС lte %F0%9F%8F%B3%EF%B8%8F %D0%91%D0%A1 🏳️
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
