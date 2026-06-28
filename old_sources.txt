@@ -31,7 +31,6 @@ https://gist.githubusercontent.com/nikitavalentinov90021-ai/41901f30db6c78a6a4d0
 https://gist.githubusercontent.com/flaafix/c79a81037d15163360571c7a7331b153/raw/AetrisVPN.txt White lists White%20lists
 https://gist.githubusercontent.com/VSPBOOST/d84dcf89bf31012a96ee60a9eb73b852/raw/4f6af123b4a0251806b89958c845666268283c5a/gistfile1.txt Белые+списки Белые списки Белые%20списки Whitelist + Bypass Whitelist%20%2B%20Bypass
 j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Q lte
-j https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/Autoconf.ru lte
 https://gitverse.ru/api/repos/cid-uskoritel/cid-white/raw/branch/master/whitelist(beta).txt
 https://raw.githubusercontent.com/stanislavPLS/AuraChannel/refs/heads/main/GoodMixyVPN.txt сервер
 https://raw.githubusercontent.com/LimeHi/Old-Context-Menu/refs/heads/main/afg.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
