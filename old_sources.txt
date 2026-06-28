@@ -11,7 +11,6 @@ https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHI
 https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://tinyurl.com/AeryxVPNyandexua
 https://tinyurl.com/AeryxWiFiLTE Антиглушилка
-https://raw.githubusercontent.com/likzil/vless1/refs/heads/main/Treetcpvpn Обходы белых списков Обходы%20белых%20списков Обходы+белых+списков %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B+%D0%B1%D0%B5%D0%BB%D1%8B%D1%85+%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%D1%8B%20%D0%B1%D0%B5%D0%BB%D1%8B%D1%85%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%B2 LTE
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://tinyurl.com/5cnvrkmy LTE
 https://tinyurl.com/3mzxa6k6 LTE
