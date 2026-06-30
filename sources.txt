@@ -12,7 +12,6 @@ https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt О�
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://tinyurl.com/freesub-scalavpnrobot Белый список Белый%20список %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA Белый+список
-j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.txt
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
