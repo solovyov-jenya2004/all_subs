@@ -13,7 +13,6 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://tinyurl.com/freesub-scalavpnrobot Белый список Белый%20список %D0%91%D0%B5%D0%BB%D1%8B%D0%B9%20%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA Белый+список
 https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.txt
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
 https://etoneya.su/whitelist
 https://gist.githubusercontent.com/FrizanGAME/dfd1f7ac36511593dc6d0faff14cc8bb/raw/frizanVPN.txt Обход БС Обход+БС Обход%20БС %D0%9E%D0%B1%D1%85%D0%BE%D0%B4+%D0%91%D0%A1 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1
