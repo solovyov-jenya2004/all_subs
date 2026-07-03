@@ -21,3 +21,4 @@ https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
+https://vpn.akres.fun/bwl
