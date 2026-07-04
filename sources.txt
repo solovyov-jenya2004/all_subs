@@ -21,3 +21,4 @@ https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN
 j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://raw.githubusercontent.com/uretkavpn/Uretkavpn/refs/heads/main/UretkaVpn.txt Lte LTE БС lte %F0%9F%8F%B3%EF%B8%8F %D0%91%D0%A1 🏳️
+https://vpn.akres.fun/bwl
