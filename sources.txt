@@ -22,3 +22,4 @@ https://gist.githubusercontent.com/FrizanGAME/dfd1f7ac36511593dc6d0faff14cc8bb/r
 https://raw.githubusercontent.com/uretkavpn/Uretkavpn/refs/heads/main/UretkaVpn.txt Lte LTE БС lte %F0%9F%8F%B3%EF%B8%8F %D0%91%D0%A1 🏳️
 j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://raw.githubusercontent.com/AirLinkVPN1/AirLinkVPN/refs/heads/main/rkn_white_list
+https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ %F0%9F%8F%B3%EF%B8%8F
