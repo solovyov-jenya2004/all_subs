@@ -20,3 +20,4 @@ https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/Komary
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок Обход%20Глушилок %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%93%D0%BB%D1%83%D1%88%D0%B8%D0%BB%D0%BE%D0%BA
+https://vpn.akres.fun/bwl
