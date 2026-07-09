@@ -19,3 +19,4 @@ https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/Komary
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://vpn.akres.fun/bwl
+https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.txt
