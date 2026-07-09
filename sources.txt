@@ -20,4 +20,3 @@ https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE Бе
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
-https://vpn.akres.fun/bwl
