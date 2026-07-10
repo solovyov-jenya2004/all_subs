@@ -19,3 +19,4 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://vpn.akres.fun/bwl
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
+https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFreeCFGHub.txt LTE Lite
