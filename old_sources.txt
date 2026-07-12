@@ -1,3 +1,4 @@
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
