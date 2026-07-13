@@ -13,6 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Скачать и объединить подписки
+        run: |
+          # Скачать и объединить подписки
+          plural_configs() {
+            local n=$1
+            local mod10=$((n % 10))
+            local mod100=$((n % 100))
+            if [ $mod100 -ge 11 ] && [ $mod100 -le 14 ]; then
+              echo "$n конфигураций"
+            elif [ $mod10 -eq 1 ]; then
+              echo "$n конфигурация"
+            elif [ $mod10 -ge 2 ] && [ $mod10 -le 4 ]; then
+              echo "$n конфигурации"
+            else
+              echo "$n конфигураций"
+            fi
+          }
+          > raw
+          mkdir -p tmp_results
+          i=0
+
           process_source() {
             local src_line="$1"
             local index="$2"
@@ -84,6 +105,42 @@ jobs:
 
             rm -f "$tmp_src"
           }
+
+          # Запускаем параллельно все источники
+          max_jobs=10
+          running=0
+
+          while IFS= read -r line; do
+            line=$(echo "$line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
+            [ -z "$line" ] && continue
+            echo "$line" | grep -q '^#' && continue
+
+            i=$((i+1))
+            process_source "$line" "$i" &
+
+            running=$((running+1))
+            if [ $running -ge $max_jobs ]; then
+              wait -n
+              running=$((running-1))
+            fi
+          done < sources.txt
+
+          wait
+
+          # Собираем результаты
+          idx=1
+          while [ $idx -le $i ]; do
+            if [ -f "tmp_results/${idx}.txt" ]; then
+              cat "tmp_results/${idx}.txt" >> raw
+              echo "" >> raw
+            fi
+            idx=$((idx+1))
+          done
+
+          rm -rf tmp_results
+
+          echo ""
+          echo "Скачано: $(plural_configs $(wc -l < raw))"
 
       - name: Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
         run: |
