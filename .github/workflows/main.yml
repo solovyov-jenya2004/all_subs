@@ -46,8 +46,8 @@ jobs:
             # Извлекаем URL (первое слово)
             url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Собираем фильтры (все последующие слова) – с поддержкой фраз в кавычках
-            filters=$(echo "$line_clean" | sed 's/^[^ ]* //')
+            # Собираем фильтры (все последующие слова)
+            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
             tmp_src=$(mktemp)
 
@@ -71,38 +71,17 @@ jobs:
 
             # Применяем фильтры, если они заданы
             if [ -n "$filters" ]; then
-              export FILTERS="$filters"
-              node -e '
-                const fs = require("fs");
-                const filtersStr = process.env.FILTERS || "";
-                // Разбираем фильтры: фразы в кавычках или отдельные слова
-                const parts = filtersStr.match(/"[^"]*"|\S+/g) || [];
-                const patterns = [];
-                for (let p of parts) {
-                  if (p.startsWith("\"") && p.endsWith("\"")) {
-                    const phrase = p.slice(1, -1);
-                    // Каждое слово отдельно
-                    phrase.split(/\s+/).forEach(word => {
-                      patterns.push(word);
-                      patterns.push(encodeURIComponent(word));
-                    });
-                    // Точная фраза
-                    patterns.push(phrase);
-                    patterns.push(encodeURIComponent(phrase));
-                  } else {
-                    patterns.push(p);
-                    patterns.push(encodeURIComponent(p));
-                  }
-                }
-
-                const lines = fs.readFileSync("'"$tmp_src"'", "utf8").split("\n");
-                const filtered = lines.filter(line => {
-                  const lowerLine = line.toLowerCase();
-                  return patterns.some(p => lowerLine.includes(p.toLowerCase()));
-                });
-
-                fs.writeFileSync("'"$tmp_src"'_filtered", filtered.join("\n"));
-              '
+              grep_args=""
+              while IFS= read -r f; do
+                # Само слово или фраза (кавычки уже сняты)
+                grep_args="$grep_args -e $f"
+                # Добавляем percent-encoded вариант (через python3)
+                encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$f'))" 2>/dev/null)
+                if [ -n "$encoded" ] && [ "$encoded" != "$f" ]; then
+                  grep_args="$grep_args -e $encoded"
+                fi
+              done <<< "$(echo "$filters" | tr ' ' '\n')"
+              grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
             fi
 
