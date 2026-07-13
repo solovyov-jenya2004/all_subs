@@ -24,6 +24,3 @@ https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizy
 https://gitverse.ru/api/repos/vansfenix/vansFenix/raw/branch/master/WLWVF
 https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
 https://github.com/HalyavusVPNUS/halyava-vpn-lte/blob/main/lte.txt
-https://raw.githubusercontent.com/s0ulcoil/LumixVPN/refs/heads/main/LumixVPN Белые списки Белые%20списки Белые+списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
-https://raw.githubusercontent.com/s0ulcoil/FastConVPN/refs/heads/main/FastConVPN LTE 
-https://github.com/s0ulcoil/-KavkazVPN.ru/raw/refs/heads/main/KavkazVPN Обход БС Обход+БС Обход%20БС %D0%9E%D0%B1%D1%85%D0%BE%D0%B4+%D0%91%D0%A1 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1
