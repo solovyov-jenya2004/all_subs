@@ -47,7 +47,7 @@ jobs:
             url=$(echo "$line_clean" | awk '{print $1}')
 
             # Собираем фильтры (все последующие слова) – с поддержкой фраз в кавычках
-            filters=$(echo "$line_clean" | sed -E 's/^[^ ]* //' | grep -Eo '"[^"]*"|\S+')
+            filters=$(echo "$line_clean" | sed 's/^[^ ]* //')
 
             tmp_src=$(mktemp)
 
@@ -71,32 +71,39 @@ jobs:
 
             # Применяем фильтры, если они заданы
             if [ -n "$filters" ]; then
-              patterns_file=$(mktemp)
-              while IFS= read -r f; do
-                if [[ "$f" == \"*\" ]]; then
-                  # Фраза в кавычках
-                  phrase=$(echo "$f" | sed 's/^"//;s/"$//')
-                  # Каждое слово отдельно (как есть + percent-encoded)
-                  for word in $phrase; do
-                    echo "$word" >> "$patterns_file"
-                    encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$word'))" 2>/dev/null)
-                    [ -n "$encoded" ] && echo "$encoded" >> "$patterns_file"
-                  done
-                  # Точная фраза
-                  echo "$phrase" >> "$patterns_file"
-                  # Полностью percent-encoded фраза
-                  encoded_phrase=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$phrase'))" 2>/dev/null)
-                  [ -n "$encoded_phrase" ] && echo "$encoded_phrase" >> "$patterns_file"
-                else
-                  # Одиночное слово (как есть + percent-encoded)
-                  echo "$f" >> "$patterns_file"
-                  encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$f'))" 2>/dev/null)
-                  [ -n "$encoded" ] && echo "$encoded" >> "$patterns_file"
-                fi
-              done <<< "$filters"
-              grep -i -F -f "$patterns_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+              export FILTERS="$filters"
+              node -e '
+                const fs = require("fs");
+                const filtersStr = process.env.FILTERS || "";
+                // Разбираем фильтры: фразы в кавычках или отдельные слова
+                const parts = filtersStr.match(/"[^"]*"|\S+/g) || [];
+                const patterns = [];
+                for (let p of parts) {
+                  if (p.startsWith("\"") && p.endsWith("\"")) {
+                    const phrase = p.slice(1, -1);
+                    // Каждое слово отдельно
+                    phrase.split(/\s+/).forEach(word => {
+                      patterns.push(word);
+                      patterns.push(encodeURIComponent(word));
+                    });
+                    // Точная фраза
+                    patterns.push(phrase);
+                    patterns.push(encodeURIComponent(phrase));
+                  } else {
+                    patterns.push(p);
+                    patterns.push(encodeURIComponent(p));
+                  }
+                }
+
+                const lines = fs.readFileSync("'"$tmp_src"'", "utf8").split("\n");
+                const filtered = lines.filter(line => {
+                  const lowerLine = line.toLowerCase();
+                  return patterns.some(p => lowerLine.includes(p.toLowerCase()));
+                });
+
+                fs.writeFileSync("'"$tmp_src"'_filtered", filtered.join("\n"));
+              '
               mv "${tmp_src}_filtered" "$tmp_src"
-              rm -f "$patterns_file"
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
