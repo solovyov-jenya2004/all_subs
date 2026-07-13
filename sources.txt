@@ -1,6 +1,7 @@
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://subrostunnel.vercel.app/gen.txt LTE
+https://subrostunnel.vercel.app/lte.txt
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
