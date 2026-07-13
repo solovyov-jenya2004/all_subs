@@ -70,11 +70,12 @@ jobs:
             fi
 
             # Применяем фильтры ТОЛЬКО если они заданы
+                        # Применяем фильтры, если они заданы
             if [ -n "$filters" ]; then
               patterns_file=$(mktemp)
               while IFS= read -r f; do
+                # Если фильтр в кавычках – разбираем как фразу
                 if [[ "$f" == \"*\" ]]; then
-                  # Фраза в кавычках
                   phrase=$(echo "$f" | sed 's/^"//;s/"$//')
                   # Каждое слово отдельно (как есть + percent-encoded)
                   for word in $phrase; do
@@ -93,7 +94,8 @@ jobs:
                   encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$f'))" 2>/dev/null)
                   [ -n "$encoded" ] && echo "$encoded" >> "$patterns_file"
                 fi
-              done <<< "$filters"
+              done <<< "$(echo "$filters" | tr ' ' '\n')"
+              
               grep -i -F -f "$patterns_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
               rm -f "$patterns_file"
