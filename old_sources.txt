@@ -1,3 +1,6 @@
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
+https://gitverse.ru/api/repos/vansfenix/vansFenix/raw/branch/master/WLWVF
+https://gitverse.ru/api/repos/cid-uskoritel/cid-catwhite-uskoritel/raw/branch/master/configs.txt
 https://tinyurl.com/jm4nyfxp LTE
 https://xolirx-vpn.vercel.app/white
 https://raw.githubusercontent.com/s0ulcoil/nloVPN/refs/heads/main/nloVPN Обход %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%0A обход %D0%BE%D0%B1%D1%85%D0%BE%D0%B4
