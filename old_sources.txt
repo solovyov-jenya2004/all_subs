@@ -1,7 +1,7 @@
-https://github.com/s0ulcoil/VPN-BEZ-LAGOV/raw/refs/heads/main/VPN%20BEZ%20LAGOV LTE Мобильная связь Мобильная+связь Мобильная%20связь %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F+%D1%81%D0%B2%D1%8F%D0%B7%D1%8C
+https://raw.githubusercontent.com/s0ulcoil/VPN-BEZ-LAGOV/refs/heads/main/VPN%20BEZ%20LAGOV LTE Мобильная связь Мобильная+связь Мобильная%20связь %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%B2%D1%8F%D0%B7%D1%8C %D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F+%D1%81%D0%B2%D1%8F%D0%B7%D1%8C
 https://raw.githubusercontent.com/s0ulcoil/LumixVPN/refs/heads/main/LumixVPN Белые списки Белые%20списки Белые+списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
 https://raw.githubusercontent.com/s0ulcoil/FastConVPN/refs/heads/main/FastConVPN LTE 
-https://github.com/s0ulcoil/-KavkazVPN.ru/raw/refs/heads/main/KavkazVPN Обход БС Обход+БС Обход%20БС %D0%9E%D0%B1%D1%85%D0%BE%D0%B4+%D0%91%D0%A1 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1
+https://raw.githubusercontent.com/s0ulcoil/-KavkazVPN.ru/refs/heads/main/KavkazVPN Обход БС Обход+БС Обход%20БС %D0%9E%D0%B1%D1%85%D0%BE%D0%B4+%D0%91%D0%A1 %D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1
 j https://gitverse.ru/api/repos/qwerti2228/crypt_based/raw/branch/master/FreeCFGHub_subscription_lite
 https://sub.savvka.fun/whitelist
 https://vpn.akres.fun/bwl
