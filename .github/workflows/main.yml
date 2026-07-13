@@ -38,7 +38,7 @@ jobs:
             local src_line="$1"
             local index="$2"
             local line_clean url filters tmp_src http_code curl_exit
-            local tmp_dec count
+            local tmp_dec count grep_args
 
             # Очистка пробелов
             line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
@@ -46,8 +46,8 @@ jobs:
             # Извлекаем URL (первое слово)
             url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Извлекаем фильтры (если есть) – поддерживаем кавычки
-            filters=$(echo "$line_clean" | sed -E 's/^[^ ]* //' | grep -Eo '"[^"]*"|\S+')
+            # Собираем фильтры (все последующие слова) – с поддержкой фраз в кавычках
+            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
             tmp_src=$(mktemp)
 
@@ -69,36 +69,23 @@ jobs:
               rm -f "$tmp_dec"
             fi
 
-            # Применяем фильтры ТОЛЬКО если они заданы
-                        # Применяем фильтры, если они заданы
+            # Применяем фильтры, если они заданы
             if [ -n "$filters" ]; then
-              patterns_file=$(mktemp)
+              grep_args=""
               while IFS= read -r f; do
-                # Если фильтр в кавычках – разбираем как фразу
+                # Если фильтр в кавычках – разбиваем на отдельные слова
                 if [[ "$f" == \"*\" ]]; then
-                  phrase=$(echo "$f" | sed 's/^"//;s/"$//')
-                  # Каждое слово отдельно (как есть + percent-encoded)
-                  for word in $phrase; do
-                    echo "$word" >> "$patterns_file"
-                    encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$word'))" 2>/dev/null)
-                    [ -n "$encoded" ] && echo "$encoded" >> "$patterns_file"
+                  # Убираем кавычки, режем по пробелам
+                  inner=$(echo "$f" | sed 's/^"//;s/"$//')
+                  for word in $inner; do
+                    grep_args="$grep_args -e $word"
                   done
-                  # Точная фраза (как есть)
-                  echo "$phrase" >> "$patterns_file"
-                  # Полностью percent-encoded фраза
-                  encoded_phrase=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$phrase'))" 2>/dev/null)
-                  [ -n "$encoded_phrase" ] && echo "$encoded_phrase" >> "$patterns_file"
                 else
-                  # Одиночное слово (как есть + percent-encoded)
-                  echo "$f" >> "$patterns_file"
-                  encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$f'))" 2>/dev/null)
-                  [ -n "$encoded" ] && echo "$encoded" >> "$patterns_file"
+                  grep_args="$grep_args -e $f"
                 fi
               done <<< "$(echo "$filters" | tr ' ' '\n')"
-              
-              grep -i -F -f "$patterns_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+              grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
               mv "${tmp_src}_filtered" "$tmp_src"
-              rm -f "$patterns_file"
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
