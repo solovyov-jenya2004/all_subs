@@ -27,3 +27,4 @@ https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
 https://github.com/HalyavusVPNUS/halyava-vpn-lte/blob/main/lte.txt
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки Белые%20списки %D0%91%D0%B5%D0%BB%D1%8B%D0%B5%20%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B8
 https://tinyurl.com/jm4nyfxp LTE
+https://gitverse.ru/api/repos/cid-uskoritel/cid-catwhite-uskoritel/raw/branch/master/configs.txt
