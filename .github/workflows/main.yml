@@ -37,23 +37,16 @@ jobs:
           process_source() {
             local src_line="$1"
             local index="$2"
-            local line_clean is_json url filters tmp_src http_code curl_exit
-            local tmp_dec converted count grep_args
-            
+            local line_clean url filters tmp_src http_code curl_exit
+            local tmp_dec count grep_args
+
             # Очистка пробелов
             line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
-
-            # Определяем, JSON или нет
-            is_json=false
-            if echo "$line_clean" | grep -q '^j[[:space:]]'; then
-              is_json=true
-              line_clean=$(echo "$line_clean" | sed -e 's/^j[[:space:]]*//')
-            fi
 
             # Извлекаем URL (первое слово)
             url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Собираем фильтры (все последующие слова)
+            # Собираем фильтры (все последующие слова) – с поддержкой фраз в кавычках
             filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
 
             tmp_src=$(mktemp)
@@ -68,205 +61,36 @@ jobs:
               return
             fi
 
-            # Декодируем base64 для обычных подписок (не JSON)
-            if ! $is_json; then
-              tmp_dec=$(mktemp)
-              if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
-                mv "$tmp_dec" "$tmp_src"
-              else
-                rm -f "$tmp_dec"
-              fi
-            fi
-
-            # Извлекаем вложенные base64-строки (только для не‑JSON)
-            if $is_json; then
-              # --- Обработка JSON ---
-              export FILTERS="$filters"
-              export INPUT_FILE="$tmp_src"
-              
-              node -e '
-                const fs = require("fs");
-                const inputFile = process.env.INPUT_FILE;
-                let raw;
-                try {
-                  let buffer = fs.readFileSync(inputFile);
-                  if (buffer[0] === 0xEF && buffer[1] === 0xBB && buffer[2] === 0xBF) {
-                    buffer = buffer.slice(3);
-                  }
-                  raw = new TextDecoder("utf-8", { fatal: false }).decode(buffer).trim();
-                } catch(e) {
-                  process.exit(1);
-                }
-                if (raw.length === 0) process.exit(0);
-                if (!raw.startsWith("[")) {
-                  raw = "[" + raw + "]";
-                }
-                let configs;
-                try {
-                  configs = JSON.parse(raw);
-                } catch(e) {
-                  process.exit(1);
-                }
-                if (!Array.isArray(configs)) configs = [configs];
-
-                const systemTags = ["proxy", "direct", "block"];
-                const allLinks = [];
-                for (const config of configs) {
-                  const outbounds = config.outbounds || [];
-                  for (const out of outbounds) {
-                    const protocol = out.protocol;
-                    if (!["vless","vmess","trojan","shadowsocks","hysteria","hysteria2","tuic","socks"].includes(protocol)) continue;
-
-                    const remarks = config.remarks || "";
-                    const tag = out.tag || "";
-                    
-                    let name;
-                    if (remarks) {
-                      name = remarks;
-                      if (tag && !systemTags.includes(tag)) {
-                        name = remarks + " - " + tag;
-                      }
-                    } else if (tag && !systemTags.includes(tag)) {
-                      name = tag;
-                    } else {
-                      name = "Server";
-                    }
-
-                    const ss = out.streamSettings || {};
-                    const network = ss.network || "tcp";
-                    const security = ss.security || "none";
-                    let sni = "", fp = "", allowInsecure = false;
-                    if (security === "tls") {
-                      sni = ss.tlsSettings?.serverName || "";
-                      allowInsecure = ss.tlsSettings?.allowInsecure || false;
-                      fp = ss.tlsSettings?.fingerprint || "";
-                    } else if (security === "reality") {
-                      sni = ss.realitySettings?.serverName || "";
-                      fp = ss.realitySettings?.fingerprint || "";
-                    }
-                    const params = new URLSearchParams();
-                    if (network !== "tcp") params.set("type", network);
-                    if (security !== "none") params.set("security", security);
-                    if (sni) params.set("sni", sni);
-                    if (fp) params.set("fp", fp);
-                    if (allowInsecure) params.set("allowInsecure", "1");
-                    if (security === "reality") {
-                      if (ss.realitySettings?.publicKey) params.set("pbk", ss.realitySettings.publicKey);
-                      if (ss.realitySettings?.shortId) params.set("sid", ss.realitySettings.shortId);
-                    }
-                    if (network === "ws") {
-                      if (ss.wsSettings?.path) params.set("path", ss.wsSettings.path);
-                      if (ss.wsSettings?.headers?.Host) params.set("host", ss.wsSettings.headers.Host);
-                    } else if (network === "grpc") {
-                      if (ss.grpcSettings?.serviceName) params.set("serviceName", ss.grpcSettings.serviceName);
-                      if (ss.grpcSettings?.authority || sni) params.set("authority", ss.grpcSettings?.authority || sni);
-                    } else if (network === "xhttp") {
-                      if (ss.xhttpSettings?.path) params.set("path", ss.xhttpSettings.path);
-                      if (ss.xhttpSettings?.host) params.set("host", ss.xhttpSettings.host);
-                    } else if (network === "kcp") {
-                      if (ss.kcpSettings?.seed) params.set("seed", ss.kcpSettings.seed);
-                      if (ss.kcpSettings?.header) params.set("header", ss.kcpSettings.header.type || "none");
-                    }
-                    let link = "";
-                    const host = out.settings?.vnext?.[0]?.address || out.settings?.servers?.[0]?.address || out.settings?.server || "";
-                    const port = out.settings?.vnext?.[0]?.port || out.settings?.servers?.[0]?.port || out.settings?.port || "";
-                    const userId = out.settings?.vnext?.[0]?.users?.[0]?.id || out.settings?.servers?.[0]?.password || out.settings?.password || "";
-                    if (!host || !port) continue;
-                    switch (protocol) {
-                      case "vless":
-                        link = `vless://${userId}@${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
-                        break;
-                      case "vmess": {
-                        const vmess = JSON.stringify({
-                          v: "2", ps: name, add: host, port: port, id: userId,
-                          aid: 0, scy: "auto", net: network, type: "none",
-                          host: params.get("host") || "", path: params.get("path") || "/",
-                          tls: security === "tls" ? "tls" : (security === "reality" ? "reality" : "none"),
-                          sni: sni, fp: fp
-                        });
-                        link = "vmess://" + Buffer.from(vmess).toString("base64");
-                        break;
-                      }
-                      case "trojan":
-                        link = `trojan://${encodeURIComponent(userId)}@${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
-                        break;
-                      case "shadowsocks": {
-                        const method = out.settings?.servers?.[0]?.method || "aes-128-gcm";
-                        const userInfo = `${method}:${userId}`;
-                        const b64 = Buffer.from(userInfo + "@" + host + ":" + port).toString("base64");
-                        link = "ss://" + b64 + "#" + encodeURIComponent(name);
-                        break;
-                      }
-                      case "hysteria":
-                      case "hysteria2": {
-                        const auth = out.settings?.auth || userId;
-                        if (auth) params.set("auth", auth);
-                        const up = out.settings?.up_mbps || out.settings?.up || "";
-                        const down = out.settings?.down_mbps || out.settings?.down || "";
-                        if (up) params.set("upmbps", up);
-                        if (down) params.set("downmbps", down);
-                        const sniField = out.settings?.sni || sni;
-                        if (sniField) params.set(protocol === "hysteria" ? "peer" : "sni", sniField);
-                        const insecure = out.settings?.insecure || (security === "tls" && allowInsecure ? "1" : "");
-                        if (insecure) params.set("insecure", "1");
-                        link = protocol + `://${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
-                        break;
-                      }
-                      case "tuic": {
-                        const uuid = out.settings?.uuid || userId;
-                        const password = out.settings?.password || "";
-                        if (uuid) params.set("uuid", uuid);
-                        if (password) params.set("password", password);
-                        const congestion = out.settings?.congestion_control || "bbr";
-                        params.set("congestion_control", congestion);
-                        if (sni) params.set("sni", sni);
-                        if (allowInsecure) params.set("allow_insecure", "1");
-                        link = `tuic://${host}:${port}?${params.toString()}#${encodeURIComponent(name)}`;
-                        break;
-                      }
-                      case "socks": {
-                        const user = out.settings?.servers?.[0]?.users?.[0];
-                        const userinfo = user ? `${encodeURIComponent(user.user)}:${encodeURIComponent(user.pass)}@` : "";
-                        link = `socks5://${userinfo}${host}:${port}#${encodeURIComponent(name)}`;
-                        break;
-                      }
-                    }
-                    if (link) allLinks.push(link);
-                  }
-                }
-                console.log(allLinks.join("\n"));
-              ' > "$tmp_src.out" 2>/dev/null
-              
-              mv "$tmp_src.out" "$tmp_src"
-
-              # ✅ Теперь фильтруем уже готовые ссылки, как и обычные подписки
-              if [ -n "$filters" ]; then
-                grep_args=""
-                for f in $filters; do
-                  grep_args="$grep_args -e $f"
-                done
-                grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-                mv "${tmp_src}_filtered" "$tmp_src"
-              fi
-              
-              count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] JSON обработан: $(plural_configs $count)"
-              cat "$tmp_src" > "tmp_results/${index}.txt"
+            # Декодируем base64 (если файл закодирован)
+            tmp_dec=$(mktemp)
+            if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
+              mv "$tmp_dec" "$tmp_src"
             else
-              # Обработка не-JSON источников (без изменений)
-              if [ -n "$filters" ]; then
-                grep_args=""
-                for f in $filters; do
-                  grep_args="$grep_args -e $f"
-                done
-                grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-                mv "${tmp_src}_filtered" "$tmp_src"
-              fi
-
-              count=$(grep -c '://' "$tmp_src" || true)
-              echo "   ✅ [$url] Скачано: $(plural_configs $count)"
-              cat "$tmp_src" > "tmp_results/${index}.txt"
+              rm -f "$tmp_dec"
             fi
+
+            # Применяем фильтры, если они заданы
+            if [ -n "$filters" ]; then
+              grep_args=""
+              while IFS= read -r f; do
+                # Если фильтр в кавычках – разбиваем на отдельные слова
+                if [[ "$f" == \"*\" ]]; then
+                  # Убираем кавычки, режем по пробелам
+                  inner=$(echo "$f" | sed 's/^"//;s/"$//')
+                  for word in $inner; do
+                    grep_args="$grep_args -e $word"
+                  done
+                else
+                  grep_args="$grep_args -e $f"
+                fi
+              done <<< "$(echo "$filters" | tr ' ' '\n')"
+              grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+              mv "${tmp_src}_filtered" "$tmp_src"
+            fi
+
+            count=$(grep -c '://' "$tmp_src" || true)
+            echo "   ✅ [$url] Скачано: $(plural_configs $count)"
+            cat "$tmp_src" > "tmp_results/${index}.txt"
 
             rm -f "$tmp_src"
           }
