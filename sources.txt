@@ -22,6 +22,4 @@ j https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/h
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://gitverse.ru/api/repos/vansfenix/vansFenix/raw/branch/master/WLWVF
-j https://gitverse.ru/api/repos/qwerti2228/crypt_based/raw/branch/master/FreeCFGHub_subscription_lite
 https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
-https://sub.savvka.fun/whitelist
