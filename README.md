@@ -144,6 +144,17 @@ https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
+<details>
+    <summary><b>🐈‍⬛ hubp</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
+        
+    https://git.hubp.de/raw-githubusercontent-com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted
+   <p><b>Base64‑подписка</b></p>
+  
+    https://git.hubp.de/raw-githubusercontent-com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64
+</details>
+
 
 <details>
     <summary><b>🔓 Happy Decoder</b></summary>
@@ -392,7 +403,7 @@ https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигурац
 
 Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy, Happy Decoder и Alexanderoff.
 
-На зеркалах GitHub, jsDelivr и GitLab мобильная подписка отсутствует.
+На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
 
 <details>
