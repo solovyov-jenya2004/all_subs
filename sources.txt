@@ -20,7 +20,6 @@ https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
 https://raw.githubusercontent.com/prominbro/kfwlsub/refs/heads/main/sub LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
-https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://sub.pfvpn.cfd/free/sub ГЛУШИЛКИ
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/xolirx/list-check/refs/heads/main/white.txt
