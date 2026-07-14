@@ -61,6 +61,23 @@ jobs:
               return
             fi
 
+            # Проверяем, является ли файл JSON (массив или объект)
+            first_char=$(head -c 1 "$tmp_src")
+            last_char=$(tail -c 1 "$tmp_src")
+            if { [ "$first_char" = "[" ] && [ "$last_char" = "]" ]; } || { [ "$first_char" = "{" ] && [ "$last_char" = "}" ]; }; then
+              happy_url="https://happy-decoder.cc/p/txt/$url"
+              happy_tmp=$(mktemp)
+              http_code_happy=$(curl -sS -L --max-time 30 -o "$happy_tmp" -w '%{http_code}' "$happy_url" 2>/dev/null) || true
+              if echo "$http_code_happy" | grep -qE '^(2..|3..)$'; then
+                mv "$happy_tmp" "$tmp_src"
+              else
+                rm -f "$happy_tmp"
+                echo "   ❌ [$url] Конвертер не работает (HTTP $http_code_happy)"
+                rm -f "$tmp_src"
+                return
+              fi
+            fi
+            
             # Декодируем base64 (если файл закодирован)
             tmp_dec=$(mktemp)
             if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
@@ -175,8 +192,9 @@ jobs:
               let proto = protoSplit[0];
               const rest = protoSplit[1];
 
-              // Считаем h2 и hysteria2 одним протоколом
+              // Считаем h2, hy2 и hysteria2 одним протоколом
               if (proto === 'h2') proto = 'hysteria2';
+              if (proto === 'hy2') proto = 'hysteria2';
 
               let normalizedUri;
               if (proto === 'vmess') {
@@ -283,7 +301,7 @@ jobs:
           }
           echo ""
           echo "📊 Количество конфигураций по протоколам:"
-          awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed 's/^h2$/hysteria2/' | sort | uniq -c | sort -rn | while read count proto; do
+          awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed -e 's/^h2$/hysteria2/' -e 's/^hy2$/hysteria2/' | sort | uniq -c | sort -rn | while read count proto; do
             printf "   %s - %s\n" "$proto" "$(plural_configs $count)"
           done
           
