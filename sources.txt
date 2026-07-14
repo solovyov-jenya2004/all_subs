@@ -25,3 +25,4 @@ https://happy-decoder.cc/p/txt/https://raw.githubusercontent.com/dmitriistekolni
 https://sub.pfvpn.cfd/free/sub ГЛУШИЛКИ
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/xolirx/list-check/refs/heads/main/white.txt
+https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
