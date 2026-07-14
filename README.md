@@ -167,7 +167,7 @@ https://solovyov-jenya2004.vercel.app/random/
     https://happy-decoder.cc/p/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
   <p><b>Мобильная подписка</b></p>
     
-    https://happy-decoder.cc/p/=https://solovyov-jenya2004.vercel.app/random/
+    https://happy-decoder.cc/p/https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
