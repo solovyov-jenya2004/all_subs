@@ -376,7 +376,7 @@ https://solovyov-jenya2004.vercel.app/random/
 | Render | [status.render.com](https://status.render.com/) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
 | Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com/) |
-| Cloudflare | [status.supabase.com](https://status.supabase.com/) |
+| Supabase | [status.supabase.com](https://status.supabase.com/) |
 | Netlify | [netlifystatus.com](https://netlifystatus.com/) |
 
 Если обновление отсутствует более 15 минут, проверьте статус интересующего сервиса.
