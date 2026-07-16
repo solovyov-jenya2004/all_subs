@@ -418,7 +418,7 @@ https://solovyov-jenya2004.vercel.app/random/
 https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
 https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: Alexanderoff, kfwl, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify .
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: Alexanderoff, kfwl, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify.
 
 На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
