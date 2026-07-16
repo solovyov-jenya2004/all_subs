@@ -20,8 +20,8 @@
 
 ### Как понять, что у вас «белый список»
 
-- ✅ Яндекс, ВК, Госуслуги, Ozon, Сбербанк и другие российские сервисы открываются...
-- ❌ ...а Google, App Store и другие иностранные сервисы не открываются.
+- ✅ Яндекс, ВК, Госуслуги, Ozon, Rutube и другие российские сервисы открываются...
+- ❌ ...а Google, App Store, Википедия, Steam и другие иностранные сервисы не открываются.
 
 > Если у вас сейчас нет ограничений — **прошу не использовать** мою подписку, лучше обновите ее перед очередным отключением для последущего ее использования.
 > 
@@ -141,6 +141,21 @@ https://solovyov-jenya2004.vercel.app/random/
   <p><b>Мобильная подписка</b></p>
     
     https://ru-macros.alexanderoff.ru/macros?url=https://solovyov-jenya2004.vercel.app/random/
+   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
+</details>
+
+<details>
+    <summary><b>🏞️ kfwl</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
+     
+    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
+   <p><b>Base64‑подписка</b></p>
+   
+    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
+  <p><b>Мобильная подписка</b></p>
+    
+    https://iam.sos.al/url/https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -355,6 +370,7 @@ https://solovyov-jenya2004.vercel.app/random/
 | GitHub | [githubstatus.com](https://www.githubstatus.com/) |
 | Vercel | [vercel-status.com](https://vercel-status.com/) |
 | jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com/) |
+| kfwl | [iam.sos.al/health](https://iam.sos.al/health) |
 | Deno Deploy | [denostatus.com](https://denostatus.com/) |
 | Render | [status.render.com](https://status.render.com/) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
@@ -401,7 +417,7 @@ https://solovyov-jenya2004.vercel.app/random/
 https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
 https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy, Happy Decoder и Alexanderoff.
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy, Happy Decoder, kfwl и Alexanderoff.
 
 На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
