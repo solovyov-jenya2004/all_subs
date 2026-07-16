@@ -1,6 +1,5 @@
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ Обход глушилок
 https://raw.githubusercontent.com/xolirx/list-check/refs/heads/main/white.txt
-https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://github.com/HalyavusVPNUS/halyava-vpn-lte/blob/main/lte.txt
 https://gitverse.ru/api/repos/vansfenix/vansFenix/raw/branch/master/WLWVF
 https://tinyurl.com/jm4nyfxp LTE
@@ -21,7 +20,6 @@ https://sub.savvka.fun/whitelist
 https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
 https://tinyurl.com/freesub-scalavpnrobot Белый список
-https://raw.githubusercontent.com/uretkavpn/Uretkavpn/refs/heads/main/UretkaVpn.txt Lte LTE БС lte 🏳️
 https://gist.githubusercontent.com/FrizanGAME/dfd1f7ac36511593dc6d0faff14cc8bb/raw/frizanVPN.txt Обход БС
 https://raw.githubusercontent.com/likzil/vless1/refs/heads/main/Treetcpvpn Обходы белых списков LTE
 https://raw.githubusercontent.com/mbelspb-gif/gdffgd/refs/heads/main/Swordware.net LTE Белый список
