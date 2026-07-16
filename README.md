@@ -371,6 +371,7 @@ https://solovyov-jenya2004.vercel.app/random/
 | Vercel | [vercel-status.com](https://vercel-status.com/) |
 | jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com/) |
 | kfwl | [iam.sos.al/health](https://iam.sos.al/health) |
+| Happy Decoder | [happy-decoder.cc/health](https://happy-decoder.cc/health) |
 | Deno Deploy | [denostatus.com](https://denostatus.com/) |
 | Render | [status.render.com](https://status.render.com/) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
@@ -417,7 +418,7 @@ https://solovyov-jenya2004.vercel.app/random/
 https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
 https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: Render, Netlify, Deno Deploy, Happy Decoder, kfwl и Alexanderoff.
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: Alexanderoff, kfwl, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify .
 
 На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
