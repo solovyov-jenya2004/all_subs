@@ -14,7 +14,6 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
-https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
 https://sub.pfvpn.cfd/free/sub ГЛУШИЛКИ
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
