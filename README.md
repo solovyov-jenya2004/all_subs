@@ -160,7 +160,7 @@ https://solovyov-jenya2004.vercel.app/random/
 </details>
 
 <details>
-    <summary><b>)📶 DSKa.su</b></summary>
+    <summary><b>📶 DSKa.su</b></summary>
       <br>
       <p><b>Обычная подписка</b></p>
      
