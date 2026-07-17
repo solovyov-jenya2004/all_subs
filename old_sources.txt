@@ -1,5 +1,3 @@
-https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
-https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vip.txt LTE
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки
 https://gitverse.ru/api/repos/qwerti2228/crypt_based/raw/branch/master/FreeCFGHub_subscription_lite
 https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
