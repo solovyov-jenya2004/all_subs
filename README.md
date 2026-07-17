@@ -160,6 +160,21 @@ https://solovyov-jenya2004.vercel.app/random/
 </details>
 
 <details>
+    <summary><b>)📶 DSKa.su</b></summary>
+      <br>
+      <p><b>Обычная подписка</b></p>
+     
+    https://happ.dska.su/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
+   <p><b>Base64‑подписка</b></p>
+   
+    https://happ.dska.su/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
+  <p><b>Мобильная подписка</b></p>
+    
+    https://happ.dska.su/https://solovyov-jenya2004.vercel.app/random/
+   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
+</details>
+
+<details>
     <summary><b>🐈‍⬛ hubp</b></summary>
       <br>
       <p><b>Обычная подписка</b></p>
@@ -419,7 +434,7 @@ https://solovyov-jenya2004.vercel.app/random/
 https://solovyov-jenya2004.vercel.app/random/?n=50 → 50 конфигураций
 https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: Alexanderoff, kfwl, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify.
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: Alexanderoff, kfwl, DSKa.su, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify.
 
 На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
@@ -494,7 +509,7 @@ https://solovyov-jenya2004.vercel.app/random/?n=200 → 200 конфигурац
 
 Если тесты не проходит ни одна конфигурация, вероятные причины:
 
-- Полностью отключен интеренет.
+- Полностью отключен интернет.
 - VPN‑клиент не может достучаться до тестового URL. Попробуйте сменить тестовый URL в настройках клиента.
 - Ваш DNS‑сервер заблокирован – попробуйте установить DNS‑over‑HTTPS.
 - Все сервера упали – обновите подписку и попробуйте снова.
