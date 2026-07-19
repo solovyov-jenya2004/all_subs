@@ -5,7 +5,6 @@ https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/hea
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://subrostunnel.vercel.app/lte.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
-https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки
 https://gitflic.ru/project/liniptv/lso/blob/raw?file=sub/LTE.txt
 https://raw.githubusercontent.com/xolirx/list-check/refs/heads/main/white.txt
 https://github.com/HalyavusVPNUS/halyava-vpn-lte/blob/main/lte.txt
