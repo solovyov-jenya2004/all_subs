@@ -1,4 +1,3 @@
-https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://subrostunnel.vercel.app/lte.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
