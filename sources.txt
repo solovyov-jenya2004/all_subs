@@ -8,7 +8,6 @@ https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.tx
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://sub.pfvpn.cfd/free/sub ГЛУШИЛКИ
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://etoneya.su/whitelist
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
