@@ -9,7 +9,6 @@ https://raw.githubusercontent.com/xolirx/list-check/refs/heads/main/white.txt
 https://github.com/HalyavusVPNUS/halyava-vpn-lte/blob/main/lte.txt
 https://gitverse.ru/api/repos/vansfenix/vansFenix/raw/branch/master/WLWVF
 https://tinyurl.com/jm4nyfxp LTE
-https://xolirx-vpn.vercel.app/white
 https://raw.githubusercontent.com/s0ulcoil/nloVPN/refs/heads/main/nloVPN Обход обход
 https://raw.githubusercontent.com/s0ulcoil/AstroVpn/refs/heads/main/AstroVpn Обход
 https://raw.githubusercontent.com/s0ulcoil/K13vpn/refs/heads/main/K13vpn Антизаглушка
