@@ -24,3 +24,4 @@ https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFre
 https://xolirx-vpn.vercel.app/white
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
+https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки
