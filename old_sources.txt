@@ -1,3 +1,4 @@
+https://raw.githubusercontent.com/Kirillo4ka/eavevpn-configs/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
 https://xolirx-vpn.vercel.app/white
 https://sub.pfvpn.cfd/free/sub ГЛУШИЛКИ
 https://raw.githubusercontent.com/kama55726/KomaryServers/refs/heads/main/KomaryServ Белые списки
