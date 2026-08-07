@@ -14,7 +14,6 @@ https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-checked.txt
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt
-https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
