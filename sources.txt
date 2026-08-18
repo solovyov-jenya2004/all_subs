@@ -15,3 +15,4 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
