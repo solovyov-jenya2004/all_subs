@@ -14,4 +14,3 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
