@@ -159,20 +159,6 @@ https://solovyov-jenya2004.vercel.app/random/
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
-<details>
-    <summary><b>📶 DSKa.su</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
-     
-    https://happ.dska.su/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
-   <p><b>Base64‑подписка</b></p>
-   
-    https://happ.dska.su/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
-  <p><b>Мобильная подписка</b></p>
-    
-    https://happ.dska.su/https://solovyov-jenya2004.vercel.app/random/
-   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
-</details>
 
 <details>
     <summary><b>🐈‍⬛ hubp</b></summary>
