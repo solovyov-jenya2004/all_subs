@@ -369,3 +369,25 @@ jobs:
             echo ""
             echo "Подписки опубликованы"
           fi
+      - name: Публикация
+        run: |
+          cd repo
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # Копируем новые файлы
+          cp ../files/final_sorted ./final_sorted
+          cp ../files/final_sorted_base64 ./final_sorted_base64
+          
+          # Индексируем файлы
+          git add final_sorted final_sorted_base64
+          
+          # Проверяем изменения
+          if git diff --cached --quiet; then
+            echo ""
+            echo "Изменений нет, обновление не требуется."
+          else
+            git commit --amend -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
+            echo ""
+            echo "Подписки опубликованы"
+          fi
