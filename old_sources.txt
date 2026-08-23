@@ -1,5 +1,3 @@
-https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
-https://raw.githubusercontent.com/prominbro/kfwlsub/refs/heads/main/sub LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://raw.githubusercontent.com/Ilyacom4ik/free-v2ray-2026/refs/heads/main/subscriptions/FreeCFGHub1.txt LTE Lite lite
 https://raw.githubusercontent.com/Ilyacom4ik/vpn-keys/refs/heads/main/allkeysFreeCFGHub.txt LTE Lite lite
