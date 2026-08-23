@@ -83,10 +83,10 @@ https://solovyov-jenya2004.vercel.app/random/
         <br>
         <p><b>Обычная подписка</b></p>
     
-    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted
    <p><b>Base64‑подписка</b></p>
   
-    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
+    https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64
   </details>
 
 
@@ -99,10 +99,10 @@ https://solovyov-jenya2004.vercel.app/random/
       <br>
       <p><b>Обычная подписка</b></p>
     
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
+    https://cdn.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
 
   <details>
@@ -110,10 +110,10 @@ https://solovyov-jenya2004.vercel.app/random/
       <br>
       <p><b>Обычная подписка</b></p>
     
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
+    https://fastly.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
 
    <details>
@@ -121,27 +121,11 @@ https://solovyov-jenya2004.vercel.app/random/
       <br>
       <p><b>Обычная подписка</b></p>
      
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted/
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted
    <p><b>Base64‑подписка</b></p>
       
-    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64/
+    https://gcore.jsdelivr.net/gh/solovyov-jenya2004/all_subs@main/final_sorted_base64
    </details>
-</details>
-
-
-<details>
-    <summary><b>👤 Alexanderoff</b></summary>
-      <br>
-      <p><b>Обычная подписка</b></p>
-     
-    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
-   <p><b>Base64‑подписка</b></p>
-   
-    https://ru-macros.alexanderoff.ru/macros?url=https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
-  <p><b>Мобильная подписка</b></p>
-    
-    https://ru-macros.alexanderoff.ru/macros?url=https://solovyov-jenya2004.vercel.app/random/
-   Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
 <details>
@@ -149,10 +133,10 @@ https://solovyov-jenya2004.vercel.app/random/
       <br>
       <p><b>Обычная подписка</b></p>
      
-    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
+    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted
    <p><b>Base64‑подписка</b></p>
    
-    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
+    https://iam.sos.al/url/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64
   <p><b>Мобильная подписка</b></p>
     
     https://iam.sos.al/url/https://solovyov-jenya2004.vercel.app/random/
@@ -177,10 +161,10 @@ https://solovyov-jenya2004.vercel.app/random/
       <br>
       <p><b>Обычная подписка</b></p>
      
-    https://happy-decoder.cc/p/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted/
+    https://happy-decoder.cc/p/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted
    <p><b>Base64‑подписка</b></p>
    
-    https://happy-decoder.cc/p/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64/
+    https://happy-decoder.cc/p/https://raw.githubusercontent.com/solovyov-jenya2004/all_subs/refs/heads/main/final_sorted_base64
   <p><b>Мобильная подписка</b></p>
     
     https://happy-decoder.cc/p/https://solovyov-jenya2004.vercel.app/random/
