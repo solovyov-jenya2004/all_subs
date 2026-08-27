@@ -17,6 +17,5 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.txt
-https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
 https://raw.githubusercontent.com/prominbro/kfwlsub/refs/heads/main/sub LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
