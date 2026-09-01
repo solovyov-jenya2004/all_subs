@@ -17,3 +17,4 @@ https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://etoneya.su/whitelist
+https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
