@@ -16,5 +16,4 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
-https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://etoneya.su/whitelist
