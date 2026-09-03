@@ -1,5 +1,3 @@
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
-https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
 https://raw.githubusercontent.com/prominbro/kfwlsub/refs/heads/main/sub LTE wLTE Белые списки Белый список Обходы белых списков Обход БС WL
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Whitelist.txt
