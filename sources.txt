@@ -16,3 +16,4 @@ https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.tx
 https://etoneya.su/whitelist
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
+https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
