@@ -14,3 +14,6 @@ https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.txt
 https://etoneya.su/whitelist
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/plus.txt wLTE
+https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
+https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
