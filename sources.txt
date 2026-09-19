@@ -8,7 +8,6 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-SNI-RU-all.txt
 https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/configs/balanced.txt wLTE
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
-https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/OceaniaVPN/StekloVPN/main/configs/whitelist.txt
 https://etoneya.su/whitelist
