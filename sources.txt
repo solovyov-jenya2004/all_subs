@@ -32,5 +32,6 @@ https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/hy2.txt �
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/ss.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/vmess.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
-https://hub.mos.ru/nfajih/wildvf/-/raw/main/WVFWL
 https://raw.githubusercontent.com/VansFenix/vpnparser/main/white.txt
+https://hub.mos.ru/nfajih/wildvf/-/raw/main/WVFWL
+https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
