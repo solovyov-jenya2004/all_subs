@@ -19,6 +19,7 @@ https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://raw.githubusercontent.com/AirLinkVPN1/AirLinkVPN/refs/heads/main/rkn_white_list
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_bs.txt
+https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_full.txt [WL]
 https://hub.mos.ru/kfwl/auto/raw/main/wl
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/configs.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/good.txt 🏳️ Белый айпи
