@@ -15,7 +15,6 @@ https://raw.githubusercontent.com/gooseteam-hackers/GooseVPN/refs/heads/main/con
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
-https://raw.githubusercontent.com/AirLinkVPN1/AirLinkVPN/refs/heads/main/rkn_white_list
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_bs.txt
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/configs.txt 🏳️ Белый айпи
@@ -33,4 +32,3 @@ https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
-https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
