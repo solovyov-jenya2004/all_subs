@@ -25,7 +25,6 @@ https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/vless.txt 
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/hy2.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/ss.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/vmess.txt 🏳️ Белый айпи
-https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/VansFenix/vpnparser/main/white.txt
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
