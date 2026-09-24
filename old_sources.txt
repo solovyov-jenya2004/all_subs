@@ -1,5 +1,3 @@
-https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
-https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
 https://hub.mos.ru/kfwl/auto/raw/main/wl
 https://hub.mos.ru/nfajih/wildvf/-/raw/main/WVFWL
