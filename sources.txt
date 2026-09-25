@@ -33,3 +33,4 @@ https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
