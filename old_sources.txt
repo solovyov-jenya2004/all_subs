@@ -36,7 +36,7 @@ https://raw.githubusercontent.com/s0ulcoil/WSVPN/refs/heads/main/1WSVPN Белы
 https://raw.githubusercontent.com/s0ulcoil/VPN-BEZ-LAGOV/refs/heads/main/VPN%20BEZ%20LAGOV LTE Мобильная связь
 https://raw.githubusercontent.com/s0ulcoil/LumixVPN/refs/heads/main/LumixVPN Белые списки
 https://raw.githubusercontent.com/s0ulcoil/FastConVPN/refs/heads/main/FastConVPN LTE 
-https://raw.githubusercontent.com/s0ulcoil/-KavkazVPN.ru/refs/heads/main/KavkazVPN Обход БС
+https://raw.githubusercontent.com/s0ulcoil/-KavkazVPN.ru/refs/heads/main/KavkazVPN Обход БС ⚡ быстрый
 https://sub.savvka.fun/whitelist
 https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
