@@ -86,53 +86,50 @@ jobs:
               rm -f "$tmp_dec"
             fi
 
-            # Применяем фильтры, если они заданы
+            # Применяем фильтры: декодируем имя после # и сравниваем с чистым текстом
             if [ -n "$filters" ]; then
-              include_file=$(mktemp)
-              exclude_file=$(mktemp)
+              export FILTERS="$filters"
+              python3 -c "
+import urllib.parse, re, os, sys
 
-              # Разбираем фильтры с учётом кавычек
-              while IFS= read -r raw; do
-                [ -z "$raw" ] && continue
+filters_raw = os.environ.get('FILTERS', '')
+parts = re.findall(r'\"[^\"]*\"|\S+', filters_raw)
+include_phrases = []
+exclude_phrases = []
+for p in parts:
+    neg = p.startswith('-')
+    if neg:
+        p = p[1:]
+    if p.startswith('\"') and p.endswith('\"'):
+        p = p[1:-1]
+    if neg:
+        exclude_phrases.append(p.lower())
+    else:
+        include_phrases.append(p.lower())
 
-                neg=false
-                if [[ "$raw" == -* ]]; then
-                  neg=true
-                  raw="${raw#-}"
-                fi
+path = '$tmp_src'
+with open(path, encoding='utf-8', errors='ignore') as f:
+    lines = f.readlines()
 
-                # Снимаем кавычки
-                if [[ "$raw" == \"*\" ]]; then
-                  raw="${raw#\"}"
-                  raw="${raw%\"}"
-                fi
+kept = []
+for line in lines:
+    h = line.find('#')
+    name = line[h+1:] if h >= 0 else line
+    try:
+        name = urllib.parse.unquote(name)
+    except Exception:
+        pass
+    name_l = name.lower()
 
-                target="$include_file"
-                $neg && target="$exclude_file"
+    if exclude_phrases and any(ex in name_l for ex in exclude_phrases):
+        continue
+    if include_phrases and not any(inc in name_l for inc in include_phrases):
+        continue
+    kept.append(line)
 
-                # 1. Фраза как есть
-                echo "$raw" >> "$target"
-                # 2. Percent-encoded с %20
-                enc1=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$raw" 2>/dev/null)
-                [ -n "$enc1" ] && echo "$enc1" >> "$target"
-                # 3. Percent-encoded с +
-                enc2=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote_plus(sys.argv[1]))" "$raw" 2>/dev/null)
-                [ -n "$enc2" ] && echo "$enc2" >> "$target"
-              done < <(echo "$filters" | grep -oE '"[^"]*"|\S+')
-
-              # Сначала включаем
-              if [ -s "$include_file" ]; then
-                grep -i -F -f "$include_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-                mv "${tmp_src}_filtered" "$tmp_src"
-              fi
-
-              # Потом исключаем
-              if [ -s "$exclude_file" ]; then
-                grep -i -v -F -f "$exclude_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-                mv "${tmp_src}_filtered" "$tmp_src"
-              fi
-
-              rm -f "$include_file" "$exclude_file"
+with open(path, 'w', encoding='utf-8') as f:
+    f.writelines(kept)
+"
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
@@ -220,14 +217,12 @@ jobs:
             for (const line of lines) {
               const hashIndex = line.indexOf('#');
               const uri = hashIndex >= 0 ? line.substring(0, hashIndex) : line;
-              const namePart = hashIndex >= 0 ? line.substring(hashIndex) : '';
 
               const protoSplit = uri.split('://');
               if (protoSplit.length < 2) { result.push(line); continue; }
               let proto = protoSplit[0];
               const rest = protoSplit[1];
 
-              // Считаем h2, hy2 и hysteria2 одним протоколом
               if (proto === 'h2') proto = 'hysteria2';
               if (proto === 'hy2') proto = 'hysteria2';
 
@@ -294,7 +289,6 @@ jobs:
         run: |
           # Подготовка итоговых файлов
           
-          # Удаляем пробелы перед http:// и https://
           sed -E 's/ +(https?:\/\/)/\1/g' deduped > deduped_cleaned
           mv deduped_cleaned deduped
           
@@ -309,14 +303,11 @@ jobs:
           
           EOF
           
-          # Перемешиваем конфигурации
           shuf deduped -o shuffled_deduped
           
-          # Собираем финальный файл с заголовками и двумя пустыми строками после них
           cat headers.txt shuffled_deduped > final_sorted
           echo "final_sorted создан"
 
-          # Кодируем в base64 с заголовками
           base64 -w 0 final_sorted > final_sorted_base64
           echo "final_sorted_base64 создан"
 
@@ -342,7 +333,6 @@ jobs:
           
       - name: Публикация на GitHub
         run: |
-          # Публикация на GitHub
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add final_sorted final_sorted_base64
