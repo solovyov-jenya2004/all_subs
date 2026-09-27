@@ -38,7 +38,7 @@ jobs:
             local src_line="$1"
             local index="$2"
             local line_clean url filters tmp_src http_code curl_exit
-            local tmp_dec count grep_args
+            local tmp_dec count
 
             # Очистка пробелов
             line_clean=$(echo "$src_line" | sed -e 's/^[[:space:]]*//; s/[[:space:]]*$//')
@@ -46,8 +46,8 @@ jobs:
             # Извлекаем URL (первое слово)
             url=$(echo "$line_clean" | awk '{print $1}')
 
-            # Собираем фильтры (все последующие слова)
-            filters=$(echo "$line_clean" | awk '{for(i=2;i<=NF;i++) print $i}')
+            # Собираем фильтры целиком, чтобы сохранить кавычки
+            filters=$(echo "$line_clean" | sed -E 's/^[^ ]+ ?//')
 
             tmp_src=$(mktemp)
 
@@ -88,18 +88,51 @@ jobs:
 
             # Применяем фильтры, если они заданы
             if [ -n "$filters" ]; then
-              grep_args=""
-              while IFS= read -r f; do
-                # Само слово или фраза (кавычки уже сняты)
-                grep_args="$grep_args -e $f"
-                # Добавляем percent-encoded вариант (через python3)
-                encoded=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$f'))" 2>/dev/null)
-                if [ -n "$encoded" ] && [ "$encoded" != "$f" ]; then
-                  grep_args="$grep_args -e $encoded"
+              include_file=$(mktemp)
+              exclude_file=$(mktemp)
+
+              # Разбираем фильтры с учётом кавычек
+              while IFS= read -r raw; do
+                [ -z "$raw" ] && continue
+
+                neg=false
+                if [[ "$raw" == -* ]]; then
+                  neg=true
+                  raw="${raw#-}"
                 fi
-              done <<< "$(echo "$filters" | tr ' ' '\n')"
-              grep -i $grep_args "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
-              mv "${tmp_src}_filtered" "$tmp_src"
+
+                # Снимаем кавычки
+                if [[ "$raw" == \"*\" ]]; then
+                  raw="${raw#\"}"
+                  raw="${raw%\"}"
+                fi
+
+                target="$include_file"
+                $neg && target="$exclude_file"
+
+                # 1. Фраза как есть
+                echo "$raw" >> "$target"
+                # 2. Percent-encoded с %20
+                enc1=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$raw" 2>/dev/null)
+                [ -n "$enc1" ] && echo "$enc1" >> "$target"
+                # 3. Percent-encoded с +
+                enc2=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote_plus(sys.argv[1]))" "$raw" 2>/dev/null)
+                [ -n "$enc2" ] && echo "$enc2" >> "$target"
+              done < <(echo "$filters" | grep -oE '"[^"]*"|\S+')
+
+              # Сначала включаем
+              if [ -s "$include_file" ]; then
+                grep -i -F -f "$include_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+                mv "${tmp_src}_filtered" "$tmp_src"
+              fi
+
+              # Потом исключаем
+              if [ -s "$exclude_file" ]; then
+                grep -i -v -F -f "$exclude_file" "$tmp_src" > "${tmp_src}_filtered" 2>/dev/null || true
+                mv "${tmp_src}_filtered" "$tmp_src"
+              fi
+
+              rm -f "$include_file" "$exclude_file"
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
@@ -347,14 +380,12 @@ jobs:
 
       - name: Клонирование репозитория
         run: |
-          # Клонирование репозитория
           git clone --depth 1 ${{ matrix.clone_url }} repo
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
       - name: Публикация
         run: |
-          # Публикация
           cd repo
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -366,28 +397,6 @@ jobs:
           else
             git commit -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             git push origin ${{ matrix.branch }}
-            echo ""
-            echo "Подписки опубликованы"
-          fi
-      - name: Публикация
-        run: |
-          cd repo
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          
-          # Копируем новые файлы
-          cp ../files/final_sorted ./final_sorted
-          cp ../files/final_sorted_base64 ./final_sorted_base64
-          
-          # Индексируем файлы
-          git add final_sorted final_sorted_base64
-          
-          # Проверяем изменения
-          if git diff --cached --quiet; then
-            echo ""
-            echo "Изменений нет, обновление не требуется."
-          else
-            git commit --amend -m "Обновление $(date -u '+%Y-%m-%d %H:%M') UTC"
             echo ""
             echo "Подписки опубликованы"
           fi
