@@ -89,25 +89,26 @@ jobs:
             # Применяем фильтры: декодируем имя после # и сравниваем с чистым текстом
             if [ -n "$filters" ]; then
               export FILTERS="$filters"
-              python3 -c "
-import urllib.parse, re, os, sys
+              export TMP_SRC="$tmp_src"
+              python3 << 'PYEOF'
+import urllib.parse, re, os
 
 filters_raw = os.environ.get('FILTERS', '')
-parts = re.findall(r'\"[^\"]*\"|\S+', filters_raw)
+parts = re.findall(r'"[^"]*"|\S+', filters_raw)
 include_phrases = []
 exclude_phrases = []
 for p in parts:
     neg = p.startswith('-')
     if neg:
         p = p[1:]
-    if p.startswith('\"') and p.endswith('\"'):
+    if p.startswith('"') and p.endswith('"'):
         p = p[1:-1]
     if neg:
         exclude_phrases.append(p.lower())
     else:
         include_phrases.append(p.lower())
 
-path = '$tmp_src'
+path = os.environ.get('TMP_SRC')
 with open(path, encoding='utf-8', errors='ignore') as f:
     lines = f.readlines()
 
@@ -129,7 +130,7 @@ for line in lines:
 
 with open(path, 'w', encoding='utf-8') as f:
     f.writelines(kept)
-"
+PYEOF
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
