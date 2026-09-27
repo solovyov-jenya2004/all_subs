@@ -1,6 +1,3 @@
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
-https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
-https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://hub.mos.ru/kfwl/auto/raw/main/wl
