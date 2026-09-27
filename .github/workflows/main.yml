@@ -34,6 +34,38 @@ jobs:
           mkdir -p tmp_results
           i=0
 
+          # Скрипт фильтрации (декодирует имя после # и сравнивает с чистыми фразами)
+          cat > /tmp/filter_subs.py << 'PYEOF'
+import urllib.parse, re, os, sys
+filters_raw = os.environ.get('FILTERS', '')
+parts = re.findall(r'"[^"]*"|\S+', filters_raw)
+inc = []
+exc = []
+for p in parts:
+    neg = p.startswith('-')
+    if neg:
+        p = p[1:]
+    if len(p) > 1 and p[0] == chr(34) and p[-1] == chr(34):
+        p = p[1:-1]
+    (exc if neg else inc).append(p.lower())
+path = sys.argv[1]
+kept = []
+for line in open(path, encoding='utf-8', errors='ignore'):
+    h = line.find('#')
+    nm = line[h+1:] if h >= 0 else line
+    try:
+        nm = urllib.parse.unquote(nm)
+    except Exception:
+        pass
+    nl = nm.lower()
+    if exc and any(e in nl for e in exc):
+        continue
+    if inc and not any(i in nl for i in inc):
+        continue
+    kept.append(line)
+open(path, 'w', encoding='utf-8').writelines(kept)
+PYEOF
+
           process_source() {
             local src_line="$1"
             local index="$2"
@@ -77,7 +109,7 @@ jobs:
                 return
               fi
             fi
-            
+
             # Декодируем base64 (если файл закодирован)
             tmp_dec=$(mktemp)
             if base64 -d "$tmp_src" > "$tmp_dec" 2>/dev/null && [ -s "$tmp_dec" ]; then
@@ -86,51 +118,9 @@ jobs:
               rm -f "$tmp_dec"
             fi
 
-            # Применяем фильтры: декодируем имя после # и сравниваем с чистым текстом
+            # Применяем фильтры через Python (декодирование имени после #)
             if [ -n "$filters" ]; then
-              export FILTERS="$filters"
-              export TMP_SRC="$tmp_src"
-              python3 << 'PYEOF'
-import urllib.parse, re, os
-
-filters_raw = os.environ.get('FILTERS', '')
-parts = re.findall(r'"[^"]*"|\S+', filters_raw)
-include_phrases = []
-exclude_phrases = []
-for p in parts:
-    neg = p.startswith('-')
-    if neg:
-        p = p[1:]
-    if p.startswith('"') and p.endswith('"'):
-        p = p[1:-1]
-    if neg:
-        exclude_phrases.append(p.lower())
-    else:
-        include_phrases.append(p.lower())
-
-path = os.environ.get('TMP_SRC')
-with open(path, encoding='utf-8', errors='ignore') as f:
-    lines = f.readlines()
-
-kept = []
-for line in lines:
-    h = line.find('#')
-    name = line[h+1:] if h >= 0 else line
-    try:
-        name = urllib.parse.unquote(name)
-    except Exception:
-        pass
-    name_l = name.lower()
-
-    if exclude_phrases and any(ex in name_l for ex in exclude_phrases):
-        continue
-    if include_phrases and not any(inc in name_l for inc in include_phrases):
-        continue
-    kept.append(line)
-
-with open(path, 'w', encoding='utf-8') as f:
-    f.writelines(kept)
-PYEOF
+              FILTERS="$filters" python3 /tmp/filter_subs.py "$tmp_src" || true
             fi
 
             count=$(grep -c '://' "$tmp_src" || true)
@@ -178,7 +168,6 @@ PYEOF
 
       - name: Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
         run: |
-          # Удаление комментариев, пустых строк, символов возврата каретки и заведомо нерабочих конфигураций
           grep -a -v '^\s*#' raw | \
           grep -a -v '^\s*//' | \
           sed '/^\s*$/d' | \
@@ -208,7 +197,6 @@ PYEOF
 
       - name: Дедупликация
         run: |
-          # Дедупликация
           node -e "
             const fs = require('fs');
             const lines = fs.readFileSync('clean', 'utf8').split('\n').filter(l => l.trim());
@@ -288,11 +276,9 @@ PYEOF
 
       - name: Подготовка итоговых файлов
         run: |
-          # Подготовка итоговых файлов
-          
           sed -E 's/ +(https?:\/\/)/\1/g' deduped > deduped_cleaned
           mv deduped_cleaned deduped
-          
+
           cat > headers.txt <<EOF
           #profile-title: 🚀 all_subs
           #announce: ⚡ Используйте конфигурации только в условиях «белых списков»
@@ -301,11 +287,10 @@ PYEOF
           #profile-update-interval: 1
           #subscription-userinfo: upload=0; download=0; total=0
 
-          
           EOF
-          
+
           shuf deduped -o shuffled_deduped
-          
+
           cat headers.txt shuffled_deduped > final_sorted
           echo "final_sorted создан"
 
@@ -331,7 +316,7 @@ PYEOF
           awk -F'://' '/^[a-zA-Z0-9]/{print $1}' final_sorted | sed -e 's/^h2$/hysteria2/' -e 's/^hy2$/hysteria2/' | sort | uniq -c | sort -rn | while read count proto; do
             printf "   %s - %s\n" "$proto" "$(plural_configs $count)"
           done
-          
+
       - name: Публикация на GitHub
         run: |
           git config user.name "github-actions[bot]"
