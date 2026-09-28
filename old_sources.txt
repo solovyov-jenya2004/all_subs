@@ -1,3 +1,4 @@
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
 https://hub.mos.ru/kfwl/auto/raw/main/wl
 https://hub.mos.ru/nfajih/wildvf/-/raw/main/WVFWL
 https://raw.githubusercontent.com/nikitavalentinov90021-ai/VpnZeus.txt/refs/heads/main/zeusvpn.txt Обход глушилок
