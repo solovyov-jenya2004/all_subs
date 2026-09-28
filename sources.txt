@@ -34,3 +34,4 @@ https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://gitverse.ru/api/repos/SlavaKat/FreeProxyNova/raw/branch/master/%F0%9F%86%93ProxyNova%20%E2%9D%AF%20%F0%9F%97%BD%F0%9F%95%8A%E2%9C%8A%20%D0%A0%D1%83%D1%87%D0%BD%D0%BE%D0%B9%20%D0%B2%D1%8B%D0%B1%D0%BE%D1%80%20%D0%9E%D0%B1%D1%85%D0%BE%D0%B4%20%D0%91%D0%A1%20(%D0%A2%D0%B5%D1%81%D1%82) Обход БС
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
