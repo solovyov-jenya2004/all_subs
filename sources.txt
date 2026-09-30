@@ -34,3 +34,4 @@ https://gitverse.ru/api/repos/SlavaKat/FreeProxyNova/raw/branch/master/%F0%9F%86
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://eavevpn.fastedge.workers.dev/vpn 4G LTE
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
+https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
