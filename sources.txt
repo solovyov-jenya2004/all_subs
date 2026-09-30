@@ -34,4 +34,3 @@ https://gitverse.ru/api/repos/SlavaKat/FreeProxyNova/raw/branch/master/%F0%9F%86
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
 https://etoneya.su/whitelist
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
-https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
