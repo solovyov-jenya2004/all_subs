@@ -33,3 +33,5 @@ https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/m
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
+https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
+https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
