@@ -26,9 +26,7 @@ https://raw.githubusercontent.com/AirLinkVPN1/AirLinkVPN/refs/heads/main/rkn_whi
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
-https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
-https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
 https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
