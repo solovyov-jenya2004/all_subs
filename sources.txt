@@ -34,3 +34,4 @@ https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
 https://eavevpn.fastedge.workers.dev/vpn 4G LTE
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
