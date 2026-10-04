@@ -1,4 +1,5 @@
 https://subrostunnel.vercel.app/gen.txt LTE
+https://raw.githubusercontent.com/vladvarp/Prometheus/refs/heads/main/WhiteList/vless.txt
 https://raw.githubusercontent.com/flaafix/AetrisVPN/refs/heads/main/AetrisVPN.txt
 https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_lite.txt
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
