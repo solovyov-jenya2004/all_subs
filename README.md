@@ -355,8 +355,8 @@ https://solovyov-jenya2004.vercel.app/random/
 | GitHub | [githubstatus.com](https://www.githubstatus.com/) |
 | Vercel | [vercel-status.com](https://vercel-status.com/) |
 | jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com/) |
-| kfwl | [iam.sos.al/health](https://iam.sos.al/health/) |
-| Happy Decoder | [happy-decoder.cc/health](https://happy-decoder.cc/health/) |
+| kfwl | [iam.sos.al/health](https://iam.sos.al/health) |
+| Happy Decoder | [happy-decoder.cc/health](https://happy-decoder.cc/health) |
 | Deno Deploy | [denostatus.com](https://denostatus.com/) |
 | Render | [status.render.com](https://status.render.com/) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
