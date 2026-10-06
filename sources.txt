@@ -37,3 +37,4 @@ https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://raw.githubusercontent.com/dmitriistekolnikov/Free_vpns_for_Russ/refs/heads/main/Vrema.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
+https://etoneya.su/whitelist
