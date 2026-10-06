@@ -47,10 +47,10 @@
 Прямые ссылки для вашего VPN‑клиента:
 
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted/
+https://final-sorted.solovyov-jenya2004.workers.dev/
 ```
 ```
-https://solovyov-jenya2004.vercel.app/final_sorted_base64/
+https://final-sorted-base64.solovyov-jenya2004.workers.dev/
 ```
 
 ### 🎲 Мобильная подписка
@@ -62,15 +62,15 @@ https://solovyov-jenya2004.vercel.app/final_sorted_base64/
 Просто добавьте ссылку в ваш VPN‑клиент:
 
 ```
-https://solovyov-jenya2004.vercel.app/random/
+https://random.solovyov-jenya2004.workers.dev/
 ```
 
 Хотите другое количество?
 Напишите `?n=`, а затем число — и вы получите ровно столько конфигураций, сколько нужно.
 Например:
-> `https://solovyov-jenya2004.vercel.app/random/?n=50` → 50 конфигураций
+> `https://random.solovyov-jenya2004.workers.dev/?n=50` → 50 конфигураций
 
-> `https://solovyov-jenya2004.vercel.app/random/?n=200` → 200 конфигураций
+> `https://random.solovyov-jenya2004.workers.dev/?n=200` → 200 конфигураций
 
 При каждом обновлении подписки состав будет новым.
 
@@ -235,17 +235,17 @@ https://solovyov-jenya2004.vercel.app/random/
   </details>
   
 <details>
-  <summary><b>☁️ Cloudflare</b></summary>
+  <summary><b>▲ Vercel</b></summary>
     <br>
     <p><b>Обычная подписка</b></p>
      
-    https://final-sorted.solovyov-jenya2004.workers.dev/
+    https://solovyov-jenya2004.vercel.app/final_sorted/
   <p><b>Base64‑подписка</b></p>
    
-    https://final-sorted-base64.solovyov-jenya2004.workers.dev/
+    https://solovyov-jenya2004.vercel.app/final_sorted_base64/
   <p><b>Мобильная подписка</b></p>
     
-    https://random.solovyov-jenya2004.workers.dev/
+    https://solovyov-jenya2004.vercel.app/random/ 
    Логика работы полностью повторяет основной источник. Детали и примеры ищите в блоке «[🎲 Мобильная подписка](#-мобильная-подписка)».
 </details>
 
@@ -285,10 +285,10 @@ https://solovyov-jenya2004.vercel.app/random/
 
 1. Откройте в браузере одну из ссылок:
    ```
-   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted/
+   https://translate.yandex.ru/translate?url=https://final-sorted.solovyov-jenya2004.workers.dev/
    ```
    ```
-   https://translate.yandex.ru/translate?url=https://solovyov-jenya2004.vercel.app/final_sorted_base64/
+   https://translate.yandex.ru/translate?url=https://final-sorted-base64.solovyov-jenya2004.workers.dev/
    ```
 
 2. В открывшейся странице найдите блок с конфигурациями.
@@ -353,14 +353,14 @@ https://solovyov-jenya2004.vercel.app/random/
 |--------|----------------|
 | cron‑job.org | [status.cron-job.org](https://status.cron-job.org/) |
 | GitHub | [githubstatus.com](https://www.githubstatus.com/) |
-| Vercel | [vercel-status.com](https://vercel-status.com/) |
+| Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com/) |
 | jsDelivr | [status.jsdelivr.com](https://status.jsdelivr.com/) |
 | kfwl | [iam.sos.al/health](https://iam.sos.al/health) |
 | Happy Decoder | [happy-decoder.cc/health](https://happy-decoder.cc/health) |
 | Deno Deploy | [denostatus.com](https://denostatus.com/) |
 | Render | [status.render.com](https://status.render.com/) |
 | GitLab | [status.gitlab.com](https://status.gitlab.com/) |
-| Cloudflare | [cloudflarestatus.com](https://cloudflarestatus.com/) |
+| Vercel | [vercel-status.com](https://vercel-status.com/) |
 | Supabase | [status.supabase.com](https://status.supabase.com/) |
 | Netlify | [netlifystatus.com](https://netlifystatus.com/) |
 
@@ -402,11 +402,11 @@ https://solovyov-jenya2004.vercel.app/random/
 
 По умолчанию отдаётся 100 случайных конфигураций. Чтобы получить другое количество, добавьте ?n= в URL:
 
-> `https://solovyov-jenya2004.vercel.app/random/?n=50` → 50 конфигураций
+> `https://random.solovyov-jenya2004.workers.dev/?n=50` → 50 конфигураций
 
-> `https://solovyov-jenya2004.vercel.app/random/?n=200` → 200 конфигураций
+> `https://random.solovyov-jenya2004.workers.dev/?n=200` → 200 конфигураций
 
-Мобильная подписка доступна только на основном источнике и следующих зеркалах: kfwl, Happy Decoder, Deno Deploy, Render, Supabase, и Netlify.
+Мобильная подписка доступна только на основном источнике и следующих зеркалах: kfwl, Happy Decoder, Deno Deploy, Render, Supabase, Vercel и Netlify.
 
 На зеркалах GitHub, jsDelivr, hubp и GitLab мобильная подписка отсутствует.
 </details>
