@@ -1,3 +1,13 @@
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/configs.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/good.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/speed.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/stable.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/vless.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/hy2.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/ss.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/vmess.txt 🏳️ Белый айпи
+https://raw.githubusercontent.com/VansFenix/vpnparser/main/white.txt
+https://raw.githubusercontent.com/VansFenix/vpnparser/refs/heads/main/trojan.txt 🏳️ Белый айпи
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/AirLinkVPN1/AirLinkVPN/refs/heads/main/rkn_white_list
 https://gitverse.ru/api/repos/Akres/VPN/raw/branch/master/bwl
