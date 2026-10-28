@@ -13,7 +13,6 @@ https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_b
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
 https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt
 https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt
-https://eavevpn.fastedge.workers.dev/vpn 4G LTE
 https://etoneya.su/whitelist
 https://vpn.akres.fun/bwl
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
