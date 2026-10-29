@@ -1,3 +1,4 @@
+https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_bs.txt
 https://eavevpn.fastedge.workers.dev/vpn 4G LTE
 https://raw.githubusercontent.com/RKPchannel/RKP_bypass_configs/refs/heads/main/whitelist.txt
 https://raw.githubusercontent.com/dequar/deqwl/refs/heads/main/deray.txt
