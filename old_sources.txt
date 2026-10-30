@@ -1,3 +1,4 @@
+https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
 https://subrostunnel.vercel.app/gen.txt LTE
 https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_bs.txt
