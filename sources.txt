@@ -13,3 +13,4 @@ https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/m
 https://etoneya.su/whitelist
 https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
+https://vpn.akres.fun/bwl

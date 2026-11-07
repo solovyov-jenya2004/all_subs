@@ -1,4 +1,3 @@
-https://vpn.akres.fun/bwl
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
