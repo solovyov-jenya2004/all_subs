@@ -3,7 +3,6 @@ https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WLAutoPiz.txt
 https://gitverse.ru/api/repos/gidro/white/raw/branch/master/subscription.txt
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WaHapp
 https://raw.githubusercontent.com/Alex999ooo/VPN-for-Russia-/refs/heads/main/VPN%20by%20Alex999ooo 🏳️ Обход глушилок
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://gitverse.ru/api/repos/Pizduk/PizdukVPN/raw/branch/master/WlSubPiz.txt
 https://raw.githubusercontent.com/LimeHi/LimeVPN/refs/heads/main/LimeVPN.txt Обход Глушилок
 https://subrostunnel.vercel.app/gen.txt LTE
