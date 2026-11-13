@@ -19,3 +19,4 @@ https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
 https://hub.mos.ru/gardexj3/whitelistedconfigs/-/raw/master/configs.txt
 https://subrostunnel.pages.dev/lte.txt
 https://subrostunnel.pages.dev/gen.txt LTE
+https://eavevpn.fastedge.workers.dev/vpn?c=4g
