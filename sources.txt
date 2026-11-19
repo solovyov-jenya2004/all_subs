@@ -17,4 +17,3 @@ https://subrostunnel.pages.dev/lte.txt
 https://subrostunnel.pages.dev/gen.txt LTE
 https://vpn.akres.fun/bwl
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
-https://gitverse.ru/api/repos/272/wl/raw/branch/master/whitelist
