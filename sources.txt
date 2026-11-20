@@ -16,3 +16,4 @@ https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_b
 https://subrostunnel.pages.dev/lte.txt
 https://subrostunnel.pages.dev/gen.txt LTE
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
+https://vpn.akres.fun/bwl
