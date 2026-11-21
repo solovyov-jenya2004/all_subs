@@ -14,3 +14,6 @@ https://subrostunnel.pages.dev/lte.txt
 https://subrostunnel.pages.dev/gen.txt LTE
 https://sub.vlessfo.ru/vlessforu/working_configs.txt SNi LTE 5G Все операторы
 https://vpn.akres.fun/bwl
+https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt
+https://raw.githubusercontent.com/Maskkost93/kizyak-vpn-4.0/refs/heads/main/kizyakbeta6.txt LTE
+https://raw.githubusercontent.com/Diversan313/apex-parser/main/subs/main/alive_bs.txt
